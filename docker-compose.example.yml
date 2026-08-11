@@ -10,10 +10,10 @@ services:
       - "host.docker.internal:host-gateway"   # los flows llegan a APIs de tu máquina
     volumes:
       - ./flows:/app/flows   # persiste tus flows y sql-connections.json (opcional)
-    environment: []
-      # - FLOW_MCP_TOKEN=mi-secreto      # auth bearer para /mcp desde otras máquinas
-      # - FLOW_MCP_ALLOW_LAN=true        # o abrir /mcp a la LAN sin auth (redes de confianza)
-      # - FLOW_REWRITE_LOCALHOST=false   # si tu objetivo vive DENTRO del contenedor
+    # environment:                       # descomenta el bloque entero para usarlas
+    #   - FLOW_MCP_TOKEN=mi-secreto      # auth bearer para /mcp desde otras máquinas
+    #   - FLOW_MCP_ALLOW_LAN=true        # o abrir /mcp a la LAN sin auth (redes de confianza)
+    #   - FLOW_REWRITE_LOCALHOST=false   # si tu objetivo vive DENTRO del contenedor
     restart: unless-stopped
     # networks: [mi_red]     # súmalo a la red de tus APIs para llamarlas por nombre
 # networks:
