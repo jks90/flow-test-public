@@ -53,7 +53,7 @@ docker pull juankanh/flow-app:4.2.0
 | [docs/cli.md](docs/cli.md) | El runner por terminal: flags, baterías, reports, exit codes para CI, nodos SQL y perfiles de conexión |
 | [docs/mcp.md](docs/mcp.md) | Conectar una IA: Claude Code y Claude Desktop, las 18 tools, seguridad, flujos de trabajo típicos |
 | [docs/flows-formato.md](docs/flows-formato.md) | El formato `.flow.json` a fondo: nodos HTTP y SQL, conexiones, variables y extracciones — para escribir flows a mano o con IA |
-| [skills/flows/SKILL.md](skills/flows/SKILL.md) | **Skill para agentes IA** (Claude Code): cómo debe trabajar un agente con Flow — cópiala a tu proyecto |
+| [skills/flows/](skills/flows/SKILL.md) | **Skill para agentes IA** (Claude Code): cómo trabajar con Flow + [schema de autoría](skills/flows/references/flow-schema.md) — cópiala a tu proyecto |
 | [examples/](examples/) | Flows de ejemplo listos para cargar o ejecutar |
 
 ## Lo esencial en 4 recetas

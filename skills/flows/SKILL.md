@@ -1,73 +1,100 @@
 ---
 name: flows
 description: Crear, ejecutar y verificar flows de flow-test (.flow.json) contra cualquier API REST — en vivo por MCP sobre el canvas del usuario, o como ficheros ejecutados con el CLI. Úsala cuando el usuario pida crear un flow, probar endpoints recién desarrollados o montar una batería de verificación.
+user-invocable: true
 ---
+# Flows skill
 
-# Flows — verificación de APIs con flow-test
+Tras terminar un desarrollo (o cuando el usuario lo pida), implementa los flows de flow-test
+que ejercitan los endpoints afectados y ejecútalos para verificar la API de punta a punta.
 
-Eres un agente que usa **Flow** (flow-test) para verificar APIs: compones flujos de
-peticiones HTTP y consultas SQL encadenadas, los ejecutas y lees los resultados.
+> Copia esta carpeta (con `references/`) a `.claude/skills/flows/` de tu proyecto para
+> activarla en Claude Code.
 
-> Copia esta carpeta a `.claude/skills/flows/` de tu proyecto para activarla en Claude Code.
+## Role
 
-## Paso 0 — Contexto (pregunta lo que falte, de una vez)
+Actúa como un ingeniero de QA automation que domina la API objetivo y la herramienta
+flow-test (web + CLI + MCP).
 
-1. **¿Dónde corre la API objetivo?** (host y puerto, p. ej. `http://localhost:8080`).
+## Task
+
+Crear o actualizar flows `.flow.json` que cubran los endpoints afectados, ejecutarlos y
+reportar el resultado real (nunca asumido).
+
+## Context
+
+### Input
+- El desarrollo recién terminado: endpoints nuevos/cambiados (git diff, spec o conversación).
+- Los flows existentes del proyecto (habitualmente en `flows/`; créala si no existe).
+
+### References
+- [`references/flow-schema.md`](./references/flow-schema.md) — **el formato `.flow.json` al
+  detalle**: nodos HTTP y SQL, conexiones, variables, extracciones, convenciones de curl,
+  UUIDs, ejecución y diagnóstico. Síguelo exactamente al escribir flows.
+
+### Tools
+- **MCP `flow-test`** (si está conectado): construye y ejecuta en el canvas del usuario en
+  directo. Endpoint típico: `http://localhost:9998/mcp` (contenedor) o `:3001` (local).
+- **CLI**: `docker exec flow node cli/run-flow.js …` (contenedor) o
+  `node cli/run-flow.js …` (instalación local).
+
+### Constraints (Step 0 — resuelve antes de nada; pregunta lo que falte, de una vez)
+1. **¿Dónde corre la API objetivo?** (host y puerto → variable `{{apiBase}}`).
 2. **¿Autenticación?** (ninguna / bearer estático / login que devuelve token / basic).
-3. **¿Dónde corre flow-test?** — por defecto contenedor en `http://localhost:9998`
-   (MCP en `/mcp`, CLI vía `docker exec flow …`).
+3. **¿Dónde corre flow-test?** (contenedor `:9998` por defecto / local).
+4. Los flows **ejecutan de verdad** (HTTP con efectos y SQL con INSERT/UPDATE): apunta a
+   entornos de prueba; ante endpoints destructivos, pregunta antes de incluirlos.
+5. Un flow por dominio/caso: `flows/{dominio}-{caso}.flow.json`. Todas las URLs con
+   `{{apiBase}}`; datos de prueba en `envVariables`, nunca hardcodeados en el curl.
 
-## Elige el modo de trabajo
+## Steps
 
-### Modo A — MCP en vivo (preferido si el servidor MCP `flow-test` está conectado)
+### Step 1: Scope
+- Identifica los endpoints afectados y el camino realista que los encadena
+  (crear → extraer id → consultar/limpiar).
+- Si ya existe un flow que cubre el área (`flow_files_list` por MCP, o mira `flows/`),
+  actualízalo en vez de duplicar.
 
-El usuario **ve el canvas** mientras trabajas. Reglas:
+### Step 2: Implementar — elige el modo
 
-1. `bridge_status` primero: si no hay pestaña web conectada, pide al usuario que abra la web
-   y reintenta (las tools de disco funcionan igualmente).
-2. `flow_create` con un nombre descriptivo → guarda el `tabId` y úsalo en TODAS las llamadas.
-3. Construye por pasos: `node_add_request` / `node_add_sql` → `nodes_connect` (behavior
-   `next` define el orden). Las respuestas te dan los `nodeId`.
-4. Variables: `variables_set` para la base (`apiBase`, credenciales de prueba); extracciones
-   en cada nodo para encadenar (`jsonPath` en HTTP, `column`+`rowIndex` en SQL).
-5. Ejecuta con `flow_run` (grafo HTTP) o `node_run` sobre el nodo raíz de una cadena SQL.
-   **Espera al resultado y léelo**: status por nodo, `runtimeVariables`, bodies.
-   Si `finished:false`, lee el `reason` — nunca asumas que corrió.
-6. Itera: `node_update` para corregir, reejecuta, y `console_read`/`runs_read` para
-   diagnosticar.
-7. Al terminar, `flow_save` para dejar el `.flow.json` en `flows/` (ejecutable en CI con el
-   CLI) y resume al usuario: qué se probó, qué pasó, qué variables se extrajeron.
+**Modo A — MCP en vivo** (preferido si el servidor MCP `flow-test` está conectado; el
+usuario ve el canvas):
+1. `bridge_status`: si no hay pestaña web conectada, pide al usuario abrir la web y reintenta.
+2. `flow_create` → guarda el `tabId` y úsalo en todas las llamadas.
+3. `node_add_request` / `node_add_sql` por paso, `nodes_connect` (behavior `next` ordena el
+   grafo). Guarda los `nodeId` que devuelven.
+4. `variables_set` para la base (`apiBase`, credenciales de prueba); extracciones en cada
+   nodo para encadenar (`jsonPath` en HTTP; `column`+`rowIndex` en SQL).
+5. Al terminar, `flow_save` deja el `.flow.json` en `flows/`, ejecutable después con el CLI.
 
-### Modo B — Fichero + CLI (sin MCP, o para CI)
+**Modo B — Fichero + CLI** (sin MCP, o para CI): escribe el `.flow.json` siguiendo
+[`references/flow-schema.md`](./references/flow-schema.md) — estructura exacta, convención
+`\\\n\n` en los curl, UUIDs v4 frescos por nodo/conexión/extracción, toda `{{var}}`
+declarada en `envVariables` o producida por una extracción.
 
-1. Escribe el `.flow.json` siguiendo el formato (nodos, conexiones `next`, extracciones);
-   referencia: `docs/flows-formato.md` del repo flow-test-public.
-2. Ejecútalo:
-   ```bash
-   docker exec flow node cli/run-flow.js --flow /ruta/al/flow.flow.json --report-root /tmp/resumen
-   ```
-   (o `node cli/run-flow.js` si flow-test corre local). `--var clave=valor` para inyectar
-   credenciales sin escribirlas en el fichero.
-3. Lee el report (`report.md` y `debug/*.debug.md`) y presenta el resultado con el
-   status real de cada nodo.
-4. Exit code 1 = algún nodo falló → investiga en el debug antes de concluir.
+### Step 3: Ejecutar y verificar
+- Comprueba que la API objetivo responde antes de ejecutar (un curl a su health/status); si
+  está caída, avisa en vez de ejecutar a ciegas.
+- **MCP**: `flow_run` (grafo HTTP) o `node_run` sobre el nodo raíz de una cadena SQL.
+  Espera el resultado y léelo: status por nodo, `runtimeVariables`, bodies. Si responde
+  `finished:false`, lee el `reason` — no asumas que corrió.
+- **CLI**: `… cli/run-flow.js --flow flows/x.flow.json --report-root /tmp/resumen`
+  (+ `--var` para credenciales). Exit code `0` = verde; con `1`, lee
+  `report.md` y `debug/*.debug.md` del report para diagnosticar.
+- Diagnóstico: si el flow está mal, corrígelo (`node_update` o editar el fichero) y reejecuta;
+  si la API está mal, **reporta el bug** con la evidencia del debug — no maquilles el flow
+  para que pase.
 
-## Diseño de un buen flow de verificación
+## Output
+- Flows nuevos/actualizados (en `flows/` vía `flow_save`, o ficheros commiteables).
+- Resumen de la ejecución: nodos passed/failed, variables extraídas, ruta del report.
+- Si el proyecto versiona los flows y el run pasa: commit `test(flows): {descripción}`.
 
-- **Un flow por caso de uso** (login+listado, alta+consulta, compra completa…), nombres de
-  nodo descriptivos.
-- **Encadena por variables**, no copies valores: login extrae `token` → los demás nodos usan
-  `-H "Authorization: Bearer {{token}}"`.
-- **Verifica efectos, no solo status**: tras un POST que crea algo, añade un GET (o un nodo
-  SQL) que confirme que existe de verdad.
-- **Nodos SQL**: siembra datos de prueba o comprueba el efecto real en la BBDD; extrae ids
-  reales para alimentar las llamadas HTTP. Recuerda que ejecutan de verdad: solo entornos
-  de prueba.
-- **Endpoints destructivos**: pregunta antes de incluirlos, y márcalo en el resumen.
-
-## Qué NO hacer
-
-- No des por buena una ejecución sin leer el resultado real (status por nodo + extracciones).
-- No apuntes a producción ni uses credenciales reales sin que el usuario lo pida
-  explícitamente.
-- No dupliques flows: si ya existe uno para ese endpoint (`flow_files_list`), evoluciónalo.
+## Verification
+- [ ] El flow es JSON válido y sigue el schema (version, nodes, connections, envVariables).
+- [ ] Toda `{{variable}}` usada existe en `envVariables` o viene de una extracción previa.
+- [ ] Verifica efectos, no solo status: tras un POST que crea algo, un GET (o nodo SQL)
+      confirma que existe de verdad.
+- [ ] La ejecución terminó en verde de verdad (exit 0 / `finished:true` con nodos OK) y el
+      resultado reportado sale del run real, no de una suposición.
+- [ ] Sin credenciales reales ni entornos de producción salvo petición explícita del usuario.
