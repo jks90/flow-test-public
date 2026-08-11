@@ -26,13 +26,25 @@ O por proyecto, con un `.mcp.json` en la raíz (hay un ejemplo en este repo:
 
 ## Conectar Claude Desktop
 
-Ajustes → *Connectors* → *Add custom connector* → URL: `http://localhost:9998/mcp`.
+**Camino 1 — conector custom** (recomendado, sin ficheros): Ajustes → *Connectors* →
+*Add custom connector* → URL: `http://localhost:9998/mcp`.
+
+**Camino 2 — `claude_desktop_config.json`** (config clásica; el fichero solo admite
+servidores stdio, así que se usa el puente `mcp-remote`, que requiere Node.js instalado).
+Copia el contenido de [`mcp-config.stdio.example.json`](../mcp-config.stdio.example.json) en:
+
+| SO | Ruta |
+|----|------|
+| macOS | `~/Library/Application Support/Claude/claude_desktop_config.json` |
+| Windows | `%APPDATA%\Claude\claude_desktop_config.json` |
+
+y reinicia Claude Desktop.
 
 ## Clientes MCP solo-stdio
 
-Si tu cliente no soporta transporte HTTP, el puente estándar
-[`mcp-remote`](https://www.npmjs.com/package/mcp-remote) lo convierte a stdio — ejemplo listo
-en [`mcp-config.stdio.example.json`](../mcp-config.stdio.example.json):
+Para cualquier otro cliente sin transporte HTTP, el mismo puente
+[`mcp-remote`](https://www.npmjs.com/package/mcp-remote) convierte el endpoint a stdio —
+ejemplo listo en [`mcp-config.stdio.example.json`](../mcp-config.stdio.example.json):
 
 ```json
 {
