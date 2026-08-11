@@ -1,0 +1,123 @@
+# El MCP — una IA construye y ejecuta flows en tu canvas
+
+Desde la **4.2.0** la imagen lleva un **servidor MCP embebido** (Streamable HTTP) en `/mcp`.
+Un agente (Claude Code, Claude Desktop u otro cliente MCP) puede crear, editar, ejecutar y
+leer flows **en la web en directo**: tú miras el canvas y ves aparecer los nodos, conectarse
+y encenderse; el agente recibe de vuelta el estado, la consola y los resultados. Comunicación
+total en los dos sentidos.
+
+## Conectar Claude Code
+
+```bash
+# con el contenedor en el puerto 9998:
+claude mcp add --transport http flow-test http://localhost:9998/mcp
+```
+
+O por proyecto, con un `.mcp.json` en la raíz (hay un ejemplo en este repo:
+[`.mcp.json.example`](../.mcp.json.example)):
+
+```json
+{
+  "mcpServers": {
+    "flow-test": { "type": "http", "url": "http://localhost:9998/mcp" }
+  }
+}
+```
+
+## Conectar Claude Desktop
+
+Ajustes → *Connectors* → *Add custom connector* → URL: `http://localhost:9998/mcp`.
+
+## Cómo funciona por dentro
+
+1. La web (http://localhost:9998) se conecta **sola** al puente del servidor
+   (`/mcp-bridge/events`, SSE) al abrirse.
+2. Cada tool del agente se convierte en un comando que llega a la pestaña abierta y se
+   ejecuta como una operación real del canvas.
+3. El resultado (ids de nodos, run completo, variables extraídas…) vuelve al agente por el
+   mismo puente.
+
+- Si hay **varias pestañas** abiertas, controla la **última** conectada.
+- **Sin pestaña abierta**, las tools de web devuelven un error claro; las de disco
+  (`flow_save`, `flow_file_read`, `flow_files_list`) siguen funcionando.
+- `bridge_status` te dice cuántas pestañas hay conectadas.
+
+## Seguridad
+
+| Modo | Cómo | Cuándo |
+|------|------|--------|
+| **Solo local** (por defecto) | Nada que configurar | Claude corre en la misma máquina que el contenedor — el caso normal |
+| **Token** | `-e FLOW_MCP_TOKEN=<secreto>` y el cliente manda `Authorization: Bearer <secreto>` | Acceso remoto controlado |
+| **LAN abierta** | `-e FLOW_MCP_ALLOW_LAN=true` | Solo en redes de total confianza |
+
+Además: los snapshots de estado que ve la IA **no incluyen las passwords** de los nodos SQL,
+y `flow_file_read` está limitado a la carpeta `flows/` (sin path traversal).
+
+## Las 18 tools
+
+### Observar
+
+| Tool | Qué hace |
+|------|----------|
+| `flow_state` | Estado vivo: pestañas + detalle de una (nodos con status y resumen de respuesta, conexiones, variables) |
+| `bridge_status` | Pestañas web conectadas |
+| `console_read` | La consola de la web (lo mismo que ve el usuario abajo) |
+| `runs_read` | Historial de ejecuciones con resultados por nodo |
+
+### Construir
+
+| Tool | Qué hace |
+|------|----------|
+| `flow_create` | Nueva pestaña vacía (devuelve `tabId`) |
+| `flow_overwrite` | Carga un `.flow.json` completo — con `tabId` **reemplaza** esa pestaña; sin él crea una nueva |
+| `node_add_request` | Nodo HTTP desde un `curl` (+ extracciones JSONPath) |
+| `node_add_sql` | Nodo SQL (postgres/mysql/oracle; perfil o conexión inline; extracciones por columna) |
+| `node_update` | Actualiza campos de un nodo (curl, query, extractions, nombre…) |
+| `node_delete` | Borra un nodo y sus conexiones |
+| `nodes_connect` | Conecta origen → destino (`next` / `on_error` / `parallel` / `none`) |
+| `connection_delete` | Borra una conexión |
+| `variables_set` | Variables de entorno de la pestaña (para `{{var}}`) |
+
+### Ejecutar
+
+| Tool | Qué hace |
+|------|----------|
+| `flow_run` | Ejecuta el grafo de nodos HTTP (el botón «Run Flow») y **espera al resultado**: run completo + variables extraídas. Si no ejecuta nada (pestaña ocupada, flow sin nodos HTTP) responde `finished:false` con el motivo |
+| `node_run` | Ejecuta un nodo y su cadena descendente. Las cadenas que **arrancan en un nodo SQL** encadenan SQL y HTTP; las que arrancan en HTTP solo siguen nodos HTTP (misma semántica que la web) |
+
+### Disco (enlaza con el CLI)
+
+| Tool | Qué hace |
+|------|----------|
+| `flow_save` | Guarda la pestaña como `flows/<nombre>.flow.json` — ejecutable después con el CLI |
+| `flow_file_read` | Lee un `.flow.json` de `flows/` |
+| `flow_files_list` | Lista los `.flow.json` disponibles |
+
+## Flujos de trabajo típicos
+
+**La IA construye mientras miras** — abre la web y pide:
+
+> «Crea un flow que haga POST /login con estas credenciales, extraiga el token y llame a
+> GET /users con Authorization Bearer. Ejecútalo y dime qué devuelve.»
+
+El agente encadena `flow_create` → `node_add_request` ×2 → `nodes_connect` → `flow_run` y te
+lee los resultados. Tú lo ves todo en el canvas y puedes retocar cualquier nodo a mano.
+
+**De la web a CI**: cuando el flow esté fino, `flow_save` lo deja en `flows/` y tu pipeline
+lo ejecuta con `docker exec flow node cli/run-flow.js --flow flows/mi-flow.flow.json`.
+
+**De disco al canvas**: `flow_files_list` + `flow_file_read` + `flow_overwrite` cargan
+cualquier flow guardado en la pestaña para revisarlo o evolucionarlo visualmente.
+
+**Verificar un desarrollo con BBDD**: `node_add_sql` para sembrar/consultar datos +
+`node_run` sobre el nodo SQL para lanzar la cadena SQL→HTTP con las variables extraídas.
+
+## Troubleshooting
+
+| Error | Solución |
+|-------|----------|
+| *No flow-test web tab is connected* | Abre http://localhost:9998 en un navegador (la pestaña se conecta sola) |
+| 403 al conectar desde otra máquina | Es el modo por defecto (solo local): usa `FLOW_MCP_TOKEN` o `FLOW_MCP_ALLOW_LAN=true` |
+| 401 Unauthorized | Hay `FLOW_MCP_TOKEN` definido: configura el bearer en tu cliente MCP |
+| `flow_run` responde `finished:false` | Lee el `reason`: pestaña ya ejecutando, o el flow no tiene nodos HTTP (usa `node_run` sobre el nodo SQL raíz) |
+| El comando caduca (*did not answer within…*) | La pestaña se cerró a mitad, o el run superó los 10 min del puente |

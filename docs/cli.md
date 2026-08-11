@@ -1,0 +1,93 @@
+# El CLI — ejecutar flows por terminal
+
+El runner ejecuta los mismos `.flow.json` que la web, sin navegador: perfecto para CI, cron
+o verificar un endpoint recién programado. Dentro del contenedor se invoca así:
+
+```bash
+docker exec flow node cli/run-flow.js --flow flows/mi-flow.flow.json
+docker exec flow node cli/run-flow.js --dir flows          # batería recursiva
+```
+
+Devuelve **exit code 1 si algún flow falla** (y 2 si hay error de uso), así que se puede usar
+directamente como paso de CI.
+
+## Flags
+
+| Flag | Qué hace |
+|------|----------|
+| `--flow <fichero>` | Ejecuta un solo `.flow.json` |
+| `--dir <carpeta>` | Ejecuta todos los `.flow.json` (recursivo, orden alfabético) |
+| `--var clave=valor` | Sobrescribe/añade una variable (repetible) |
+| `--timeout <ms>` | Timeout por petición (por defecto 180000) |
+| `--sql-connections <fichero>` | Fichero de perfiles SQL (por defecto: el `sql-connections.json` más cercano al flow, buscando hacia arriba) |
+| `--skip-sql-nodes` | Ignora los nodos SQL (comportamiento pre-4.1) |
+| `--out <fichero-o-dir>` | Log JSON del run |
+| `--report-root <dir>` | Carpeta raíz de los reports (por defecto `resumen`) |
+| `--no-report` | Sin report con timestamp |
+| `--continue-on-error` | Sigue ejecutando tras un fallo |
+| `--no-localhost-rewrite` | No reescribir `localhost` → `host.docker.internal` |
+
+## Ejemplos
+
+```bash
+# Un flow con variables inyectadas
+docker exec flow node cli/run-flow.js \
+  --flow flows/store.flow.json \
+  --var apiBase=http://host.docker.internal:8080 \
+  --var adminEmail=admin@example.com
+
+# Batería completa con report fuera del contenedor
+docker exec flow node cli/run-flow.js --dir flows --report-root /tmp/resumen
+docker cp flow:/tmp/resumen ./resumen
+
+# Ejecutar un flow de TU máquina (sin copiarlo al contenedor)
+docker cp ./mi-flow.flow.json flow:/tmp/
+docker exec flow node cli/run-flow.js --flow /tmp/mi-flow.flow.json --no-report
+```
+
+## El report
+
+Cada ejecución (salvo `--no-report`) crea `resumen/<fecha-hora>/` con:
+
+| Fichero | Contenido |
+|---------|-----------|
+| `report.md` | Resumen legible: PASS/FAIL por flow, fallos y timeline de cada nodo |
+| `summary.json` | Métricas de la ejecución (machine-readable) |
+| `all-runs.json` | Todas las ejecuciones con request/response completos |
+| `flows/*.run.json` | Log completo por flow |
+| `debug/*.debug.md` | Debug por flow: curl interpolado, headers, bodies, query SQL interpolada, extracto del resultado y variables extraídas |
+
+Las **passwords se enmascaran** en los reports (JDBC incluidas).
+
+## Nodos SQL
+
+Desde la 4.1 el CLI ejecuta los `sqlNodes` (Postgres, MySQL/MariaDB y Oracle en modo thin)
+igual que la web: en el mismo orden topológico que los nodos HTTP, con `{{variables}}`
+interpoladas en la query y la conexión, y **extracciones por columna** que alimentan a los
+nodos siguientes.
+
+- **Perfiles**: un nodo con `connectionProfileId` se resuelve contra `sql-connections.json`
+  (junto al flow, o `--sql-connections <fichero>`):
+
+```json
+[
+  {
+    "id": "mi-mysql",
+    "name": "MySQL local",
+    "dbType": "mysql",
+    "host": "host.docker.internal",
+    "port": "3306",
+    "database": "mi_bbdd",
+    "username": "usuario",
+    "password": "secreto"
+  }
+]
+```
+
+- Si el perfil no aparece, se usan los campos de conexión inline del nodo (con un aviso).
+- Postgres admite `jdbcUrl` tipo `jdbc:postgresql://host:5432/db?sslmode=disable&user=u&password=p`
+  (`sslmode=disable` se respeta; sin él se fuerza SSL, como piden AWS RDS/Supabase).
+
+> ⚠️ Los nodos SQL **ejecutan de verdad** (incluidos INSERT/UPDATE). Si una batería antigua
+> contaba con que se ignoraban, usa `--skip-sql-nodes`. Y recuerda: desde el contenedor,
+> la BBDD se alcanza por nombre de red de Docker o `host.docker.internal`, no `localhost`.

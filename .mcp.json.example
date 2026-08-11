@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "flow-test": {
+      "type": "http",
+      "url": "http://localhost:9998/mcp"
+    }
+  }
+}
