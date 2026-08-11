@@ -56,6 +56,15 @@ docker pull juankanh/flow-app:4.2.0
 | [skills/flows/](skills/flows/SKILL.md) | **Skill para agentes IA** (Claude Code): cómo trabajar con Flow + [schema de autoría](skills/flows/references/flow-schema.md) — cópiala a tu proyecto |
 | [examples/](examples/) | Flows de ejemplo listos para cargar o ejecutar |
 
+## Ficheros listos para usar
+
+| Fichero | Para qué |
+|---------|----------|
+| [bin/flow-run](bin/flow-run) | **El CLI en tu máquina sin código fuente**: wrapper que ejecuta el runner de la imagen montando tu directorio actual — flows y reports quedan en tu disco. `cp bin/flow-run ~/.local/bin/ && chmod +x ~/.local/bin/flow-run` |
+| [docker-compose.example.yml](docker-compose.example.yml) | Compose de referencia: puertos, volumen de flows, env vars del MCP y red de tus APIs |
+| [.mcp.json.example](.mcp.json.example) | Config MCP por proyecto para Claude Code (transporte HTTP) |
+| [mcp-config.stdio.example.json](mcp-config.stdio.example.json) | Config para clientes MCP **solo-stdio** (vía [`mcp-remote`](https://www.npmjs.com/package/mcp-remote)) |
+
 ## Lo esencial en 4 recetas
 
 **1. Ver la web y crear un flow a mano** → abre http://localhost:9998, pulsa *Add Request*,

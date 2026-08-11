@@ -2,6 +2,10 @@
 
 Todo Flow vive en una sola imagen: web, CLI, motor SQL y servidor MCP.
 
+> ¿Prefieres Compose? Copia [`docker-compose.example.yml`](../docker-compose.example.yml)
+> como `docker-compose.yml` y `docker compose up -d` — trae puertos, volumen de flows y las
+> env vars del MCP comentadas.
+
 ## Arranque básico
 
 ```bash

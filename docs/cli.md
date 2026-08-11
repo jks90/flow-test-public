@@ -1,7 +1,27 @@
 # El CLI — ejecutar flows por terminal
 
 El runner ejecuta los mismos `.flow.json` que la web, sin navegador: perfecto para CI, cron
-o verificar un endpoint recién programado. Dentro del contenedor se invoca así:
+o verificar un endpoint recién programado.
+
+## `flow-run` en tu máquina (recomendado, sin código fuente)
+
+El wrapper [`bin/flow-run`](../bin/flow-run) ejecuta el runner **de la imagen** montando tu
+directorio actual: los flows se leen y los reports se escriben **en tu disco**.
+
+```bash
+cp bin/flow-run ~/.local/bin/ && chmod +x ~/.local/bin/flow-run
+
+cd ~/mi-proyecto            # aquí viven tus flows/
+flow-run --dir flows
+flow-run --flow flows/login.flow.json --var apiBase=http://localhost:8080
+cat resumen/*/report.md     # el report queda en tu máquina
+```
+
+- Usa rutas **relativas** al directorio desde el que lo lanzas (es lo que se monta).
+- Cambia de versión con `FLOW_IMAGE=juankanh/flow-app:4.2.0 flow-run …`.
+- Los curl a `http://localhost:PUERTO` llegan a **tu máquina** automáticamente.
+
+## Dentro del contenedor que ya corre
 
 ```bash
 docker exec flow node cli/run-flow.js --flow flows/mi-flow.flow.json

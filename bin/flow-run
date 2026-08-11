@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# flow-run — el CLI de flow-test SIN código fuente: ejecuta el runner que viaja
+# dentro de la imagen Docker, montando tu directorio actual. Los flows se leen
+# y los reports (resumen/) se escriben en TU máquina.
+#
+# Instalación:
+#   cp bin/flow-run ~/.local/bin/ && chmod +x ~/.local/bin/flow-run
+#
+# Uso (idéntico al runner):
+#   flow-run --flow flows/mi-flow.flow.json
+#   flow-run --dir flows --var apiBase=http://localhost:8080
+#   flow-run --help
+#
+# Notas:
+#   - Usa rutas RELATIVAS al directorio desde el que lo lanzas (es lo que se monta).
+#   - FLOW_IMAGE cambia la versión:      FLOW_IMAGE=juankanh/flow-app:4.2.0 flow-run …
+#   - Los curl a http://localhost:PUERTO llegan a tu máquina (host.docker.internal).
+#     Para desactivarlo: añade --no-localhost-rewrite a los argumentos.
+set -euo pipefail
+
+IMAGE="${FLOW_IMAGE:-juankanh/flow-app:4.2.0}"
+
+exec docker run --rm \
+  --add-host=host.docker.internal:host-gateway \
+  -v "$PWD:/work" \
+  -w /work \
+  "$IMAGE" \
+  node /app/cli/run-flow.js "$@"

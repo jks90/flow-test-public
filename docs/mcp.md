@@ -28,6 +28,23 @@ O por proyecto, con un `.mcp.json` en la raíz (hay un ejemplo en este repo:
 
 Ajustes → *Connectors* → *Add custom connector* → URL: `http://localhost:9998/mcp`.
 
+## Clientes MCP solo-stdio
+
+Si tu cliente no soporta transporte HTTP, el puente estándar
+[`mcp-remote`](https://www.npmjs.com/package/mcp-remote) lo convierte a stdio — ejemplo listo
+en [`mcp-config.stdio.example.json`](../mcp-config.stdio.example.json):
+
+```json
+{
+  "mcpServers": {
+    "flow-test": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "http://localhost:9998/mcp"]
+    }
+  }
+}
+```
+
 ## Cómo funciona por dentro
 
 1. La web (http://localhost:9998) se conecta **sola** al puente del servidor
