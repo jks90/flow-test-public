@@ -19,7 +19,8 @@ letra** cuando escriba flows a mano.
 ```
 
 - Para flows de API usa `nodes` (HTTP), `sqlNodes` (si verificas BBDD), `connections` y
-  `envVariables`; deja `infoNodes` y `webNodes` como arrays vacíos.
+  `envVariables`; deja `infoNodes` y `webNodes` como arrays vacíos (salvo que quieras
+  documentar el flow con una nota o un diagrama, ver InfoNode más abajo).
 - `name` corto y descriptivo (`{dominio}-{caso}`), que coincida con el nombre del fichero.
 
 ## RequestNode (`nodes[]`)
@@ -83,6 +84,27 @@ Reglas:
   **obligatorio**) → variable para los nodos siguientes.
 - Los sqlNodes entran en el mismo grafo topológico que los HTTP: pueden ser origen o destino
   de una connection.
+
+## InfoNode (`infoNodes[]`) — notas y diagramas
+
+No se ejecutan (el CLI los ignora); documentan el flow dentro del canvas.
+
+```json
+{
+  "id": "<uuid-v4>",
+  "name": "Diagrama",
+  "content": "graph TD\n  Cliente --> API\n  API --> BBDD[(BBDD)]",
+  "position": { "x": 520, "y": 60 },
+  "collapsed": false,
+  "scripts": [],
+  "renderMode": "mermaid"
+}
+```
+
+- `renderMode` es opcional: sin él (o `"text"`) el `content` es texto libre; con
+  `"mermaid"` (desde la **4.3.0**) es código Mermaid que la web renderiza como diagrama
+  en vivo. Admite `{{variables}}` en ambos modos.
+- `scripts` debe ser `[]` en flows generados por agentes.
 
 ## Connection (`connections[]`)
 

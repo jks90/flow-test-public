@@ -74,6 +74,28 @@ API.
 - **`extractions`**: `column` + `rowIndex` → el valor de esa celda del resultado pasa a ser
   una variable. `rowIndex` es obligatorio (0 = primera fila).
 
+## Notas y diagramas (`infoNodes[]`)
+
+Cajitas de documentación dentro del canvas — no se ejecutan (el CLI las ignora).
+
+```json
+{
+  "id": "esquema",
+  "name": "Diagrama",
+  "content": "graph TD\n  Cliente --> API\n  API --> BBDD[(BBDD)]",
+  "position": { "x": 520, "y": 60 },
+  "collapsed": false,
+  "scripts": [],
+  "renderMode": "mermaid"
+}
+```
+
+- Sin `renderMode` (o `"text"`) es una **nota de texto** libre.
+- Con `renderMode: "mermaid"` (desde la **4.3.0**) el `content` es código
+  [Mermaid](https://mermaid.js.org) y la web lo renderiza como diagrama en vivo — útil para
+  esquematizar qué llama a qué junto al propio flow. Admite `{{variables}}` en el código.
+- `scripts` permite generar variables con JS en la web (déjalo `[]` en flows generados).
+
 ## Conexiones (`connections[]`)
 
 ```json
