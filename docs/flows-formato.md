@@ -94,6 +94,10 @@ Cajitas de documentación dentro del canvas — no se ejecutan (el CLI las ignor
 - Con `renderMode: "mermaid"` (desde la **4.3.0**) el `content` es código
   [Mermaid](https://mermaid.js.org) y la web lo renderiza como diagrama en vivo — útil para
   esquematizar qué llama a qué junto al propio flow. Admite `{{variables}}` en el código.
+- Con `renderMode: "image"` (desde la **4.4.0**) la nota es un **nodo Captura**: muestra la
+  imagen de `imageSrc` (`/flow-assets/…`, `http(s)` o data URI). Es el nodo que generan el
+  modo Live y `flow-explore` para documentar pantallas de una web; `content` lleva las notas
+  (URL, fecha…).
 - `scripts` permite generar variables con JS en la web (déjalo `[]` en flows generados).
 
 ## Conexiones (`connections[]`)

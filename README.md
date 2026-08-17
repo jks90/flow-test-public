@@ -25,7 +25,7 @@ docker run -d \
   --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 \
   --name flow \
-  juankanh/flow-app:4.3.0
+  juankanh/flow-app:4.4.0
 ```
 
 - **Web**: http://localhost:9998 — el canvas visual.
@@ -37,19 +37,21 @@ docker run -d \
 
 | Versión | Qué trae |
 |---------|----------|
-| **4.3.0** (recomendada) | Nodos de nota en **modo Mermaid** («Add Mermaid»): diagramas renderizados en vivo en el canvas, con interpolación `{{variable}}` — esquematiza qué llama a qué junto al propio flow |
+| **4.4.0** (recomendada) | **Documentar webs**: nodo Captura (screenshot de una web desde el canvas), modo **Live** del nodo Web (navegas la web embebida y cada captura crea la documentación con sus llamadas HTTP) y CLI `flow-explore`. Las funciones que usan Chrome corren desde el código fuente; el resto va en la imagen. Auto Layout para todos los nodos y maximizar el nodo Web |
+| 4.3.0 | Nodos de nota en **modo Mermaid** («Add Mermaid»): diagramas renderizados en vivo en el canvas, con interpolación `{{variable}}` — esquematiza qué llama a qué junto al propio flow |
 | 4.2.0 | **MCP embebido** (`/mcp`, 18 tools: la IA construye/ejecuta flows en la web en directo) + puente AI↔web por SSE + typecheck del frontend saneado |
 | 4.1.x | El CLI ejecuta **sqlNodes** (Postgres/MySQL/Oracle) con paridad con la web: perfiles de conexión, `{{variables}}` en queries, extracciones por columna. ⚠️ Desde aquí `--dir flows` toca BBDD reales (`--skip-sql-nodes` para el comportamiento antiguo) |
 | 4.0.16 | Web + CLI HTTP: curl import, extracciones JSONPath, reports en `resumen/`, batch, cron, multi-pestaña |
 
 ```bash
-docker pull juankanh/flow-app:4.3.0
+docker pull juankanh/flow-app:4.4.0
 ```
 
 ## Documentación
 
 | Guía | Contenido |
 |------|-----------|
+| [docs/manual/](docs/manual/README.md) | 📘 **Manual de uso completo con capturas de pantalla anotadas**: la pantalla principal, cada tipo de nodo, variables, modo Live, flow-explore, paneles, CLI, MCP y Docker |
 | [docs/instalacion-docker.md](docs/instalacion-docker.md) | Montar la imagen: puertos, redes, variables de entorno, persistencia de flows, actualizar de versión, troubleshooting |
 | [docs/cli.md](docs/cli.md) | El runner por terminal: flags, baterías, reports, exit codes para CI, nodos SQL y perfiles de conexión |
 | [docs/mcp.md](docs/mcp.md) | Conectar una IA: Claude Code y Claude Desktop, las 18 tools, seguridad, flujos de trabajo típicos |

@@ -18,7 +18,7 @@ cat resumen/*/report.md     # el report queda en tu máquina
 ```
 
 - Usa rutas **relativas** al directorio desde el que lo lanzas (es lo que se monta).
-- Cambia de versión con `FLOW_IMAGE=juankanh/flow-app:4.3.0 flow-run …`.
+- Cambia de versión con `FLOW_IMAGE=juankanh/flow-app:4.4.0 flow-run …`.
 - Los curl a `http://localhost:PUERTO` llegan a **tu máquina** automáticamente.
 
 ## Dentro del contenedor que ya corre
@@ -111,3 +111,18 @@ nodos siguientes.
 > ⚠️ Los nodos SQL **ejecutan de verdad** (incluidos INSERT/UPDATE). Si una batería antigua
 > contaba con que se ignoraban, usa `--skip-sql-nodes`. Y recuerda: desde el contenedor,
 > la BBDD se alcanza por nombre de red de Docker o `host.docker.internal`, no `localhost`.
+
+## flow-explore — documentar una web navegándola (4.4.0)
+
+Además del runner, la 4.4.0 añade `flow-explore`: navega una web con Chrome (crawl automático
+o modo `--manual` donde navegas tú, con sesión/login), hace **screenshot de cada pantalla**,
+captura sus **llamadas HTTP** y genera un `.flow.json` documental (pantalla → cajitas curl
+re-ejecutables) + informe markdown.
+
+```bash
+git clone https://github.com/jks90/flow-test && cd flow-test && npm install
+npm run flow:explore -- https://mi-web.com --manual --filter /api/
+```
+
+> Necesita un **Chrome/Chromium local** (usa `puppeteer-core`), por lo que se ejecuta desde el
+> código fuente, no desde la imagen. Guía completa: [manual/07-flow-explore.md](manual/07-flow-explore.md).
