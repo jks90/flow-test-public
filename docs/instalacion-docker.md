@@ -13,7 +13,7 @@ docker run -d \
   --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 \
   --name flow \
-  juankanh/flow-app:4.2.0
+  juankanh/flow-app:4.3.0
 ```
 
 | Pieza | Dónde queda |
@@ -38,7 +38,7 @@ docker run -d \
   --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 \
   --name flow \
-  juankanh/flow-app:4.2.0
+  juankanh/flow-app:4.3.0
 ```
 
 ## Variables de entorno
@@ -55,7 +55,7 @@ Ejemplo con MCP protegido por token:
 ```bash
 docker run -d --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 -e FLOW_MCP_TOKEN=mi-secreto \
-  --name flow juankanh/flow-app:4.2.0
+  --name flow juankanh/flow-app:4.3.0
 ```
 
 ## Persistir tus flows
@@ -68,7 +68,7 @@ mkdir -p ./flows
 docker run -d --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 \
   -v "$(pwd)/flows:/app/flows" \
-  --name flow juankanh/flow-app:4.2.0
+  --name flow juankanh/flow-app:4.3.0
 ```
 
 > Con el volumen montado, los flows de ejemplo que trae la imagen quedan ocultos: tu carpeta
@@ -82,9 +82,9 @@ docker run -d --add-host=host.docker.internal:host-gateway \
 ## Actualizar de versión
 
 ```bash
-docker pull juankanh/flow-app:4.2.0
+docker pull juankanh/flow-app:4.3.0
 docker stop flow && docker rm flow
-docker run -d ... juankanh/flow-app:4.2.0   # mismo run de siempre
+docker run -d ... juankanh/flow-app:4.3.0   # mismo run de siempre
 ```
 
 Los flows en volumen (y los del navegador) no se pierden.

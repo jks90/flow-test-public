@@ -5,6 +5,7 @@
 | `api-login-cadena.flow.json` | Cadena HTTP clásica: login → extraer `{{token}}` → llamada autenticada → detalle con id extraído |
 | `sql-verificacion.flow.json` | Nodo SQL que extrae `userId`/`email` de la BBDD y alimenta una verificación HTTP |
 | `sql-connections.example.json` | Perfiles de conexión SQL (cópialo como `sql-connections.json` junto a tus flows) |
+| `nota-mermaid.flow.json` | Flow documentado con un **diagrama Mermaid** en el canvas (`infoNodes` con `renderMode: "mermaid"`, desde la 4.3.0): el esquema de qué llama a qué se renderiza en vivo junto al flow |
 
 ## Probarlos
 

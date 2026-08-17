@@ -1,0 +1,47 @@
+{
+  "version": "1.0",
+  "name": "Flow documentado con diagrama Mermaid",
+  "nodes": [
+    {
+      "id": "login",
+      "name": "Login",
+      "curl": "curl -X POST \"{{apiBase}}/auth/login\" -H \"Content-Type: application/json\" -d '{\"email\":\"{{email}}\",\"password\":\"{{password}}\"}'",
+      "position": { "x": 100, "y": 380 },
+      "status": "idle",
+      "collapsed": false,
+      "extractions": [
+        { "id": "e1", "varName": "token", "jsonPath": "$.accessToken" }
+      ]
+    },
+    {
+      "id": "listar",
+      "name": "Listar usuarios",
+      "curl": "curl \"{{apiBase}}/users\" -H \"Authorization: Bearer {{token}}\"",
+      "position": { "x": 480, "y": 380 },
+      "status": "idle",
+      "collapsed": false,
+      "extractions": []
+    }
+  ],
+  "infoNodes": [
+    {
+      "id": "esquema",
+      "name": "Qué llama a qué",
+      "content": "sequenceDiagram\n  participant F as Flow\n  participant A as API\n  F->>A: POST {{apiBase}}/auth/login\n  A-->>F: accessToken\n  F->>A: GET {{apiBase}}/users (Bearer token)\n  A-->>F: lista de usuarios",
+      "position": { "x": 100, "y": 60 },
+      "collapsed": false,
+      "scripts": [],
+      "renderMode": "mermaid"
+    }
+  ],
+  "sqlNodes": [],
+  "webNodes": [],
+  "connections": [
+    { "id": "c1", "sourceId": "login", "targetId": "listar", "behavior": "next" }
+  ],
+  "envVariables": {
+    "apiBase": "http://localhost:8080",
+    "email": "qa@example.com",
+    "password": "cambia-esto"
+  }
+}
