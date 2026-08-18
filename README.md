@@ -25,7 +25,7 @@ docker run -d \
   --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 \
   --name flow \
-  juankanh/flow-app:4.5.0
+  juankanh/flow-app:4.6.0
 ```
 
 - **Web**: http://localhost:9998 — el canvas visual.
@@ -37,7 +37,8 @@ docker run -d \
 
 | Versión | Qué trae |
 |---------|----------|
-| **4.5.0** (recomendada) | **Toda la funcionalidad web dentro del contenedor**: la imagen trae Chromium — el nodo Captura, el modo Live y el crawl de `flow-explore` funcionan en Docker sin instalar nada. Webs tras SSO (p. ej. Cloudflare Access): credenciales por `FLOW_CAPTURE_COOKIES` / `FLOW_CAPTURE_HEADERS` o por petición |
+| **4.6.0** (recomendada) | **Login una vez y esquemas honestos**: perfil de Chromium persistente para el modo Live (el OTP/SSO sobrevive al idle y a restarts), CAs corporativas cargadas desde `/certs` al arrancar, fallos de navegación visibles en el canvas (`navigation: {ok, errorCode, finalUrl}`), sonda de iframes que nombra al host bloqueante real (el SSO tras el redirect) y ofrece Live, barra de URL y pegar del portapapeles en Live |
+| 4.5.0 | **Toda la funcionalidad web dentro del contenedor**: la imagen trae Chromium — el nodo Captura, el modo Live y el crawl de `flow-explore` funcionan en Docker sin instalar nada. Webs tras SSO (p. ej. Cloudflare Access): credenciales por `FLOW_CAPTURE_COOKIES` / `FLOW_CAPTURE_HEADERS` o por petición |
 | 4.4.0 | **Documentar webs**: nodo Captura (screenshot de una web desde el canvas), modo **Live** del nodo Web (navegas la web embebida y cada captura crea la documentación con sus llamadas HTTP) y CLI `flow-explore`. En esta versión las funciones que usan Chrome corrían solo desde el código fuente. Auto Layout para todos los nodos y maximizar el nodo Web |
 | 4.3.0 | Nodos de nota en **modo Mermaid** («Add Mermaid»): diagramas renderizados en vivo en el canvas, con interpolación `{{variable}}` — esquematiza qué llama a qué junto al propio flow |
 | 4.2.0 | **MCP embebido** (`/mcp`, 18 tools: la IA construye/ejecuta flows en la web en directo) + puente AI↔web por SSE + typecheck del frontend saneado |
@@ -45,7 +46,7 @@ docker run -d \
 | 4.0.16 | Web + CLI HTTP: curl import, extracciones JSONPath, reports en `resumen/`, batch, cron, multi-pestaña |
 
 ```bash
-docker pull juankanh/flow-app:4.5.0
+docker pull juankanh/flow-app:4.6.0
 ```
 
 ## Documentación

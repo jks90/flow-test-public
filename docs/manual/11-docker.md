@@ -49,6 +49,25 @@ También se aceptan por petición (`POST /capture` y `POST /capture-session/star
 enmascarando `authorization`/`cookie`: las credenciales nunca se escriben. Extras:
 `FLOW_CHROME` (ruta del binario) y `FLOW_CHROME_ARGS` (flags).
 
+Desde la **4.6.0** suele bastar con loguearte una vez en el propio Live (OTP incluido): el
+**perfil de Chromium persiste** en `flows/.chrome-profile` y el login sobrevive al cierre por
+inactividad y a restarts. `FLOW_CHROME_PROFILE=off` lo desactiva. ⚠ Con el volumen
+`./flows:/app/flows`, ese perfil (cookies vivas) queda en tu disco: no lo compartas.
+
+### CAs corporativas (desde la 4.6.0)
+
+Si tu red intercepta TLS con una CA propia (Zscaler, WARP…), monta tus certificados:
+
+```yaml
+    volumes:
+      - /usr/local/share/ca-certificates:/certs:ro
+```
+
+Al arrancar, el contenedor los carga en el store del sistema, en `NODE_EXTRA_CA_CERTS`
+(peticiones del server/CLI y drivers SQL) y en la BBDD NSS de Chromium (captura/Live).
+Monta con volumen, **no** con `docker cp`: los `.crt` que son symlinks (p. ej.
+`managed-warp.crt → managed-warp.pem`) llegarían rotos — se ignoran con un aviso en los logs.
+
 ## Versiones
 
 | Versión | Qué trae |
@@ -56,4 +75,5 @@ enmascarando `authorization`/`cookie`: las credenciales nunca se escriben. Extra
 | 4.2.0 | MCP embebido (18 tools) |
 | 4.3.0 | Nodo Mermaid |
 | 4.4.0 | Documentar webs: nodo Captura, modo Live del nodo Web, CLI flow-explore, Auto Layout para todos los nodos, maximizar el nodo Web (Chrome solo desde el código fuente) |
-| **4.5.0** | Chromium dentro de la imagen 🆕: Captura, Live y flow-explore (crawl) funcionan en Docker; credenciales para webs tras SSO con `FLOW_CAPTURE_COOKIES`/`FLOW_CAPTURE_HEADERS` |
+| 4.5.0 | Chromium dentro de la imagen: Captura, Live y flow-explore (crawl) funcionan en Docker; credenciales para webs tras SSO con `FLOW_CAPTURE_COOKIES`/`FLOW_CAPTURE_HEADERS` |
+| **4.6.0** | Perfil de Chromium persistente 🆕 (el login del Live sobrevive a idle/restart), CAs corporativas desde `/certs`, fallos de navegación visibles en el canvas, sonda de iframes que nombra al host bloqueante y ofrece Live, barra de URL + pegar en Live |

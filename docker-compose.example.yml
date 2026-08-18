@@ -2,7 +2,7 @@
 #   docker compose up -d
 services:
   flow:
-    image: juankanh/flow-app:4.5.0
+    image: juankanh/flow-app:4.6.0
     container_name: flow
     ports:
       - "9998:3001"          # web + MCP en http://localhost:9998
@@ -10,6 +10,10 @@ services:
       - "host.docker.internal:host-gateway"   # los flows llegan a APIs de tu máquina
     volumes:
       - ./flows:/app/flows   # persiste tus flows y sql-connections.json (opcional)
+                             # ojo: también guarda flows/.chrome-profile (cookies vivas del
+                             # modo Live — no lo compartas ni lo subas a git)
+      # - /usr/local/share/ca-certificates:/certs:ro   # CAs corporativas (usa -v/volumen,
+      #   NO docker cp: los .crt que son symlinks llegarían rotos y se ignoran con aviso)
     # environment:                       # descomenta el bloque entero para usarlas
     #   - FLOW_MCP_TOKEN=mi-secreto      # auth bearer para /mcp desde otras máquinas
     #   - FLOW_MCP_ALLOW_LAN=true        # o abrir /mcp a la LAN sin auth (redes de confianza)

@@ -53,4 +53,7 @@ Maximizada, la vista Live se ve a tamaño casi real:
 - Las sesiones Live inactivas **se cierran solas a los 10 minutos**.
 - Los screenshots van a `flows/assets/live/<sesión>/` y se sirven como `/flow-assets/...`.
 - Requiere Chrome en la máquina del server → desde la **4.5.0 la imagen Docker lo trae** (Chromium embebido). Para webs tras un login/SSO (Cloudflare Access, etc.), pasa las credenciales con `FLOW_CAPTURE_COOKIES` / `FLOW_CAPTURE_HEADERS` — ver [11-docker.md](11-docker.md).
+- Desde la **4.6.0** el Live usa un **perfil de Chromium persistente** (`flows/.chrome-profile`): haces el login/OTP una vez y sobrevive al cierre por inactividad e incluso a un restart del contenedor. `FLOW_CHROME_PROFILE=off` para perfil efímero. ⚠ Ese directorio guarda cookies vivas — no lo compartas.
+- También desde la 4.6.0: **barra de URL** en la sesión (ir a otra página sin cerrarla), botón de **pegar del portapapeles** (el OTP sin teclearlo carácter a carácter), y los **fallos de navegación se pintan** en la tarjeta (`errorCode` + dónde se quedó la sesión) en vez de quedarse mudos en los logs.
+- Si el modo directo (iframe) es imposible (`X-Frame-Options`/`frame-ancestors`), la tarjeta lo dice **nombrando al host que bloquea** — que tras un redirect puede ser el SSO (p. ej. `*.cloudflareaccess.com`), no tu URL — y ofrece abrir en Live.
 - Si una captura sale sin datos o sin llamadas, revisa el orden del tip de arriba.
