@@ -62,6 +62,25 @@ inactividad y a restarts. `FLOW_CHROME_PROFILE=off` lo desactiva; `FLOW_SESSION_
 logout real del SSO. ⚠ Con el volumen
 `./flows:/app/flows`, ese perfil (cookies vivas) queda en tu disco: no lo compartas.
 
+### Dominios internos y Local Network Access (desde la 4.9.0)
+
+Dos trampas de red corporativa que producían **fallos mudos**:
+
+- **Local Network Access (Chromium ≥138)**: una web pública que llama a su API en la red
+  privada (p. ej. `app.empresa.es` → `api.internal.empresa.es`) queda bloqueada **sin prompt**
+  en headless: la app carga, el click llega, y el fetch muere con
+  `net::ERR_BLOCKED_BY_LOCAL_NETWORK_ACCESS_CHECKS` (visible en la pestaña Network). Desde la
+  4.9.0 esos checks van **desactivados** en el navegador de captura; `FLOW_CHROME_LNA_CHECKS=on`
+  restaura el comportamiento estándar de Chromium.
+- **DNS interno**: si el DNS corporativo vive en la VPN del host (resolv.conf apuntando a
+  127.0.0.x), Docker cae a DNS público y los dominios internos no resuelven dentro del
+  contenedor. Solución:
+
+```yaml
+    dns:
+      - 10.0.0.53   # el DNS corporativo que resuelve *.internal.empresa.es
+```
+
 ### CAs corporativas (desde la 4.6.0)
 
 Si tu red intercepta TLS con una CA propia (Zscaler, WARP…), monta tus certificados:
@@ -86,4 +105,5 @@ Monta con volumen, **no** con `docker cp`: los `.crt` que son symlinks (p. ej.
 | 4.5.0 | Chromium dentro de la imagen: Captura, Live y flow-explore (crawl) funcionan en Docker; credenciales para webs tras SSO con `FLOW_CAPTURE_COOKIES`/`FLOW_CAPTURE_HEADERS` |
 | 4.6.0 | Perfil de Chromium persistente (el login del Live sobrevive a idle/restart), CAs corporativas desde `/certs`, fallos de navegación visibles en el canvas, sonda de iframes que nombra al host bloqueante y ofrece Live, barra de URL + pegar en Live |
 | 4.7.0 | Teclado directo sobre la vista Live (Ctrl+V pega el OTP), errores de certificado explicados en pantalla, sesiones de perfil concurrentes, `FLOW_SESSION_IDLE_MS`, `POST /capture-session/logout` borra el perfil |
-| **4.8.0** | Pestañas **Consola** y **Network** en el nodo Web 🆕: la sesión Live enseña los `console.*`/errores de la página y todo su tráfico (sin headers ni cuerpos) |
+| 4.8.0 | Pestañas **Consola** y **Network** en el nodo Web: la sesión Live enseña los `console.*`/errores de la página y todo su tráfico (sin headers ni cuerpos) |
+| **4.9.0** | Local Network Access desactivado en el navegador de captura 🆕 (apps internas: el fetch a la API privada ya no muere mudo), aviso LNA/PNA en pantalla y pista de DNS corporativo |
