@@ -53,4 +53,4 @@ Los headers sensibles se **enmascaran** antes de escribir nada a disco: `authori
 
 > [!NOTE]
 > **Dónde funciona**
-> Necesita `puppeteer-core` (devDependency: `npm install` en el repo) y un Chrome local. No funciona dentro de la imagen Docker. La carpeta `flows/assets/` está en `.gitignore`: la documentación se regenera cuando quieras.
+> Necesita `puppeteer-core` y un Chrome. Desde la **4.5.0 la imagen Docker trae ambos**: el modo crawl funciona con `docker exec flow node cli/explore-web.js https://mi-web.com`. `--manual`/`--headful` abren un Chrome visible → necesitan pantalla, se ejecutan desde el repo (`npm install`). La carpeta `flows/assets/` está en `.gitignore`: la documentación se regenera cuando quieras.

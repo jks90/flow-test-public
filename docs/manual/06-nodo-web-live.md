@@ -52,5 +52,5 @@ Maximizada, la vista Live se ve a tamaño casi real:
 - **Seguridad**: en las cajitas generadas, el header `Authorization` se enmascara como `{{authToken}}` (variable creada en el flow) y las cookies **no se escriben**. Nunca quedan tokens reales en el `.flow.json`.
 - Las sesiones Live inactivas **se cierran solas a los 10 minutos**.
 - Los screenshots van a `flows/assets/live/<sesión>/` y se sirven como `/flow-assets/...`.
-- Requiere Chrome en la máquina del server → **no disponible en la imagen Docker**.
+- Requiere Chrome en la máquina del server → desde la **4.5.0 la imagen Docker lo trae** (Chromium embebido). Para webs tras un login/SSO (Cloudflare Access, etc.), pasa las credenciales con `FLOW_CAPTURE_COOKIES` / `FLOW_CAPTURE_HEADERS` — ver [11-docker.md](11-docker.md).
 - Si una captura sale sin datos o sin llamadas, revisa el orden del tip de arriba.
