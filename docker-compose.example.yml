@@ -2,7 +2,7 @@
 #   docker compose up -d
 services:
   flow:
-    image: juankanh/flow-app:4.7.0
+    image: juankanh/flow-app:4.8.0
     container_name: flow
     ports:
       - "9998:3001"          # web + MCP en http://localhost:9998
