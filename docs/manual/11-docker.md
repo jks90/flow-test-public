@@ -49,9 +49,17 @@ También se aceptan por petición (`POST /capture` y `POST /capture-session/star
 enmascarando `authorization`/`cookie`: las credenciales nunca se escriben. Extras:
 `FLOW_CHROME` (ruta del binario) y `FLOW_CHROME_ARGS` (flags).
 
+**Escape hatch sin montar CAs** (ya desde la 4.5.0): `FLOW_CHROME_ARGS=--ignore-certificate-errors`
+desactiva la validación TLS de **todas** las capturas — aceptable en un entorno de INT contra un
+MITM corporativo conocido, no como default. Nota técnica: `update-ca-certificates` a secas NO
+arregla Chromium (usa su BBDD NSS, no el store del sistema); por eso el entrypoint carga `/certs`
+en ambos y loguea `[certs] CA corporativa cargada (system + NSS): <CN>`.
+
 Desde la **4.6.0** suele bastar con loguearte una vez en el propio Live (OTP incluido): el
 **perfil de Chromium persiste** en `flows/.chrome-profile` y el login sobrevive al cierre por
-inactividad y a restarts. `FLOW_CHROME_PROFILE=off` lo desactiva. ⚠ Con el volumen
+inactividad y a restarts. `FLOW_CHROME_PROFILE=off` lo desactiva; `FLOW_SESSION_IDLE_MS` ajusta el cierre por inactividad
+(el perfil no se borra al expirar) y `POST /capture-session/logout` lo borra del todo — el
+logout real del SSO. ⚠ Con el volumen
 `./flows:/app/flows`, ese perfil (cookies vivas) queda en tu disco: no lo compartas.
 
 ### CAs corporativas (desde la 4.6.0)
@@ -76,4 +84,5 @@ Monta con volumen, **no** con `docker cp`: los `.crt` que son symlinks (p. ej.
 | 4.3.0 | Nodo Mermaid |
 | 4.4.0 | Documentar webs: nodo Captura, modo Live del nodo Web, CLI flow-explore, Auto Layout para todos los nodos, maximizar el nodo Web (Chrome solo desde el código fuente) |
 | 4.5.0 | Chromium dentro de la imagen: Captura, Live y flow-explore (crawl) funcionan en Docker; credenciales para webs tras SSO con `FLOW_CAPTURE_COOKIES`/`FLOW_CAPTURE_HEADERS` |
-| **4.6.0** | Perfil de Chromium persistente 🆕 (el login del Live sobrevive a idle/restart), CAs corporativas desde `/certs`, fallos de navegación visibles en el canvas, sonda de iframes que nombra al host bloqueante y ofrece Live, barra de URL + pegar en Live |
+| 4.6.0 | Perfil de Chromium persistente (el login del Live sobrevive a idle/restart), CAs corporativas desde `/certs`, fallos de navegación visibles en el canvas, sonda de iframes que nombra al host bloqueante y ofrece Live, barra de URL + pegar en Live |
+| **4.7.0** | Teclado directo sobre la vista Live 🆕 (Ctrl+V pega el OTP), errores de certificado explicados en pantalla, sesiones de perfil concurrentes, `FLOW_SESSION_IDLE_MS`, `POST /capture-session/logout` borra el perfil |
