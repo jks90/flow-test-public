@@ -2,7 +2,7 @@
 #   docker compose up -d
 services:
   flow:
-    image: juankanh/flow-app:4.9.0
+    image: juankanh/flow-app:4.12.1
     container_name: flow
     ports:
       - "9998:3001"          # web + MCP en http://localhost:9998
@@ -20,6 +20,9 @@ services:
     #   - FLOW_REWRITE_LOCALHOST=false   # si tu objetivo vive DENTRO del contenedor
     #   - FLOW_CAPTURE_COOKIES=CF_Authorization=<valor>   # captura/Live tras SSO (cookie de sesión)
     #   - FLOW_CAPTURE_HEADERS={"CF-Access-Client-Id":"<id>","CF-Access-Client-Secret":"<secreto>"}
+    #   - FLOW_FAKE_WEBCAM=/app/flows/webcam/DNIWebcamMock.mjpeg  # solo QA
+    #   - FLOW_VIDEOMOCK_MOLDS=/app/flows/molds                  # plantillas privadas, no Git
+    #   - FLOW_VIEWPORT=1920x1080                                # default: 1366x850
     restart: unless-stopped
     # networks: [mi_red]     # súmalo a la red de tus APIs para llamarlas por nombre
 # networks:

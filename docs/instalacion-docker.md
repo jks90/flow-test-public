@@ -13,7 +13,7 @@ docker run -d \
   --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 \
   --name flow \
-  juankanh/flow-app:4.9.0
+  juankanh/flow-app:4.12.1
 ```
 
 | Pieza | Dónde queda |
@@ -38,7 +38,7 @@ docker run -d \
   --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 \
   --name flow \
-  juankanh/flow-app:4.9.0
+  juankanh/flow-app:4.12.1
 ```
 
 ## Variables de entorno
@@ -49,14 +49,57 @@ docker run -d \
 | `FLOW_REWRITE_LOCALHOST` | `true` en la imagen | Reescribe `localhost`/`127.0.0.1` → `host.docker.internal` en las peticiones de los flows (web y CLI). Ponla a `false` si tu objetivo es un servicio **dentro** del propio contenedor |
 | `FLOW_MCP_TOKEN` | *(sin definir)* | Si la defines, el endpoint `/mcp` exige `Authorization: Bearer <token>` — necesario para usar el MCP desde **otra máquina** de forma segura |
 | `FLOW_MCP_ALLOW_LAN` | *(sin definir)* | `true` abre `/mcp` a la LAN **sin** auth (solo redes de confianza). Por defecto `/mcp` solo acepta clientes locales |
+| `FLOW_VIEWPORT` | `1366x850` | Resolución de la sesión Live, por ejemplo `1920x1080`; la vista y los clics se adaptan a la resolución efectiva |
+| `FLOW_FAKE_WEBCAM` | *(sin definir)* | Ruta a un MJPEG/Y4M que Chromium servirá como webcam. Solo QA |
+| `FLOW_VIDEOMOCK_MOLDS` | *(sin definir)* | Carpeta privada con las plantillas necesarias para `POST /videomock/dni` |
 
 Ejemplo con MCP protegido por token:
 
 ```bash
 docker run -d --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 -e FLOW_MCP_TOKEN=mi-secreto \
-  --name flow juankanh/flow-app:4.9.0
+  --name flow juankanh/flow-app:4.12.1
 ```
+
+## Webcam falsa y videomock de DNI (solo QA)
+
+Para probar un onboarding de vídeo-identificación, monta el vídeo y las siete plantillas privadas
+dentro del volumen de flows:
+
+```bash
+docker run -d --add-host=host.docker.internal:host-gateway \
+  -p 9998:3001 --name flow \
+  -e FLOW_FAKE_WEBCAM=/app/flows/webcam/DNIWebcamMock.mjpeg \
+  -e FLOW_VIDEOMOCK_MOLDS=/app/flows/molds \
+  -e FLOW_VIEWPORT=1920x1080 \
+  -v "$(pwd)/flows:/app/flows" \
+  juankanh/flow-app:4.12.1
+```
+
+Genera el vídeo antes de abrir la sesión Live:
+
+```bash
+curl -X POST http://localhost:9998/videomock/dni \
+  -H 'content-type: application/json' \
+  -d '{
+    "personalNumber":"12345678",
+    "primaryName":"ANA",
+    "secondaryName":"PRUEBA TEST",
+    "birthDate":"1980-12-12",
+    "expirationDate":"2031-08-05",
+    "sex":"F",
+    "father":"PADRE",
+    "mother":"MADRE",
+    "birthPlace":"MADRID",
+    "supportNumber":"ABC123456",
+    "addresses":{"streetName":"CALLE QA","streetNumber":"1","postalCode":"28001","city":"MADRID"}
+  }'
+```
+
+`primaryName` es el nombre y `secondaryName` debe contener exactamente dos apellidos separados
+por espacio y menos de 26 caracteres. El endpoint responde `201` y sustituye el vídeo de forma
+atómica. Las plantillas incluyen imágenes de identidad: no se distribuyen en la imagen, no deben
+subirse a Git y solo deben utilizarse en entornos de QA.
 
 ## Persistir tus flows
 
@@ -68,7 +111,7 @@ mkdir -p ./flows
 docker run -d --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 \
   -v "$(pwd)/flows:/app/flows" \
-  --name flow juankanh/flow-app:4.9.0
+  --name flow juankanh/flow-app:4.12.1
 ```
 
 > Con el volumen montado, los flows de ejemplo que trae la imagen quedan ocultos: tu carpeta
@@ -82,9 +125,9 @@ docker run -d --add-host=host.docker.internal:host-gateway \
 ## Actualizar de versión
 
 ```bash
-docker pull juankanh/flow-app:4.9.0
+docker pull juankanh/flow-app:4.12.1
 docker stop flow && docker rm flow
-docker run -d ... juankanh/flow-app:4.9.0   # mismo run de siempre
+docker run -d ... juankanh/flow-app:4.12.1   # mismo run de siempre
 ```
 
 Los flows en volumen (y los del navegador) no se pierden.

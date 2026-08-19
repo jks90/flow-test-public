@@ -3,7 +3,7 @@
 Manual completo del **Flow Builder** (flow-test): la herramienta visual para componer, ejecutar y **documentar** flujos de peticiones HTTP, SQL y navegación web. Todas las capturas son de la aplicación real.
 
 > [!NOTE]
-> Manual de **flow-test v4.4.0** (imagen `juankanh/flow-app:4.4.0`). Lo marcado con 🆕 necesita un **Chrome local**: funciona desde el código fuente (`npm run dev`), no dentro del contenedor.
+> Manual de **flow-test v4.12.1** (imagen `juankanh/flow-app:4.12.1`). La imagen incluye Chromium para Captura, Live y `flow-explore` en modo crawl.
 
 ## Índice
 
@@ -32,7 +32,7 @@ npm run dev        # web en http://localhost:5173 + server en :3001
 
 ```bash
 docker run -d --add-host=host.docker.internal:host-gateway \
-  -p 9998:3001 --name flow juankanh/flow-app:4.4.0
+  -p 9998:3001 --name flow juankanh/flow-app:4.12.1
 # web en http://localhost:9998
 ```
 
