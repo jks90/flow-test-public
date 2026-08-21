@@ -12,7 +12,7 @@ La carpeta `flows/` del servidor es el **proyecto** — en Docker `/app/flows`, 
 | Zona | Qué hay |
 |------|---------|
 | **Pestañas sin fichero** | Pestañas creadas con *Nuevo* o importadas con *Abrir* que aún no viven en `flows/` — botón **Guardar como…** |
-| **flows/** (y subcarpetas) | Cada `.flow.json` con su nombre de flow, nº de nodos y fecha. Marcas: azul = pestaña activa, verde = abierto, **●** = cambios sin guardar, ⚠ = el fichero cambió en disco después de abrirlo (CLI, MCP, git…) |
+| **flows/** (y subcarpetas) | Cada `.flow.json` con su nombre de flow, nº de nodos y fecha. Las carpetas se **pliegan** con un clic en su cabecera (se recuerda; botón plegar/desplegar todo junto al filtro; plegada, muestra si tiene abiertos o cambios). Marcas: azul = pestaña activa, verde = abierto, **●** = cambios sin guardar, ⚠ = el fichero cambió en disco después de abrirlo (CLI, MCP, git…) |
 | Botones por fichero | Abrir en una pestaña · ir a la pestaña si ya está abierto · **Guardar** (si tiene cambios) · **Recargar desde disco** (si cambió fuera) |
 
 Cómo se trabaja:
