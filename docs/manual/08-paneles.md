@@ -161,7 +161,20 @@ curl 'http://localhost:9998/mail/messages/latest?to=qa@flowtest.local&subject=Co
 # → { from, to, subject, text, html, attachments[], receivedAt, … } · 404 si no ha llegado nada
 ```
 
-Así el flow «registro → el backend envía el correo → ¿llegó? → extraer `$.text` y sacar el código OTP o el enlace de confirmación → siguiente petición» se verifica de punta a punta. Filtros: `to`, `from`, `subject`, `since` (ms), `q`; `GET /mail/messages` lista, `DELETE /mail/messages?to=` vacía un buzón.
+Así el flow «registro → el backend envía el correo → ¿llegó? → extraer `$.text` y sacar el código OTP o el enlace de confirmación → siguiente petición» se verifica de punta a punta. **Por MCP** (4.37): `mail_server start` → `mail_address add` → acción bajo prueba → `mail_messages latest {to, subject}` — la IA lo hace sola, sin pestaña web ([10 MCP](10-mcp.md)). Filtros: `to`, `from`, `subject`, `since` (ms), `q`; `GET /mail/messages` lista, `DELETE /mail/messages?to=` vacía un buzón.
+
+### ¿Y si el servicio que envía corre en otra máquina?
+
+Llega igual: el SMTP escucha en todas las interfaces (`0.0.0.0:1025`); solo hace falta que esa máquina pueda abrir una conexión TCP al puerto 1025 de la que corre flow-app.
+
+| Dónde está el servicio | Host SMTP a configurar | Qué tener en cuenta |
+|---|---|---|
+| Misma LAN / VPN | IP de tu máquina (`192.168.x.x`), puerto `1025` | Publica el puerto en Docker (`-p 1025:1025`) y ábrelo en tu firewall (`sudo ufw allow 1025/tcp`) |
+| Otro contenedor de la misma red Docker | `flow:1025` (nombre del contenedor) | No pasa por el host ni necesita `-p` |
+| Servidor en la nube / otra red sin ruta hacia ti | `localhost:1025` **en el servidor** + túnel inverso desde tu máquina: `ssh -R 1025:localhost:1025 usuario@servidor` | O `ngrok tcp 1025` / Cloudflare Tunnel y usas el host:puerto que te den |
+| Flow-app desplegado en un servidor | `<servidor>:1025` | Publica el 1025 y ábrelo en el firewall / security group **solo a las IPs de tus servicios**: es un buzón abierto sin auth real |
+
+Prueba de conectividad desde la otra máquina antes de tocar el servicio: `nc -zv <host> 1025` — si responde `220 flow-test mail sandbox`, ya está. El puerto es `1025` y no `25` a propósito (el 25 lo bloquean muchos proveedores y requiere root); cámbialo en el panel, por MCP o con `FLOW_MAIL_PORT`.
 
 ## Batch Run
 

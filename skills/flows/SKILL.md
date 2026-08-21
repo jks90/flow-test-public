@@ -35,7 +35,7 @@ reportar el resultado real (nunca asumido).
 ### Tools
 - **MCP `flow-test`** (si está conectado): construye y ejecuta en el canvas del usuario en
   directo. Endpoint típico: `http://localhost:9998/mcp` (contenedor) o `:3001` (local).
-  Mapa de las 33 tools (4.33):
+  Mapa de las 37 tools (4.37):
   - Observar: `bridge_status`, `flow_state` (pestañas con `filePath`/`dirty`; nodos con
     `position`/`order`/`pinned`; notas con `renderMode`/contenido/`scripts`; `drawings`),
     `console_read`, `runs_read`.
@@ -56,6 +56,11 @@ reportar el resultado real (nunca asumido).
     `flow_files_list` (con metadatos), `flow_open` (abre **enlazado** al fichero),
     `flow_save` (= Ctrl+S: enlaza la pestaña y la deja limpia; subcarpetas), `flow_file_delete`,
     `flow_file_read`.
+  - **Correo de prueba** (4.37, sin pestaña web): `mail_state`, `mail_server` (`start|stop|configure`:
+    puerto, dominio, `acceptAny`, `autoStart`), `mail_address` (`add|delete`), `mail_messages`
+    (`list|latest|read|delete|clear` con filtros `to/from/subject/since/q`). Un SMTP sandbox en
+    `<host flow-test>:1025` (sin TLS, auth opcional): el servicio bajo prueba envía correos de verdad y
+    tú los lees para verificar que salieron y sacar el OTP / enlace de confirmación.
 - **CLI**: `docker exec flow node cli/run-flow.js …` (contenedor) o
   `node cli/run-flow.js …` (instalación local).
 
@@ -116,6 +121,12 @@ usuario ve el canvas):
 declarada en `envVariables` o producida por una extracción.
 
 ### Step 3: Ejecutar y verificar
+- **Si el caso envía correos** (registro, OTP, recuperación de contraseña): `mail_state` → si está parado
+  `mail_server start` → `mail_address add {local}` → configura/pide al usuario que el servicio apunte a
+  `<host>:<port>` sin TLS (en Docker `-p 1025:1025`; otro contenedor → `flow:1025`; otra máquina → IP o
+  túnel `ssh -R`) → dispara la acción → `mail_messages latest {to, subject}` (reintenta unos segundos) →
+  extrae el código/enlace de `message.text` y sigue la cadena. Para que el flow lo verifique solo, un
+  nodo HTTP `GET {{flowBase}}/mail/messages/latest?to=…` con extracción JSONPath `$.text`.
 - Comprueba que la API objetivo responde antes de ejecutar (un curl a su health/status); si
   está caída, avisa en vez de ejecutar a ciegas.
 - **MCP**: `flow_run` (scripts de notas → requests y SQL en orden topológico, con las pausas `delayMs`) o `node_run` sobre cualquier nodo (sigue sus flechas hacia cualquier tipo). Si un paso depende de un proceso asíncrono del backend, pon `delayMs` en la flecha (`nodes_connect`/`connection_update`) en vez de inventar reintentos.

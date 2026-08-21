@@ -82,7 +82,7 @@ ejemplo listo en [`mcp-config.stdio.example.json`](../mcp-config.stdio.example.j
 Además: los snapshots de estado que ve la IA **no incluyen las passwords** de los nodos SQL,
 y `flow_file_read` está limitado a la carpeta `flows/` (sin path traversal).
 
-## Las 33 tools
+## Las 37 tools
 
 ### Observar
 
@@ -145,6 +145,17 @@ La carpeta `flows/` del servidor es el proyecto (en Docker `/app/flows`, o `FLOW
 | `flow_file_read` | Lee un `.flow.json` como JSON sin abrirlo |
 
 `flow_state` devuelve por pestaña `filePath` (fichero enlazado) y `dirty` (cambios sin guardar), y por nodo `position`, `collapsed`, `order` y `pinned`; las notas incluyen `renderMode`, contenido y scripts; `drawings` es el nº de dibujos de la pizarra.
+
+### Correo de prueba 🆕 4.37 (funcionan sin pestaña web)
+
+El SMTP de prueba de **Config ▸ Correo** ([08 Paneles](manual/08-paneles.md#correo-de-prueba--smtp-embebido--436)) se controla entero desde el MCP: la IA lo arranca, crea buzones y **verifica que tu servicio envió el correo** (y saca el OTP o el enlace de confirmación) sin que tú toques nada.
+
+| Tool | Qué hace |
+|------|----------|
+| `mail_state` | Estado: `running`, puerto, dominio, `acceptAny`, `autoStart`, buzones con contador y último correo, nº de correos guardados |
+| `mail_server` | `action: start` (opcional `port`; recuerda `autoStart`), `stop`, `configure` (`domain`, `acceptAny`, `autoStart`, `port` con el SMTP parado). Si el puerto está ocupado vuelve `state.error`, no un error de tool |
+| `mail_address` | `action: add` (`local` → `local@dominio`, o `address` completa) / `delete` (borra el buzón y sus correos) |
+| `mail_messages` | `action: list` (resúmenes; filtros `to`, `from`, `subject`, `since` ms, `q`, `limit`), `latest` (el último completo que cumpla el filtro: `{found, message}` — ideal tras disparar la acción bajo prueba), `read` (`id`; `raw: true` = origen RFC822), `delete` (`id`), `clear` (todos los que cumplan el filtro) |
 
 ## Flujos de trabajo típicos
 

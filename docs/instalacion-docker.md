@@ -13,7 +13,7 @@ docker run -d \
   --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 \
   --name flow \
-  juankanh/flow-app:4.36.0
+  juankanh/flow-app:4.37.0
 ```
 
 | Pieza | Dónde queda |
@@ -38,12 +38,25 @@ docker run -d \
   --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 \
   --name flow \
-  juankanh/flow-app:4.36.0
+  juankanh/flow-app:4.37.0
 ```
 
 ## Correo de prueba (SMTP, 4.36)
 
-La imagen trae un **servidor SMTP de prueba** (Config → Correo en la web) que recibe los correos de tus servicios y los muestra en la web, sin cuentas reales. Escucha en `1025` dentro del contenedor: publícalo con `-p 1025:1025` y configura tu servicio con host = tu máquina, puerto `1025`, sin TLS, auth opcional. Los correos se guardan en `flows/.mail/` (dentro de tu volumen de flows). Detalle en [08 Paneles ▸ Correo de prueba](manual/08-paneles.md#correo-de-prueba--smtp-embebido--436).
+La imagen trae un **servidor SMTP de prueba** (Config → Correo en la web) que recibe los correos de tus servicios y los muestra en la web, sin cuentas reales. Escucha en `1025` dentro del contenedor: publícalo con `-p 1025:1025` y configura tu servicio con host = tu máquina, puerto `1025`, sin TLS, auth opcional. Los correos se guardan en `flows/.mail/` (dentro de tu volumen de flows). Detalle en [08 Paneles ▸ Correo de prueba](manual/08-paneles.md#correo-de-prueba--smtp-embebido--436); por MCP, tools `mail_*` ([docs/mcp.md](mcp.md#correo-de-prueba--437-funcionan-sin-pestaña-web)).
+
+### ¿Y si el servicio que envía corre en otra máquina?
+
+Llega igual: el SMTP escucha en todas las interfaces (`0.0.0.0:1025`); solo hace falta que esa máquina pueda abrir una conexión TCP al puerto 1025 de la que corre flow-app.
+
+| Dónde está el servicio | Host SMTP a configurar | Qué tener en cuenta |
+|---|---|---|
+| Misma LAN / VPN | IP de tu máquina (`192.168.x.x`), puerto `1025` | Publica el puerto en Docker (`-p 1025:1025`) y ábrelo en tu firewall (`sudo ufw allow 1025/tcp`) |
+| Otro contenedor de la misma red Docker | `flow:1025` (nombre del contenedor) | No pasa por el host ni necesita `-p` |
+| Servidor en la nube / otra red sin ruta hacia ti | `localhost:1025` **en el servidor** + túnel inverso desde tu máquina: `ssh -R 1025:localhost:1025 usuario@servidor` | O `ngrok tcp 1025` / Cloudflare Tunnel y usas el host:puerto que te den |
+| Flow-app desplegado en un servidor | `<servidor>:1025` | Publica el 1025 y ábrelo en el firewall / security group **solo a las IPs de tus servicios**: es un buzón abierto sin auth real |
+
+Prueba de conectividad desde la otra máquina antes de tocar el servicio: `nc -zv <host> 1025` — si responde `220 flow-test mail sandbox`, ya está. El puerto es `1025` y no `25` a propósito (el 25 lo bloquean muchos proveedores y requiere root); cámbialo en el panel, por MCP o con `FLOW_MAIL_PORT`.
 
 ## Variables de entorno
 
@@ -67,7 +80,7 @@ Ejemplo con MCP protegido por token:
 ```bash
 docker run -d --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 -e FLOW_MCP_TOKEN=mi-secreto \
-  --name flow juankanh/flow-app:4.36.0
+  --name flow juankanh/flow-app:4.37.0
 ```
 
 ## Webcam falsa y videomock de DNI (solo QA)
@@ -82,7 +95,7 @@ docker run -d --add-host=host.docker.internal:host-gateway \
   -e FLOW_VIDEOMOCK_MOLDS=/app/flows/molds \
   -e FLOW_VIEWPORT=1920x1080 \
   -v "$(pwd)/flows:/app/flows" \
-  juankanh/flow-app:4.36.0
+  juankanh/flow-app:4.37.0
 ```
 
 Genera el vídeo antes de abrir la sesión Live:
@@ -118,7 +131,7 @@ El panel **Proyecto** de la web (4.25) trabaja sobre la carpeta `flows/` del ser
 ```bash
 docker run -d --add-host=host.docker.internal:host-gateway -p 9998:3001 \
   -v /home/yo/mis-flows:/app/flows \
-  --name flow juankanh/flow-app:4.36.0
+  --name flow juankanh/flow-app:4.37.0
 ```
 
 Si prefieres otra ruta dentro del contenedor, indícasela con `FLOW_FLOWS_DIR`:
@@ -141,7 +154,7 @@ mkdir -p ./flows
 docker run -d --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 \
   -v "$(pwd)/flows:/app/flows" \
-  --name flow juankanh/flow-app:4.36.0
+  --name flow juankanh/flow-app:4.37.0
 ```
 
 > Con el volumen montado, los flows de ejemplo que trae la imagen quedan ocultos: tu carpeta
@@ -157,9 +170,9 @@ docker run -d --add-host=host.docker.internal:host-gateway \
 ## Actualizar de versión
 
 ```bash
-docker pull juankanh/flow-app:4.36.0
+docker pull juankanh/flow-app:4.37.0
 docker stop flow && docker rm flow
-docker run -d ... juankanh/flow-app:4.36.0   # mismo run de siempre
+docker run -d ... juankanh/flow-app:4.37.0   # mismo run de siempre
 ```
 
 Los flows en volumen (y los del navegador) no se pierden.
