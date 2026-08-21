@@ -25,7 +25,7 @@ docker run -d \
   --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 \
   --name flow \
-  juankanh/flow-app:4.25.5
+  juankanh/flow-app:4.25.6
 ```
 
 - **Web**: http://localhost:9998 — el canvas visual.
@@ -37,7 +37,7 @@ docker run -d \
 
 | Versión | Qué trae |
 |---------|----------|
-| **4.25.5** (recomendada) | **`flows/` como proyecto**: el panel **Proyecto** lista los `.flow.json` del contenedor (`/app/flows`, móntalo con `-v ./flows:/app/flows`) por carpeta, marca cuál está abierto, cuál tiene cambios (●) y cuál cambió en disco; abres cualquiera en una pestaña y **Ctrl+S** (o el botón **Guardar**) escribe la pestaña en su fichero — se acabó exportar y sobrescribir a mano. Pestañas nuevas → «Guardar como…» (nombre + carpeta); si el fichero cambió en disco (CLI, MCP, git) avisa antes de pisarlo y permite recargarlo. Los ficheros conservan el dueño del host aunque el contenedor corra como root. `FLOW_FLOWS_DIR` apunta el proyecto a cualquier carpeta (el panel muestra la ruta real). **Enlaces entre flows** en las notas: `[[otro-flow]]`, `[[otro-flow|texto]]`, `[[otro-flow#Nombre de nodo]]` abren ese flow y centran el nodo; las URLs http(s) son clicables |
+| **4.25.6** (recomendada) | **`flows/` como proyecto**: el panel **Proyecto** lista los `.flow.json` del contenedor (`/app/flows`, móntalo con `-v ./flows:/app/flows`) por carpeta, marca cuál está abierto, cuál tiene cambios (●) y cuál cambió en disco; abres cualquiera en una pestaña y **Ctrl+S** (o el botón **Guardar**) escribe la pestaña en su fichero — se acabó exportar y sobrescribir a mano. Pestañas nuevas → «Guardar como…» (nombre + carpeta); si el fichero cambió en disco (CLI, MCP, git) avisa antes de pisarlo y permite recargarlo. Los ficheros conservan el dueño del host aunque el contenedor corra como root. `FLOW_FLOWS_DIR` apunta el proyecto a cualquier carpeta (el panel muestra la ruta real). **Enlaces entre flows** en las notas: `[[otro-flow]]`, `[[otro-flow|texto]]`, `[[otro-flow#Nombre de nodo]]` abren ese flow y centran el nodo; las URLs http(s) son clicables |
 | 4.24.0 | **Pizarra estilo Excalidraw** sobre el lienzo (lápiz, línea, flecha, rectángulo, elipse, texto, borrador; trazo boceto o limpio, colores, relleno, deshacer/rehacer; los dibujos se guardan en el flow como `drawings` y se ven en el minimapa), **barra lateral de iconos** con un panel visible a la vez (Variables, Global, SQL, GitHub, Pizarra, Guía de nodos), **Guía de nodos** (índice por tipo/nombre con foco al clic) y **Ocultar conectores** en el menú Layout, botón **Maximizar** en la vista previa Mermaid (pantalla completa con zoom), tool MCP `node_add_info` (notas/diagramas/capturas desde la IA; 20 tools) |
 | 4.23.0 | Los **scripts JS de las notas se ejecutan al pulsar Run Flow** (web, MCP `flow_run` y CLI) y sus valores entran como variables antes de la primera petición (`--skip-info-scripts` en CLI); **📌 fijar** cajas (ningún relayout ni arrastre las mueve); franja **Variables usadas** en cada caja request/SQL con edición in situ; tool MCP `tab_close` |
 | 4.22.0 | **Nº de orden** por nodo (campo `#` en la cabecera, persistido en el flow) y **Alinear en fila / en columna** en el menú Layout |
@@ -55,7 +55,7 @@ docker run -d \
 | 4.0.16 | Web + CLI HTTP: curl import, extracciones JSONPath, reports en `resumen/`, batch, cron, multi-pestaña |
 
 ```bash
-docker pull juankanh/flow-app:4.25.5
+docker pull juankanh/flow-app:4.25.6
 ```
 
 ## Documentación

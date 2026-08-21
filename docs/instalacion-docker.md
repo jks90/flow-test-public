@@ -13,7 +13,7 @@ docker run -d \
   --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 \
   --name flow \
-  juankanh/flow-app:4.25.5
+  juankanh/flow-app:4.25.6
 ```
 
 | Pieza | Dónde queda |
@@ -38,7 +38,7 @@ docker run -d \
   --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 \
   --name flow \
-  juankanh/flow-app:4.25.5
+  juankanh/flow-app:4.25.6
 ```
 
 ## Variables de entorno
@@ -59,7 +59,7 @@ Ejemplo con MCP protegido por token:
 ```bash
 docker run -d --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 -e FLOW_MCP_TOKEN=mi-secreto \
-  --name flow juankanh/flow-app:4.25.5
+  --name flow juankanh/flow-app:4.25.6
 ```
 
 ## Webcam falsa y videomock de DNI (solo QA)
@@ -74,7 +74,7 @@ docker run -d --add-host=host.docker.internal:host-gateway \
   -e FLOW_VIDEOMOCK_MOLDS=/app/flows/molds \
   -e FLOW_VIEWPORT=1920x1080 \
   -v "$(pwd)/flows:/app/flows" \
-  juankanh/flow-app:4.25.5
+  juankanh/flow-app:4.25.6
 ```
 
 Genera el vídeo antes de abrir la sesión Live:
@@ -110,7 +110,7 @@ El panel **Proyecto** de la web (4.25) trabaja sobre la carpeta `flows/` del ser
 ```bash
 docker run -d --add-host=host.docker.internal:host-gateway -p 9998:3001 \
   -v /home/yo/mis-flows:/app/flows \
-  --name flow juankanh/flow-app:4.25.5
+  --name flow juankanh/flow-app:4.25.6
 ```
 
 Si prefieres otra ruta dentro del contenedor, indícasela con `FLOW_FLOWS_DIR`:
@@ -133,7 +133,7 @@ mkdir -p ./flows
 docker run -d --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 \
   -v "$(pwd)/flows:/app/flows" \
-  --name flow juankanh/flow-app:4.25.5
+  --name flow juankanh/flow-app:4.25.6
 ```
 
 > Con el volumen montado, los flows de ejemplo que trae la imagen quedan ocultos: tu carpeta
@@ -149,9 +149,9 @@ docker run -d --add-host=host.docker.internal:host-gateway \
 ## Actualizar de versión
 
 ```bash
-docker pull juankanh/flow-app:4.25.5
+docker pull juankanh/flow-app:4.25.6
 docker stop flow && docker rm flow
-docker run -d ... juankanh/flow-app:4.25.5   # mismo run de siempre
+docker run -d ... juankanh/flow-app:4.25.6   # mismo run de siempre
 ```
 
 Los flows en volumen (y los del navegador) no se pierden.

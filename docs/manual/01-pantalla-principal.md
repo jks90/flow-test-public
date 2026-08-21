@@ -61,7 +61,7 @@ A la izquierda del lienzo hay siempre una barra con tres iconos: **Proyecto** (l
 
 ![](assets/flowtest-02-pantalla.png)
 
-- **Pestañas**: cada pestaña es un flow independiente. **Nuevo** crea una vacía, **Abrir** importa un `.flow.json` del disco local. La ✕ cierra (avisa si hay cambios). Todo se **autoguarda en el navegador** (localStorage); además, desde la 4.25 cada pestaña abierta desde el proyecto **sabe cuál es su fichero** de `flows/` (la etiqueta muestra el nombre del fichero y un ● ámbar si hay cambios) y **Ctrl+S** lo guarda ahí. Export es para descargarlo fuera del proyecto.
+- **Pestañas**: cada pestaña es un flow independiente. El botón **⊕** de la barra crea una vacía; para importar un `.flow.json` del disco local usa **⚡ FlowTest ▸ Abrir .flow.json…** (o abre los del proyecto desde el panel Proyecto). La ✕ cierra (avisa si hay cambios). Todo se **autoguarda en el navegador** (localStorage); además, desde la 4.25 cada pestaña abierta desde el proyecto **sabe cuál es su fichero** de `flows/` (la etiqueta muestra el nombre del fichero y un ● ámbar si hay cambios) y **Ctrl+S** lo guarda ahí. Export es para descargarlo fuera del proyecto.
 - **Minimapa**: vista de pájaro del canvas (cajas **y dibujos de la pizarra**); clica para saltar a una zona. Arranca oculto — botón «Mostrar minimapa» abajo a la izquierda.
 - **Zoom**: botones ± o **Ctrl + rueda**. Los dibujos de la pizarra escalan con las cajas.
 - **Moverse**: botón central del ratón, o la herramienta **Mano** de la pizarra. Arrastra una cajita por su cabecera para recolocarla.
