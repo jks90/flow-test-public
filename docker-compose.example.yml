@@ -2,7 +2,7 @@
 #   docker compose up -d
 services:
   flow:
-    image: juankanh/flow-app:4.25.7
+    image: juankanh/flow-app:4.25.8
     # El panel Proyecto (4.25) trabaja sobre /app/flows: monta ahí tu carpeta de flows
     # (o en otra ruta + FLOW_FLOWS_DIR=/esa/ruta en environment)
     container_name: flow

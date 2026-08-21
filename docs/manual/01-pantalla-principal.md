@@ -42,6 +42,7 @@
 | **Alinear en fila / en columna** | Coloca los nodos en fila o columna según su **nº de orden** (el campo `#` de cada cabecera) |
 | **Guía de nodos** 🆕 | Panel lateral con todos los nodos por tipo y nombre; clic en uno → el lienzo se centra en él y lo resalta |
 | **Ocultar / Mostrar conectores** 🆕 | Quita las líneas de conexión del lienzo (las conexiones siguen existiendo; útil para dibujar tus propias flechas en la pizarra) |
+| **Minimapa** / **Controles de zoom** 🆕 4.25.8 | Conmutadores: ocultan o muestran el botón del minimapa y la botonera ± del lienzo. Ocultar la botonera **no cambia el zoom** (Ctrl + rueda sigue funcionando). Se recuerdan entre sesiones |
 | **Split** | Pantalla dividida: dos flows a la vez. Con el split activo aparece la opción para cambiar la dirección |
 
 ### El modal Config
