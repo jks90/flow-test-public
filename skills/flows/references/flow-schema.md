@@ -164,6 +164,7 @@ cajas de 420 px de ancho, y un `text` con `fontSize: 24` encima la titula). Form
 
 - Definen el **orden de ejecución** (topológico): un nodo corre cuando su origen termina OK,
   y ve las variables extraídas aguas arriba.
+- `delayMs` opcional (4.34): pausa en ms antes de lanzar el destino cuando se recorre la flecha — web, CLI y MCP (`nodes_connect` / `connection_update`). Úsalo cuando el paso siguiente depende de un proceso asíncrono del backend (webhook, job).
 - `behavior` opcional: `next` (por defecto — el único que ordena el grafo en CLI y «Run
   Flow»), `on_error`, `parallel`, `none` (interactivos de la web).
 - Los nodos sin dependencias forman la primera capa y corren en paralelo.

@@ -20,6 +20,14 @@ Clicando sobre una conexión puedes cambiar su comportamiento:
 | **parallel** | El destino arranca a la vez que el origen, sin esperar |
 | **none** | Solo informativa: dibuja la relación pero **no afecta** a la ejecución. Es la que usan las capturas para colgar sus cajitas de llamadas 🆕 |
 
+### Cadenas entre cualquier tipo de nodo y pausa por conector 🆕 4.34
+
+![](assets/flowtest-46-conector.png)
+
+- El **▶ de cualquier caja** (request, SQL, nota, web) ejecuta el nodo y **sigue sus flechas hacia nodos de cualquier tipo**: de una nota a una request, de una request a un SQL, de un SQL a una web… `▶ next` se recorre si el nodo fue bien, `⚠ on_error` si falló, `⇉ parallel` siempre (sin esperar). Una nota «ejecutada» lanza sus scripts JS y pasa las variables generadas al siguiente; una web se recarga.
+- **Run Flow** ejecuta ahora también los **nodos SQL** en el mismo orden topológico que las requests (antes solo HTTP): las variables extraídas por una query llegan a las requests siguientes y al revés. Igual que el CLI.
+- **Configurar un conector**: clic en el círculo del medio de la flecha → popover con el **comportamiento** (al completar / en error / paralelo / sin acción) y una **pausa antes de lanzar el destino** (sin pausa, 1 s, 2 s, 5 s, 10 s o los segundos que escribas). La flecha muestra `⏱ 1.5s`; clic derecho sigue borrando la conexión. La pausa se guarda en el flow (`delayMs`) y la respetan la web, **el CLI** (`⏱ … pausa de 2s`) y el MCP (`nodes_connect` / `connection_update` con `delayMs`). Útil para APIs con procesos asíncronos (esperar a que un webhook llegue, a que un job termine) antes de consultar.
+
 ## Variables: mover datos entre cajitas
 
 El ciclo completo, con el flujo de ejemplo:

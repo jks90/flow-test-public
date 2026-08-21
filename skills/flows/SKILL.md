@@ -118,7 +118,7 @@ declarada en `envVariables` o producida por una extracción.
 ### Step 3: Ejecutar y verificar
 - Comprueba que la API objetivo responde antes de ejecutar (un curl a su health/status); si
   está caída, avisa en vez de ejecutar a ciegas.
-- **MCP**: `flow_run` (grafo HTTP) o `node_run` sobre el nodo raíz de una cadena SQL.
+- **MCP**: `flow_run` (scripts de notas → requests y SQL en orden topológico, con las pausas `delayMs`) o `node_run` sobre cualquier nodo (sigue sus flechas hacia cualquier tipo). Si un paso depende de un proceso asíncrono del backend, pon `delayMs` en la flecha (`nodes_connect`/`connection_update`) en vez de inventar reintentos.
   Espera el resultado y léelo: status por nodo, `runtimeVariables`, bodies. Si responde
   `finished:false`, lee el `reason` — no asumas que corrió.
 - **CLI**: `… cli/run-flow.js --flow flows/x.flow.json --report-root /tmp/resumen`

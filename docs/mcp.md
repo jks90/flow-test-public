@@ -106,7 +106,7 @@ y `flow_file_read` está limitado a la carpeta `flows/` (sin path traversal).
 | `node_add_web` 🆕 4.26 | Nodo Web (URL / modo Live) |
 | `node_update` | Actualiza campos de **cualquier** nodo: nombre, `position`, `collapsed`, `order`, `cell` (celda `{col,row}`), `pinned`, `disabled` 🆕 4.31 (se salta al ejecutar); HTTP `curl`/`extractions`; SQL `query`/conexión/`extractions`; nota `content`/`renderMode`/`imageSrc`/`scripts`; web `url`. Ignora campos de solo lectura (status, response…) |
 | `node_delete` | Borra un nodo y sus conexiones |
-| `nodes_connect` | Conecta origen → destino (`next` / `on_error` / `parallel` / `none`) |
+| `nodes_connect` | Conecta origen → destino (`next` / `on_error` / `parallel` / `none`); `delayMs` 🆕 4.34 = pausa antes de lanzar el destino |
 | `connection_delete` | Borra una conexión |
 | `variables_set` | Variables de entorno de la pestaña (para `{{var}}`) |
 | `global_variables_set` 🆕 4.33 | Variables **globales** (compartidas por todos los flows; precedencia global < entorno < runtime). Se leen en `flow_state.globalVariables` |
@@ -119,8 +119,8 @@ y `flow_file_read` está limitado a la carpeta `flows/` (sin path traversal).
 
 | Tool | Qué hace |
 |------|----------|
-| `flow_run` | Ejecuta el grafo de nodos HTTP (el botón «Run Flow») y **espera al resultado**: run completo + variables extraídas. Desde la 4.23 ejecuta antes los **scripts JS de las notas** y mete sus valores como variables. Si no ejecuta nada (pestaña ocupada, flow sin nodos HTTP) responde `finished:false` con el motivo |
-| `node_run` | Ejecuta un nodo y su cadena descendente. Las cadenas que **arrancan en un nodo SQL** encadenan SQL y HTTP; las que arrancan en HTTP solo siguen nodos HTTP (misma semántica que la web) |
+| `flow_run` | Ejecuta el flow (el botón «Run Flow») y **espera al resultado**: run completo + variables extraídas. Primero los **scripts JS de las notas**, después **requests y SQL** en el mismo orden topológico (4.34; entradas `JS`, `SQL` y HTTP en el run), respetando las pausas `delayMs` de las flechas. Si no ejecuta nada (pestaña ocupada, flow sin nodos HTTP ni SQL) responde `finished:false` con el motivo |
+| `node_run` | Ejecuta un nodo de **cualquier tipo** y su cadena descendente hacia nodos de **cualquier tipo** (4.34): `next` si fue bien, `on_error` si falló, `parallel` siempre; respeta `delayMs`. Una nota lanza sus scripts; una web se recarga |
 | `flow_reset` 🆕 4.26 | Limpia respuestas, resultados, estados y variables runtime de la pestaña (el «Reset») |
 
 ### Lienzo 🆕 4.26
@@ -178,5 +178,5 @@ En las notas, `[[otro-flow#Nodo]]` enlaza flows del proyecto.
 | *No flow-test web tab is connected* | Abre http://localhost:9998 en un navegador (la pestaña se conecta sola) |
 | 403 al conectar desde otra máquina | Es el modo por defecto (solo local): usa `FLOW_MCP_TOKEN` o `FLOW_MCP_ALLOW_LAN=true` |
 | 401 Unauthorized | Hay `FLOW_MCP_TOKEN` definido: configura el bearer en tu cliente MCP |
-| `flow_run` responde `finished:false` | Lee el `reason`: pestaña ya ejecutando, o el flow no tiene nodos HTTP (usa `node_run` sobre el nodo SQL raíz) |
+| `flow_run` responde `finished:false` | Lee el `reason`: pestaña ya ejecutando, o el flow no tiene nodos HTTP ni SQL |
 | El comando caduca (*did not answer within…*) | La pestaña se cerró a mitad, o el run superó los 10 min del puente |

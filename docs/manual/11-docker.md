@@ -4,7 +4,7 @@
 
 ```bash
 docker run -d --add-host=host.docker.internal:host-gateway \
-  -p 9998:3001 --name flow juankanh/flow-app:4.33.0
+  -p 9998:3001 --name flow juankanh/flow-app:4.34.0
 # web + API + MCP, todo en http://localhost:9998
 ```
 
@@ -113,7 +113,8 @@ Monta con volumen, **no** con `docker cp`: los `.crt` que son symlinks (p. ej.
 | 4.22.0 | Nº de orden por nodo + Alinear en fila/columna |
 | 4.23.0 | Scripts JS de las notas ejecutados al Run Flow (web, MCP y CLI; `--skip-info-scripts`), 📌 fijar cajas, Variables usadas en cada caja, tool MCP `tab_close` |
 | 4.24.0 | **Pizarra** estilo Excalidraw sobre el lienzo (`drawings` en el flow), barra lateral de iconos con un panel a la vez, **Guía de nodos**, Ocultar conectores, Maximizar Mermaid, tool MCP `node_add_info` (20 tools) |
-| **4.33.0** | **MCP con control total** (33 tools): `view_settings`, `global_variables_set`, `tab_rename`, `connection_update`, `sql_connections_list`, `canvas_layout separate`; `flow_state` con globales, perfiles SQL y vista |
+| **4.34.0** | **Cadenas entre cualquier tipo de nodo** (▶ sigue next/on_error/parallel hacia request, SQL, nota o web), **Run Flow ejecuta también los SQL**, **pausa por conector** (`delayMs`, popover en la flecha; web, CLI y MCP); fix caja SQL colapsada |
+| 4.33.0 | **MCP con control total** (33 tools): `view_settings`, `global_variables_set`, `tab_rename`, `connection_update`, `sql_connections_list`, `canvas_layout separate`; `flow_state` con globales, perfiles SQL y vista |
 | 4.32.0 | **Variable extractions** plegables con el diseño de «Variables usadas», estado `n/n ✓` / `n sin valor` y botón **↻ re-extraer** de la última respuesta sin repetir la llamada |
 | 4.31.0 | **Activar / desactivar nodos** desde el menú del icono (se saltan en Run Flow, cadenas, cron, MCP y CLI; conexiones recorridas; `disabled` en el flow) |
 | 4.30.0 | **Cabecera de las cajas simplificada** (icono-menú · plegar · estado · título · ▶; el resto en el menú del icono); fix MCP `node_add_sql` (`order`/`pinned`/`cell`) |

@@ -148,6 +148,7 @@ Ejemplo completo: [`examples/pizarra-anotada.flow.json`](../examples/pizarra-ano
 { "id": "c1", "sourceId": "login", "targetId": "listar", "behavior": "next" }
 ```
 
+| `delayMs` (opcional, 4.34) | Pausa en ms antes de lanzar el destino cuando se recorre la flecha (web, CLI y MCP) |
 | `behavior` | Semántica |
 |------------|-----------|
 | `next` (por defecto) | El destino se ejecuta cuando el origen termina OK — **define el orden topológico** |

@@ -25,7 +25,7 @@ docker run -d \
   --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 \
   --name flow \
-  juankanh/flow-app:4.33.0
+  juankanh/flow-app:4.34.0
 ```
 
 - **Web**: http://localhost:9998 — el canvas visual.
@@ -37,7 +37,8 @@ docker run -d \
 
 | Versión | Qué trae |
 |---------|----------|
-| **4.33.0** (recomendada) | **MCP con control total (33 tools)**: `view_settings` (la vista del usuario: tamaño de nodos, modo compacto, separación), `global_variables_set`, `tab_rename`, `connection_update` (behavior de una conexión), `sql_connections_list`, `canvas_layout separate`; `flow_state` devuelve además globales, perfiles SQL y vista. Skill `flows` y `flows-formato` documentan la colocación por celdas (`cell`), 📌 y `disabled` |
+| **4.34.0** (recomendada) | **Cadenas entre cualquier tipo de nodo**: el ▶ de una request, SQL, nota o web ejecuta el nodo y sigue sus flechas hacia nodos de cualquier tipo (HTTP → SQL, nota → request…): `next` si fue bien, `on_error` si falló, `parallel` siempre. **Run Flow ejecuta también los SQL** en el mismo orden topológico que las requests (paridad con el CLI). **Pausa por conector**: clic en el círculo de la flecha → comportamiento + pausa (1/2/5/10 s o a mano) antes de lanzar el destino; la respetan web, CLI y MCP (`delayMs`). Fix: la caja SQL colapsada con resultado volvía a pintar bien el resultado |
+| 4.33.0 | **MCP con control total (33 tools)**: `view_settings` (la vista del usuario: tamaño de nodos, modo compacto, separación), `global_variables_set`, `tab_rename`, `connection_update` (behavior de una conexión), `sql_connections_list`, `canvas_layout separate`; `flow_state` devuelve además globales, perfiles SQL y vista. Skill `flows` y `flows-formato` documentan la colocación por celdas (`cell`), 📌 y `disabled` |
 | 4.32.0 | **Variable extractions con el diseño de «Variables usadas»** en las cajas request: franja plegable (plegada por defecto) cuya cabecera dice cuántas extracciones resuelven en la última respuesta (`2/2 ✓` / `1 sin valor`), botón **Add** y botón **↻** que **vuelve a extraer** de la respuesta guardada sin repetir la llamada (corrige el JSONPath y recupera la variable); cada fila muestra el valor que resuelve |
 | 4.31.0 | **Activar / desactivar nodos** desde el menú del icono de cada caja: un nodo desactivado se **salta** al ejecutar (Run Flow, cadenas, cron, MCP `flow_run`, CLI) pero sus conexiones se siguen recorriendo; se ve atenuado con un ⏻ rojo en el icono y «OFF» en la guía de nodos; el ▶ de la propia caja sí lo ejecuta. Campo `disabled` en el flow (`node_update` por MCP) |
 | 4.30.0 | **Cabecera de las cajas simplificada**: en request, SQL, nota y web solo queda **icono del tipo (= menú) · plegar · ● estado · título · ▶**; fijar 📌, orden/celda `#`, conectar, cron, conexión SQL, copiar a otro flow, maximizar, eliminar y la información (duración, respuesta, URL, resultado) viven en el **menú del icono**. Las cajitas colapsadas son una sola fila. Fix MCP: `node_add_sql` ya respeta `order`/`pinned`/`cell` |
@@ -62,7 +63,7 @@ docker run -d \
 | 4.0.16 | Web + CLI HTTP: curl import, extracciones JSONPath, reports en `resumen/`, batch, cron, multi-pestaña |
 
 ```bash
-docker pull juankanh/flow-app:4.33.0
+docker pull juankanh/flow-app:4.34.0
 ```
 
 ## Documentación
