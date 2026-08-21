@@ -10,10 +10,10 @@
 | Botón | Qué hace |
 |-------|----------|
 | **⚡ FlowTest ▾** (logo) 🆕 | Menú del flow: **Nuevo flow**, **Abrir .flow.json…** (del disco local), **Guardar** (Ctrl+S), **Guardar como…** (Ctrl+Shift+S), **Export (descargar)** y **Reset**. Un punto ámbar sobre el logo avisa de cambios sin guardar |
-| *(campo de texto)* | **Nombre del flow** activo. Si hay cambios sin guardar aparece el aviso ámbar «Sin guardar» |
+| *(campo de texto)* | **Nombre del flow** activo (campo ancho desde la 4.25.9). Si hay cambios sin guardar aparece el aviso ámbar «Sin guardar» |
 | **+ Add Node ▾** (verde) | Desplegable con los seis tipos de nodo (tabla siguiente) |
-| **Run Flow** | Ejecuta todo el flujo en orden topológico (las flechas mandan). Desde la 4.23 ejecuta antes los **scripts JS de las notas** y mete sus valores como variables |
 | **Pizarra** (morado) 🆕 | Abre el panel de la **pizarra**: dibujar y escribir sobre el lienzo, estilo Excalidraw ([08 Paneles y utilidades](08-paneles.md#pizarra)) |
+| **Run Flow** | Ejecuta todo el flujo en orden topológico (las flechas mandan). Desde la 4.23 ejecuta antes los **scripts JS de las notas** y mete sus valores como variables |
 | **Layout ▾** | Organización del canvas: colapsar, expandir, auto layout, alinear, **guía de nodos**, **ocultar conectores**, split |
 | **Config** | Modal con **Batch Run**, Historial, Consola, SQL Conns, GitHub Flows, Variables y Global. El badge verde es el contador de la consola |
 
