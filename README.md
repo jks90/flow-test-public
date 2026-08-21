@@ -24,12 +24,14 @@ la **imagen Docker oficial**, sin código fuente.
 docker run -d \
   --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 \
+  -p 1025:1025 \
   --name flow \
-  juankanh/flow-app:4.35.0
+  juankanh/flow-app:4.36.0
 ```
 
 - **Web**: http://localhost:9998 — el canvas visual.
 - **CLI**: `docker exec flow node cli/run-flow.js --dir flows` — ejecuta baterías de flows.
+- **Correo de prueba** 🆕 4.36: **Config → Correo** — SMTP en `localhost:1025` que recibe los correos de tus servicios y los muestra (buzones `@midominiotest.com`, sin cuentas reales).
 - **MCP** (agentes IA): `claude mcp add --transport http flow-test http://localhost:9998/mcp`
   — la IA construye y ejecuta flows **en tu canvas, mientras lo ves**.
 
@@ -37,7 +39,8 @@ docker run -d \
 
 | Versión | Qué trae |
 |---------|----------|
-| **4.35.0** (recomendada) | **10 fuentes para el texto de la pizarra** (8 manuscritas empaquetadas con la app, sin red ni fuentes del sistema — Manuscrita, Boceto, **Excalidraw** (Excalifont), **Indie** (Indie Flower), Rotulador, Esbozo, Arquitecto, Nota — más Normal y Código) elegidas desde una cuadrícula con vista previa; el MCP (`whiteboard_update`) las acepta y mide los textos sin `w/h`. **Las filas bajan en bloque cuando una card crece** (p. ej. al pintarse la respuesta tras ejecutarla), así no queda tapada por la fila siguiente y la fila sigue alineada (ajuste Vista ▸ «Evitar solapes al soltar o al crecer una caja»; la que crece y las 📌 no se mueven) |
+| **4.36.0** (recomendada) | **Correo de prueba (Config → Correo)**: un **servidor SMTP embebido** (puerto `1025`, sin TLS, auth opcional) para probar los correos que envían tus servicios **sin cuentas reales** — crea buzones `nombre@midominiotest.com` (o acepta cualquier destinatario y aparecen solos), apunta tu servicio a `host:1025` y los correos se ven al instante en un modal como la Consola: HTML renderizado, texto, origen, adjuntos, búsqueda y filtro por buzón; se guardan en `flows/.mail/` y sobreviven al reinicio. Desde un flow, `GET /mail/messages/latest?to=buzón` devuelve el último correo (404 si no hay) para **verificar que tu servicio lo envió** y extraer el código/enlace con JSONPath. Publica el puerto con `-p 1025:1025` |
+| 4.35.0 | **10 fuentes para el texto de la pizarra** (8 manuscritas empaquetadas con la app, sin red ni fuentes del sistema — Manuscrita, Boceto, **Excalidraw** (Excalifont), **Indie** (Indie Flower), Rotulador, Esbozo, Arquitecto, Nota — más Normal y Código) elegidas desde una cuadrícula con vista previa; el MCP (`whiteboard_update`) las acepta y mide los textos sin `w/h`. **Las filas bajan en bloque cuando una card crece** (p. ej. al pintarse la respuesta tras ejecutarla), así no queda tapada por la fila siguiente y la fila sigue alineada (ajuste Vista ▸ «Evitar solapes al soltar o al crecer una caja»; la que crece y las 📌 no se mueven) |
 | 4.34.0 | **Cadenas entre cualquier tipo de nodo**: el ▶ de una request, SQL, nota o web ejecuta el nodo y sigue sus flechas hacia nodos de cualquier tipo (HTTP → SQL, nota → request…): `next` si fue bien, `on_error` si falló, `parallel` siempre. **Run Flow ejecuta también los SQL** en el mismo orden topológico que las requests (paridad con el CLI). **Pausa por conector**: clic en el círculo de la flecha → comportamiento + pausa (1/2/5/10 s o a mano) antes de lanzar el destino; la respetan web, CLI y MCP (`delayMs`). Fix: la caja SQL colapsada con resultado volvía a pintar bien el resultado |
 | 4.33.0 | **MCP con control total (33 tools)**: `view_settings` (la vista del usuario: tamaño de nodos, modo compacto, separación), `global_variables_set`, `tab_rename`, `connection_update` (behavior de una conexión), `sql_connections_list`, `canvas_layout separate`; `flow_state` devuelve además globales, perfiles SQL y vista. Skill `flows` y `flows-formato` documentan la colocación por celdas (`cell`), 📌 y `disabled` |
 | 4.32.0 | **Variable extractions con el diseño de «Variables usadas»** en las cajas request: franja plegable (plegada por defecto) cuya cabecera dice cuántas extracciones resuelven en la última respuesta (`2/2 ✓` / `1 sin valor`), botón **Add** y botón **↻** que **vuelve a extraer** de la respuesta guardada sin repetir la llamada (corrige el JSONPath y recupera la variable); cada fila muestra el valor que resuelve |
@@ -64,15 +67,15 @@ docker run -d \
 | 4.0.16 | Web + CLI HTTP: curl import, extracciones JSONPath, reports en `resumen/`, batch, cron, multi-pestaña |
 
 ```bash
-docker pull juankanh/flow-app:4.35.0
+docker pull juankanh/flow-app:4.36.0
 ```
 
 ## Documentación
 
 | Guía | Contenido |
 |------|-----------|
-| [docs/manual/](docs/manual/README.md) | 📘 **Manual de uso completo con capturas de pantalla anotadas**: la pantalla principal, cada tipo de nodo, variables, **Vista (tamaño de nodos, modo compacto, separación)**, **proyecto (flows/ + Ctrl+S)**, **pizarra**, guía de nodos, modo Live, flow-explore, paneles, CLI, MCP y Docker |
-| [docs/instalacion-docker.md](docs/instalacion-docker.md) | Montar la imagen: puertos, redes, variables de entorno, persistencia de flows, actualizar de versión, troubleshooting |
+| [docs/manual/](docs/manual/README.md) | 📘 **Manual de uso completo con capturas de pantalla anotadas**: la pantalla principal, cada tipo de nodo, variables, **Vista (tamaño de nodos, modo compacto, separación)**, **proyecto (flows/ + Ctrl+S)**, **pizarra**, **correo de prueba (SMTP)**, guía de nodos, modo Live, flow-explore, paneles, CLI, MCP y Docker |
+| [docs/instalacion-docker.md](docs/instalacion-docker.md) | Montar la imagen: puertos (web y SMTP de prueba), redes, variables de entorno, persistencia de flows, actualizar de versión, troubleshooting |
 | [docs/cli.md](docs/cli.md) | El runner por terminal: flags, baterías, reports, exit codes para CI, nodos SQL y perfiles de conexión |
 | [docs/mcp.md](docs/mcp.md) | Conectar una IA: Claude Code y Claude Desktop, las 33 tools, seguridad, flujos de trabajo típicos |
 | [docs/flows-formato.md](docs/flows-formato.md) | El formato `.flow.json` a fondo: nodos HTTP y SQL, conexiones, variables y extracciones — para escribir flows a mano o con IA |

@@ -2,12 +2,13 @@
 #   docker compose up -d
 services:
   flow:
-    image: juankanh/flow-app:4.35.0
+    image: juankanh/flow-app:4.36.0
     # El panel Proyecto (4.25) trabaja sobre /app/flows: monta ahí tu carpeta de flows
     # (o en otra ruta + FLOW_FLOWS_DIR=/esa/ruta en environment)
     container_name: flow
     ports:
       - "9998:3001"          # web + MCP en http://localhost:9998
+      - "1025:1025"          # SMTP de prueba (Config ▸ Correo, 4.36) para los servicios que corren fuera del compose
     extra_hosts:
       - "host.docker.internal:host-gateway"   # los flows llegan a APIs de tu máquina
     volumes:
@@ -25,6 +26,8 @@ services:
     #   - FLOW_FAKE_WEBCAM=/app/flows/webcam/DNIWebcamMock.mjpeg  # solo QA
     #   - FLOW_VIDEOMOCK_MOLDS=/app/flows/molds                  # plantillas privadas, no Git
     #   - FLOW_VIEWPORT=1920x1080                                # default: 1366x850
+    #   - FLOW_MAIL_AUTOSTART=true                               # arrancar el SMTP de prueba con el contenedor
+    #   - FLOW_MAIL_DOMAIN=midominiotest.com                     # dominio de los buzones (default flowtest.local)
     restart: unless-stopped
     # networks: [mi_red]     # súmalo a la red de tus APIs para llamarlas por nombre
 # networks:

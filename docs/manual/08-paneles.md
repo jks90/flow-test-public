@@ -141,6 +141,28 @@ El log de la propia aplicación: nodos añadidos, ejecuciones, capturas, errores
 
 ![](assets/flowtest-09-consola.png)
 
+## Correo de prueba — SMTP embebido 🆕 (4.36)
+
+**Config → Correo** abre un modal (como la Consola) con un **servidor de correo de mentira**: tus servicios le envían los correos de verdad (SMTP normal) y tú los ves aquí, sin crear cuentas reales ni que nada salga a Internet.
+
+![](assets/flowtest-49-correo.png)
+
+1. **Arrancar SMTP** (o marca «Arrancar con el servidor» para que arranque solo). Escucha en el puerto **1025** (`FLOW_MAIL_PORT`), sin TLS y con autenticación opcional: acepta cualquier usuario/contraseña.
+2. **Buzones**: escribe `qa` y pulsa + → `qa@flowtest.local` (el dominio se edita en el panel, p. ej. `midominiotest.com`). Con **«Aceptar cualquier destinatario»** (por defecto) ni hace falta crearlos: toda dirección que reciba correo aparece sola en la lista con su contador. Si lo desmarcas, solo se aceptan los buzones creados y los del dominio; el resto recibe un `550`.
+3. **Configura tu servicio**: host = la máquina del flow-test, puerto `1025`, sin TLS (si tu librería insiste en STARTTLS, desactívalo: `ignoreTLS`/`secure:false` en nodemailer, `MAIL_ENCRYPTION=null` en Laravel, `EMAIL_USE_TLS=False` en Django…). En Docker publica el puerto: `-p 1025:1025` (o `flow:1025` desde otro contenedor de la misma red).
+4. **Leer**: la lista se refresca sola cada 2 s; clic en un correo → remitente, destinatarios, fecha, tamaño, adjuntos (nombre/tipo/tamaño) y pestañas **HTML** (renderizado en un iframe aislado), **Texto** y **Origen** (el mensaje tal cual llegó). Búsqueda por asunto/remitente/texto, filtro por buzón, **Vaciar buzón** / **Limpiar**, borrar uno, borrar un buzón con sus correos.
+
+Los correos se guardan en `flows/.mail/` (carpeta oculta: no sale en Proyecto ni en git; hasta 500, los más antiguos se descartan) y sobreviven al reinicio.
+
+**Comprobarlo desde un flow.** El botón «Comprobar desde un flow» de cada buzón copia un `curl` listo para un nodo HTTP:
+
+```bash
+curl 'http://localhost:9998/mail/messages/latest?to=qa@flowtest.local&subject=Confirma'
+# → { from, to, subject, text, html, attachments[], receivedAt, … } · 404 si no ha llegado nada
+```
+
+Así el flow «registro → el backend envía el correo → ¿llegó? → extraer `$.text` y sacar el código OTP o el enlace de confirmación → siguiente petición» se verifica de punta a punta. Filtros: `to`, `from`, `subject`, `since` (ms), `q`; `GET /mail/messages` lista, `DELETE /mail/messages?to=` vacía un buzón.
+
 ## Batch Run
 
 Ejecuta **varios flows en lote** (los seleccionas de tus pestañas o de archivos) y muestra el resultado de cada uno. La versión CI de esto es `flow-run --dir` ([09 El CLI flow-run](09-cli-flow-run.md)).

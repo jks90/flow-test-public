@@ -4,8 +4,8 @@
 
 ```bash
 docker run -d --add-host=host.docker.internal:host-gateway \
-  -p 9998:3001 --name flow juankanh/flow-app:4.35.0
-# web + API + MCP, todo en http://localhost:9998
+  -p 9998:3001 -p 1025:1025 --name flow juankanh/flow-app:4.36.0
+# web + API + MCP en http://localhost:9998 · 1025 = SMTP de prueba (Config ▸ Correo, 4.36)
 ```
 
 
@@ -113,7 +113,8 @@ Monta con volumen, **no** con `docker cp`: los `.crt` que son symlinks (p. ej.
 | 4.22.0 | Nº de orden por nodo + Alinear en fila/columna |
 | 4.23.0 | Scripts JS de las notas ejecutados al Run Flow (web, MCP y CLI; `--skip-info-scripts`), 📌 fijar cajas, Variables usadas en cada caja, tool MCP `tab_close` |
 | 4.24.0 | **Pizarra** estilo Excalidraw sobre el lienzo (`drawings` en el flow), barra lateral de iconos con un panel a la vez, **Guía de nodos**, Ocultar conectores, Maximizar Mermaid, tool MCP `node_add_info` (20 tools) |
-| **4.35.0** | **10 fuentes para el texto de la pizarra** (8 manuscritas empaquetadas: Manuscrita, Boceto, **Excalidraw**/Excalifont, **Indie** Flower, Rotulador, Esbozo, Arquitecto, Nota + Normal y Código) con cuadrícula y vista previa; MCP `whiteboard_update` las acepta y mide los textos sin `w/h`. **Las filas bajan en bloque cuando una card crece** al ejecutarse (Vista ▸ «Evitar solapes al soltar o al crecer una caja») |
+| **4.36.0** | **Correo de prueba (Config → Correo)**: SMTP embebido en el puerto `1025` (sin TLS, auth opcional) con buzones `@midominiotest.com` para capturar los correos que envían tus servicios sin cuentas reales; panel tipo Consola con HTML/texto/origen/adjuntos, búsqueda y filtro por buzón; persistencia en `flows/.mail/`; `GET /mail/messages/latest?to=` para verificarlo desde un flow. `-p 1025:1025`, `FLOW_MAIL_PORT`, `FLOW_MAIL_AUTOSTART`, `FLOW_MAIL_DOMAIN` |
+| 4.35.0 | **10 fuentes para el texto de la pizarra** (8 manuscritas empaquetadas: Manuscrita, Boceto, **Excalidraw**/Excalifont, **Indie** Flower, Rotulador, Esbozo, Arquitecto, Nota + Normal y Código) con cuadrícula y vista previa; MCP `whiteboard_update` las acepta y mide los textos sin `w/h`. **Las filas bajan en bloque cuando una card crece** al ejecutarse (Vista ▸ «Evitar solapes al soltar o al crecer una caja») |
 | 4.34.0 | **Cadenas entre cualquier tipo de nodo** (▶ sigue next/on_error/parallel hacia request, SQL, nota o web), **Run Flow ejecuta también los SQL**, **pausa por conector** (`delayMs`, popover en la flecha; web, CLI y MCP); fix caja SQL colapsada |
 | 4.33.0 | **MCP con control total** (33 tools): `view_settings`, `global_variables_set`, `tab_rename`, `connection_update`, `sql_connections_list`, `canvas_layout separate`; `flow_state` con globales, perfiles SQL y vista |
 | 4.32.0 | **Variable extractions** plegables con el diseño de «Variables usadas», estado `n/n ✓` / `n sin valor` y botón **↻ re-extraer** de la última respuesta sin repetir la llamada |

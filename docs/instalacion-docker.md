@@ -13,7 +13,7 @@ docker run -d \
   --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 \
   --name flow \
-  juankanh/flow-app:4.35.0
+  juankanh/flow-app:4.36.0
 ```
 
 | Pieza | Dónde queda |
@@ -38,8 +38,12 @@ docker run -d \
   --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 \
   --name flow \
-  juankanh/flow-app:4.35.0
+  juankanh/flow-app:4.36.0
 ```
+
+## Correo de prueba (SMTP, 4.36)
+
+La imagen trae un **servidor SMTP de prueba** (Config → Correo en la web) que recibe los correos de tus servicios y los muestra en la web, sin cuentas reales. Escucha en `1025` dentro del contenedor: publícalo con `-p 1025:1025` y configura tu servicio con host = tu máquina, puerto `1025`, sin TLS, auth opcional. Los correos se guardan en `flows/.mail/` (dentro de tu volumen de flows). Detalle en [08 Paneles ▸ Correo de prueba](manual/08-paneles.md#correo-de-prueba--smtp-embebido--436).
 
 ## Variables de entorno
 
@@ -50,6 +54,10 @@ docker run -d \
 | `FLOW_REWRITE_LOCALHOST` | `true` en la imagen | Reescribe `localhost`/`127.0.0.1` → `host.docker.internal` en las peticiones de los flows (web y CLI). Ponla a `false` si tu objetivo es un servicio **dentro** del propio contenedor |
 | `FLOW_MCP_TOKEN` | *(sin definir)* | Si la defines, el endpoint `/mcp` exige `Authorization: Bearer <token>` — necesario para usar el MCP desde **otra máquina** de forma segura |
 | `FLOW_MCP_ALLOW_LAN` | *(sin definir)* | `true` abre `/mcp` a la LAN **sin** auth (solo redes de confianza). Por defecto `/mcp` solo acepta clientes locales |
+| `FLOW_MAIL_PORT` | `1025` | Puerto del **SMTP de prueba** (Config ▸ Correo, 4.36). Publícalo con `-p 1025:1025` si el servicio que envía corre fuera del contenedor; desde otro contenedor de la misma red usa `flow:1025` |
+| `FLOW_MAIL_AUTOSTART` | *(sin definir)* | `true` arranca el SMTP de prueba siempre con el contenedor (si no, se arranca desde el panel y recuerda la elección en `flows/.mail/config.json`) |
+| `FLOW_MAIL_DOMAIN` | `flowtest.local` | Dominio por defecto de los buzones de prueba (editable en el panel) |
+| `FLOW_MAIL_DIR` | `<flows>/.mail` | Dónde se guardan buzones y correos (carpeta oculta, fuera del panel Proyecto) |
 | `FLOW_VIEWPORT` | `1366x850` | Resolución de la sesión Live, por ejemplo `1920x1080`; la vista y los clics se adaptan a la resolución efectiva |
 | `FLOW_FAKE_WEBCAM` | *(sin definir)* | Ruta a un MJPEG/Y4M que Chromium servirá como webcam. Solo QA |
 | `FLOW_VIDEOMOCK_MOLDS` | *(sin definir)* | Carpeta privada con las plantillas necesarias para `POST /videomock/dni` |
@@ -59,7 +67,7 @@ Ejemplo con MCP protegido por token:
 ```bash
 docker run -d --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 -e FLOW_MCP_TOKEN=mi-secreto \
-  --name flow juankanh/flow-app:4.35.0
+  --name flow juankanh/flow-app:4.36.0
 ```
 
 ## Webcam falsa y videomock de DNI (solo QA)
@@ -74,7 +82,7 @@ docker run -d --add-host=host.docker.internal:host-gateway \
   -e FLOW_VIDEOMOCK_MOLDS=/app/flows/molds \
   -e FLOW_VIEWPORT=1920x1080 \
   -v "$(pwd)/flows:/app/flows" \
-  juankanh/flow-app:4.35.0
+  juankanh/flow-app:4.36.0
 ```
 
 Genera el vídeo antes de abrir la sesión Live:
@@ -110,7 +118,7 @@ El panel **Proyecto** de la web (4.25) trabaja sobre la carpeta `flows/` del ser
 ```bash
 docker run -d --add-host=host.docker.internal:host-gateway -p 9998:3001 \
   -v /home/yo/mis-flows:/app/flows \
-  --name flow juankanh/flow-app:4.35.0
+  --name flow juankanh/flow-app:4.36.0
 ```
 
 Si prefieres otra ruta dentro del contenedor, indícasela con `FLOW_FLOWS_DIR`:
@@ -133,7 +141,7 @@ mkdir -p ./flows
 docker run -d --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 \
   -v "$(pwd)/flows:/app/flows" \
-  --name flow juankanh/flow-app:4.35.0
+  --name flow juankanh/flow-app:4.36.0
 ```
 
 > Con el volumen montado, los flows de ejemplo que trae la imagen quedan ocultos: tu carpeta
@@ -149,9 +157,9 @@ docker run -d --add-host=host.docker.internal:host-gateway \
 ## Actualizar de versión
 
 ```bash
-docker pull juankanh/flow-app:4.35.0
+docker pull juankanh/flow-app:4.36.0
 docker stop flow && docker rm flow
-docker run -d ... juankanh/flow-app:4.35.0   # mismo run de siempre
+docker run -d ... juankanh/flow-app:4.36.0   # mismo run de siempre
 ```
 
 Los flows en volumen (y los del navegador) no se pierden.
