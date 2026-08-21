@@ -82,7 +82,7 @@ ejemplo listo en [`mcp-config.stdio.example.json`](../mcp-config.stdio.example.j
 Además: los snapshots de estado que ve la IA **no incluyen las passwords** de los nodos SQL,
 y `flow_file_read` está limitado a la carpeta `flows/` (sin path traversal).
 
-## Las 18 tools
+## Las 20 tools
 
 ### Observar
 
@@ -98,20 +98,22 @@ y `flow_file_read` está limitado a la carpeta `flows/` (sin path traversal).
 | Tool | Qué hace |
 |------|----------|
 | `flow_create` | Nueva pestaña vacía (devuelve `tabId`) |
-| `flow_overwrite` | Carga un `.flow.json` completo — con `tabId` **reemplaza** esa pestaña; sin él crea una nueva |
+| `flow_overwrite` | Carga un `.flow.json` completo (nodos, notas, capturas y dibujos de la pizarra) — con `tabId` **reemplaza** esa pestaña; sin él crea una nueva |
 | `node_add_request` | Nodo HTTP desde un `curl` (+ extracciones JSONPath) |
 | `node_add_sql` | Nodo SQL (postgres/mysql/oracle; perfil o conexión inline; extracciones por columna) |
+| `node_add_info` 🆕 4.24 | Nota: texto (`renderMode: "text"`), diagrama Mermaid (`"mermaid"`, `content` = código, admite `{{variables}}`) o captura (`"image"` + `imageSrc`) |
 | `node_update` | Actualiza campos de un nodo (curl, query, extractions, nombre…) |
 | `node_delete` | Borra un nodo y sus conexiones |
 | `nodes_connect` | Conecta origen → destino (`next` / `on_error` / `parallel` / `none`) |
 | `connection_delete` | Borra una conexión |
 | `variables_set` | Variables de entorno de la pestaña (para `{{var}}`) |
+| `tab_close` 🆕 4.23 | Cierra una pestaña (`tabId` obligatorio; no cierra una pestaña que esté ejecutando) |
 
 ### Ejecutar
 
 | Tool | Qué hace |
 |------|----------|
-| `flow_run` | Ejecuta el grafo de nodos HTTP (el botón «Run Flow») y **espera al resultado**: run completo + variables extraídas. Si no ejecuta nada (pestaña ocupada, flow sin nodos HTTP) responde `finished:false` con el motivo |
+| `flow_run` | Ejecuta el grafo de nodos HTTP (el botón «Run Flow») y **espera al resultado**: run completo + variables extraídas. Desde la 4.23 ejecuta antes los **scripts JS de las notas** y mete sus valores como variables. Si no ejecuta nada (pestaña ocupada, flow sin nodos HTTP) responde `finished:false` con el motivo |
 | `node_run` | Ejecuta un nodo y su cadena descendente. Las cadenas que **arrancan en un nodo SQL** encadenan SQL y HTTP; las que arrancan en HTTP solo siguen nodos HTTP (misma semántica que la web) |
 
 ### Disco (enlaza con el CLI)

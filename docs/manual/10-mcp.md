@@ -14,16 +14,16 @@ claude mcp add --transport http flow-test http://localhost:9998/mcp
 
 Y en una conversación: *«créame un flow que haga login en mi API y liste los usuarios»* — verás aparecer las cajitas, conectarse y ejecutarse solas.
 
-## Las 18 tools, por grupos
+## Las 20 tools, por grupos
 
 | Grupo | Tools | Para qué |
 |-------|-------|----------|
 | **Observar** | `bridge_status`, `flow_state`, `console_read`, `runs_read` | Ver pestañas, nodos, consola e historial |
-| **Construir** | `flow_create`, `flow_overwrite`, `node_add_request`, `node_add_sql`, `node_update`, `node_delete`, `nodes_connect`, `connection_delete`, `variables_set` | Crear/editar el flow en el canvas |
-| **Ejecutar** | `flow_run`, `node_run` | Como pulsar Run Flow / el ▶ de un nodo (devuelve resultados) |
+| **Construir** | `flow_create`, `flow_overwrite`, `node_add_request`, `node_add_sql`, `node_add_info` 🆕, `node_update`, `node_delete`, `nodes_connect`, `connection_delete`, `variables_set`, `tab_close` | Crear/editar el flow en el canvas (`node_add_info` añade notas de texto, diagramas Mermaid o capturas; `tab_close` cierra una pestaña) |
+| **Ejecutar** | `flow_run`, `node_run` | Como pulsar Run Flow / el ▶ de un nodo (devuelve resultados). `flow_run` ejecuta antes los scripts JS de las notas |
 | **Disco** | `flow_save`, `flow_files_list`, `flow_file_read` | Leer/escribir `flows/*.flow.json` |
 
-> `flow_overwrite` acepta un `.flow.json` completo — también con nodos Captura 🆕: una IA puede cargarte una documentación entera con screenshots en la pestaña.
+> `flow_overwrite` acepta un `.flow.json` completo — también con nodos Captura y con los dibujos de la pizarra (`drawings`): una IA puede cargarte una documentación entera, anotada, en la pestaña.
 
 ## Seguridad
 

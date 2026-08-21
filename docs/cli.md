@@ -18,7 +18,7 @@ cat resumen/*/report.md     # el report queda en tu máquina
 ```
 
 - Usa rutas **relativas** al directorio desde el que lo lanzas (es lo que se monta).
-- Cambia de versión con `FLOW_IMAGE=juankanh/flow-app:4.12.1 flow-run …`.
+- Cambia de versión con `FLOW_IMAGE=juankanh/flow-app:4.24.0 flow-run …`.
 - Los curl a `http://localhost:PUERTO` llegan a **tu máquina** automáticamente.
 
 ## Dentro del contenedor que ya corre
@@ -111,6 +111,13 @@ nodos siguientes.
 > ⚠️ Los nodos SQL **ejecutan de verdad** (incluidos INSERT/UPDATE). Si una batería antigua
 > contaba con que se ignoraban, usa `--skip-sql-nodes`. Y recuerda: desde el contenedor,
 > la BBDD se alcanza por nombre de red de Docker o `host.docker.internal`, no `localhost`.
+
+## Scripts JS de las notas (4.23.0)
+
+Los `infoNodes` con `scripts` se ejecutan **antes de la primera petición**, igual que al pulsar
+«Run Flow» en la web: cada script hace `return` de un valor que queda como `{{varName}}`.
+Precedencia: `envVariables` < scripts < `--var`. Con `--skip-info-scripts` se saltan. Los
+dibujos de la pizarra (`drawings`) se ignoran.
 
 ## flow-explore — documentar una web navegándola (4.4.0)
 

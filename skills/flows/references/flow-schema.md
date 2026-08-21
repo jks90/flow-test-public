@@ -103,8 +103,25 @@ No se ejecutan (el CLI los ignora); documentan el flow dentro del canvas.
 
 - `renderMode` es opcional: sin él (o `"text"`) el `content` es texto libre; con
   `"mermaid"` (desde la **4.3.0**) es código Mermaid que la web renderiza como diagrama
-  en vivo. Admite `{{variables}}` en ambos modos.
-- `scripts` debe ser `[]` en flows generados por agentes.
+  en vivo; con `"image"` + `imageSrc` es una captura. Admite `{{variables}}` en todos.
+- `scripts` (`[{ "id", "varName", "code" }]`): JavaScript que hace `return` de un valor.
+  Desde la **4.23.0 se ejecutan** al Run Flow / `flow_run` / CLI **antes de la primera
+  petición** y su valor queda en `{{varName}}` (precedencia `envVariables` < scripts <
+  `--var`). Úsalos solo cuando necesites datos únicos por ejecución (p. ej.
+  `return 'qa+' + Date.now() + '@example.com'`); si no, `[]`.
+- Por MCP se crean con `node_add_info` (`renderMode` text | mermaid | image).
+
+## Campos opcionales de cualquier nodo
+
+- `order` (entero): nº de orden que usan *Alinear en fila/columna* y la guía de nodos.
+- `pinned` (`true`): la caja no la mueve ningún relayout ni el arrastre.
+
+## Pizarra (`drawings[]`, desde la 4.24.0)
+
+Anotaciones dibujadas sobre el lienzo (`rect`, `ellipse`, `arrow`, `line`, `pen`, `text`).
+Opcional; el CLI las ignora. Un agente **no necesita generarlas**; si edita un flow que ya las
+tiene, debe conservarlas tal cual. Formato completo en
+[`docs/flows-formato.md`](../../../docs/flows-formato.md#pizarra-drawings--desde-la-4240).
 
 ## Connection (`connections[]`)
 

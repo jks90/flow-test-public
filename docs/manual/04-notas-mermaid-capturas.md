@@ -6,11 +6,19 @@ Tres variantes del mismo nodo (la nota) para **documentar dentro del canvas**:
 
 ## Nota de texto (Add Note, ámbar)
 
-Texto libre. Si escribes `{{variables}}`, muestra una **vista previa** con los valores resueltos en verde (y en ámbar las que aún no existen). La pestaña **Scripts JS** permite definir variables calculadas con JavaScript (`return "hola"` → variable disponible en el flow); la pestaña **Cron** las recalcula periódicamente.
+Texto libre. Si escribes `{{variables}}`, la **vista previa** resuelve los valores en verde (y en ámbar las que aún no existen). Un conmutador **Vista previa / Texto** (arriba a la derecha de la pestaña) muestra uno u otro — vista previa por defecto; en los nodos Mermaid alterna entre el diagrama y el código.
+
+La pestaña **Scripts JS** define variables calculadas con JavaScript (`return "hola"` → variable disponible en el flow). **Desde la 4.23 esos scripts se ejecutan solos al pulsar Run Flow** (también con `flow_run` por MCP y en el CLI) y sus valores entran en el flow **antes de la primera petición** — ideal para ids, emails o tokens únicos por ejecución (`return 'qa+' + Date.now() + '@example.com'`). Precedencia en el CLI: `envVariables` < scripts < `--var`; `--skip-info-scripts` los desactiva. La pestaña **Cron** los recalcula periódicamente.
 
 ## Diagrama Mermaid (Add Mermaid, violeta)
 
-Escribe código [Mermaid](https://mermaid.js.org) y el diagrama se renderiza **en vivo** debajo del editor. Admite `{{variables}}` dentro del código — un diagrama que se actualiza con datos del flujo.
+Escribe código [Mermaid](https://mermaid.js.org) y el diagrama se renderiza **en vivo**. Admite `{{variables}}` dentro del código — un diagrama que se actualiza con datos del flujo.
+
+![](assets/flowtest-33-mermaid-maximizar-boton.png)
+
+🆕 El botón **Maximizar** de la cabecera de la vista previa abre el diagrama **a pantalla completa**: zoom del 25 % al 400 % con los botones, `Ctrl` + rueda o `Ctrl` `+`/`-`/`0`, con scroll real cuando no cabe; `Esc` o **Cerrar** vuelve al canvas.
+
+![](assets/flowtest-34-mermaid-maximizado.png)
 
 ```mermaid
 graph TD
@@ -37,6 +45,5 @@ Las notas de la captura (URL, fecha, qué se ve) van en el cuadro de texto de ab
 > **De dónde salen las capturas «buenas»**
 > Este botón hace una foto puntual. Para documentar **flujos completos** (pantalla a pantalla con sus llamadas HTTP) están el [modo Live](06-nodo-web-live.md) y [flow-explore](07-flow-explore.md), que crean estos nodos Captura automáticamente.
 
-> [!WARNING]
-> **Requiere Chrome local**
-> El botón Capturar usa el Chrome de la máquina donde corre el server. En la imagen Docker no está disponible (devuelve un aviso).
+> [!NOTE]
+> **Chrome**: el botón Capturar usa el Chrome de la máquina donde corre el server. Desde la **4.5.0 la imagen Docker trae Chromium**, así que funciona también dentro del contenedor.

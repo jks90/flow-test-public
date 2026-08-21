@@ -21,8 +21,15 @@ API.
 |-------|--------|
 | `nodes` | Nodos HTTP (curl) |
 | `sqlNodes` | Nodos SQL (opcional) |
+| `infoNodes` | Notas, diagramas Mermaid y capturas (opcional) |
+| `webNodes` | Nodos Web (opcional; solo en la web) |
 | `connections` | Aristas del grafo: qué se ejecuta después de qué |
 | `envVariables` | Variables iniciales del flow (`{{clave}}`) |
+| `drawings` | Dibujos de la pizarra (opcional, desde la **4.24.0**; solo se escribe si hay alguno) |
+
+Todos los nodos admiten además dos campos opcionales: `order` (nº de orden que usan *Alinear en
+fila/columna* y la guía de nodos) y `pinned` (`true` = la caja no la mueve ningún relayout ni el
+arrastre).
 
 ## Nodos HTTP (`nodes[]`)
 
@@ -76,7 +83,9 @@ API.
 
 ## Notas y diagramas (`infoNodes[]`)
 
-Cajitas de documentación dentro del canvas — no se ejecutan (el CLI las ignora).
+Cajitas de documentación dentro del canvas. No hacen peticiones, pero **sus `scripts` sí se
+ejecutan** (desde la **4.23.0**) al pulsar Run Flow, con `flow_run` por MCP y en el CLI: sus
+valores entran como variables antes de la primera petición.
 
 ```json
 {
@@ -98,7 +107,40 @@ Cajitas de documentación dentro del canvas — no se ejecutan (el CLI las ignor
   imagen de `imageSrc` (`/flow-assets/…`, `http(s)` o data URI). Es el nodo que generan el
   modo Live y `flow-explore` para documentar pantallas de una web; `content` lleva las notas
   (URL, fecha…).
-- `scripts` permite generar variables con JS en la web (déjalo `[]` en flows generados).
+- `scripts`: lista de `{ "id", "varName", "code" }` — `code` es JavaScript que hace `return` de un
+  valor; queda disponible como `{{varName}}`. Se ejecutan en orden antes de la primera petición
+  (web, MCP y CLI; en el CLI la precedencia es `envVariables` < scripts < `--var`, y
+  `--skip-info-scripts` los desactiva). Útil para ids/emails únicos por ejecución:
+  `return 'qa+' + Date.now() + '@example.com'`. Deja `[]` si no los necesitas.
+
+## Pizarra (`drawings[]`) — desde la 4.24.0
+
+Anotaciones dibujadas sobre el lienzo (rectángulos, elipses, flechas, líneas, trazos de lápiz y
+textos). Comparten coordenadas con los nodos; no se ejecutan y el CLI las ignora. Solo aparecen en
+el fichero cuando hay alguna.
+
+```json
+{
+  "id": "marco",
+  "type": "rect",
+  "x": 60, "y": 100, "w": 1540, "h": 420,
+  "stroke": "#f59e0b", "strokeWidth": 3, "strokeStyle": "solid",
+  "fill": "transparent", "opacity": 1, "sketchy": true, "seed": 4242
+}
+```
+
+| Campo | Valores |
+|-------|---------|
+| `type` | `pen` \| `line` \| `arrow` \| `rect` \| `ellipse` \| `text` |
+| `x`, `y`, `w`, `h` | Caja del elemento. En `line`/`arrow` son el punto inicial y el vector hasta el final (`w`/`h` pueden ser negativos) |
+| `points` | Solo `pen`: `[{ "x", "y" }, …]` en coordenadas del lienzo |
+| `stroke`, `strokeWidth`, `strokeStyle` | Color, grosor y `solid` \| `dashed` \| `dotted` |
+| `fill` | Solo `rect`/`ellipse`: color (p. ej. `#3b82f640`) o `transparent` |
+| `opacity` | 0–1 |
+| `sketchy` | `true` = trazo a mano alzada (estilo boceto); el `seed` fija el temblor para que no cambie entre renders |
+| `text`, `fontSize`, `font` | Solo `text`: contenido (admite saltos de línea), tamaño y `hand` \| `sans` \| `mono` |
+
+Ejemplo completo: [`examples/pizarra-anotada.flow.json`](../examples/pizarra-anotada.flow.json).
 
 ## Conexiones (`connections[]`)
 

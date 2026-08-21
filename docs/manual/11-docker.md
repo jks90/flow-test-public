@@ -4,7 +4,7 @@
 
 ```bash
 docker run -d --add-host=host.docker.internal:host-gateway \
-  -p 9998:3001 --name flow juankanh/flow-app:4.12.1
+  -p 9998:3001 --name flow juankanh/flow-app:4.24.0
 # web + API + MCP, todo en http://localhost:9998
 ```
 
@@ -107,4 +107,8 @@ Monta con volumen, **no** con `docker cp`: los `.crt` que son symlinks (p. ej.
 | 4.7.0 | Teclado directo sobre la vista Live (Ctrl+V pega el OTP), errores de certificado explicados en pantalla, sesiones de perfil concurrentes, `FLOW_SESSION_IDLE_MS`, `POST /capture-session/logout` borra el perfil |
 | 4.8.0 | Pestañas **Consola** y **Network** en el nodo Web: la sesión Live enseña los `console.*`/errores de la página y todo su tráfico (sin headers ni cuerpos) |
 | 4.9.0 | Local Network Access desactivado en el navegador de captura (apps internas: el fetch a la API privada ya no muere mudo), aviso LNA/PNA en pantalla y pista de DNS corporativo |
-| **4.12.1** | Webcam falsa y generación de videomock de DNI para QA; viewport Live configurable y sincronizado con la vista y los clics |
+| 4.12.1 | Webcam falsa y generación de videomock de DNI para QA; viewport Live configurable y sincronizado con la vista y los clics |
+| 4.13 – 4.21 | Toolbar compacta (Add Node ▾, Layout ▾, modal Config), Expand All, cajas colapsadas compactas, Collapse All sin reordenar, anti-solapes, Vista previa/Texto en notas, minimapa oculto por defecto |
+| 4.22.0 | Nº de orden por nodo + Alinear en fila/columna |
+| 4.23.0 | Scripts JS de las notas ejecutados al Run Flow (web, MCP y CLI; `--skip-info-scripts`), 📌 fijar cajas, Variables usadas en cada caja, tool MCP `tab_close` |
+| **4.24.0** | **Pizarra** estilo Excalidraw sobre el lienzo (`drawings` en el flow), barra lateral de iconos con un panel a la vez, **Guía de nodos**, Ocultar conectores, Maximizar Mermaid, tool MCP `node_add_info` (20 tools) |

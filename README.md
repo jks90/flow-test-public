@@ -13,7 +13,7 @@ la **imagen Docker oficial**, sin código fuente.
 │  IA (Claude) ├──────────────────►  contenedor juankanh/flow-app        │
 │  claude mcp  ◄──────────────────┤  · Web (canvas en :3001)             │
 └─────────────┘  estado/resultados│  · CLI  (flow runner)                │
-                                  │  · MCP  (/mcp, 18 tools)             │
+                                  │  · MCP  (/mcp, 20 tools)             │
        tú miras el canvas ────────►  · SQL  (postgres/mysql/oracle)      │
                                   └──────────────────────────────────────┘
 ```
@@ -25,7 +25,7 @@ docker run -d \
   --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 \
   --name flow \
-  juankanh/flow-app:4.12.1
+  juankanh/flow-app:4.24.0
 ```
 
 - **Web**: http://localhost:9998 — el canvas visual.
@@ -37,7 +37,11 @@ docker run -d \
 
 | Versión | Qué trae |
 |---------|----------|
-| **4.12.1** (recomendada) | **Videomock de DNI para QA**: Chromium puede usar un MJPEG/Y4M montado como webcam mediante `FLOW_FAKE_WEBCAM`; `POST /videomock/dni` regenera el DNI con datos del titular usando plantillas privadas. `FLOW_VIEWPORT` configura la sesión Live y el frontend usa sus dimensiones reales para escalar la vista y los clics |
+| **4.24.0** (recomendada) | **Pizarra estilo Excalidraw** sobre el lienzo (lápiz, línea, flecha, rectángulo, elipse, texto, borrador; trazo boceto o limpio, colores, relleno, deshacer/rehacer; los dibujos se guardan en el flow como `drawings` y se ven en el minimapa), **barra lateral de iconos** con un panel visible a la vez (Variables, Global, SQL, GitHub, Pizarra, Guía de nodos), **Guía de nodos** (índice por tipo/nombre con foco al clic) y **Ocultar conectores** en el menú Layout, botón **Maximizar** en la vista previa Mermaid (pantalla completa con zoom), tool MCP `node_add_info` (notas/diagramas/capturas desde la IA; 20 tools) |
+| 4.23.0 | Los **scripts JS de las notas se ejecutan al pulsar Run Flow** (web, MCP `flow_run` y CLI) y sus valores entran como variables antes de la primera petición (`--skip-info-scripts` en CLI); **📌 fijar** cajas (ningún relayout ni arrastre las mueve); franja **Variables usadas** en cada caja request/SQL con edición in situ; tool MCP `tab_close` |
+| 4.22.0 | **Nº de orden** por nodo (campo `#` en la cabecera, persistido en el flow) y **Alinear en fila / en columna** en el menú Layout |
+| 4.13 – 4.21 | **Toolbar compacta**: desplegables Add Node y Layout, modal Config (Historial, Consola, SQL Conns, GitHub, Variables, Global), Expand All; **cajas colapsadas compactas** (ancho por tipo, botones bajo el título); Collapse All acerca las cajas sin reordenar y Expand All restaura posiciones; anti-solapes al expandir; conmutador Vista previa / Texto en las notas; minimapa oculto por defecto |
+| 4.12.1 | **Videomock de DNI para QA**: Chromium puede usar un MJPEG/Y4M montado como webcam mediante `FLOW_FAKE_WEBCAM`; `POST /videomock/dni` regenera el DNI con datos del titular usando plantillas privadas. `FLOW_VIEWPORT` configura la sesión Live y el frontend usa sus dimensiones reales para escalar la vista y los clics |
 | 4.9.0 | **Apps internas sin fallos mudos**: los checks de Local Network Access de Chromium vienen desactivados en el navegador de captura (una web pública ya puede llamar a su API en red privada; `FLOW_CHROME_LNA_CHECKS=on` los restaura), aviso en pantalla si aparece un bloqueo LNA/PNA y pista de DNS corporativo en `ERR_NAME_NOT_RESOLVED` |
 | 4.8.0 | **Pestañas Consola y Network en el nodo Web**: con la sesión Live abierta ves los `console.*`/errores de la página y todo su tráfico (método/URL/status/duración, fallos `net::ERR_*` incluidos — nunca headers ni cuerpos), con contadores en vivo y botón Limpiar |
 | 4.7.0 | **Teclear directo sobre la vista Live** (imprimibles, Enter/Tab/flechas, Ctrl+V pega — OTPs y contraseñas sin la caja aparte), errores `ERR_CERT_*` explicados con su pista (CA en `/certs` o `FLOW_CHROME_ARGS=--ignore-certificate-errors`), sesiones de perfil concurrentes (pestañas del mismo Chromium), `FLOW_SESSION_IDLE_MS` y `POST /capture-session/logout` que borra el perfil (logout real del SSO) |
@@ -50,17 +54,17 @@ docker run -d \
 | 4.0.16 | Web + CLI HTTP: curl import, extracciones JSONPath, reports en `resumen/`, batch, cron, multi-pestaña |
 
 ```bash
-docker pull juankanh/flow-app:4.12.1
+docker pull juankanh/flow-app:4.24.0
 ```
 
 ## Documentación
 
 | Guía | Contenido |
 |------|-----------|
-| [docs/manual/](docs/manual/README.md) | 📘 **Manual de uso completo con capturas de pantalla anotadas**: la pantalla principal, cada tipo de nodo, variables, modo Live, flow-explore, paneles, CLI, MCP y Docker |
+| [docs/manual/](docs/manual/README.md) | 📘 **Manual de uso completo con capturas de pantalla anotadas**: la pantalla principal, cada tipo de nodo, variables, **pizarra**, guía de nodos, modo Live, flow-explore, paneles, CLI, MCP y Docker |
 | [docs/instalacion-docker.md](docs/instalacion-docker.md) | Montar la imagen: puertos, redes, variables de entorno, persistencia de flows, actualizar de versión, troubleshooting |
 | [docs/cli.md](docs/cli.md) | El runner por terminal: flags, baterías, reports, exit codes para CI, nodos SQL y perfiles de conexión |
-| [docs/mcp.md](docs/mcp.md) | Conectar una IA: Claude Code y Claude Desktop, las 18 tools, seguridad, flujos de trabajo típicos |
+| [docs/mcp.md](docs/mcp.md) | Conectar una IA: Claude Code y Claude Desktop, las 20 tools, seguridad, flujos de trabajo típicos |
 | [docs/flows-formato.md](docs/flows-formato.md) | El formato `.flow.json` a fondo: nodos HTTP y SQL, conexiones, variables y extracciones — para escribir flows a mano o con IA |
 | [skills/flows/](skills/flows/SKILL.md) | **Skill para agentes IA** (Claude Code): cómo trabajar con Flow + [schema de autoría](skills/flows/references/flow-schema.md) — cópiala a tu proyecto |
 | [examples/](examples/) | Flows de ejemplo listos para cargar o ejecutar |
