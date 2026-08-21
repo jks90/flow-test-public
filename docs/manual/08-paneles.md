@@ -16,8 +16,13 @@
 | **Información al pasar el ratón** | Tooltip con método y URL, query, conexión, estado, respuesta, extracciones o scripts — sin abrir el nodo |
 | **Clic abre el nodo completo** | Un clic en la caja abre la card entera en una ventana (editar, ejecutar, ver la respuesta; Esc cierra). Arrastrar sigue moviendo la caja |
 | **Separación mínima entre cajas** (0–80 px) | Distancia que se respeta al resolver solapes (también al expandir una caja colapsada) |
-| **Evitar solapes al soltar una caja** | Al terminar de arrastrar, las cajas que quedarían debajo se apartan hacia abajo; **la que sueltas y las 📌 fijadas no se mueven** |
+| **Evitar solapes al soltar o al crecer una caja** | Al terminar de arrastrar, las cajas que quedarían debajo se apartan hacia abajo; desde 4.35.0 también cuando una caja **crece** (p. ej. al pintarse la respuesta tras ejecutarla): baja **en bloque** la fila de debajo y todo lo que hay bajo ella, así la fila sigue alineada y la información se ve entera; **la que sueltas y las 📌 fijadas no se mueven** |
 | **Separar nodos solapados ahora** | Recorre el flow visible (los dos, en split) y aparta las cajas que se pisan hasta dejar la separación mínima; el botón indica cuántas movió |
+
+
+![](assets/flowtest-48-fila-baja.png)
+
+**Las filas bajan cuando una card crece 🆕 (4.35).** Al ejecutar una request o un SQL la caja se hace más alta al pintarse la respuesta; antes quedaba tapada por la fila siguiente. Ahora, con «Evitar solapes…» activo, las cajas que empiezan en esa fila **y todas las de debajo** bajan en bloque lo justo (separación mínima incluida), así la fila sigue alineada y se ve toda la información. La caja que creció y las 📌 fijadas no se mueven; al encoger (Reset, colapsar) nada vuelve a subir — Auto Layout o Alinear en cuadrícula recompactan.
 
 ![](assets/flowtest-37-vista-compacta.png)
 
@@ -69,7 +74,7 @@ Una capa de dibujo libre **sobre el lienzo**, al estilo Excalidraw: rodea grupos
 | **Herramientas** | Seleccionar (`V`), Mano (`H`, mueve el lienzo), Lápiz (`P`), Línea (`L`), Flecha (`A`), Rectángulo (`R`), Elipse (`O`), Texto (`T`), Borrador (`E`). El candado **Fijar** mantiene la herramienta tras dibujar (por defecto las formas vuelven a Seleccionar; el lápiz se queda) |
 | **Acciones** | Deshacer / Rehacer (también `Ctrl+Z` / `Ctrl+Shift+Z`), Ocultar/Mostrar los dibujos, Vaciar la pizarra |
 | **Selección** | Con algo seleccionado: Duplicar (`Ctrl+D`), Eliminar (`Supr`), Traer al frente, Enviar al fondo |
-| **Estilo** | 8 colores + personalizado, grosor, línea continua/discontinua/punteada, trazo **Boceto** (a mano alzada) o **Limpio**, relleno para rectángulos y elipses, fuente (manuscrita / normal / código) y tamaño para los textos, opacidad. Con una selección, el cambio se aplica a ella; si no, al siguiente dibujo |
+| **Estilo** | 8 colores + personalizado, grosor, línea continua/discontinua/punteada, trazo **Boceto** (a mano alzada) o **Limpio**, relleno para rectángulos y elipses, **fuente** (10 desde la 4.35, ver abajo) y tamaño para los textos, opacidad. Con una selección, el cambio se aplica a ella; si no, al siguiente dibujo |
 
 Cómo se usa:
 
@@ -81,6 +86,26 @@ Cómo se usa:
 Los dibujos comparten coordenadas y zoom con las cajas, se ven en el minimapa y **se guardan con el flow** (campo `drawings` del `.flow.json`, solo presente si hay dibujos). Viajan con export/import, GitHub Flows y MCP; el CLI los ignora. Con el panel cerrado, o en modo Seleccionar, las cajas funcionan exactamente igual que siempre (los dibujos quedan debajo de ellas).
 
 > Ejemplo listo: [`examples/pizarra-anotada.flow.json`](../../examples/pizarra-anotada.flow.json).
+
+### Fuentes del texto 🆕 (4.35)
+
+![](assets/flowtest-47-pizarra-fuentes.png)
+
+Con la herramienta **Texto** (o un texto seleccionado) el panel muestra una cuadrícula de **10 fuentes**, cada botón pintado con la suya y una **vista previa** con la fuente, tamaño y color actuales. Las ocho manuscritas van **empaquetadas con la aplicación** (no dependen de la red ni de las fuentes del sistema, también dentro de Docker):
+
+| Botón | Fuente | Para qué |
+|-------|--------|----------|
+| **Manuscrita** (por defecto) | Patrick Hand | letra clara a mano, la de siempre (los flows antiguos la heredan) |
+| **Boceto** | Caveat | cursiva rápida, tipo apunte |
+| **Excalidraw** | Excalifont | la fuente real de Excalidraw |
+| **Indie** | Indie Flower | trazo fino y letras redondas |
+| **Rotulador** | Permanent Marker | títulos gruesos, como rotulador de pizarra |
+| **Esbozo** | Cabin Sketch | letras «a lápiz» con tramado |
+| **Arquitecto** | Architects Daughter | letra técnica de plano |
+| **Nota** | Gloria Hallelujah | nota adhesiva |
+| **Normal** / **Código** | sistema / monoespaciada | texto limpio y fragmentos de código |
+
+En el `.flow.json` el campo `font` del texto vale `hand`, `sketch`, `excali`, `indie`, `marker`, `draft`, `architect`, `note`, `sans` o `mono` ([formato](../flows-formato.md)); el MCP `whiteboard_update` acepta los mismos valores y, si no se indica `w`/`h`, mide el texto con su fuente para que se pueda seleccionar y mover.
 
 ## Guía de nodos 🆕 (4.24)
 

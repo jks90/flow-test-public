@@ -130,7 +130,7 @@ y `flow_file_read` está limitado a la carpeta `flows/` (sin path traversal).
 | `node_focus` | Centra el lienzo en un nodo (por `nodeId` o `nodeName`) y lo resalta ~2 s — para señalar algo al usuario |
 | `canvas_layout` | Ordena el lienzo: `auto` (por el grafo), `row` / `column` (por nº de orden), `grid` 🆕 4.28 (por la celda `cell: {col, row}` de cada nodo — 1,1 arriba a la izquierda; sin celda no se mueven), `separate` 🆕 4.33 (aparta las cajas solapadas hasta la separación mínima de la vista; devuelve `moved`), `collapse_all`, `expand_all`, `pin_all` / `unpin_all` 🆕 4.29 (📌 en todas las cajas / liberarlas). Las cajas 📌 no se mueven |
 | `view_settings` 🆕 4.33 | Lee o cambia la **vista** del lienzo del usuario (Config ▸ Vista): `nodeScale` 0.3–1.5, `compactMode` auto/always/never, `compactThreshold`, `compactSize`, `hoverInfo`, `clickOpens`, `minGap`, `autoSeparate`. Sin `settings` devuelve la actual |
-| `whiteboard_update` | Dibuja en la **pizarra** (`rect`, `ellipse`, `arrow`, `line`, `pen`, `text`, mismas coordenadas que los nodos): `mode` `add` / `replace` / `clear`. Se guarda con el flow como `drawings` |
+| `whiteboard_update` | Dibuja en la **pizarra** (`rect`, `ellipse`, `arrow`, `line`, `pen`, `text`, mismas coordenadas que los nodos): `mode` `add` / `replace` / `clear`; los `text` admiten `font` `hand` \| `sketch` \| `excali` \| `indie` \| `marker` \| `draft` \| `architect` \| `note` \| `sans` \| `mono` (4.35) y se miden solos si no llevan `w`/`h`. Se guarda con el flow como `drawings` |
 
 ### Proyecto `flows/` (enlaza con el panel Proyecto y con el CLI)
 
