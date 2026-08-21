@@ -127,10 +127,25 @@ En el `content` de una nota de texto: `[[otro-flow]]`, `[[otro-flow|texto]]` o
 proyecto (por nombre de fichero o de flow) y centra el nodo. Úsalo para enlazar el flow de login
 desde los flows que dependen de su token, o un flow «índice» con el resto.
 
-## Campos opcionales de cualquier nodo
+## Campos opcionales de cualquier nodo (colocación y estado)
 
-- `order` (entero): nº de orden que usan *Alinear en fila/columna* y la guía de nodos.
-- `pinned` (`true`): la caja no la mueve ningún relayout ni el arrastre.
+Valen para `nodes[]`, `sqlNodes[]`, `infoNodes[]` y `webNodes[]`:
+
+| Campo | Tipo | Para qué |
+|-------|------|----------|
+| `position` | `{x, y}` | Esquina superior izquierda en el lienzo (px, lienzo de 4000×3000). Solo visual; el orden de ejecución lo marcan las conexiones `next` |
+| `collapsed` | bool | Caja plegada (una sola fila: icono-menú · plegar · estado · título · ▶) |
+| `order` | entero | Nº de orden para **Alinear en fila / columna** (`canvas_layout row|column`) y la guía de nodos; los nodos sin `order` van detrás |
+| `cell` | `{col, row}` (desde 1) | **Celda de cuadrícula**: `{col:1,row:1}` arriba a la izquierda, `{col:3,row:4}` = columna 3, fila 4. **`canvas_layout grid`** (y también `auto`) colocan cada caja en su celda: cada columna tan ancha como su caja más ancha, cada fila tan alta como la más alta (40 px de hueco). Es la forma recomendada de **diseñar la disposición a mano** desde la IA: asigna celdas y deja que el lienzo calcule las coordenadas |
+| `pinned` | bool | 📌 Fijado: ningún relayout (alinear, auto, cuadrícula, separar, colapsar/expandir) ni el arrastre lo mueven |
+| `disabled` | bool | **Desactivado** (4.31): Run Flow, cadenas, cron, `flow_run` y el CLI lo **saltan** pero sus conexiones se siguen recorriendo; el ▶ de la caja sí lo ejecuta. Útil para dejar pasos opcionales/destructivos preparados pero apagados |
+
+Recomendaciones de disposición (lo que hace bonito un flow en pantalla):
+
+- **Filas = capas del proceso, columnas = pasos**: `cell` `{col: paso, row: capa}`. Típico: fila 1 notas (texto con scripts + Mermaid), fila 2 la cadena HTTP principal, fila 3 las consultas SQL de verificación, fila 4 web/capturas.
+- Si no quieres pensar celdas, da `order` = nº de paso y usa `canvas_layout row` (o `auto`, que sigue el grafo).
+- Coordenadas a mano (`position`) solo si copias un flow existente: escalona ≥ 560 px en X para cards expandidas (420–520 px de ancho) y ≥ 520 px en Y (una request con respuesta mide ~470 px).
+- Fija (`pinned`) lo que no quieras que ningún relayout toque (p. ej. una nota de cabecera).
 
 ## Pizarra (`drawings[]`, desde la 4.24.0)
 

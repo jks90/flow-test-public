@@ -82,13 +82,13 @@ ejemplo listo en [`mcp-config.stdio.example.json`](../mcp-config.stdio.example.j
 Además: los snapshots de estado que ve la IA **no incluyen las passwords** de los nodos SQL,
 y `flow_file_read` está limitado a la carpeta `flows/` (sin path traversal).
 
-## Las 28 tools
+## Las 33 tools
 
 ### Observar
 
 | Tool | Qué hace |
 |------|----------|
-| `flow_state` | Estado vivo: pestañas + detalle de una (nodos con status y resumen de respuesta, conexiones, variables) |
+| `flow_state` | Estado vivo: pestañas + detalle de una (nodos con status, posición, `order`/`cell`/`pinned`/`disabled`, resumen de respuesta; conexiones con su id y behavior; variables de entorno y runtime; desde 4.33 también `globalVariables`, `sqlConnections` y `viewSettings`) |
 | `bridge_status` | Pestañas web conectadas |
 | `console_read` | La consola de la web (lo mismo que ve el usuario abajo) |
 | `runs_read` | Historial de ejecuciones con resultados por nodo |
@@ -104,11 +104,15 @@ y `flow_file_read` está limitado a la carpeta `flows/` (sin path traversal).
 | `node_add_sql` | Nodo SQL (postgres/mysql/oracle; perfil o conexión inline; extracciones por columna) |
 | `node_add_info` 🆕 4.24 | Nota: texto (`renderMode: "text"`), diagrama Mermaid (`"mermaid"`, `content` = código, admite `{{variables}}`) o captura (`"image"` + `imageSrc`). Desde 4.26 acepta `scripts` (`[{varName, code}]`, se ejecutan al Run Flow), `order` y `pinned` |
 | `node_add_web` 🆕 4.26 | Nodo Web (URL / modo Live) |
-| `node_update` | Actualiza campos de **cualquier** nodo: nombre, `position`, `collapsed`, `order`, `pinned`; HTTP `curl`/`extractions`; SQL `query`/conexión/`extractions`; nota `content`/`renderMode`/`imageSrc`/`scripts`; web `url`. Ignora campos de solo lectura (status, response…) |
+| `node_update` | Actualiza campos de **cualquier** nodo: nombre, `position`, `collapsed`, `order`, `cell` (celda `{col,row}`), `pinned`, `disabled` 🆕 4.31 (se salta al ejecutar); HTTP `curl`/`extractions`; SQL `query`/conexión/`extractions`; nota `content`/`renderMode`/`imageSrc`/`scripts`; web `url`. Ignora campos de solo lectura (status, response…) |
 | `node_delete` | Borra un nodo y sus conexiones |
 | `nodes_connect` | Conecta origen → destino (`next` / `on_error` / `parallel` / `none`) |
 | `connection_delete` | Borra una conexión |
 | `variables_set` | Variables de entorno de la pestaña (para `{{var}}`) |
+| `global_variables_set` 🆕 4.33 | Variables **globales** (compartidas por todos los flows; precedencia global < entorno < runtime). Se leen en `flow_state.globalVariables` |
+| `tab_rename` 🆕 4.33 | Renombra la pestaña / el flow (el `name` que se guarda en el `.flow.json`) |
+| `connection_update` 🆕 4.33 | Cambia el comportamiento de una conexión existente (`next` / `on_error` / `parallel` / `none`) sin borrarla; los ids salen de `flow_state.connections` |
+| `sql_connections_list` 🆕 4.33 | Perfiles de conexión SQL configurados en la web (id, nombre, motor, host, base — nunca la contraseña) para usarlos como `connectionProfileId` |
 | `tab_close` 🆕 4.23 | Cierra una pestaña (`tabId` obligatorio; no cierra una pestaña que esté ejecutando) |
 
 ### Ejecutar
@@ -124,7 +128,8 @@ y `flow_file_read` está limitado a la carpeta `flows/` (sin path traversal).
 | Tool | Qué hace |
 |------|----------|
 | `node_focus` | Centra el lienzo en un nodo (por `nodeId` o `nodeName`) y lo resalta ~2 s — para señalar algo al usuario |
-| `canvas_layout` | Ordena el lienzo: `auto` (por el grafo), `row` / `column` (por nº de orden), `grid` 🆕 4.28 (por la celda `cell: {col, row}` de cada nodo — 1,1 arriba a la izquierda; sin celda no se mueven), `collapse_all`, `expand_all`, `pin_all` / `unpin_all` 🆕 4.29 (📌 en todas las cajas / liberarlas). Las cajas 📌 no se mueven |
+| `canvas_layout` | Ordena el lienzo: `auto` (por el grafo), `row` / `column` (por nº de orden), `grid` 🆕 4.28 (por la celda `cell: {col, row}` de cada nodo — 1,1 arriba a la izquierda; sin celda no se mueven), `separate` 🆕 4.33 (aparta las cajas solapadas hasta la separación mínima de la vista; devuelve `moved`), `collapse_all`, `expand_all`, `pin_all` / `unpin_all` 🆕 4.29 (📌 en todas las cajas / liberarlas). Las cajas 📌 no se mueven |
+| `view_settings` 🆕 4.33 | Lee o cambia la **vista** del lienzo del usuario (Config ▸ Vista): `nodeScale` 0.3–1.5, `compactMode` auto/always/never, `compactThreshold`, `compactSize`, `hoverInfo`, `clickOpens`, `minGap`, `autoSeparate`. Sin `settings` devuelve la actual |
 | `whiteboard_update` | Dibuja en la **pizarra** (`rect`, `ellipse`, `arrow`, `line`, `pen`, `text`, mismas coordenadas que los nodos): `mode` `add` / `replace` / `clear`. Se guarda con el flow como `drawings` |
 
 ### Proyecto `flows/` (enlaza con el panel Proyecto y con el CLI)

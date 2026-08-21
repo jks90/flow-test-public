@@ -174,10 +174,23 @@ extraer token → llamada autenticada; y
 [`examples/sql-verificacion.flow.json`](../examples/sql-verificacion.flow.json) — consulta
 SQL → variable → verificación HTTP con esa variable.
 
+## Colocación y estado de cualquier nodo
+
+Campos opcionales comunes a `nodes[]`, `sqlNodes[]`, `infoNodes[]` y `webNodes[]`:
+
+| Campo | Tipo | Para qué |
+|-------|------|----------|
+| `position` | `{x, y}` | Esquina superior izquierda (px). Solo visual |
+| `collapsed` | bool | Caja plegada |
+| `order` | entero | Nº de orden para *Alinear en fila/columna* y la guía de nodos |
+| `cell` | `{col, row}` | **Celda de cuadrícula** (4.28): `{col:1,row:1}` arriba a la izquierda; *Alinear en cuadrícula* y *Auto Layout* colocan cada caja en su celda — la forma cómoda de diseñar la disposición a mano: filas = capas (notas / HTTP / SQL / web), columnas = pasos |
+| `pinned` | bool | 📌 Fijado: ningún relayout ni el arrastre lo mueven |
+| `disabled` | bool | Desactivado (4.31): Run Flow, cadenas, cron, MCP y CLI lo saltan (sus conexiones se siguen); el ▶ de la caja sí lo ejecuta |
+
 ## Consejos para generarlos con IA
 
 - Ids: cualquier string único vale (al importarse por la web/MCP se regeneran).
-- `position` es solo visual; si generas a máquina, escalona (`x: 100 + i*360`).
+- `position` es solo visual; mejor que calcular coordenadas, da `cell` `{col, row}` a cada nodo y deja que *Alinear en cuadrícula* (o `canvas_layout grid` por MCP) calcule el sitio. Si generas `position` a máquina, escalona ≥ 560 px en X y ≥ 520 px en Y.
 - Riesgo: los flows **ejecutan de verdad** (HTTP con efectos y SQL con INSERT/UPDATE).
   Apunta a entornos de prueba.
 - La forma más cómoda: deja que la IA use el **MCP** ([mcp.md](mcp.md)) y guarde con

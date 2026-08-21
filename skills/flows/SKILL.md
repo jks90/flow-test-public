@@ -35,19 +35,23 @@ reportar el resultado real (nunca asumido).
 ### Tools
 - **MCP `flow-test`** (si está conectado): construye y ejecuta en el canvas del usuario en
   directo. Endpoint típico: `http://localhost:9998/mcp` (contenedor) o `:3001` (local).
-  Mapa de las 28 tools (4.26):
+  Mapa de las 33 tools (4.33):
   - Observar: `bridge_status`, `flow_state` (pestañas con `filePath`/`dirty`; nodos con
     `position`/`order`/`pinned`; notas con `renderMode`/contenido/`scripts`; `drawings`),
     `console_read`, `runs_read`.
   - Pestañas: `flow_create`, `tab_select`, `tab_close`, `flow_overwrite` (copia sin enlazar).
   - Nodos: `node_add_request`, `node_add_sql`, `node_add_info` (text | mermaid | image, con
-    `scripts`), `node_add_web`, `node_update` (cualquier tipo y campo editable), `node_delete`,
-    `nodes_connect`, `connection_delete`, `variables_set`.
+    `scripts`), `node_add_web` — todos aceptan `order`, `cell {col,row}`, `pinned` —,
+    `node_update` (cualquier tipo y campo editable, incl. `cell`, `pinned`, `disabled`), `node_delete`,
+    `nodes_connect`, `connection_update` (cambiar el behavior), `connection_delete`,
+    `variables_set` (entorno de la pestaña), `global_variables_set` (globales), `tab_rename`,
+    `sql_connections_list` (perfiles SQL para `connectionProfileId`).
   - Ejecutar: `flow_run`, `node_run`, `flow_reset`.
   - Lienzo: `node_focus` (señalar un nodo al usuario), `canvas_layout`
-    (`auto|row|column|grid|collapse_all|expand_all|pin_all|unpin_all`; `grid` usa la celda `cell: {col,row}` de cada
-    nodo — 1,1 arriba a la izquierda — que aceptan `node_add_*`/`node_update`), `whiteboard_update`
-    (anotar la pizarra).
+    (`auto|row|column|grid|separate|collapse_all|expand_all|pin_all|unpin_all`; `grid` usa la celda `cell: {col,row}` de cada
+    nodo — 1,1 arriba a la izquierda — que aceptan `node_add_*`/`node_update`; `separate` aparta
+    solapes), `view_settings` (tamaño de las cards, modo compacto, separación mínima — la vista del
+    usuario), `whiteboard_update` (anotar la pizarra).
   - **Proyecto `flows/`** (la carpeta del servidor = el panel Proyecto de la web):
     `flow_files_list` (con metadatos), `flow_open` (abre **enlazado** al fichero),
     `flow_save` (= Ctrl+S: enlaza la pestaña y la deja limpia; subcarpetas), `flow_file_delete`,
@@ -82,8 +86,14 @@ usuario ve el canvas):
 2. `flow_open` (flow existente) o `flow_create` (nuevo) → guarda el `tabId` y úsalo en todas
    las llamadas.
 3. `node_add_request` / `node_add_sql` por paso, `nodes_connect` (behavior `next` ordena el
-   grafo). Guarda los `nodeId` que devuelven. Usa `order` (nº de paso) en cada nodo y, al final,
-   `canvas_layout` `row` o `auto` para que el usuario lo vea ordenado.
+   grafo; `connection_update` para cambiarlo después). Guarda los `nodeId` que devuelven.
+   **Disposición**: da a cada nodo una **celda `cell: {col, row}`** al crearlo — filas = capas
+   (1 notas, 2 cadena HTTP, 3 SQL de verificación, 4 web/capturas), columnas = pasos — y al final
+   `canvas_layout grid` (o `auto`, que respeta las celdas y ordena por el grafo lo que no tenga).
+   Alternativa rápida: `order` = nº de paso + `canvas_layout row`. Si ves solapes, `canvas_layout
+   separate`. Nunca calcules coordenadas a mano salvo que copies un flow existente.
+   Pasos opcionales o destructivos que no deban correr por defecto: déjalos con `disabled: true`
+   (se saltan en Run Flow/CLI; el usuario los activa desde el menú de la caja).
 4. `variables_set` para la base (`apiBase`, credenciales de prueba); extracciones en cada
    nodo para encadenar (`jsonPath` en HTTP; `column`+`rowIndex` en SQL). Datos únicos por
    ejecución (emails, ids): un `node_add_info` con `scripts` (`return 'qa+' + Date.now() + '@x.com'`).
@@ -93,6 +103,12 @@ usuario ve el canvas):
 6. Al terminar, `flow_save` (sin `fileName` si la pestaña ya está enlazada; con subcarpeta
    `dominio/caso` si es nuevo) — equivale al Ctrl+S del usuario: el `.flow.json` queda en `flows/`
    y es ejecutable con el CLI. `node_focus` sobre el nodo clave para señalárselo al usuario.
+7. Todo lo que hagas por MCP **se pinta en la pestaña del usuario al instante** (puente SSE): crea
+   los nodos de uno en uno y en orden, nombra bien cada caja y comenta al usuario qué estás
+   añadiendo — está mirando. `flow_state` te devuelve siempre el estado real (nodos, conexiones
+   con id y behavior, variables de entorno/runtime/globales, vista). Si el flow es grande, sube la
+   legibilidad con `view_settings` (`compactMode: 'always'` o `nodeScale: 0.75`) — es la vista
+   del usuario, restáurala al acabar si la cambiaste.
 
 **Modo B — Fichero + CLI** (sin MCP, o para CI): escribe el `.flow.json` siguiendo
 [`references/flow-schema.md`](./references/flow-schema.md) — estructura exacta, convención

@@ -13,7 +13,7 @@ la **imagen Docker oficial**, sin código fuente.
 │  IA (Claude) ├──────────────────►  contenedor juankanh/flow-app        │
 │  claude mcp  ◄──────────────────┤  · Web (canvas en :3001)             │
 └─────────────┘  estado/resultados│  · CLI  (flow runner)                │
-                                  │  · MCP  (/mcp, 28 tools)             │
+                                  │  · MCP  (/mcp, 33 tools)             │
        tú miras el canvas ────────►  · SQL  (postgres/mysql/oracle)      │
                                   └──────────────────────────────────────┘
 ```
@@ -25,7 +25,7 @@ docker run -d \
   --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 \
   --name flow \
-  juankanh/flow-app:4.32.0
+  juankanh/flow-app:4.33.0
 ```
 
 - **Web**: http://localhost:9998 — el canvas visual.
@@ -37,7 +37,8 @@ docker run -d \
 
 | Versión | Qué trae |
 |---------|----------|
-| **4.32.0** (recomendada) | **Variable extractions con el diseño de «Variables usadas»** en las cajas request: franja plegable (plegada por defecto) cuya cabecera dice cuántas extracciones resuelven en la última respuesta (`2/2 ✓` / `1 sin valor`), botón **Add** y botón **↻** que **vuelve a extraer** de la respuesta guardada sin repetir la llamada (corrige el JSONPath y recupera la variable); cada fila muestra el valor que resuelve |
+| **4.33.0** (recomendada) | **MCP con control total (33 tools)**: `view_settings` (la vista del usuario: tamaño de nodos, modo compacto, separación), `global_variables_set`, `tab_rename`, `connection_update` (behavior de una conexión), `sql_connections_list`, `canvas_layout separate`; `flow_state` devuelve además globales, perfiles SQL y vista. Skill `flows` y `flows-formato` documentan la colocación por celdas (`cell`), 📌 y `disabled` |
+| 4.32.0 | **Variable extractions con el diseño de «Variables usadas»** en las cajas request: franja plegable (plegada por defecto) cuya cabecera dice cuántas extracciones resuelven en la última respuesta (`2/2 ✓` / `1 sin valor`), botón **Add** y botón **↻** que **vuelve a extraer** de la respuesta guardada sin repetir la llamada (corrige el JSONPath y recupera la variable); cada fila muestra el valor que resuelve |
 | 4.31.0 | **Activar / desactivar nodos** desde el menú del icono de cada caja: un nodo desactivado se **salta** al ejecutar (Run Flow, cadenas, cron, MCP `flow_run`, CLI) pero sus conexiones se siguen recorriendo; se ve atenuado con un ⏻ rojo en el icono y «OFF» en la guía de nodos; el ▶ de la propia caja sí lo ejecuta. Campo `disabled` en el flow (`node_update` por MCP) |
 | 4.30.0 | **Cabecera de las cajas simplificada**: en request, SQL, nota y web solo queda **icono del tipo (= menú) · plegar · ● estado · título · ▶**; fijar 📌, orden/celda `#`, conectar, cron, conexión SQL, copiar a otro flow, maximizar, eliminar y la información (duración, respuesta, URL, resultado) viven en el **menú del icono**. Las cajitas colapsadas son una sola fila. Fix MCP: `node_add_sql` ya respeta `order`/`pinned`/`cell` |
 | 4.29.0 | **Copiar la vista previa de una nota** (botón Copiar: texto con las `{{variables}}` resueltas + HTML con enlaces), **Layout ▸ Pin All / Unpin All** (fija o libera todas las cajas del flow; MCP `canvas_layout pin_all|unpin_all`) y **Guía de nodos plegable** (grupos que se pliegan con un clic, Alt/doble clic deja solo uno, plegar/desplegar todo, recordado entre sesiones) |
@@ -61,7 +62,7 @@ docker run -d \
 | 4.0.16 | Web + CLI HTTP: curl import, extracciones JSONPath, reports en `resumen/`, batch, cron, multi-pestaña |
 
 ```bash
-docker pull juankanh/flow-app:4.32.0
+docker pull juankanh/flow-app:4.33.0
 ```
 
 ## Documentación
@@ -71,7 +72,7 @@ docker pull juankanh/flow-app:4.32.0
 | [docs/manual/](docs/manual/README.md) | 📘 **Manual de uso completo con capturas de pantalla anotadas**: la pantalla principal, cada tipo de nodo, variables, **Vista (tamaño de nodos, modo compacto, separación)**, **proyecto (flows/ + Ctrl+S)**, **pizarra**, guía de nodos, modo Live, flow-explore, paneles, CLI, MCP y Docker |
 | [docs/instalacion-docker.md](docs/instalacion-docker.md) | Montar la imagen: puertos, redes, variables de entorno, persistencia de flows, actualizar de versión, troubleshooting |
 | [docs/cli.md](docs/cli.md) | El runner por terminal: flags, baterías, reports, exit codes para CI, nodos SQL y perfiles de conexión |
-| [docs/mcp.md](docs/mcp.md) | Conectar una IA: Claude Code y Claude Desktop, las 28 tools, seguridad, flujos de trabajo típicos |
+| [docs/mcp.md](docs/mcp.md) | Conectar una IA: Claude Code y Claude Desktop, las 33 tools, seguridad, flujos de trabajo típicos |
 | [docs/flows-formato.md](docs/flows-formato.md) | El formato `.flow.json` a fondo: nodos HTTP y SQL, conexiones, variables y extracciones — para escribir flows a mano o con IA |
 | [skills/flows/](skills/flows/SKILL.md) | **Skill para agentes IA** (Claude Code): cómo trabajar con Flow + [schema de autoría](skills/flows/references/flow-schema.md) — cópiala a tu proyecto |
 | [examples/](examples/) | Flows de ejemplo listos para cargar o ejecutar |

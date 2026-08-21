@@ -13,12 +13,12 @@
 #
 # Notas:
 #   - Usa rutas RELATIVAS al directorio desde el que lo lanzas (es lo que se monta).
-#   - FLOW_IMAGE cambia la versión:      FLOW_IMAGE=juankanh/flow-app:4.32.0 flow-run …
+#   - FLOW_IMAGE cambia la versión:      FLOW_IMAGE=juankanh/flow-app:4.33.0 flow-run …
 #   - Los curl a http://localhost:PUERTO llegan a tu máquina (host.docker.internal).
 #     Para desactivarlo: añade --no-localhost-rewrite a los argumentos.
 set -euo pipefail
 
-IMAGE="${FLOW_IMAGE:-juankanh/flow-app:4.32.0}"
+IMAGE="${FLOW_IMAGE:-juankanh/flow-app:4.33.0}"
 
 exec docker run --rm \
   --add-host=host.docker.internal:host-gateway \
