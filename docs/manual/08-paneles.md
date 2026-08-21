@@ -1,7 +1,7 @@
 # 🧰 08 · Paneles y utilidades
 
 > [!TIP]
-> **¿Dónde está cada cosa?** **Proyecto**, **Pizarra** y **Guía de nodos** viven en la **barra lateral de iconos**; Historial, Consola, Batch, GitHub, Variables, Global y SQL Conns se abren desde **Config** (los paneles laterales aparecen en la barra mientras están abiertos; un panel a la vez); y las utilidades de organización desde el desplegable **Layout**. Ver [01 La pantalla principal](01-pantalla-principal.md).
+> **¿Dónde está cada cosa?** **Proyecto**, **Pizarra** y **Guía de nodos** viven en la **barra lateral de iconos**; Batch Run, Historial, Consola, GitHub, Variables, Global y SQL Conns se abren desde **Config** (los paneles laterales aparecen en la barra mientras están abiertos; un panel a la vez); y las utilidades de organización desde el desplegable **Layout**. Ver [01 La pantalla principal](01-pantalla-principal.md).
 
 ## Proyecto — `flows/` como workspace 🆕 (4.25)
 

@@ -4,7 +4,7 @@
 
 ```bash
 docker run -d --add-host=host.docker.internal:host-gateway \
-  -p 9998:3001 --name flow juankanh/flow-app:4.25.6
+  -p 9998:3001 --name flow juankanh/flow-app:4.25.7
 # web + API + MCP, todo en http://localhost:9998
 ```
 
@@ -113,4 +113,4 @@ Monta con volumen, **no** con `docker cp`: los `.crt` que son symlinks (p. ej.
 | 4.22.0 | Nº de orden por nodo + Alinear en fila/columna |
 | 4.23.0 | Scripts JS de las notas ejecutados al Run Flow (web, MCP y CLI; `--skip-info-scripts`), 📌 fijar cajas, Variables usadas en cada caja, tool MCP `tab_close` |
 | 4.24.0 | **Pizarra** estilo Excalidraw sobre el lienzo (`drawings` en el flow), barra lateral de iconos con un panel a la vez, **Guía de nodos**, Ocultar conectores, Maximizar Mermaid, tool MCP `node_add_info` (20 tools) |
-| **4.25.6** | **`flows/` como proyecto**: panel Proyecto, abrir/guardar con **Ctrl+S** en el fichero, «Guardar como…», detección de cambios en disco, ficheros con el dueño del host desde Docker; **enlaces `[[flow#nodo]]`** entre flows en las notas; `FLOW_FLOWS_DIR` para apuntar el proyecto a otra carpeta |
+| **4.25.7** | **`flows/` como proyecto**: panel Proyecto, abrir/guardar con **Ctrl+S** en el fichero, «Guardar como…», detección de cambios en disco, ficheros con el dueño del host desde Docker; **enlaces `[[flow#nodo]]`** entre flows en las notas; `FLOW_FLOWS_DIR` para apuntar el proyecto a otra carpeta |
