@@ -7,7 +7,7 @@
 
 ![](assets/flowtest-35-proyecto.png)
 
-La carpeta `flows/` del servidor (en Docker `/app/flows`, normalmente montada con `-v ./flows:/app/flows`) es el **proyecto**. El primer icono de la barra lateral abre el panel **Proyecto**:
+La carpeta `flows/` del servidor es el **proyecto** — en Docker `/app/flows`, así que **apúntala a una carpeta tuya** con `-v /tu/carpeta:/app/flows` (o monta donde quieras y fija `FLOW_FLOWS_DIR=/esa/ruta`; en local, `FLOW_FLOWS_DIR=/tu/carpeta npm run dev`). El panel muestra la ruta efectiva en su cabecera. El primer icono de la barra lateral abre el panel **Proyecto**:
 
 | Zona | Qué hay |
 |------|---------|

@@ -13,7 +13,7 @@ docker run -d \
   --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 \
   --name flow \
-  juankanh/flow-app:4.25.0
+  juankanh/flow-app:4.25.1
 ```
 
 | Pieza | Dónde queda |
@@ -38,7 +38,7 @@ docker run -d \
   --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 \
   --name flow \
-  juankanh/flow-app:4.25.0
+  juankanh/flow-app:4.25.1
 ```
 
 ## Variables de entorno
@@ -46,6 +46,7 @@ docker run -d \
 | Variable | Por defecto | Qué hace |
 |----------|-------------|----------|
 | `PORT` | `3001` | Puerto interno del servidor |
+| `FLOW_FLOWS_DIR` | `/app/flows` | Carpeta del **proyecto** (los `.flow.json` que ve el panel Proyecto, el MCP, el CLI y donde van las capturas). Normalmente no se toca: se monta tu carpeta sobre `/app/flows`. Úsala si prefieres montarla en otra ruta (`-v /tu/carpeta:/data/flows -e FLOW_FLOWS_DIR=/data/flows`) |
 | `FLOW_REWRITE_LOCALHOST` | `true` en la imagen | Reescribe `localhost`/`127.0.0.1` → `host.docker.internal` en las peticiones de los flows (web y CLI). Ponla a `false` si tu objetivo es un servicio **dentro** del propio contenedor |
 | `FLOW_MCP_TOKEN` | *(sin definir)* | Si la defines, el endpoint `/mcp` exige `Authorization: Bearer <token>` — necesario para usar el MCP desde **otra máquina** de forma segura |
 | `FLOW_MCP_ALLOW_LAN` | *(sin definir)* | `true` abre `/mcp` a la LAN **sin** auth (solo redes de confianza). Por defecto `/mcp` solo acepta clientes locales |
@@ -58,7 +59,7 @@ Ejemplo con MCP protegido por token:
 ```bash
 docker run -d --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 -e FLOW_MCP_TOKEN=mi-secreto \
-  --name flow juankanh/flow-app:4.25.0
+  --name flow juankanh/flow-app:4.25.1
 ```
 
 ## Webcam falsa y videomock de DNI (solo QA)
@@ -73,7 +74,7 @@ docker run -d --add-host=host.docker.internal:host-gateway \
   -e FLOW_VIDEOMOCK_MOLDS=/app/flows/molds \
   -e FLOW_VIEWPORT=1920x1080 \
   -v "$(pwd)/flows:/app/flows" \
-  juankanh/flow-app:4.25.0
+  juankanh/flow-app:4.25.1
 ```
 
 Genera el vídeo antes de abrir la sesión Live:
@@ -101,6 +102,27 @@ por espacio y menos de 26 caracteres. El endpoint responde `201` y sustituye el 
 atómica. Las plantillas incluyen imágenes de identidad: no se distribuyen en la imagen, no deben
 subirse a Git y solo deben utilizarse en entornos de QA.
 
+## Apuntar el proyecto a una carpeta tuya
+
+El panel **Proyecto** de la web (4.25) trabaja sobre la carpeta `flows/` del servidor — en la imagen,
+`/app/flows`. Para que sea **tu** carpeta local (la que versionas en git), móntala:
+
+```bash
+docker run -d --add-host=host.docker.internal:host-gateway -p 9998:3001 \
+  -v /home/yo/mis-flows:/app/flows \
+  --name flow juankanh/flow-app:4.25.1
+```
+
+Si prefieres otra ruta dentro del contenedor, indícasela con `FLOW_FLOWS_DIR`:
+
+```bash
+  -v /home/yo/mis-flows:/data/flows -e FLOW_FLOWS_DIR=/data/flows
+```
+
+El panel muestra la ruta efectiva (la de dentro del contenedor) y **Ctrl+S** escribe directamente en
+tus ficheros, que conservan tu usuario como dueño aunque el proceso del contenedor sea root. Las
+capturas (`/flow-assets`), el perfil de Chromium del modo Live y `flow-explore` usan la misma carpeta.
+
 ## Persistir tus flows
 
 Los `.flow.json` guardados desde el MCP (`flow_save`) o copiados a mano viven en `/app/flows`
@@ -111,7 +133,7 @@ mkdir -p ./flows
 docker run -d --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 \
   -v "$(pwd)/flows:/app/flows" \
-  --name flow juankanh/flow-app:4.25.0
+  --name flow juankanh/flow-app:4.25.1
 ```
 
 > Con el volumen montado, los flows de ejemplo que trae la imagen quedan ocultos: tu carpeta
@@ -127,9 +149,9 @@ docker run -d --add-host=host.docker.internal:host-gateway \
 ## Actualizar de versión
 
 ```bash
-docker pull juankanh/flow-app:4.25.0
+docker pull juankanh/flow-app:4.25.1
 docker stop flow && docker rm flow
-docker run -d ... juankanh/flow-app:4.25.0   # mismo run de siempre
+docker run -d ... juankanh/flow-app:4.25.1   # mismo run de siempre
 ```
 
 Los flows en volumen (y los del navegador) no se pierden.
