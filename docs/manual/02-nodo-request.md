@@ -30,8 +30,16 @@ La respuesta aparece dentro de la cajita con cuatro pestañas:
 |----|---------|-----------|
 | ① | **response** | Body con JSON formateado y botón Copy |
 | ② | **headers** | Cabeceras de la respuesta |
-| ③ | **extractions** | Variables extraídas del body con JSONPath (el badge indica cuántas) |
+| ③ | ~~extractions~~ | Desde la 4.32 las extracciones viven en la franja plegable **Variable extractions** bajo el editor (ver abajo) |
 | ④ | **raw** | El curl **con las variables ya interpoladas** — lo que se envió de verdad. Perfecto para copiar y reproducir fuera |
+
+## Variable extractions 🆕 4.32
+
+![](assets/flowtest-45-extractions-abierto.png)
+
+Bajo **Variables usadas** está la franja **VARIABLE EXTRACTIONS**, con el mismo diseño plegable (plegada por defecto). En su cabecera: cuántas extracciones hay, si resuelven en la **última respuesta** (`2/2 ✓` en verde o `1 sin valor` en rojo), **Add** para añadir una fila y **↻** para **volver a extraer** de la respuesta guardada **sin repetir la llamada** — si una variable no salió porque el JSONPath estaba mal, corrígelo y pulsa ↻: el valor entra en las variables del flow al momento. Desplegada, cada fila (`varName = $.ruta`) muestra debajo el valor que resuelve ahora mismo (o «sin valor en la última respuesta»). La pestaña «extractions» de la respuesta desaparece: todo vive aquí.
+
+![](assets/flowtest-44-extractions-plegado.png)
 
 ## Estados y colores
 
