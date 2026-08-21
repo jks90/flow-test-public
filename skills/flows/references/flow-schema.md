@@ -111,6 +111,22 @@ No se ejecutan (el CLI los ignora); documentan el flow dentro del canvas.
   `return 'qa+' + Date.now() + '@example.com'`); si no, `[]`.
 - Por MCP se crean con `node_add_info` (`renderMode` text | mermaid | image).
 
+## WebNode (`webNodes[]`) — vista de una web / modo Live
+
+```json
+{ "id": "<uuid-v4>", "name": "Panel admin", "url": "{{apiBase}}/admin", "position": { "x": 60, "y": 600 }, "collapsed": false, "status": "idle" }
+```
+
+Solo en la web (el CLI lo ignora). Por MCP: `node_add_web`. Útil para dejar a mano la web que
+consume la API que prueba el flow.
+
+## Enlaces entre flows en las notas (desde la 4.25.0)
+
+En el `content` de una nota de texto: `[[otro-flow]]`, `[[otro-flow|texto]]` o
+`[[otro-flow#Nombre de nodo]]` — la vista previa lo convierte en un enlace que abre ese flow del
+proyecto (por nombre de fichero o de flow) y centra el nodo. Úsalo para enlazar el flow de login
+desde los flows que dependen de su token, o un flow «índice» con el resto.
+
 ## Campos opcionales de cualquier nodo
 
 - `order` (entero): nº de orden que usan *Alinear en fila/columna* y la guía de nodos.
@@ -119,8 +135,10 @@ No se ejecutan (el CLI los ignora); documentan el flow dentro del canvas.
 ## Pizarra (`drawings[]`, desde la 4.24.0)
 
 Anotaciones dibujadas sobre el lienzo (`rect`, `ellipse`, `arrow`, `line`, `pen`, `text`).
-Opcional; el CLI las ignora. Un agente **no necesita generarlas**; si edita un flow que ya las
-tiene, debe conservarlas tal cual. Formato completo en
+Opcional; el CLI las ignora. Si un agente edita a mano un flow que ya las tiene, debe
+conservarlas tal cual. Por MCP se añaden con `whiteboard_update` (mismas coordenadas que
+`position` de los nodos: p. ej. un `rect` de `x: 40, y: 40, w: 1200, h: 400` rodea una fila de
+cajas de 420 px de ancho, y un `text` con `fontSize: 24` encima la titula). Formato completo en
 [`docs/flows-formato.md`](../../../docs/flows-formato.md#pizarra-drawings--desde-la-4240).
 
 ## Connection (`connections[]`)

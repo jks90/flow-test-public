@@ -35,6 +35,21 @@ reportar el resultado real (nunca asumido).
 ### Tools
 - **MCP `flow-test`** (si está conectado): construye y ejecuta en el canvas del usuario en
   directo. Endpoint típico: `http://localhost:9998/mcp` (contenedor) o `:3001` (local).
+  Mapa de las 28 tools (4.26):
+  - Observar: `bridge_status`, `flow_state` (pestañas con `filePath`/`dirty`; nodos con
+    `position`/`order`/`pinned`; notas con `renderMode`/contenido/`scripts`; `drawings`),
+    `console_read`, `runs_read`.
+  - Pestañas: `flow_create`, `tab_select`, `tab_close`, `flow_overwrite` (copia sin enlazar).
+  - Nodos: `node_add_request`, `node_add_sql`, `node_add_info` (text | mermaid | image, con
+    `scripts`), `node_add_web`, `node_update` (cualquier tipo y campo editable), `node_delete`,
+    `nodes_connect`, `connection_delete`, `variables_set`.
+  - Ejecutar: `flow_run`, `node_run`, `flow_reset`.
+  - Lienzo: `node_focus` (señalar un nodo al usuario), `canvas_layout`
+    (`auto|row|column|collapse_all|expand_all`), `whiteboard_update` (anotar la pizarra).
+  - **Proyecto `flows/`** (la carpeta del servidor = el panel Proyecto de la web):
+    `flow_files_list` (con metadatos), `flow_open` (abre **enlazado** al fichero),
+    `flow_save` (= Ctrl+S: enlaza la pestaña y la deja limpia; subcarpetas), `flow_file_delete`,
+    `flow_file_read`.
 - **CLI**: `docker exec flow node cli/run-flow.js …` (contenedor) o
   `node cli/run-flow.js …` (instalación local).
 
@@ -53,19 +68,29 @@ reportar el resultado real (nunca asumido).
 - Identifica los endpoints afectados y el camino realista que los encadena
   (crear → extraer id → consultar/limpiar).
 - Si ya existe un flow que cubre el área (`flow_files_list` por MCP, o mira `flows/`),
-  actualízalo en vez de duplicar.
+  **ábrelo con `flow_open`** (la pestaña queda enlazada al fichero y conserva los ids) y
+  actualízalo en vez de duplicar. `flow_state` te dice si la pestaña tiene cambios sin guardar
+  (`dirty`) y a qué fichero está enlazada (`filePath`).
 
 ### Step 2: Implementar — elige el modo
 
 **Modo A — MCP en vivo** (preferido si el servidor MCP `flow-test` está conectado; el
 usuario ve el canvas):
 1. `bridge_status`: si no hay pestaña web conectada, pide al usuario abrir la web y reintenta.
-2. `flow_create` → guarda el `tabId` y úsalo en todas las llamadas.
+2. `flow_open` (flow existente) o `flow_create` (nuevo) → guarda el `tabId` y úsalo en todas
+   las llamadas.
 3. `node_add_request` / `node_add_sql` por paso, `nodes_connect` (behavior `next` ordena el
-   grafo). Guarda los `nodeId` que devuelven.
+   grafo). Guarda los `nodeId` que devuelven. Usa `order` (nº de paso) en cada nodo y, al final,
+   `canvas_layout` `row` o `auto` para que el usuario lo vea ordenado.
 4. `variables_set` para la base (`apiBase`, credenciales de prueba); extracciones en cada
-   nodo para encadenar (`jsonPath` en HTTP; `column`+`rowIndex` en SQL).
-5. Al terminar, `flow_save` deja el `.flow.json` en `flows/`, ejecutable después con el CLI.
+   nodo para encadenar (`jsonPath` en HTTP; `column`+`rowIndex` en SQL). Datos únicos por
+   ejecución (emails, ids): un `node_add_info` con `scripts` (`return 'qa+' + Date.now() + '@x.com'`).
+5. Documenta dentro del canvas si aporta: `node_add_info` con `renderMode: "mermaid"` para el
+   esquema del flujo, `whiteboard_update` para rodear/etiquetar grupos de cajas, y en el texto de
+   las notas `[[otro-flow#Nodo]]` para enlazar flows relacionados del proyecto.
+6. Al terminar, `flow_save` (sin `fileName` si la pestaña ya está enlazada; con subcarpeta
+   `dominio/caso` si es nuevo) — equivale al Ctrl+S del usuario: el `.flow.json` queda en `flows/`
+   y es ejecutable con el CLI. `node_focus` sobre el nodo clave para señalárselo al usuario.
 
 **Modo B — Fichero + CLI** (sin MCP, o para CI): escribe el `.flow.json` siguiendo
 [`references/flow-schema.md`](./references/flow-schema.md) — estructura exacta, convención
@@ -86,7 +111,8 @@ declarada en `envVariables` o producida por una extracción.
   para que pase.
 
 ## Output
-- Flows nuevos/actualizados (en `flows/` vía `flow_save`, o ficheros commiteables).
+- Flows nuevos/actualizados (en `flows/` vía `flow_save` — la pestaña del usuario queda enlazada y
+  sin cambios pendientes —, o ficheros commiteables).
 - Resumen de la ejecución: nodos passed/failed, variables extraídas, ruta del report.
 - Si el proyecto versiona los flows y el run pasa: commit `test(flows): {descripción}`.
 

@@ -82,7 +82,7 @@ ejemplo listo en [`mcp-config.stdio.example.json`](../mcp-config.stdio.example.j
 Además: los snapshots de estado que ve la IA **no incluyen las passwords** de los nodos SQL,
 y `flow_file_read` está limitado a la carpeta `flows/` (sin path traversal).
 
-## Las 20 tools
+## Las 28 tools
 
 ### Observar
 
@@ -98,11 +98,13 @@ y `flow_file_read` está limitado a la carpeta `flows/` (sin path traversal).
 | Tool | Qué hace |
 |------|----------|
 | `flow_create` | Nueva pestaña vacía (devuelve `tabId`) |
-| `flow_overwrite` | Carga un `.flow.json` completo (nodos, notas, capturas y dibujos de la pizarra) — con `tabId` **reemplaza** esa pestaña; sin él crea una nueva |
+| `tab_select` 🆕 4.26 | Activa una pestaña (la que ve el usuario) |
+| `flow_overwrite` | Carga un `.flow.json` completo (nodos, notas, capturas y dibujos de la pizarra) como **copia nueva sin enlazar a fichero** — con `tabId` **reemplaza** esa pestaña; sin él crea una nueva. Para abrir un fichero del proyecto usa `flow_open` |
 | `node_add_request` | Nodo HTTP desde un `curl` (+ extracciones JSONPath) |
 | `node_add_sql` | Nodo SQL (postgres/mysql/oracle; perfil o conexión inline; extracciones por columna) |
-| `node_add_info` 🆕 4.24 | Nota: texto (`renderMode: "text"`), diagrama Mermaid (`"mermaid"`, `content` = código, admite `{{variables}}`) o captura (`"image"` + `imageSrc`) |
-| `node_update` | Actualiza campos de un nodo (curl, query, extractions, nombre…) |
+| `node_add_info` 🆕 4.24 | Nota: texto (`renderMode: "text"`), diagrama Mermaid (`"mermaid"`, `content` = código, admite `{{variables}}`) o captura (`"image"` + `imageSrc`). Desde 4.26 acepta `scripts` (`[{varName, code}]`, se ejecutan al Run Flow), `order` y `pinned` |
+| `node_add_web` 🆕 4.26 | Nodo Web (URL / modo Live) |
+| `node_update` | Actualiza campos de **cualquier** nodo: nombre, `position`, `collapsed`, `order`, `pinned`; HTTP `curl`/`extractions`; SQL `query`/conexión/`extractions`; nota `content`/`renderMode`/`imageSrc`/`scripts`; web `url`. Ignora campos de solo lectura (status, response…) |
 | `node_delete` | Borra un nodo y sus conexiones |
 | `nodes_connect` | Conecta origen → destino (`next` / `on_error` / `parallel` / `none`) |
 | `connection_delete` | Borra una conexión |
@@ -115,14 +117,29 @@ y `flow_file_read` está limitado a la carpeta `flows/` (sin path traversal).
 |------|----------|
 | `flow_run` | Ejecuta el grafo de nodos HTTP (el botón «Run Flow») y **espera al resultado**: run completo + variables extraídas. Desde la 4.23 ejecuta antes los **scripts JS de las notas** y mete sus valores como variables. Si no ejecuta nada (pestaña ocupada, flow sin nodos HTTP) responde `finished:false` con el motivo |
 | `node_run` | Ejecuta un nodo y su cadena descendente. Las cadenas que **arrancan en un nodo SQL** encadenan SQL y HTTP; las que arrancan en HTTP solo siguen nodos HTTP (misma semántica que la web) |
+| `flow_reset` 🆕 4.26 | Limpia respuestas, resultados, estados y variables runtime de la pestaña (el «Reset») |
 
-### Disco (enlaza con el CLI)
+### Lienzo 🆕 4.26
 
 | Tool | Qué hace |
 |------|----------|
-| `flow_save` | Guarda la pestaña como `flows/<nombre>.flow.json` — ejecutable después con el CLI |
-| `flow_file_read` | Lee un `.flow.json` de `flows/` |
-| `flow_files_list` | Lista los `.flow.json` disponibles |
+| `node_focus` | Centra el lienzo en un nodo (por `nodeId` o `nodeName`) y lo resalta ~2 s — para señalar algo al usuario |
+| `canvas_layout` | Ordena el lienzo: `auto` (por el grafo), `row` / `column` (por nº de orden), `collapse_all`, `expand_all`. Las cajas 📌 no se mueven |
+| `whiteboard_update` | Dibuja en la **pizarra** (`rect`, `ellipse`, `arrow`, `line`, `pen`, `text`, mismas coordenadas que los nodos): `mode` `add` / `replace` / `clear`. Se guarda con el flow como `drawings` |
+
+### Proyecto `flows/` (enlaza con el panel Proyecto y con el CLI)
+
+La carpeta `flows/` del servidor es el proyecto (en Docker `/app/flows`, o `FLOW_FLOWS_DIR`). Estas tools hacen lo mismo que el panel **Proyecto** de la web:
+
+| Tool | Qué hace |
+|------|----------|
+| `flow_files_list` | Lista los `.flow.json` con metadatos (ruta, carpeta, tamaño, fecha, nombre del flow, nº de nodos) — lo mismo que muestra el panel |
+| `flow_open` 🆕 4.26 | Abre un fichero en una pestaña **enlazada** al fichero (ids de nodos conservados); si ya está abierto, la activa. Después `flow_save` / Ctrl+S escriben en él |
+| `flow_save` | Guarda la pestaña en el proyecto **como Ctrl+S**: la pestaña queda enlazada al fichero y deja de estar «sin guardar». Sin `fileName` usa el fichero enlazado (o el nombre del flow); admite subcarpetas (`int/login`) |
+| `flow_file_delete` 🆕 4.26 | Borra un fichero del proyecto; si estaba abierto cierra su pestaña |
+| `flow_file_read` | Lee un `.flow.json` como JSON sin abrirlo |
+
+`flow_state` devuelve por pestaña `filePath` (fichero enlazado) y `dirty` (cambios sin guardar), y por nodo `position`, `collapsed`, `order` y `pinned`; las notas incluyen `renderMode`, contenido y scripts; `drawings` es el nº de dibujos de la pizarra.
 
 ## Flujos de trabajo típicos
 
@@ -137,8 +154,14 @@ lee los resultados. Tú lo ves todo en el canvas y puedes retocar cualquier nodo
 **De la web a CI**: cuando el flow esté fino, `flow_save` lo deja en `flows/` y tu pipeline
 lo ejecuta con `docker exec flow node cli/run-flow.js --flow flows/mi-flow.flow.json`.
 
-**De disco al canvas**: `flow_files_list` + `flow_file_read` + `flow_overwrite` cargan
-cualquier flow guardado en la pestaña para revisarlo o evolucionarlo visualmente.
+**Trabajar sobre el proyecto** (4.26): `flow_files_list` → `flow_open` (la pestaña queda enlazada al
+fichero) → editar con `node_update` / `node_add_*` → `flow_save` (sin nombre: mismo fichero). El usuario
+ve lo mismo que si hubiera pulsado Ctrl+S. `flow_overwrite` queda para cargar un documento que no está
+en `flows/` (copia sin enlazar).
+
+**Documentar encima del lienzo**: `node_add_info` con `renderMode: "mermaid"` para el esquema,
+`whiteboard_update` para rodear/señalar grupos de cajas y `node_focus` para llevar al usuario a un nodo.
+En las notas, `[[otro-flow#Nodo]]` enlaza flows del proyecto.
 
 **Verificar un desarrollo con BBDD**: `node_add_sql` para sembrar/consultar datos +
 `node_run` sobre el nodo SQL para lanzar la cadena SQL→HTTP con las variables extraídas.
