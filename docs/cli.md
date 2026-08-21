@@ -18,7 +18,7 @@ cat resumen/*/report.md     # el report queda en tu máquina
 ```
 
 - Usa rutas **relativas** al directorio desde el que lo lanzas (es lo que se monta).
-- Cambia de versión con `FLOW_IMAGE=juankanh/flow-app:4.27.0 flow-run …`.
+- Cambia de versión con `FLOW_IMAGE=juankanh/flow-app:4.28.0 flow-run …`.
 - Los curl a `http://localhost:PUERTO` llegan a **tu máquina** automáticamente.
 
 ## Dentro del contenedor que ya corre

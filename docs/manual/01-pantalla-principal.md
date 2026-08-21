@@ -40,6 +40,7 @@
 | **Expand All** | Expande todo y **restaura las posiciones** previas al Collapse All |
 | **Auto Layout** | Reordena los nodos por el grafo: cadena en columnas y cajitas informativas colgando de su padre |
 | **Alinear en fila / en columna** | Coloca los nodos en fila o columna según su **nº de orden** (el campo `#` de cada cabecera) |
+| **Alinear en cuadrícula** 🆕 4.28 | Coloca cada caja en la celda **`columna,fila`** escrita en su campo `#` (`1,1` arriba a la izquierda, `3,4` = columna 3, fila 4). Ver [más abajo](#alinear-en-cuadrícula-campo---columnafila--428) |
 | **Guía de nodos** 🆕 | Panel lateral con todos los nodos por tipo y nombre; clic en uno → el lienzo se centra en él y lo resalta |
 | **Ocultar / Mostrar conectores** 🆕 | Quita las líneas de conexión del lienzo (las conexiones siguen existiendo; útil para dibujar tus propias flechas en la pizarra) |
 | **Minimapa** / **Controles de zoom** 🆕 4.25.8 | Conmutadores: ocultan o muestran el botón del minimapa y la botonera ± del lienzo. Ocultar la botonera **no cambia el zoom** (Ctrl + rueda sigue funcionando). Se recuerdan entre sesiones |
@@ -72,8 +73,14 @@ A la izquierda del lienzo hay siempre una barra con tres iconos: **Proyecto** (l
 ![](assets/flowtest-28-collapse-compacto.png)
 
 - Una cajita colapsada es una **caja compacta**: se estrecha al ancho de su contenido (190–260 px según el tipo) y la fila de botones pasa **debajo del título**.
-- Cada nodo tiene un campo **`#`** en la cabecera: su **nº de orden**, que usan *Alinear en fila/columna* y la *Guía de nodos*; se guarda en el `.flow.json` (`order`).
+- Cada nodo tiene un campo **`#`** en la cabecera: su **nº de orden**, que usan *Alinear en fila/columna* y la *Guía de nodos*; se guarda en el `.flow.json` (`order`). Desde la 4.28 admite también una celda `columna,fila` (`cell`), ver abajo.
 - El botón **📌 Fijar** (4.23) bloquea la posición de la caja: ni colapsar/expandir, ni Collapse/Expand All, ni alinear, ni el auto-layout, ni el arrastre la mueven. Se guarda como `pinned`.
+
+### Alinear en cuadrícula (campo `#` = `columna,fila`) 🆕 4.28
+
+![](assets/flowtest-38-cuadricula.png)
+
+En el campo **`#`** de cada cabecera puedes escribir, en vez de un número, una **celda `columna,fila`**: `1,1` es arriba a la izquierda, `3,4` la columna 3, fila 4 (se pinta en azul). **Layout ▸ Alinear en cuadrícula** coloca cada caja en su celda: cada columna se hace tan ancha como su caja más ancha y cada fila tan alta como la más alta (40 px de hueco; una columna o fila sin cajas deja 80 px). Las cajas sin celda y las 📌 fijadas no se mueven. La celda se guarda en el `.flow.json` (`cell: {col, row}`), se ve en la guía de nodos y en la caja compacta, y las acciones *Alinear en fila/columna* la respetan (orden de lectura detrás de los `#` numéricos). Por MCP: `cell` en `node_add_*` / `node_update` y `canvas_layout` con `mode: "grid"`.
 
 ## Pantalla dividida
 
