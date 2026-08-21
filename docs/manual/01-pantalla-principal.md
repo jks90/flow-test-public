@@ -69,12 +69,20 @@ A la izquierda del lienzo hay siempre una barra con tres iconos: **Proyecto** (l
 - **Moverse**: botón central del ratón, o la herramienta **Mano** de la pizarra. Arrastra una cajita por su cabecera para recolocarla.
 - **Escape** cancela una conexión a medias (y en la pizarra vuelve a Seleccionar).
 
+### La cabecera de las cajas 🆕 4.30
+
+![](assets/flowtest-41-menu-nodo.png)
+
+Desde la 4.30 **todas las cajas** (request, SQL, nota, web) tienen la misma cabecera mínima: **icono del tipo · plegar · ● estado · título · ▶**. El **icono del tipo es un menú**: ahí están **Fijar posición 📌**, el campo **`#`** (nº de orden o celda `columna,fila`), **Conectar con otro nodo**, **Cron** (request) o **Configurar conexión** (SQL), **Copiar a otro flow**, **Maximizar** y **Eliminar**, más una tarjeta de información (método y duración de la última respuesta, conexión y filas del resultado SQL, URL y estado del nodo web, scripts de la nota). El ▶ ejecuta la request o la query, lanza los scripts de la nota o recarga la web. Las cajitas **colapsadas** son una sola fila con los mismos cinco elementos.
+
+![](assets/flowtest-42-cabeceras-colapsadas.png)
+
 ## Cajitas colapsadas, nº de orden y 📌
 
 ![](assets/flowtest-28-collapse-compacto.png)
 
 - Una cajita colapsada es una **caja compacta**: se estrecha al ancho de su contenido (190–260 px según el tipo) y la fila de botones pasa **debajo del título**.
-- Cada nodo tiene un campo **`#`** en la cabecera: su **nº de orden**, que usan *Alinear en fila/columna* y la *Guía de nodos*; se guarda en el `.flow.json` (`order`). Desde la 4.28 admite también una celda `columna,fila` (`cell`), ver abajo.
+- Cada nodo tiene un campo **`#`** (desde la 4.30, dentro del menú del icono de la cabecera): su **nº de orden**, que usan *Alinear en fila/columna* y la *Guía de nodos*; se guarda en el `.flow.json` (`order`). Desde la 4.28 admite también una celda `columna,fila` (`cell`), ver abajo.
 - El botón **📌 Fijar** (4.23) bloquea la posición de la caja: ni colapsar/expandir, ni Collapse/Expand All, ni alinear, ni el auto-layout, ni el arrastre la mueven. Se guarda como `pinned`.
 
 ### Alinear en cuadrícula (campo `#` = `columna,fila`) 🆕 4.28
