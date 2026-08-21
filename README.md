@@ -25,7 +25,7 @@ docker run -d \
   --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 \
   --name flow \
-  juankanh/flow-app:4.30.0
+  juankanh/flow-app:4.31.0
 ```
 
 - **Web**: http://localhost:9998 — el canvas visual.
@@ -37,7 +37,8 @@ docker run -d \
 
 | Versión | Qué trae |
 |---------|----------|
-| **4.30.0** (recomendada) | **Cabecera de las cajas simplificada**: en request, SQL, nota y web solo queda **icono del tipo (= menú) · plegar · ● estado · título · ▶**; fijar 📌, orden/celda `#`, conectar, cron, conexión SQL, copiar a otro flow, maximizar, eliminar y la información (duración, respuesta, URL, resultado) viven en el **menú del icono**. Las cajitas colapsadas son una sola fila. Fix MCP: `node_add_sql` ya respeta `order`/`pinned`/`cell` |
+| **4.31.0** (recomendada) | **Activar / desactivar nodos** desde el menú del icono de cada caja: un nodo desactivado se **salta** al ejecutar (Run Flow, cadenas, cron, MCP `flow_run`, CLI) pero sus conexiones se siguen recorriendo; se ve atenuado con un ⏻ rojo en el icono y «OFF» en la guía de nodos; el ▶ de la propia caja sí lo ejecuta. Campo `disabled` en el flow (`node_update` por MCP) |
+| 4.30.0 | **Cabecera de las cajas simplificada**: en request, SQL, nota y web solo queda **icono del tipo (= menú) · plegar · ● estado · título · ▶**; fijar 📌, orden/celda `#`, conectar, cron, conexión SQL, copiar a otro flow, maximizar, eliminar y la información (duración, respuesta, URL, resultado) viven en el **menú del icono**. Las cajitas colapsadas son una sola fila. Fix MCP: `node_add_sql` ya respeta `order`/`pinned`/`cell` |
 | 4.29.0 | **Copiar la vista previa de una nota** (botón Copiar: texto con las `{{variables}}` resueltas + HTML con enlaces), **Layout ▸ Pin All / Unpin All** (fija o libera todas las cajas del flow; MCP `canvas_layout pin_all|unpin_all`) y **Guía de nodos plegable** (grupos que se pliegan con un clic, Alt/doble clic deja solo uno, plegar/desplegar todo, recordado entre sesiones) |
 | 4.28.2 | **Campo `#` con celda `columna,fila`** y **Layout ▸ Alinear en cuadrícula**: además del nº de orden, en el `#` de cada cabecera puedes escribir `1,1` (arriba a la izquierda), `3,4` (columna 3, fila 4)… y la acción de cuadrícula coloca cada caja en su celda — cada columna tan ancha como su caja más ancha, cada fila tan alta como la más alta; las cajas sin celda y las 📌 no se mueven. La celda se ve en la guía de nodos y en la caja compacta, se guarda en el flow (`cell`) y el MCP la acepta (`cell` en `node_add_*`/`node_update`, `canvas_layout mode=grid`). 4.28.1: **Auto Layout respeta las celdas** (cuadrícula primero; el grafo solo ordena las cajas sin celda, debajo). 4.28.2: **fix Run Flow** — una flecha ▶ `next` que salía de una nota/SQL/web dejaba su request destino sin ejecutar (en silencio); los ciclos se ejecutan al final; los scripts de las notas aparecen en el Historial como primer paso y la pestaña «Scripts JS» marca ✓/⚠ |
 | 4.27.0 | **Config ▸ Vista**: **tamaño de los nodos** (30–150 %, sin tocar posiciones ni zoom), **modo compacto** Auto/Siempre/Nunca — al verse pequeños, cada nodo pasa a ser una **caja con el icono de su tipo**, el título encima con la redondita de estado, sus 4 conectores y un ▶ para ejecutarlo; tooltip con método/URL, query, estado y extracciones al pasar el ratón y **clic para abrir la card completa** —, y **separación entre nodos**: separación mínima, «Evitar solapes al soltar una caja» (las vecinas se apartan; la soltada y las 📌 no se mueven) y botón «Separar nodos solapados ahora». Ajustes guardados en el navegador, no en el flow |
@@ -59,7 +60,7 @@ docker run -d \
 | 4.0.16 | Web + CLI HTTP: curl import, extracciones JSONPath, reports en `resumen/`, batch, cron, multi-pestaña |
 
 ```bash
-docker pull juankanh/flow-app:4.30.0
+docker pull juankanh/flow-app:4.31.0
 ```
 
 ## Documentación

@@ -77,6 +77,11 @@ Desde la 4.30 **todas las cajas** (request, SQL, nota, web) tienen la misma cabe
 
 ![](assets/flowtest-42-cabeceras-colapsadas.png)
 
+
+**Activar / desactivar** 🆕 4.31: el menú tiene también el conmutador **Nodo activo / Desactivado**. Un nodo desactivado se **salta al ejecutar** — Run Flow, las cadenas ▶, el cron, `flow_run` por MCP y el CLI (`⊘ … desactivado (saltado)`) — pero **sus conexiones se siguen recorriendo**, así que el resto del flow continúa. Se ve atenuado, con un ⏻ rojo sobre el icono y la etiqueta «OFF» en la guía de nodos; el ▶ de la propia caja sí lo ejecuta (para probarlo suelto). Se guarda en el `.flow.json` como `disabled`.
+
+![](assets/flowtest-43-nodo-desactivado.png)
+
 ## Cajitas colapsadas, nº de orden y 📌
 
 ![](assets/flowtest-28-collapse-compacto.png)
