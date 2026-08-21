@@ -25,7 +25,7 @@ docker run -d \
   --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 \
   --name flow \
-  juankanh/flow-app:4.28.0
+  juankanh/flow-app:4.28.1
 ```
 
 - **Web**: http://localhost:9998 — el canvas visual.
@@ -37,7 +37,7 @@ docker run -d \
 
 | Versión | Qué trae |
 |---------|----------|
-| **4.28.0** (recomendada) | **Campo `#` con celda `columna,fila`** y **Layout ▸ Alinear en cuadrícula**: además del nº de orden, en el `#` de cada cabecera puedes escribir `1,1` (arriba a la izquierda), `3,4` (columna 3, fila 4)… y la acción de cuadrícula coloca cada caja en su celda — cada columna tan ancha como su caja más ancha, cada fila tan alta como la más alta; las cajas sin celda y las 📌 no se mueven. La celda se ve en la guía de nodos y en la caja compacta, se guarda en el flow (`cell`) y el MCP la acepta (`cell` en `node_add_*`/`node_update`, `canvas_layout mode=grid`) |
+| **4.28.1** (recomendada) | **Campo `#` con celda `columna,fila`** y **Layout ▸ Alinear en cuadrícula**: además del nº de orden, en el `#` de cada cabecera puedes escribir `1,1` (arriba a la izquierda), `3,4` (columna 3, fila 4)… y la acción de cuadrícula coloca cada caja en su celda — cada columna tan ancha como su caja más ancha, cada fila tan alta como la más alta; las cajas sin celda y las 📌 no se mueven. La celda se ve en la guía de nodos y en la caja compacta, se guarda en el flow (`cell`) y el MCP la acepta (`cell` en `node_add_*`/`node_update`, `canvas_layout mode=grid`). 4.28.1: **Auto Layout respeta las celdas** (cuadrícula primero; el grafo solo ordena las cajas sin celda, debajo) |
 | 4.27.0 | **Config ▸ Vista**: **tamaño de los nodos** (30–150 %, sin tocar posiciones ni zoom), **modo compacto** Auto/Siempre/Nunca — al verse pequeños, cada nodo pasa a ser una **caja con el icono de su tipo**, el título encima con la redondita de estado, sus 4 conectores y un ▶ para ejecutarlo; tooltip con método/URL, query, estado y extracciones al pasar el ratón y **clic para abrir la card completa** —, y **separación entre nodos**: separación mínima, «Evitar solapes al soltar una caja» (las vecinas se apartan; la soltada y las 📌 no se mueven) y botón «Separar nodos solapados ahora». Ajustes guardados en el navegador, no en el flow |
 | 4.26.0 | **`flows/` como proyecto**: el panel **Proyecto** lista los `.flow.json` del contenedor (`/app/flows`, móntalo con `-v ./flows:/app/flows`) por carpeta, marca cuál está abierto, cuál tiene cambios (●) y cuál cambió en disco; abres cualquiera en una pestaña y **Ctrl+S** (o el botón **Guardar**) escribe la pestaña en su fichero — se acabó exportar y sobrescribir a mano. Pestañas nuevas → «Guardar como…» (nombre + carpeta); si el fichero cambió en disco (CLI, MCP, git) avisa antes de pisarlo y permite recargarlo. Los ficheros conservan el dueño del host aunque el contenedor corra como root. `FLOW_FLOWS_DIR` apunta el proyecto a cualquier carpeta (el panel muestra la ruta real). **Enlaces entre flows** en las notas: `[[otro-flow]]`, `[[otro-flow|texto]]`, `[[otro-flow#Nombre de nodo]]` abren ese flow y centran el nodo; las URLs http(s) son clicables |
 | 4.24.0 | **Pizarra estilo Excalidraw** sobre el lienzo (lápiz, línea, flecha, rectángulo, elipse, texto, borrador; trazo boceto o limpio, colores, relleno, deshacer/rehacer; los dibujos se guardan en el flow como `drawings` y se ven en el minimapa), **barra lateral de iconos** con un panel visible a la vez (Variables, Global, SQL, GitHub, Pizarra, Guía de nodos), **Guía de nodos** (índice por tipo/nombre con foco al clic) y **Ocultar conectores** en el menú Layout, botón **Maximizar** en la vista previa Mermaid (pantalla completa con zoom), tool MCP `node_add_info` (notas/diagramas/capturas desde la IA; 20 tools) |
@@ -57,7 +57,7 @@ docker run -d \
 | 4.0.16 | Web + CLI HTTP: curl import, extracciones JSONPath, reports en `resumen/`, batch, cron, multi-pestaña |
 
 ```bash
-docker pull juankanh/flow-app:4.28.0
+docker pull juankanh/flow-app:4.28.1
 ```
 
 ## Documentación

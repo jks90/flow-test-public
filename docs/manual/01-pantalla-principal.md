@@ -80,7 +80,7 @@ A la izquierda del lienzo hay siempre una barra con tres iconos: **Proyecto** (l
 
 ![](assets/flowtest-38-cuadricula.png)
 
-En el campo **`#`** de cada cabecera puedes escribir, en vez de un número, una **celda `columna,fila`**: `1,1` es arriba a la izquierda, `3,4` la columna 3, fila 4 (se pinta en azul). **Layout ▸ Alinear en cuadrícula** coloca cada caja en su celda: cada columna se hace tan ancha como su caja más ancha y cada fila tan alta como la más alta (40 px de hueco; una columna o fila sin cajas deja 80 px). Las cajas sin celda y las 📌 fijadas no se mueven. La celda se guarda en el `.flow.json` (`cell: {col, row}`), se ve en la guía de nodos y en la caja compacta, y las acciones *Alinear en fila/columna* la respetan (orden de lectura detrás de los `#` numéricos). Por MCP: `cell` en `node_add_*` / `node_update` y `canvas_layout` con `mode: "grid"`.
+En el campo **`#`** de cada cabecera puedes escribir, en vez de un número, una **celda `columna,fila`**: `1,1` es arriba a la izquierda, `3,4` la columna 3, fila 4 (se pinta en azul). **Layout ▸ Alinear en cuadrícula** coloca cada caja en su celda: cada columna se hace tan ancha como su caja más ancha y cada fila tan alta como la más alta (40 px de hueco; una columna o fila sin cajas deja 80 px). Las cajas sin celda y las 📌 fijadas no se mueven. **Auto Layout** también las respeta (4.28.1): coloca primero la cuadrícula y ordena por el grafo solo las cajas sin celda, debajo. La celda se guarda en el `.flow.json` (`cell: {col, row}`), se ve en la guía de nodos y en la caja compacta, y las acciones *Alinear en fila/columna* la respetan (orden de lectura detrás de los `#` numéricos). Por MCP: `cell` en `node_add_*` / `node_update` y `canvas_layout` con `mode: "grid"`.
 
 ## Pantalla dividida
 
