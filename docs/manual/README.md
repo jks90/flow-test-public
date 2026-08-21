@@ -3,7 +3,7 @@
 Manual completo del **Flow Builder** (flow-test): la herramienta visual para componer, ejecutar y **documentar** flujos de peticiones HTTP, SQL y navegación web. Todas las capturas son de la aplicación real.
 
 > [!NOTE]
-> Manual de **flow-test v4.26.0** (imagen `juankanh/flow-app:4.26.0`). La imagen incluye Chromium para Captura, Live y `flow-explore` en modo crawl. Novedades de la 4.25: **`flows/` como proyecto** (panel Proyecto + **Ctrl+S** guarda en el fichero) y **enlaces `[[flow#nodo]]`** entre flows en las notas; de la 4.24: pizarra, barra lateral, guía de nodos, ocultar conectores, Mermaid a pantalla completa — ver [01](01-pantalla-principal.md) y [08](08-paneles.md).
+> Manual de **flow-test v4.27.0** (imagen `juankanh/flow-app:4.27.0`). La imagen incluye Chromium para Captura, Live y `flow-explore` en modo crawl. Novedad de la 4.27: **Config ▸ Vista** — tamaño de los nodos, **modo compacto** (caja con icono, tooltip, clic para abrir) y **separación entre nodos** sin solapes ([08](08-paneles.md#vista--tamaño-de-los-nodos-modo-compacto-y-separación--427)). Novedades de la 4.25: **`flows/` como proyecto** (panel Proyecto + **Ctrl+S** guarda en el fichero) y **enlaces `[[flow#nodo]]`** entre flows en las notas; de la 4.24: pizarra, barra lateral, guía de nodos, ocultar conectores, Mermaid a pantalla completa — ver [01](01-pantalla-principal.md) y [08](08-paneles.md).
 
 ## Índice
 
@@ -32,7 +32,7 @@ npm run dev        # web en http://localhost:5173 + server en :3001
 
 ```bash
 docker run -d --add-host=host.docker.internal:host-gateway \
-  -p 9998:3001 --name flow juankanh/flow-app:4.26.0
+  -p 9998:3001 --name flow juankanh/flow-app:4.27.0
 # web en http://localhost:9998
 ```
 

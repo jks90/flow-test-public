@@ -1,7 +1,27 @@
 # 🧰 08 · Paneles y utilidades
 
 > [!TIP]
-> **¿Dónde está cada cosa?** **Proyecto**, **Pizarra** y **Guía de nodos** viven en la **barra lateral de iconos**; Batch Run, Historial, Consola, GitHub, Variables, Global y SQL Conns se abren desde **Config** (los paneles laterales aparecen en la barra mientras están abiertos; un panel a la vez); y las utilidades de organización desde el desplegable **Layout**. Ver [01 La pantalla principal](01-pantalla-principal.md).
+> **¿Dónde está cada cosa?** **Proyecto**, **Pizarra** y **Guía de nodos** viven en la **barra lateral de iconos**; Batch Run, Historial, Consola, **Vista**, GitHub, Variables, Global y SQL Conns se abren desde **Config** (los paneles laterales aparecen en la barra mientras están abiertos; un panel a la vez); y las utilidades de organización desde el desplegable **Layout**. Ver [01 La pantalla principal](01-pantalla-principal.md).
+
+## Vista — tamaño de los nodos, modo compacto y separación 🆕 (4.27)
+
+![](assets/flowtest-36-vista.png)
+
+**Config ▸ Vista** abre un modal (como la Consola) con ajustes **solo de presentación** — se guardan en el navegador, nunca en el `.flow.json`:
+
+| Ajuste | Qué hace |
+|--------|----------|
+| **Tamaño de los nodos** (30–150 %) | Escala las cards sin tocar el zoom del lienzo ni las posiciones guardadas. El tamaño aparente de un nodo es `zoom × tamaño` |
+| **Modo compacto** Auto / Siempre / Nunca | En **Auto**, cuando el tamaño aparente baja del umbral (60 % por defecto) cada nodo se convierte en una **caja con el icono de su tipo** (y su método HTTP, motor SQL o tipo de nota), el **título encima con la redondita de estado**, sus 4 conectores y un **▶** debajo para ejecutarlo. **Siempre** compacta todo el lienzo; **Nunca** deja siempre las cards completas. Tamaño de la caja 48–120 px |
+| **Información al pasar el ratón** | Tooltip con método y URL, query, conexión, estado, respuesta, extracciones o scripts — sin abrir el nodo |
+| **Clic abre el nodo completo** | Un clic en la caja abre la card entera en una ventana (editar, ejecutar, ver la respuesta; Esc cierra). Arrastrar sigue moviendo la caja |
+| **Separación mínima entre cajas** (0–80 px) | Distancia que se respeta al resolver solapes (también al expandir una caja colapsada) |
+| **Evitar solapes al soltar una caja** | Al terminar de arrastrar, las cajas que quedarían debajo se apartan hacia abajo; **la que sueltas y las 📌 fijadas no se mueven** |
+| **Separar nodos solapados ahora** | Recorre el flow visible (los dos, en split) y aparta las cajas que se pisan hasta dejar la separación mínima; el botón indica cuántas movió |
+
+![](assets/flowtest-37-vista-compacta.png)
+
+En compacto las líneas, el minimapa y la guía de nodos siguen la caja real; los relayouts del menú Layout (alinear, auto-layout, colapsar/expandir) funcionan igual.
 
 ## Proyecto — `flows/` como workspace 🆕 (4.25)
 

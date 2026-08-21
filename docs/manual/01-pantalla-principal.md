@@ -49,7 +49,7 @@
 
 ![](assets/flowtest-27-config-modal.png)
 
-**Batch Run** (4.25.7), **Historial**, **Consola**, **SQL Conns**, **GitHub Flows**, **Variables** (del flow activo) y **Global** (compartidas entre flows), cada uno con su badge contador. Detalle en [08 Paneles y utilidades](08-paneles.md).
+**Batch Run** (4.25.7), **Historial**, **Consola**, **Vista** 🆕 4.27 (tamaño de los nodos, modo compacto y separación entre cajas), **SQL Conns**, **GitHub Flows**, **Variables** (del flow activo) y **Global** (compartidas entre flows), cada uno con su badge contador. Detalle en [08 Paneles y utilidades](08-paneles.md).
 
 ## La barra lateral de iconos 🆕
 
