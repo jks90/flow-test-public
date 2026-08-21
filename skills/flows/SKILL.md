@@ -45,7 +45,7 @@ reportar el resultado real (nunca asumido).
     `nodes_connect`, `connection_delete`, `variables_set`.
   - Ejecutar: `flow_run`, `node_run`, `flow_reset`.
   - Lienzo: `node_focus` (señalar un nodo al usuario), `canvas_layout`
-    (`auto|row|column|grid|collapse_all|expand_all`; `grid` usa la celda `cell: {col,row}` de cada
+    (`auto|row|column|grid|collapse_all|expand_all|pin_all|unpin_all`; `grid` usa la celda `cell: {col,row}` de cada
     nodo — 1,1 arriba a la izquierda — que aceptan `node_add_*`/`node_update`), `whiteboard_update`
     (anotar la pizarra).
   - **Proyecto `flows/`** (la carpeta del servidor = el panel Proyecto de la web):

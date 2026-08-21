@@ -4,7 +4,7 @@
 
 ```bash
 docker run -d --add-host=host.docker.internal:host-gateway \
-  -p 9998:3001 --name flow juankanh/flow-app:4.28.2
+  -p 9998:3001 --name flow juankanh/flow-app:4.29.0
 # web + API + MCP, todo en http://localhost:9998
 ```
 
@@ -113,6 +113,7 @@ Monta con volumen, **no** con `docker cp`: los `.crt` que son symlinks (p. ej.
 | 4.22.0 | Nº de orden por nodo + Alinear en fila/columna |
 | 4.23.0 | Scripts JS de las notas ejecutados al Run Flow (web, MCP y CLI; `--skip-info-scripts`), 📌 fijar cajas, Variables usadas en cada caja, tool MCP `tab_close` |
 | 4.24.0 | **Pizarra** estilo Excalidraw sobre el lienzo (`drawings` en el flow), barra lateral de iconos con un panel a la vez, **Guía de nodos**, Ocultar conectores, Maximizar Mermaid, tool MCP `node_add_info` (20 tools) |
-| **4.28.2** | Campo **`#` = `columna,fila`** (1,1 arriba a la izquierda) y **Layout ▸ Alinear en cuadrícula**; `cell` en el flow y en el MCP (`canvas_layout grid`); 4.28.1: **Auto Layout respeta las celdas**; 4.28.2: **fix Run Flow** (flechas `next` desde notas/SQL/web ya no bloquean el request destino, ciclos al final, scripts de notas en el Historial) |
+| **4.29.0** | Botón **Copiar** en la vista previa de las notas, **Layout ▸ Pin All / Unpin All**, **guía de nodos plegable** (MCP `canvas_layout pin_all|unpin_all`) |
+| 4.28.2 | Campo **`#` = `columna,fila`** (1,1 arriba a la izquierda) y **Layout ▸ Alinear en cuadrícula**; `cell` en el flow y en el MCP (`canvas_layout grid`); 4.28.1: **Auto Layout respeta las celdas**; 4.28.2: **fix Run Flow** (flechas `next` desde notas/SQL/web ya no bloquean el request destino, ciclos al final, scripts de notas en el Historial) |
 | 4.27.0 | **Config ▸ Vista**: tamaño de los nodos, **modo compacto** (caja con icono + título con estado + ▶, tooltip al pasar el ratón, clic abre la card) y **separación entre nodos** (mínima configurable, apartar vecinas al soltar, «Separar nodos solapados ahora») |
 | 4.26.0 | **`flows/` como proyecto**: panel Proyecto, abrir/guardar con **Ctrl+S** en el fichero, «Guardar como…», detección de cambios en disco, ficheros con el dueño del host desde Docker; **enlaces `[[flow#nodo]]`** entre flows en las notas; `FLOW_FLOWS_DIR` para apuntar el proyecto a otra carpeta |

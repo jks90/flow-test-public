@@ -38,6 +38,7 @@
 |--------|----------|
 | **Collapse All** | Colapsa todas las cajitas **y las acerca** conservando tu disposición |
 | **Expand All** | Expande todo y **restaura las posiciones** previas al Collapse All |
+| **Pin All / Unpin All** 🆕 4.29 | Fija (📌) o libera **todas** las cajas del flow visible de una vez: fijadas, ningún relayout ni el arrastre las mueve |
 | **Auto Layout** | Reordena los nodos por el grafo: cadena en columnas y cajitas informativas colgando de su padre |
 | **Alinear en fila / en columna** | Coloca los nodos en fila o columna según su **nº de orden** (el campo `#` de cada cabecera) |
 | **Alinear en cuadrícula** 🆕 4.28 | Coloca cada caja en la celda **`columna,fila`** escrita en su campo `#` (`1,1` arriba a la izquierda, `3,4` = columna 3, fila 4). Ver [más abajo](#alinear-en-cuadrícula-campo---columnafila--428) |

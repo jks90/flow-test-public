@@ -88,6 +88,10 @@ Los dibujos comparten coordenadas y zoom con las cajas, se ven en el minimapa y 
 
 **Layout ▸ Guía de nodos** (o el icono de lista de la barra lateral) abre un índice de **todas las cajas del flow** agrupadas por tipo — Peticiones HTTP (método + URL), Consultas SQL (motor + query), Notas (texto / Mermaid / Captura) y Web (URL) — con su punto de estado, nº de orden y 📌. Tiene filtro de texto por nombre, URL o query. **Clic en un nodo → el lienzo se centra en él y la caja se resalta** un par de segundos. Imprescindible en flows de 20+ cajas.
 
+Desde la 4.29 los **grupos se pliegan**: clic en la cabecera del grupo lo pliega/despliega (plegado muestra el recuento y los nombres en una línea); **Alt+clic, Shift+clic o doble clic** deja **solo ese grupo** abierto; el botón junto a la ✕ pliega/despliega todos. Se recuerda entre sesiones.
+
+![](assets/flowtest-40-guia-plegada.png)
+
 ## Ocultar conectores 🆕 (4.24)
 
 **Layout ▸ Ocultar conectores** quita las líneas de conexión del lienzo para una vista limpia (o para dibujar tus propias flechas en la pizarra). Las conexiones siguen existiendo y la línea provisional al conectar dos cajas se sigue viendo; el mismo item pasa a **Mostrar conectores** para volver. Es un ajuste de vista: no se guarda en el flow ni afecta a la ejecución.
