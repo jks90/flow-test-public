@@ -57,7 +57,7 @@
 
 ![](assets/flowtest-32-rail-paneles.png)
 
-A la izquierda del lienzo hay siempre una barra con siete iconos: **Proyecto** (los flows de `flows/`, 4.25), **Variables**, **Globales**, **Conexiones SQL**, **GitHub**, **Pizarra** y **Guía de nodos**. Solo se ve **un panel a la vez**: clic en un icono lo abre (y cierra el anterior), clic en el icono activo lo cierra, y la ✕ de abajo cierra el panel abierto. El panel elegido se recuerda entre recargas.
+A la izquierda del lienzo hay siempre una barra con tres iconos: **Proyecto** (los flows de `flows/`, 4.25), **Pizarra** y **Guía de nodos**. Los paneles de **Config** (Variables, Globales, Conexiones SQL, GitHub) aparecen en la barra solo mientras están abiertos y desaparecen al cerrarlos. Solo se ve **un panel a la vez**: clic en un icono lo abre (y cierra el anterior), clic en el icono activo lo cierra, y la ✕ de abajo cierra el panel abierto. El panel elegido se recuerda entre recargas.
 
 ## Pestañas, canvas y minimapa
 
