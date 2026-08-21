@@ -25,7 +25,7 @@ docker run -d \
   --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 \
   --name flow \
-  juankanh/flow-app:4.24.0
+  juankanh/flow-app:4.25.0
 ```
 
 - **Web**: http://localhost:9998 — el canvas visual.
@@ -37,7 +37,8 @@ docker run -d \
 
 | Versión | Qué trae |
 |---------|----------|
-| **4.24.0** (recomendada) | **Pizarra estilo Excalidraw** sobre el lienzo (lápiz, línea, flecha, rectángulo, elipse, texto, borrador; trazo boceto o limpio, colores, relleno, deshacer/rehacer; los dibujos se guardan en el flow como `drawings` y se ven en el minimapa), **barra lateral de iconos** con un panel visible a la vez (Variables, Global, SQL, GitHub, Pizarra, Guía de nodos), **Guía de nodos** (índice por tipo/nombre con foco al clic) y **Ocultar conectores** en el menú Layout, botón **Maximizar** en la vista previa Mermaid (pantalla completa con zoom), tool MCP `node_add_info` (notas/diagramas/capturas desde la IA; 20 tools) |
+| **4.25.0** (recomendada) | **`flows/` como proyecto**: el panel **Proyecto** lista los `.flow.json` del contenedor (`/app/flows`, móntalo con `-v ./flows:/app/flows`) por carpeta, marca cuál está abierto, cuál tiene cambios (●) y cuál cambió en disco; abres cualquiera en una pestaña y **Ctrl+S** (o el botón **Guardar**) escribe la pestaña en su fichero — se acabó exportar y sobrescribir a mano. Pestañas nuevas → «Guardar como…» (nombre + carpeta); si el fichero cambió en disco (CLI, MCP, git) avisa antes de pisarlo y permite recargarlo. Los ficheros conservan el dueño del host aunque el contenedor corra como root. **Enlaces entre flows** en las notas: `[[otro-flow]]`, `[[otro-flow|texto]]`, `[[otro-flow#Nombre de nodo]]` abren ese flow y centran el nodo; las URLs http(s) son clicables |
+| 4.24.0 | **Pizarra estilo Excalidraw** sobre el lienzo (lápiz, línea, flecha, rectángulo, elipse, texto, borrador; trazo boceto o limpio, colores, relleno, deshacer/rehacer; los dibujos se guardan en el flow como `drawings` y se ven en el minimapa), **barra lateral de iconos** con un panel visible a la vez (Variables, Global, SQL, GitHub, Pizarra, Guía de nodos), **Guía de nodos** (índice por tipo/nombre con foco al clic) y **Ocultar conectores** en el menú Layout, botón **Maximizar** en la vista previa Mermaid (pantalla completa con zoom), tool MCP `node_add_info` (notas/diagramas/capturas desde la IA; 20 tools) |
 | 4.23.0 | Los **scripts JS de las notas se ejecutan al pulsar Run Flow** (web, MCP `flow_run` y CLI) y sus valores entran como variables antes de la primera petición (`--skip-info-scripts` en CLI); **📌 fijar** cajas (ningún relayout ni arrastre las mueve); franja **Variables usadas** en cada caja request/SQL con edición in situ; tool MCP `tab_close` |
 | 4.22.0 | **Nº de orden** por nodo (campo `#` en la cabecera, persistido en el flow) y **Alinear en fila / en columna** en el menú Layout |
 | 4.13 – 4.21 | **Toolbar compacta**: desplegables Add Node y Layout, modal Config (Historial, Consola, SQL Conns, GitHub, Variables, Global), Expand All; **cajas colapsadas compactas** (ancho por tipo, botones bajo el título); Collapse All acerca las cajas sin reordenar y Expand All restaura posiciones; anti-solapes al expandir; conmutador Vista previa / Texto en las notas; minimapa oculto por defecto |
@@ -54,14 +55,14 @@ docker run -d \
 | 4.0.16 | Web + CLI HTTP: curl import, extracciones JSONPath, reports en `resumen/`, batch, cron, multi-pestaña |
 
 ```bash
-docker pull juankanh/flow-app:4.24.0
+docker pull juankanh/flow-app:4.25.0
 ```
 
 ## Documentación
 
 | Guía | Contenido |
 |------|-----------|
-| [docs/manual/](docs/manual/README.md) | 📘 **Manual de uso completo con capturas de pantalla anotadas**: la pantalla principal, cada tipo de nodo, variables, **pizarra**, guía de nodos, modo Live, flow-explore, paneles, CLI, MCP y Docker |
+| [docs/manual/](docs/manual/README.md) | 📘 **Manual de uso completo con capturas de pantalla anotadas**: la pantalla principal, cada tipo de nodo, variables, **proyecto (flows/ + Ctrl+S)**, **pizarra**, guía de nodos, modo Live, flow-explore, paneles, CLI, MCP y Docker |
 | [docs/instalacion-docker.md](docs/instalacion-docker.md) | Montar la imagen: puertos, redes, variables de entorno, persistencia de flows, actualizar de versión, troubleshooting |
 | [docs/cli.md](docs/cli.md) | El runner por terminal: flags, baterías, reports, exit codes para CI, nodos SQL y perfiles de conexión |
 | [docs/mcp.md](docs/mcp.md) | Conectar una IA: Claude Code y Claude Desktop, las 20 tools, seguridad, flujos de trabajo típicos |
@@ -101,6 +102,10 @@ claude mcp add --transport http flow-test http://localhost:9998/mcp
 **4. Guardar lo que la IA construyó y ejecutarlo en CI**: la tool `flow_save` deja el
 `.flow.json` en el contenedor; `docker exec flow node cli/run-flow.js --flow flows/mi-flow.flow.json`
 lo ejecuta igual que la web.
+
+**5. Trabajar sobre `flows/` como un proyecto** (4.25): monta `-v ./flows:/app/flows`, abre el panel
+**Proyecto** en la web y edita/guarda con **Ctrl+S** directamente en tus ficheros — versionables en git
+y ejecutables por el CLI sin pasos intermedios.
 
 ## Requisitos
 

@@ -13,7 +13,7 @@ docker run -d \
   --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 \
   --name flow \
-  juankanh/flow-app:4.24.0
+  juankanh/flow-app:4.25.0
 ```
 
 | Pieza | Dónde queda |
@@ -38,7 +38,7 @@ docker run -d \
   --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 \
   --name flow \
-  juankanh/flow-app:4.24.0
+  juankanh/flow-app:4.25.0
 ```
 
 ## Variables de entorno
@@ -58,7 +58,7 @@ Ejemplo con MCP protegido por token:
 ```bash
 docker run -d --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 -e FLOW_MCP_TOKEN=mi-secreto \
-  --name flow juankanh/flow-app:4.24.0
+  --name flow juankanh/flow-app:4.25.0
 ```
 
 ## Webcam falsa y videomock de DNI (solo QA)
@@ -73,7 +73,7 @@ docker run -d --add-host=host.docker.internal:host-gateway \
   -e FLOW_VIDEOMOCK_MOLDS=/app/flows/molds \
   -e FLOW_VIEWPORT=1920x1080 \
   -v "$(pwd)/flows:/app/flows" \
-  juankanh/flow-app:4.24.0
+  juankanh/flow-app:4.25.0
 ```
 
 Genera el vídeo antes de abrir la sesión Live:
@@ -111,23 +111,25 @@ mkdir -p ./flows
 docker run -d --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 \
   -v "$(pwd)/flows:/app/flows" \
-  --name flow juankanh/flow-app:4.24.0
+  --name flow juankanh/flow-app:4.25.0
 ```
 
 > Con el volumen montado, los flows de ejemplo que trae la imagen quedan ocultos: tu carpeta
 > manda. Copia dentro también tu `sql-connections.json` si usas nodos SQL (ver
 > [cli.md](cli.md#nodos-sql)).
 >
-> Nota: los flows que editas en la **web** se guardan en el `localStorage` de tu navegador;
-> lo que persiste en disco es lo que exportas (botón *Export*), guardas por MCP (`flow_save`)
-> o copias a `/app/flows`.
+> Nota: los flows que editas en la **web** se autoguardan en el `localStorage` de tu navegador;
+> en disco persiste lo que guardas con **Ctrl+S** desde el panel **Proyecto** (4.25 — escribe
+> directamente en `/app/flows`, o sea en tu `./flows`), lo que exportas (*Export*), lo que guarda el
+> MCP (`flow_save`) o lo que copias a `/app/flows`. Los ficheros escritos por el contenedor
+> conservan el dueño del host.
 
 ## Actualizar de versión
 
 ```bash
-docker pull juankanh/flow-app:4.24.0
+docker pull juankanh/flow-app:4.25.0
 docker stop flow && docker rm flow
-docker run -d ... juankanh/flow-app:4.24.0   # mismo run de siempre
+docker run -d ... juankanh/flow-app:4.25.0   # mismo run de siempre
 ```
 
 Los flows en volumen (y los del navegador) no se pierden.

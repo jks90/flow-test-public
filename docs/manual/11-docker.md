@@ -4,7 +4,7 @@
 
 ```bash
 docker run -d --add-host=host.docker.internal:host-gateway \
-  -p 9998:3001 --name flow juankanh/flow-app:4.24.0
+  -p 9998:3001 --name flow juankanh/flow-app:4.25.0
 # web + API + MCP, todo en http://localhost:9998
 ```
 
@@ -21,6 +21,7 @@ docker build -t juankanh/flow-app:<version> .
 - **localhost se reescribe** a `host.docker.internal` automáticamente (flows que apuntan a APIs de tu máquina siguen funcionando). Desactivable con `FLOW_REWRITE_LOCALHOST=false` o `--no-localhost-rewrite` en el CLI.
 - El **CLI va dentro**: `docker exec flow node cli/run-flow.js --dir flows`.
 - El **MCP va dentro**: `claude mcp add --transport http flow-test http://localhost:9998/mcp`.
+- **`flows/` es el proyecto** (4.25): con `-v ./flows:/app/flows`, lo que guardas con Ctrl+S desde la web queda en tu disco, con tu usuario como dueño, listo para git y para el CLI.
 
 ## Chrome dentro de la imagen (desde la 4.5.0)
 
@@ -111,4 +112,5 @@ Monta con volumen, **no** con `docker cp`: los `.crt` que son symlinks (p. ej.
 | 4.13 – 4.21 | Toolbar compacta (Add Node ▾, Layout ▾, modal Config), Expand All, cajas colapsadas compactas, Collapse All sin reordenar, anti-solapes, Vista previa/Texto en notas, minimapa oculto por defecto |
 | 4.22.0 | Nº de orden por nodo + Alinear en fila/columna |
 | 4.23.0 | Scripts JS de las notas ejecutados al Run Flow (web, MCP y CLI; `--skip-info-scripts`), 📌 fijar cajas, Variables usadas en cada caja, tool MCP `tab_close` |
-| **4.24.0** | **Pizarra** estilo Excalidraw sobre el lienzo (`drawings` en el flow), barra lateral de iconos con un panel a la vez, **Guía de nodos**, Ocultar conectores, Maximizar Mermaid, tool MCP `node_add_info` (20 tools) |
+| 4.24.0 | **Pizarra** estilo Excalidraw sobre el lienzo (`drawings` en el flow), barra lateral de iconos con un panel a la vez, **Guía de nodos**, Ocultar conectores, Maximizar Mermaid, tool MCP `node_add_info` (20 tools) |
+| **4.25.0** | **`flows/` como proyecto**: panel Proyecto, abrir/guardar con **Ctrl+S** en el fichero, «Guardar como…», detección de cambios en disco, ficheros con el dueño del host desde Docker; **enlaces `[[flow#nodo]]`** entre flows en las notas |

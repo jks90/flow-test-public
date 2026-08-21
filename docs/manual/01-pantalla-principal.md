@@ -16,7 +16,8 @@
 | **Pizarra** (morado) 🆕 | Abre el panel de la **pizarra**: dibujar y escribir sobre el lienzo, estilo Excalidraw ([08 Paneles y utilidades](08-paneles.md#pizarra)) |
 | **Reset** | Limpia respuestas/estados de todas las cajitas (no borra nodos) |
 | **Layout ▾** | Organización del canvas: colapsar, expandir, auto layout, alinear, **guía de nodos**, **ocultar conectores**, split |
-| **Export** | Descarga el flow como `.flow.json` |
+| **Guardar** / 📁 🆕 | Guarda la pestaña activa en su fichero de `flows/` (**Ctrl+S**); el icono de carpeta es «Guardar como…» (**Ctrl+Shift+S**). El punto ámbar indica cambios sin guardar ([08 · Proyecto](08-paneles.md#proyecto--flows-como-workspace-425)) |
+| **Export** | Descarga el flow como `.flow.json` (fuera del proyecto) |
 | **Config** | Modal con Historial, Consola, SQL Conns, GitHub Flows, Variables y Global. El badge verde es el contador de la consola |
 
 ### El desplegable Add Node
@@ -56,13 +57,13 @@
 
 ![](assets/flowtest-32-rail-paneles.png)
 
-A la izquierda del lienzo hay siempre una barra con seis iconos: **Variables**, **Globales**, **Conexiones SQL**, **GitHub**, **Pizarra** y **Guía de nodos**. Solo se ve **un panel a la vez**: clic en un icono lo abre (y cierra el anterior), clic en el icono activo lo cierra, y la ✕ de abajo cierra el panel abierto. El panel elegido se recuerda entre recargas.
+A la izquierda del lienzo hay siempre una barra con siete iconos: **Proyecto** (los flows de `flows/`, 4.25), **Variables**, **Globales**, **Conexiones SQL**, **GitHub**, **Pizarra** y **Guía de nodos**. Solo se ve **un panel a la vez**: clic en un icono lo abre (y cierra el anterior), clic en el icono activo lo cierra, y la ✕ de abajo cierra el panel abierto. El panel elegido se recuerda entre recargas.
 
 ## Pestañas, canvas y minimapa
 
 ![](assets/flowtest-02-pantalla.png)
 
-- **Pestañas**: cada pestaña es un flow independiente. **Nuevo** crea una vacía, **Abrir** importa un `.flow.json`. La ✕ cierra (avisa si hay cambios). Todo se **autoguarda en el navegador** (localStorage) — Export es para llevártelo a disco/git.
+- **Pestañas**: cada pestaña es un flow independiente. **Nuevo** crea una vacía, **Abrir** importa un `.flow.json` del disco local. La ✕ cierra (avisa si hay cambios). Todo se **autoguarda en el navegador** (localStorage); además, desde la 4.25 cada pestaña abierta desde el proyecto **sabe cuál es su fichero** de `flows/` (la etiqueta muestra el nombre del fichero y un ● ámbar si hay cambios) y **Ctrl+S** lo guarda ahí. Export es para descargarlo fuera del proyecto.
 - **Minimapa**: vista de pájaro del canvas (cajas **y dibujos de la pizarra**); clica para saltar a una zona. Arranca oculto — botón «Mostrar minimapa» abajo a la izquierda.
 - **Zoom**: botones ± o **Ctrl + rueda**. Los dibujos de la pizarra escalan con las cajas.
 - **Moverse**: botón central del ratón, o la herramienta **Mano** de la pizarra. Arrastra una cajita por su cabecera para recolocarla.

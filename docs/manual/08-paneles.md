@@ -3,6 +3,41 @@
 > [!TIP]
 > **¿Dónde está cada cosa?** Historial, Consola, Batch y GitHub se abren desde **Config**; Variables, Global, SQL Conns, **Pizarra** y **Guía de nodos** desde la **barra lateral de iconos** (un panel a la vez); y las utilidades de organización desde el desplegable **Layout**. Ver [01 La pantalla principal](01-pantalla-principal.md).
 
+## Proyecto — `flows/` como workspace 🆕 (4.25)
+
+![](assets/flowtest-35-proyecto.png)
+
+La carpeta `flows/` del servidor (en Docker `/app/flows`, normalmente montada con `-v ./flows:/app/flows`) es el **proyecto**. El primer icono de la barra lateral abre el panel **Proyecto**:
+
+| Zona | Qué hay |
+|------|---------|
+| **Pestañas sin fichero** | Pestañas creadas con *Nuevo* o importadas con *Abrir* que aún no viven en `flows/` — botón **Guardar como…** |
+| **flows/** (y subcarpetas) | Cada `.flow.json` con su nombre de flow, nº de nodos y fecha. Marcas: azul = pestaña activa, verde = abierto, **●** = cambios sin guardar, ⚠ = el fichero cambió en disco después de abrirlo (CLI, MCP, git…) |
+| Botones por fichero | Abrir en una pestaña · ir a la pestaña si ya está abierto · **Guardar** (si tiene cambios) · **Recargar desde disco** (si cambió fuera) |
+
+Cómo se trabaja:
+
+- **Abrir**: clic en un fichero → pestaña con la etiqueta del fichero. Los ids de los nodos se conservan, así que al guardar el fichero cambia solo lo que tocaste (diffs limpios en git).
+- **Guardar**: **Ctrl+S** (o el botón **Guardar** de la toolbar) escribe la pestaña activa en su fichero. El aviso «Sin guardar» y el ● ámbar desaparecen.
+- **Guardar como…** (**Ctrl+Shift+S** o el icono 📁): nombre + carpeta dentro de `flows/` (avisa si va a sobrescribir). Es lo que pide Ctrl+S en una pestaña sin fichero.
+- **Conflictos**: si el fichero cambió en disco desde que lo abriste, Ctrl+S pregunta antes de pisarlo; el panel ofrece **recargar desde disco** (pierdes los cambios de la pestaña).
+- **Docker**: los ficheros que crea o sobrescribe el contenedor conservan el **dueño del host** (aunque el server corra como root), así que puedes seguir editándolos y versionándolos sin `sudo`.
+
+> Los flows editados en la web siguen autoguardándose en el navegador como siempre; lo nuevo es que además cada pestaña sabe a qué fichero pertenece. *Export* sigue sirviendo para descargar el `.flow.json` fuera del proyecto, y las tools MCP `flow_save` / `flow_file_read` escriben y leen la misma carpeta.
+
+## Enlaces entre flows en las notas 🆕 (4.25)
+
+En el texto de una **nota** (Add Note), escribe:
+
+| Sintaxis | Qué hace al hacer clic en la vista previa |
+|----------|-------------------------------------------|
+| `[[api-store]]` | Abre (o activa) el flow `api-store` — busca por nombre de fichero o de flow, primero en las pestañas y luego en `flows/` |
+| `[[api-store|ver la API de la tienda]]` | Lo mismo, con texto propio |
+| `[[api-store#Stripe - Webhook]]` | Abre el flow **y centra/resalta** el nodo con ese nombre |
+| `https://…` | Las URLs se vuelven enlaces (nueva pestaña del navegador) |
+
+Combinado con la pizarra y la guía de nodos, permite montar un flow «índice» que enlaza al resto del proyecto.
+
 ## Pizarra 🆕 (4.24)
 
 ![](assets/flowtest-30-pizarra.png)
