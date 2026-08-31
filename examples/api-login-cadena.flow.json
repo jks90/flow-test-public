@@ -1,0 +1,47 @@
+{
+  "version": "1.0",
+  "name": "Login y listado autenticado",
+  "nodes": [
+    {
+      "id": "login",
+      "name": "Login",
+      "curl": "curl -X POST \"{{apiBase}}/auth/login\" -H \"Content-Type: application/json\" -d '{\"email\":\"{{email}}\",\"password\":\"{{password}}\"}'",
+      "position": { "x": 100, "y": 120 },
+      "status": "idle",
+      "collapsed": false,
+      "extractions": [
+        { "id": "e1", "varName": "token", "jsonPath": "$.accessToken" }
+      ]
+    },
+    {
+      "id": "listar",
+      "name": "Listar usuarios",
+      "curl": "curl \"{{apiBase}}/users\" -H \"Authorization: Bearer {{token}}\"",
+      "position": { "x": 480, "y": 120 },
+      "status": "idle",
+      "collapsed": false,
+      "extractions": [
+        { "id": "e2", "varName": "primerUsuario", "jsonPath": "$[0].id" }
+      ]
+    },
+    {
+      "id": "detalle",
+      "name": "Detalle del primer usuario",
+      "curl": "curl \"{{apiBase}}/users/{{primerUsuario}}\" -H \"Authorization: Bearer {{token}}\"",
+      "position": { "x": 860, "y": 120 },
+      "status": "idle",
+      "collapsed": false,
+      "extractions": []
+    }
+  ],
+  "sqlNodes": [],
+  "connections": [
+    { "id": "c1", "sourceId": "login", "targetId": "listar", "behavior": "next" },
+    { "id": "c2", "sourceId": "listar", "targetId": "detalle", "behavior": "next" }
+  ],
+  "envVariables": {
+    "apiBase": "http://localhost:8080",
+    "email": "admin@example.com",
+    "password": "cambia-esto"
+  }
+}

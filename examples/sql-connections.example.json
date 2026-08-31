@@ -1,0 +1,24 @@
+[
+  {
+    "id": "mi-mysql",
+    "name": "MySQL local (desde el contenedor)",
+    "dbType": "mysql",
+    "jdbcUrl": "",
+    "host": "host.docker.internal",
+    "port": "3306",
+    "database": "mi_bbdd",
+    "username": "usuario",
+    "password": "cambia-esto"
+  },
+  {
+    "id": "mi-postgres",
+    "name": "Postgres por JDBC (sslmode explícito)",
+    "dbType": "postgres",
+    "jdbcUrl": "jdbc:postgresql://host.docker.internal:5432/mi_bbdd?sslmode=disable&user=usuario&password=cambia-esto",
+    "host": "",
+    "port": "",
+    "database": "",
+    "username": "",
+    "password": ""
+  }
+]

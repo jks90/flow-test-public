@@ -1,0 +1,45 @@
+# 📘 Flow-test — Manual de uso
+
+Manual completo del **Flow Builder** (flow-test): la herramienta visual para componer, ejecutar y **documentar** flujos de peticiones HTTP, SQL y navegación web. Todas las capturas son de la aplicación real.
+
+> [!NOTE]
+> Manual de **flow-test v5.1.0** (imagen `juankanh/flow-app:5.1.0`). La imagen incluye Chromium para Captura, Live y `flow-explore` en modo crawl. Novedad de la 5.1.0: **prueba de 14 días** con todas las funciones; después, ejecutar flows requiere licencia de pago o cuenta cloud (flowtest.es), validada online contra el servidor del autor. Novedad de la 5.0.1: **la imagen ya no trae flows de ejemplo del proyecto** — un contenedor nuevo arranca con un único flow de bienvenida limpio. Novedad de la 4.51: **scripts «después» con `vars` y variables vivas en la pizarra** — un script de nota puede correr al terminar Run Flow con todas las extracciones (deltas, semáforos) y los textos/imágenes de la pizarra resuelven `{{variables}}` ([04](04-notas-mermaid-capturas.md#scripts-antes-y-después-con-vars--451), [08](08-paneles.md#variables-vivas-en-la-pizarra--451)). Novedad de la 4.47: **copiar/pegar en la pizarra** (Ctrl+C/X/V y botones en el panel, pegado con desplazamiento acumulado) y **mover el grupo arrastrando desde el hueco dentro de la selección** ([08](08-paneles.md#pizarra--424)). De la 4.46: **selección múltiple en la pizarra** — con Seleccionar, arrastra sobre el fondo para dibujar un rectángulo que coge todos los dibujos que toca (Shift acumula) y mueve o retoca el grupo de una vez ([08](08-paneles.md#pizarra--424)). De la 4.45: **los PDF del proyecto se abren como pestañas** — el panel Proyecto lista los `.pdf` de `flows/` y los abre en un visor de solo lectura ([08](08-paneles.md#documentos-pdf-en-el-panel--445)). De la 4.44: **exportar el canvas a PDF** — menú del logo → «Exportar PDF»: una página del tamaño exacto del flujo (nodos + conexiones + pizarra), completa aunque no quepa en pantalla ([01](01-pantalla-principal.md#exportar-el-canvas-a-pdf--444)). De la 4.43: **secciones plegables en el panel Correo** — Servidor SMTP, Buzón remoto (mail.tm), Código de verificación y Buzones se pliegan desde su cabecera (plegadas muestran un resumen y el estado se recuerda) ([08](08-paneles.md#correo-de-prueba--smtp-embebido--436)). De la 4.42: **el correo extrae el código de verificación** (`$.code`, con regex propia para OTPs alfanuméricos) y **buzones de Internet con mail.tm** junto al SMTP embebido ([08](08-paneles.md#extracción-del-código-y-buzones-de-internet--mailtm--442)). De la 4.41: **árbol de carpetas en el panel Proyecto** — subcarpetas anidadas dentro de su padre, plegado en cascada ([08](08-paneles.md#proyecto--flows-como-workspace--425)). De la 4.40: **los `.md` se abren como pestañas** — el documento ocupa el área del canvas como un flow más, con chip MD ([08](08-paneles.md#documentos-markdown-en-el-panel--438)). De la 4.39: **▶ ejecutar un flow desde un documento** — cada enlace `[[flow]]` del visor Markdown lleva un botón verde que abre el flow y lanza su Run Flow completo ([08](08-paneles.md#documentos-markdown-en-el-panel--438)). De la 4.38: **documentos Markdown en el panel Proyecto** — los `.md` de `flows/` (notas e informes de `flow-explore`) se listan y se abren en un visor de solo lectura con tablas, código, `<details>` y enlaces `[[flow]]` que llevan al canvas ([08](08-paneles.md#documentos-markdown-en-el-panel--438)). De la 4.37: el **MCP controla el correo de prueba** (`mail_state`, `mail_server`, `mail_address`, `mail_messages` — 37 tools) y guía para cuando el servicio que envía corre en otra máquina ([08 Paneles](08-paneles.md#y-si-el-servicio-que-envía-corre-en-otra-máquina)). De la 4.36: **Correo de prueba** (Config → Correo) — un SMTP embebido en el puerto 1025 con buzones `@midominiotest.com` para ver los correos que envían tus servicios sin cuentas reales, y `GET /mail/messages/latest` para verificarlos desde un flow ([08 Paneles](08-paneles.md#correo-de-prueba--smtp-embebido--436)). De la 4.35: **10 fuentes manuscritas en la pizarra** (Excalidraw, Indie Flower…) y **las filas bajan en bloque cuando una card crece al ejecutarse** ([08](08-paneles.md#fuentes-del-texto--435)). Novedad de la 4.34: **cadenas entre cualquier tipo de nodo, Run Flow con SQL y pausa por conector** ([03](03-conexiones-y-variables.md)). Novedad de la 4.33: **MCP con control total** (33 tools: vista, globales, renombrar, behavior de conexiones, perfiles SQL, separar) — [10](10-mcp.md). Novedad de la 4.32: **extracciones plegables con ↻ re-extraer** en las cajas request ([02](02-nodo-request.md#variable-extractions--432)). Novedad de la 4.31: **activar / desactivar nodos** desde el menú de la caja (se saltan al ejecutar). Novedad de la 4.30: **cabecera de las cajas simplificada** con menú en el icono del tipo ([01](01-pantalla-principal.md#la-cabecera-de-las-cajas--430)). Novedades de la 4.29: botón **Copiar** en la vista previa de las notas, **Layout ▸ Pin All / Unpin All** y **guía de nodos plegable**. Novedad de la 4.28: campo **`#` = `columna,fila`** y **Layout ▸ Alinear en cuadrícula** ([01](01-pantalla-principal.md#alinear-en-cuadrícula-campo---columnafila--428)). Novedad de la 4.27: **Config ▸ Vista** — tamaño de los nodos, **modo compacto** (caja con icono, tooltip, clic para abrir) y **separación entre nodos** sin solapes ([08](08-paneles.md#vista--tamaño-de-los-nodos-modo-compacto-y-separación--427)). Novedades de la 4.25: **`flows/` como proyecto** (panel Proyecto + **Ctrl+S** guarda en el fichero) y **enlaces `[[flow#nodo]]`** entre flows en las notas; de la 4.24: pizarra, barra lateral, guía de nodos, ocultar conectores, Mermaid a pantalla completa — ver [01](01-pantalla-principal.md) y [08](08-paneles.md).
+
+## Índice
+
+1. [01 La pantalla principal](01-pantalla-principal.md) — toolbar, barra lateral, pestañas, canvas, minimapa, split 🆕
+2. [02 El nodo Request](02-nodo-request.md) — las cajitas curl: ejecutar, respuesta, extracciones
+3. [03 Conexiones y variables](03-conexiones-y-variables.md) — encadenar nodos y mover datos entre ellos
+4. [04 Notas, Mermaid y Capturas](04-notas-mermaid-capturas.md) — documentación dentro del canvas 🆕
+5. [05 El nodo SQL](05-nodo-sql.md) — consultas Postgres/MySQL/Oracle en el flujo
+6. [06 El nodo Web y el modo Live](06-nodo-web-live.md) — navegar una web embebida y capturar pasos 🆕
+7. [07 Documentar una web — flow-explore](07-flow-explore.md) — el CLI que genera documentación sola 🆕
+8. [08 Paneles y utilidades](08-paneles.md) — **proyecto (flows/ + Ctrl+S)**, **pizarra**, **correo de prueba (SMTP)**, guía de nodos, historial, consola, batch, GitHub, export 🆕
+9. [09 El CLI flow-run](09-cli-flow-run.md) — ejecutar flows desde terminal / CI
+10. [10 El MCP embebido](10-mcp.md) — que una IA construya flows en tu canvas
+11. [11 Docker y despliegue](11-docker.md)
+
+## Arrancar la aplicación
+
+**En desarrollo** (con todas las funciones, incluidas las 🆕):
+
+```bash
+git clone https://github.com/jks90/flow-test && cd flow-test && npm install
+npm run dev        # web en http://localhost:5173 + server en :3001
+```
+
+**Con Docker** (la imagen trae Chromium: captura y Live incluidos; solo `flow-explore --manual/--headful` necesita un display):
+
+```bash
+docker run -d --add-host=host.docker.internal:host-gateway \
+  -p 9998:3001 --name flow juankanh/flow-app:5.1.0
+# web en http://localhost:9998
+```
+
+## La idea en 30 segundos
+
+- Cada **cajita** del canvas es un paso: una petición HTTP (curl), una consulta SQL, una nota, una captura de pantalla o una web.
+- Las **flechas** definen el orden de ejecución; las **variables** `{{asi}}` mueven datos de una cajita a la siguiente.
+- Un flujo se guarda como un `.flow.json` que se puede versionar, compartir, y ejecutar **sin abrir el navegador** con el CLI `flow-run`. 🆕 Desde la 4.25 la carpeta `flows/` del servidor es el **proyecto**: la web sabe qué fichero es cada pestaña y **Ctrl+S** lo guarda ahí.
+- Además de probar APIs, sirve para **documentarlas**: screenshots de cada pantalla de una web con sus llamadas HTTP debajo, generados navegando (modo Live) o con el explorador automático (`flow-explore`).
+- 🆕 Y para **explicarlas encima del propio lienzo**: la pizarra deja rodear, anotar y señalar las cajas, y la guía de nodos te lleva a cualquier caja de un clic.

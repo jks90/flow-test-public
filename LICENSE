@@ -1,0 +1,92 @@
+flow-test (Flow — Visual API Orchestrator)
+Licencia de uso — versión 1.0 (2026-08-28)
+
+Copyright (c) 2026 jks90 (autor de flow-test). Todos los derechos reservados.
+
+RESUMEN (no sustituye al texto completo de abajo)
+  • Software propietario. Uso PERSONAL y NO COMERCIAL: GRATIS, con todas las
+    funciones, en tu propia máquina.
+  • Uso COMERCIAL, en equipo o en la nube: requiere una LICENCIA DE PAGO.
+  • Algunas funciones avanzadas requieren una clave de licencia válida.
+
+English summary: flow-test is proprietary software. Free for personal,
+non-commercial use by individuals (all features, self-hosted, on your own
+machine). Any commercial, organizational, team or hosted use requires a paid
+commercial license. See the full Spanish text below; for a commercial license
+contact the author.
+
+--------------------------------------------------------------------------------
+
+1. DEFINICIONES
+   "Software": el programa flow-test, incluyendo su código, su imagen Docker,
+   su interfaz web, su CLI, su servidor y su MCP embebido, en cualquier versión.
+   "Autor": el titular del copyright indicado arriba.
+   "Uso personal y no comercial": uso por una PERSONA FÍSICA, para fines
+   privados, de aprendizaje, evaluación o proyectos sin ánimo de lucro, en
+   equipos que esa persona controla.
+   "Uso comercial": cualquier uso por o en nombre de una empresa, organización,
+   administración o autónomo en el ejercicio de su actividad; el uso en un
+   entorno de trabajo o de producción; el uso por un equipo de dos o más
+   personas de forma coordinada; ofrecer el Software (o su funcionalidad) como
+   servicio a terceros; o cualquier uso destinado a generar ingresos, directa o
+   indirectamente.
+   "Clave de licencia": la credencial firmada por el Autor que habilita las
+   funciones sujetas a licencia de pago.
+
+2. CONCESIÓN GRATUITA (uso personal y no comercial)
+   El Autor te concede, sin coste, un derecho no exclusivo, intransferible y
+   revocable a instalar y usar el Software para uso personal y no comercial,
+   incluyendo todas sus funciones, ejecutándolo en tus propios equipos. Esta
+   concesión no incluye ningún uso comercial (ver punto 3) ni los derechos
+   restringidos del punto 5.
+
+3. LICENCIA DE PAGO (uso comercial, equipo, nube)
+   Todo uso comercial, en equipo o en la nube, y el uso de las funciones que lo
+   requieran, exige una licencia de pago vigente concedida por el Autor. Sin
+   ella, dicho uso NO está autorizado. La licencia de pago define su alcance
+   (número de usuarios/organización, duración, funciones habilitadas) y se
+   activa mediante una clave de licencia.
+
+4. FUNCIONES SUJETAS A LICENCIA
+   El Software puede requerir una clave de licencia válida para habilitar
+   determinadas funciones (por ejemplo, colaboración en equipo, sincronización
+   o alojamiento en la nube, y otras que el Autor indique). El Autor puede
+   modificar qué funciones son gratuitas o de pago en versiones futuras; los
+   cambios no afectan retroactivamente a una licencia de pago ya adquirida
+   durante su periodo de vigencia.
+
+5. RESTRICCIONES
+   Salvo autorización expresa y por escrito del Autor, NO puedes:
+   (a) usar el Software comercialmente, en equipo o en la nube sin una licencia
+       de pago vigente;
+   (b) redistribuir, revender, sublicenciar, alquilar o publicar el Software o
+       su imagen Docker;
+   (c) eludir, desactivar o manipular los controles de licencia, ni habilitar
+       funciones de pago sin una clave válida;
+   (d) aplicar ingeniería inversa al Software con el fin de eludir sus controles
+       de licencia;
+   (e) retirar los avisos de copyright o de licencia.
+
+6. PROPIEDAD
+   El Software es propiedad del Autor y está protegido por las leyes de
+   propiedad intelectual. Esta licencia no te transfiere la propiedad, solo los
+   derechos de uso limitados que aquí se conceden.
+
+7. SIN GARANTÍA
+   EL SOFTWARE SE PROPORCIONA "TAL CUAL", SIN GARANTÍA DE NINGÚN TIPO, EXPRESA O
+   IMPLÍCITA. EL AUTOR NO SERÁ RESPONSABLE DE NINGÚN DAÑO DERIVADO DEL USO DEL
+   SOFTWARE, EN LA MEDIDA QUE PERMITA LA LEY APLICABLE.
+
+8. VIGENCIA
+   Esta licencia se resuelve automáticamente si incumples sus términos. Al
+   resolverse, debes cesar todo uso y eliminar tus copias del Software.
+
+9. LICENCIA COMERCIAL Y CONTACTO
+   Para adquirir una licencia comercial, o para cualquier consulta sobre estos
+   términos, contacta con el Autor a través del repositorio del proyecto:
+   https://github.com/jks90/flow-test
+
+--------------------------------------------------------------------------------
+Nota: este texto es una licencia de uso pensada como punto de partida. No
+constituye asesoramiento jurídico; antes de hacerla valer frente a terceros,
+conviene revisarla con un profesional del Derecho de tu jurisdicción.

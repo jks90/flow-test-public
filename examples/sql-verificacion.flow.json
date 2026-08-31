@@ -1,0 +1,45 @@
+{
+  "version": "1.0",
+  "name": "Verificación con SQL",
+  "nodes": [
+    {
+      "id": "consultar-api",
+      "name": "GET del usuario extraído de la BBDD",
+      "curl": "curl \"{{apiBase}}/users/{{userId}}\"",
+      "position": { "x": 480, "y": 120 },
+      "status": "idle",
+      "collapsed": false,
+      "extractions": [
+        { "id": "e1", "varName": "emailApi", "jsonPath": "$.email" }
+      ]
+    }
+  ],
+  "sqlNodes": [
+    {
+      "id": "buscar-en-bbdd",
+      "name": "Último usuario en BBDD",
+      "position": { "x": 100, "y": 120 },
+      "collapsed": false,
+      "dbType": "mysql",
+      "connectionProfileId": "mi-mysql",
+      "host": "",
+      "port": "",
+      "database": "",
+      "username": "",
+      "password": "",
+      "query": "SELECT id, email FROM users ORDER BY id DESC LIMIT 1",
+      "displayMode": "table",
+      "status": "idle",
+      "extractions": [
+        { "id": "x1", "varName": "userId", "column": "id", "rowIndex": 0 },
+        { "id": "x2", "varName": "emailBbdd", "column": "email", "rowIndex": 0 }
+      ]
+    }
+  ],
+  "connections": [
+    { "id": "c1", "sourceId": "buscar-en-bbdd", "targetId": "consultar-api", "behavior": "next" }
+  ],
+  "envVariables": {
+    "apiBase": "http://localhost:8080"
+  }
+}

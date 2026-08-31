@@ -1,0 +1,24 @@
+FLOW «Economía Global 🌍» — versión pública (educativa)
+=======================================================
+Mural sobre cómo funciona la economía mundial: materias primas, comercio,
+dinero, gobiernos, geopolítica, tecnología, criptomonedas, mercados, un mapa
+del mundo con centrales de energía y rutas comerciales, y un plan genérico de
+educación financiera con un simulador de interés compuesto.
+
+SIN DATOS PERSONALES: se han quitado las secciones «Mi economía», «Mi casa» y
+«Mi banco», la wallet, las contraseñas y cualquier dato privado.
+
+QUÉ LLEVA
+  flows/docs/economia-global.flow.json        el mural
+  flows/assets/backgrounds/world-photo.jpg    el mapa de fondo
+  flows/assets/whiteboard/*.svg, *.gif        iconos y GIFs de la pizarra
+
+CÓMO VERLO (necesita Docker)
+  1) Copia esta carpeta al PC.
+  2) docker run -d -p 9998:3001 -v /ruta/a/flows:/app/flows \
+       --name flow juankanh/flow-app:4.51.2
+  3) Abre http://localhost:9998 → panel «Proyecto» → docs/ →
+     economia-global.flow.json  (el fondo y los iconos cargan solos).
+
+Los nodos de datos en vivo (petróleo, oro, bolsa, cripto…) funcionan con internet.
+Sin Docker: repo flow-test + copiar flows/ dentro y `npm run dev` (http://localhost:5173).
