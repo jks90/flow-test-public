@@ -41,7 +41,7 @@ docker run -d \
 |---------|----------|
 | **5.4.0** (recomendada) | **Monitores programados**: el servidor ejecuta el flow cada N min sin navegador, historial de 100 runs y aviso por POST al fallar (modal «Automatización…») |
 | **5.3.0** | **CI + specs**: asserts por nodo (CLI exit ≠ 0), entornos con nombre (`--env`), **webhook entrante** (`POST /hook/<token>`), data-driven (`--data`) e **import OpenAPI/Swagger** |
-| **5.1.0** | **Prueba 14 días + licencia online**: gratis 14 días con todo; después, ejecutar flows requiere licencia o cuenta cloud (flowtest.es), validada online y revocable. Ver/editar nunca se bloquea |
+| **5.1.0** | **Prueba 14 días + licencia online** (validada y revocable); ver/editar nunca se bloquea |
 | **5.0.1** | **Fix de seguridad**: la imagen ya no incluye flows del proyecto — solo el flow de bienvenida limpio. Usa siempre ≥ 5.0.1 |
 | **5.0.0** | **Licencias por token (JWT)**: uso personal gratis; comercial/equipo/nube con licencia. **Config ▸ Licencia** activa la clave (RS256 offline) |
 | **4.51.3** | **Licencia propietaria**: uso personal y no comercial gratis con todas las funciones (self-hosted); uso comercial / equipo / nube con licencia de pago. La imagen incluye el fichero `LICENSE`. |
