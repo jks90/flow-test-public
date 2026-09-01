@@ -85,8 +85,16 @@ reportar el resultado real (nunca asumido).
 
 ### Step 2: Implementar — elige el modo
 
-**Modo A — MCP en vivo** (preferido si el servidor MCP `flow-test` está conectado; el
-usuario ve el canvas):
+> **🔴 REGLA DE ORO: si hay una pestaña web conectada, el Modo A es OBLIGATORIO.**
+> La promesa central de flow-test es que la IA construye el flow **en el canvas del usuario
+> mientras lo ve** — nodo a nodo, en directo. Escribir el `.flow.json` a disco por detrás y
+> que el usuario tenga que recargar para "descubrirlo" **rompe el producto**: no lo hagas
+> nunca teniendo el puente conectado, ni siquiera para flows grandes (para eso están
+> `flow_overwrite` como base + ediciones en vivo encima). Comprueba `bridge_status` ANTES de
+> decidir: solo si no hay pestaña conectada (y el usuario no puede abrirla) o si te piden
+> explícitamente generación en lote/CI, cae al Modo B.
+
+**Modo A — MCP en vivo** (el usuario ve el canvas):
 1. `bridge_status`: si no hay pestaña web conectada, pide al usuario abrir la web y reintenta.
 2. `flow_open` (flow existente) o `flow_create` (nuevo) → guarda el `tabId` y úsalo en todas
    las llamadas.
@@ -106,6 +114,11 @@ usuario ve el canvas):
 5. Documenta dentro del canvas si aporta: `node_add_info` con `renderMode: "mermaid"` para el
    esquema del flujo, `whiteboard_update` para rodear/etiquetar grupos de cajas, y en el texto de
    las notas `[[otro-flow#Nodo]]` para enlazar flows relacionados del proyecto.
+   **Nodos y pizarra no se pisan**: antes de colocar un nodo o un dibujo, mira en `flow_state`
+   las posiciones de las cajas Y las de los `drawings` existentes, y usa espacio libre (los
+   dibujos rodean o anotan cajas a propósito; un nodo plantado ENCIMA de un bloque de pizarra
+   ajeno es un error de composición). Si dudas, coloca el nodo debajo/al lado del conjunto y
+   deja aire (~80 px).
 6. Al terminar, `flow_save` (sin `fileName` si la pestaña ya está enlazada; con subcarpeta
    `dominio/caso` si es nuevo) — equivale al Ctrl+S del usuario: el `.flow.json` queda en `flows/`
    y es ejecutable con el CLI. `node_focus` sobre el nodo clave para señalárselo al usuario.
