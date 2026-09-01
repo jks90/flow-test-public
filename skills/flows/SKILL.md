@@ -114,11 +114,18 @@ reportar el resultado real (nunca asumido).
 5. Documenta dentro del canvas si aporta: `node_add_info` con `renderMode: "mermaid"` para el
    esquema del flujo, `whiteboard_update` para rodear/etiquetar grupos de cajas, y en el texto de
    las notas `[[otro-flow#Nodo]]` para enlazar flows relacionados del proyecto.
-   **Nodos y pizarra no se pisan**: antes de colocar un nodo o un dibujo, mira en `flow_state`
-   las posiciones de las cajas Y las de los `drawings` existentes, y usa espacio libre (los
-   dibujos rodean o anotan cajas a propósito; un nodo plantado ENCIMA de un bloque de pizarra
-   ajeno es un error de composición). Si dudas, coloca el nodo debajo/al lado del conjunto y
-   deja aire (~80 px).
+   **🔴 REGLA DE ORO: nada se pisa — ni nodo sobre nodo, ni nodo sobre pizarra.**
+   `flow_state` da posiciones pero NO alturas renderizadas, y una caja puede ser mucho más
+   alta de lo que imaginas (un Mermaid grande, una nota larga expandida, una respuesta
+   pintada). Por eso:
+   - Antes de colocar a mano, mira posiciones de cajas Y `drawings`, y deja aire (~80 px).
+   - Cuenta con alturas reales: nota larga ≈ 600-900 px, Mermaid vertical ≈ el nº de nodos
+     × 90 px. Si dudas, sobra espacio o usa `cell` + `canvas_layout grid`.
+   - **Al terminar de construir, ejecuta SIEMPRE `canvas_layout separate`** — mide las cajas
+     renderizadas de verdad y deshace cualquier solape que se te haya escapado (devuelve
+     cuántas movió; si movió alguna, revisa el resultado con `flow_state`).
+   - Los dibujos de pizarra rodean o anotan cajas a propósito; un nodo plantado ENCIMA de un
+     bloque de pizarra ajeno es un error de composición.
 6. Al terminar, `flow_save` (sin `fileName` si la pestaña ya está enlazada; con subcarpeta
    `dominio/caso` si es nuevo) — equivale al Ctrl+S del usuario: el `.flow.json` queda en `flows/`
    y es ejecutable con el CLI. `node_focus` sobre el nodo clave para señalárselo al usuario.
