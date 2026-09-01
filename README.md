@@ -39,7 +39,7 @@ docker run -d \
 
 | Versión | Qué trae |
 |---------|----------|
-| **5.3.0** (recomendada) | **CI de verdad + specs**: asserts por nodo (status/JSONPath/tiempo; CLI exit ≠ 0), entornos con nombre (dev/staging/prod, `--env`), **webhook entrante** (`POST /hook/<token>` ejecuta el flow en el servidor), data-driven (`--data casos.csv`), **import OpenAPI/Swagger** (una caja por operación) y pizarra editable por elemento vía MCP |
+| **5.3.0** (recomendada) | **CI + specs**: asserts por nodo (CLI exit ≠ 0), entornos con nombre (`--env`), **webhook entrante** (`POST /hook/<token>`), data-driven (`--data`) e **import OpenAPI/Swagger** |
 | **5.1.0** | **Prueba 14 días + licencia online**: gratis 14 días con todo; después, ejecutar flows requiere licencia o cuenta cloud (flowtest.es), validada online y revocable. Ver/editar nunca se bloquea |
 | **5.0.1** | **Fix de seguridad de la imagen**: la imagen ya no incluye flows del proyecto — solo un flow de bienvenida limpio (`bienvenida.flow.json`, onboarding con API pública). Las tags anteriores empaquetaban flows de desarrollo; usa siempre ≥ 5.0.1 |
 | **5.0.0** | **Licencias por token (JWT)**: modelo híbrido — uso personal gratis con todo; **uso comercial / equipo / nube con licencia de pago**. **Config ▸ Licencia** para ver el plan y activar la clave; verificación **offline** (RS256), la clave no sale de tu máquina |
