@@ -28,6 +28,8 @@ flow-run /ruta/a/flows
 | `--sql-connections <file>` | Perfiles SQL |
 | `--out <file-o-dir>` | Log JSON de la ejecución |
 | `--report-root <dir>` / `--no-report` | Carpeta de informes (defecto `resumen/`) o desactivarlos |
+| `--env <nombre>` 🆕 5.3 | Entorno con nombre: aplica `environments[nombre]` sobre las variables (sin la flag, vale el entorno activo guardado en el flow) |
+| `--data <fichero>` 🆕 5.3 | Data-driven: CSV (primera fila = nombres de variable) o JSON array — el flow corre una vez por fila con sus columnas como variables; columna `name` etiqueta el caso. Requiere `--flow` |
 | `--no-localhost-rewrite` | No reescribir localhost→host.docker.internal (dentro de Docker) |
 
 ## Informes
@@ -37,3 +39,9 @@ Cada ejecución deja en `resumen/<fecha-hora>/` un **markdown** por flow con el 
 > [!TIP]
 > **Los flows como tests**
 > El patrón que usamos en el Core y la tienda: una batería de flows por API en `flows/`, y `flow-run --dir flows` en CI. Si un endpoint rompe el contrato, el flow falla y el informe te dice exactamente dónde.
+
+## Asserts, data-driven y `npx flowtest-run` 🆕 (5.3)
+
+- Los **asserts por nodo** (definidos en la app — [02](../docs/manual/02-nodo-request.md) del manual) se evalúan también en el CLI: un assert KO marca el nodo como fallido, se imprime bajo la caja (`✗ assert: $.rates.USD exists — real: (sin valor)`) y el proceso **sale con código ≠ 0** — listo para el pipeline.
+- **Data-driven**: `flow-run --flow api.flow.json --data casos.csv` ejecuta el flow una vez por fila; el resumen agrega los casos (`Summary: 1/3 flows passed`) y cada fallo sale con su nombre de caso.
+- **Sin Docker**: el mismo runner se publica como paquete npm — `npx flowtest-run --flow api.flow.json` (trial de 14 días incluido; en CI, `FLOW_LICENSE` en los secrets). Y `npx flow-bridge <token>` conecta tu máquina con tu Flow cloud.

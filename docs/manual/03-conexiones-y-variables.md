@@ -58,3 +58,20 @@ El panel **Variables** muestra las del flow activo — tras una ejecución verá
 > [!TIP]
 > **Dónde valen las `{{variables}}`**
 > En los curl, en las consultas y conexiones SQL, en las URLs de los nodos Web, en el contenido de notas y diagramas Mermaid, y en las rutas de imagen de los nodos Captura. En todas partes, vaya.
+
+## Entornos con nombre 🆕 (5.3)
+
+Los mismos flows contra **dev, staging o prod** sin tocar nada: cada entorno es un set de
+variables que **sobrescribe** a las del flow mientras está activo.
+
+![](assets/flowtest-65-entornos.png)
+
+En el panel **Variables** (Config ▸ Variables), el desplegable **Entorno activo** crea (+),
+selecciona o elimina entornos; con uno activo aparece su sección de *overrides*: solo defines lo
+que cambia (p. ej. `apiBase`), el resto se hereda de las variables base. El entorno activo se
+guarda dentro del flow.
+
+En el **CLI**: `flow-run --flow api.flow.json --env prod` (si no pasas `--env`, se respeta el
+entorno activo guardado; un nombre inexistente da error con la lista de los disponibles).
+Precedencia total: `envVariables < entorno < scripts de notas < --var`. Por **MCP**,
+`variables_set` acepta `environment` (escribe en ese set, creándolo si falta) y `activate: true`.

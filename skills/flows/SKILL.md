@@ -35,7 +35,7 @@ reportar el resultado real (nunca asumido).
 ### Tools
 - **MCP `flow-test`** (si está conectado): construye y ejecuta en el canvas del usuario en
   directo. Endpoint típico: `http://localhost:9998/mcp` (contenedor) o `:3001` (local).
-  Mapa de las 37 tools (4.37):
+  Mapa de las 38 tools (5.3):
   - Observar: `bridge_status`, `flow_state` (pestañas con `filePath`/`dirty`; nodos con
     `position`/`order`/`pinned`; notas con `renderMode`/contenido/`scripts`; `drawings`),
     `console_read`, `runs_read`.
@@ -44,14 +44,14 @@ reportar el resultado real (nunca asumido).
     `scripts`; 4.51: `when: 'after'` = corre al acabar el run con las extracciones en `vars`), `node_add_web` — todos aceptan `order`, `cell {col,row}`, `pinned` —,
     `node_update` (cualquier tipo y campo editable, incl. `cell`, `pinned`, `disabled`), `node_delete`,
     `nodes_connect`, `connection_update` (cambiar el behavior), `connection_delete`,
-    `variables_set` (entorno de la pestaña), `global_variables_set` (globales), `tab_rename`,
+    `variables_set` (variables de la pestaña; 5.3: `environment`+`activate` para entornos con nombre), `global_variables_set` (globales), `tab_rename`,
     `sql_connections_list` (perfiles SQL para `connectionProfileId`).
   - Ejecutar: `flow_run`, `node_run`, `flow_reset`.
   - Lienzo: `node_focus` (señalar un nodo al usuario), `canvas_layout`
     (`auto|row|column|grid|separate|collapse_all|expand_all|pin_all|unpin_all`; `grid` usa la celda `cell: {col,row}` de cada
     nodo — 1,1 arriba a la izquierda — que aceptan `node_add_*`/`node_update`; `separate` aparta
     solapes), `view_settings` (tamaño de las cards, modo compacto, separación mínima — la vista del
-    usuario), `whiteboard_update` (anotar la pizarra).
+    usuario), `whiteboard_update` (anotar la pizarra; 5.3: `list`/`edit`/`delete` por elemento — por fin se puede mover/retocar un dibujo suelto sin reenviarlo todo).
   - **Proyecto `flows/`** (la carpeta del servidor = el panel Proyecto de la web):
     `flow_files_list` (con metadatos), `flow_open` (abre **enlazado** al fichero),
     `flow_save` (= Ctrl+S: enlaza la pestaña y la deja limpia; subcarpetas), `flow_file_delete`,
@@ -107,7 +107,7 @@ reportar el resultado real (nunca asumido).
    separate`. Nunca calcules coordenadas a mano salvo que copies un flow existente.
    Pasos opcionales o destructivos que no deban correr por defecto: déjalos con `disabled: true`
    (se saltan en Run Flow/CLI; el usuario los activa desde el menú de la caja).
-4. `variables_set` para la base (`apiBase`, credenciales de prueba); extracciones en cada
+4. `variables_set` para la base (`apiBase`, credenciales de prueba); **asserts** en cada request que verifique algo (`asserts: [{kind:'status',expected:'2xx'}, {kind:'jsonpath',path:'$.id',op:'exists'}]` — son lo que convierte el flow en un test de CI); extracciones en cada
    nodo para encadenar (`jsonPath` en HTTP; `column`+`rowIndex` en SQL). Datos únicos por
    ejecución (emails, ids): un `node_add_info` con `scripts` (`return 'qa+' + Date.now() + '@x.com'`);
    cálculos sobre las respuestas (deltas, semáforos): un script con `when: 'after'` (`return Number(vars.total) > 0 ? 'OK' : 'VACÍO'`).

@@ -324,3 +324,26 @@ Conecta con un repo de GitHub (token + owner/repo/rama/carpeta) para **guardar y
 ## Cron
 
 Los nodos Request, SQL, Web y Nota tienen pestaña **Cron**: ejecución periódica del nodo (cada X min/h) mientras la pestaña esté abierta. El badge con cuenta atrás aparece en la cabecera del nodo.
+
+## Webhook entrante 🆕 (5.3)
+
+Una URL secreta que **ejecuta el flow en el servidor** al recibir un POST — desde CI, otro
+servicio o un cron externo, sin navegador.
+
+![](assets/flowtest-66-webhook.png)
+
+Menú del logo → **«Webhook entrante…»** → *Activar webhook* genera el token y te da la URL
+(`POST /hook/<token>`). El webhook **se publica al guardar el flow** en `flows/` (Ctrl+S): el
+servidor lo lee del disco.
+
+- Los **query params** y las claves planas del **body JSON** llegan como `{{variables}}`
+  (el body gana); `__env=prod` elige el entorno.
+- Ejecuta con el runner del CLI: SQL, scripts de notas, **asserts** y entornos incluidos — y el
+  mismo candado de plan (en trial responde 402).
+- Respuesta: **200** si todo verde, **422** con el detalle por nodo (incluidos los asserts que
+  fallaron), **404** si el token no existe. El token es una credencial: *Regenerar* si se filtra.
+
+```bash
+curl -X POST 'https://tu-flow/hook/abc123…' \
+  -H 'content-type: application/json' -d '{"apiBase":"https://staging.mi-api"}'
+```

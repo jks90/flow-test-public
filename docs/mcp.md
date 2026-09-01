@@ -193,3 +193,12 @@ En las notas, `[[otro-flow#Nodo]]` enlaza flows del proyecto.
 | 401 Unauthorized | Hay `FLOW_MCP_TOKEN` definido: configura el bearer en tu cliente MCP |
 | `flow_run` responde `finished:false` | Lee el `reason`: pestaña ya ejecutando, o el flow no tiene nodos HTTP ni SQL |
 | El comando caduca (*did not answer within…*) | La pestaña se cerró a mitad, o el run superó los 10 min del puente |
+
+### Novedades 5.3
+
+| Tool | Cambio |
+|------|--------|
+| `whiteboard_update` | Operaciones por **elemento suelto**: `mode: "list"` (todos los elementos con su id), `"edit"` (merge parcial por `id`; los textos se re-miden) y `"delete"` (por `ids`) — antes solo add/replace/clear |
+| `node_add_request` | Acepta `asserts: [{kind: status\|jsonpath\|time, expected, path, op, value, maxMs}]` — checks tras la respuesta; si fallan, el nodo queda en error y el CLI sale ≠ 0 |
+| `variables_set` | `environment: "prod"` escribe en un **entorno con nombre** (se crea si falta) y `activate: true` lo deja activo |
+| `flow_state` | Devuelve `environments` (nombres y claves de cada set) y `activeEnvironment` |

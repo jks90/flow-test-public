@@ -114,3 +114,17 @@ En el campo **`#`** de cada cabecera puedes escribir, en vez de un número, una 
 ![](assets/flowtest-23-split.png)
 
 Con **Layout ▸ Split** ves dos flows lado a lado (o arriba/abajo cambiando la dirección). Útil para comparar, o para copiar cajitas de un flow a otro con el botón **Copiar** de cada nodo. En split no se muestran los paneles laterales.
+
+## Importar OpenAPI 🆕 (5.3)
+
+Menú del logo → **«Importar OpenAPI…»**: elige una spec **OpenAPI/Swagger** (`.json` o `.yaml`)
+y se convierte en un flow con **una caja Request por operación**, agrupadas por *tag* en filas
+de la cuadrícula.
+
+![](assets/flowtest-67-openapi.png)
+
+Cada caja llega lista para editar: curl contra `{{apiBase}}` (tomado de `servers`), los
+parámetros de ruta como `{{variables}}`, un body de ejemplo generado del schema, cabecera
+`Bearer {{authToken}}` si la spec declara auth, y un **assert `status 2xx`** de serie. Una nota
+al pie resume qué revisar. Es un *arranque* honesto para specs grandes — ajusta bodies y
+variables y a correr.

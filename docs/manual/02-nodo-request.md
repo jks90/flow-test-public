@@ -59,3 +59,24 @@ El botón ⤢ abre el nodo en un modal grande: curl y extracciones a la izquierd
 > [!TIP]
 > **CORS**
 > Las peticiones no salen directas del navegador: pasan por el proxy del server (`/proxy`), así que **no hay problemas de CORS** y valen URLs internas (localhost, LAN, Docker).
+
+## Asserts 🆕 (5.3)
+
+Condiciones que deben cumplirse **después de la respuesta**. Si alguna falla, la caja queda en
+**rojo aunque el HTTP fuera 2xx**, y el CLI sale con código ≠ 0 — pensado para CI.
+
+![](assets/flowtest-64-asserts.png)
+
+La sección **Asserts** de la caja (plegable, como las extracciones) admite tres tipos:
+
+| Tipo | Qué comprueba | Ejemplos |
+|---|---|---|
+| **Status** | el código HTTP | `2xx` · `200-204` · `200,201` |
+| **JSONPath** | un valor del body | `$.items[0].id` con `exists`, `equals`, `not-equals`, `contains`, `gt`, `lt` |
+| **Tiempo** | duración máxima | `≤ 1500 ms` |
+
+Tras ejecutar, cada assert enseña su resultado real (`✓ status 2xx — recibido 200` /
+`✗ $.rates.USD exists — real: (sin valor)`), la cabecera resume `3/3 ✓` o `1 KO`, y el fallo
+también sale en la Consola y en el historial. En el CLI, los asserts KO aparecen bajo el nodo y
+fuerzan `exit 1` (y en `--data`, el caso concreto queda marcado). El MCP los acepta en
+`node_add_request` (`asserts: [{kind, expected|path|op|value|maxMs}]`).
