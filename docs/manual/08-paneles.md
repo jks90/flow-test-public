@@ -347,3 +347,13 @@ servidor lo lee del disco.
 curl -X POST 'https://tu-flow/hook/abc123…' \
   -H 'content-type: application/json' -d '{"apiBase":"https://staging.mi-api"}'
 ```
+
+## Monitor programado 🆕 (5.4)
+
+En el mismo modal **«Automatización…»** del menú del logo, bajo el webhook: elige un intervalo
+(5 min / 15 min / 1 h / 1 día, o el que tecleas) y el **servidor ejecuta el flow solo, sin
+navegador abierto** — la diferencia clave con el cron por nodo. Guarda los últimos 100 runs en
+`flows/.monitors/` (estado en vivo en el propio modal y en `GET /monitors`) y, si pones un
+`notifyUrl`, hace POST con el resultado **al fallar o cambiar de estado** (o en cada run):
+apunta a un webhook de Slack/Telegram/n8n… o al `/hook/` de otro flow para reaccionar en cadena.
+Se publica al guardar el flow (Ctrl+S).
