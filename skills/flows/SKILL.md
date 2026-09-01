@@ -124,6 +124,10 @@ reportar el resultado real (nunca asumido).
    - **Al terminar de construir, ejecuta SIEMPRE `canvas_layout separate`** — mide las cajas
      renderizadas de verdad y deshace cualquier solape que se te haya escapado (devuelve
      cuántas movió; si movió alguna, revisa el resultado con `flow_state`).
+   - ⚠️ `separate` solo separa **nodos entre sí — la pizarra no la ve**. Si mezclas notas
+     largas con bloques/tablas de pizarra, la única verificación fiable del conjunto es
+     **visual**: captura headless del canvas (o pídele al usuario un vistazo) antes de dar
+     la composición por buena. Entre filas de notas largas deja ≥1200 px.
    - Los dibujos de pizarra rodean o anotan cajas a propósito; un nodo plantado ENCIMA de un
      bloque de pizarra ajeno es un error de composición.
 6. Al terminar, `flow_save` (sin `fileName` si la pestaña ya está enlazada; con subcarpeta
