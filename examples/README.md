@@ -1,5 +1,31 @@
 # Ejemplos
 
+## 🗂️ La galería (`workspace/`) — móntala y ejecuta
+
+Un **workspace completo** listo para usar como tu carpeta `flows/`: 16 flows organizados por
+carpetas, con un tour guiado («00 EMPIEZA AQUÍ.md») cuyos enlaces ejecutan cada flow con un ▶.
+
+```bash
+docker run -d --add-host=host.docker.internal:host-gateway \
+  -p 9998:3001 --name flow \
+  -v "$(pwd)/workspace:/app/flows" \
+  juankanh/flow-app:latest
+# http://localhost:9998 → icono «Proyecto» → «00 EMPIEZA AQUÍ.md»
+```
+
+| Carpeta | Qué hay dentro |
+|---------|----------------|
+| `aprende/` | Un concepto por flow, en orden: **variables y cadenas**, **asserts** (tu primer test), **entornos** pre/prod, **notas con scripts JS**, **SQL + HTTP**, **data-driven** con CSV |
+| `funciones/` | Las que trabajan solas: **Monitor 24x7** (el servidor lo ejecuta cada 15 min y avisa al fallar), **Webhook desde CI** (`POST /hook/<token>` desde GitHub Actions), **Correo OTP** (el SMTP embebido captura el email y extrae el código), **Puente a local** |
+| `flowtest-por-dentro/` | Nuestra plataforma probada con nuestra herramienta, contra los endpoints reales de app.flowtest.es: **Solicitar espacio cloud** (⚠️ crea cuentas de verdad — lee su LEEME), **Login y sesión**, **Comprar licencia** (nuestro funnel de venta, como flow) y **Salud de la plataforma** |
+| `paneles/` | Los de enseñar en pantalla grande: **Crypto portfolio** (Ethplorer + Blockscout + CoinGecko encadenados) y **Mapa mundial** (nodos sobre una imagen de fondo) |
+
+Todos los flows llevan asserts y los ejecutables se verificaron con el CLI (exit 0) antes de
+publicarse. El tour `.md` se abre en la app desde la **5.5.0** (en versiones anteriores, léelo aquí
+en GitHub). El ejemplo XXL sigue siendo [`economia-global-bundle/`](economia-global-bundle/).
+
+## Ficheros sueltos
+
 | Fichero | Qué demuestra |
 |---------|---------------|
 | `api-login-cadena.flow.json` | Cadena HTTP clásica: login → extraer `{{token}}` → llamada autenticada → detalle con id extraído |

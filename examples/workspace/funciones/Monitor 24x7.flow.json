@@ -1,0 +1,58 @@
+{
+  "version": "1.0",
+  "name": "Monitor 24x7",
+  "nodes": [
+    {
+      "id": "monitor-divisas-latest",
+      "name": "1 · Divisas — GET latest (Frankfurter)",
+      "curl": "curl \"https://api.frankfurter.dev/v1/latest\"",
+      "position": { "x": 80, "y": 340 },
+      "status": "idle",
+      "collapsed": false,
+      "extractions": [],
+      "asserts": [
+        { "id": "monitor-divisas-status", "kind": "status", "expected": "2xx" },
+        { "id": "monitor-divisas-base", "kind": "jsonpath", "path": "$.base", "op": "equals", "value": "EUR" },
+        { "id": "monitor-divisas-tiempo", "kind": "time", "maxMs": 5000 }
+      ]
+    },
+    {
+      "id": "monitor-tiempo-madrid",
+      "name": "2 · Tiempo Madrid — GET open-meteo",
+      "curl": "curl \"https://api.open-meteo.com/v1/forecast?latitude=40.42&longitude=-3.70&current=temperature_2m\"",
+      "position": { "x": 640, "y": 340 },
+      "status": "idle",
+      "collapsed": false,
+      "extractions": [],
+      "asserts": [
+        { "id": "monitor-tiempo-status", "kind": "status", "expected": "2xx" },
+        { "id": "monitor-tiempo-dato", "kind": "jsonpath", "path": "$.current.temperature_2m", "op": "exists" },
+        { "id": "monitor-tiempo-tiempo", "kind": "time", "maxMs": 8000 }
+      ]
+    }
+  ],
+  "infoNodes": [
+    {
+      "id": "monitor-nota",
+      "name": "Monitor 24×7 sin navegador",
+      "content": "Healthcheck de manual: dos GET a APIs públicas con asserts de status, de contenido (jsonpath $.base = EUR) y de tiempo de respuesta. La gracia está en settings.monitor: al GUARDAR este flow en flows/, el propio SERVIDOR lo ejecuta solo cada 15 minutos con el runner del CLI — sin navegador ni pestaña abierta.\n\n· Ponle notifyUrl (la URL de un webhook de Slack o n8n) y te llega un POST cuando falle o cambie de estado (notify: \"fail\"; con \"always\", en cada run).\n· Historial rodante de los últimos 100 runs en GET /monitors (y /monitors/history).\n· Todo se configura también desde el modal «Automatización…» del menú del logo, con el estado del monitor en vivo.\n\nEjecutar a mano: ▶ Run Flow en la web · flow-run --flow \"funciones/Monitor 24x7.flow.json\" en el CLI.",
+      "position": { "x": 80, "y": 40 },
+      "collapsed": false,
+      "scripts": []
+    }
+  ],
+  "sqlNodes": [],
+  "webNodes": [],
+  "connections": [
+    {
+      "id": "monitor-con-1-2",
+      "sourceId": "monitor-divisas-latest",
+      "targetId": "monitor-tiempo-madrid",
+      "behavior": "next"
+    }
+  ],
+  "envVariables": {},
+  "settings": {
+    "monitor": { "intervalMin": 15, "notify": "fail" }
+  }
+}

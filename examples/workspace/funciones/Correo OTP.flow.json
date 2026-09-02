@@ -1,0 +1,60 @@
+{
+  "version": "1.0",
+  "name": "Correo OTP",
+  "nodes": [
+    {
+      "id": "correo-otp-ultimo-correo",
+      "name": "1 · Último correo del buzón",
+      "curl": "curl \"{{flowBase}}/mail/messages/latest?to={{buzon}}\"",
+      "position": { "x": 80, "y": 340 },
+      "status": "idle",
+      "collapsed": false,
+      "extractions": [
+        { "id": "correo-otp-ext-codigo", "varName": "otp", "jsonPath": "$.code" }
+      ],
+      "asserts": [
+        { "id": "correo-otp-assert-status", "kind": "status", "expected": "2xx" },
+        { "id": "correo-otp-assert-codigo", "kind": "jsonpath", "path": "$.code", "op": "exists" },
+        { "id": "correo-otp-assert-tiempo", "kind": "time", "maxMs": 3000 }
+      ]
+    },
+    {
+      "id": "correo-otp-usar-codigo",
+      "name": "2 · Usar el código extraído",
+      "curl": "curl \"https://httpbingo.org/get?otp={{otp}}\"",
+      "position": { "x": 640, "y": 340 },
+      "status": "idle",
+      "collapsed": false,
+      "extractions": [],
+      "asserts": [
+        { "id": "correo-otp-assert-status-2", "kind": "status", "expected": "2xx" },
+        { "id": "correo-otp-assert-eco", "kind": "jsonpath", "path": "$.args.otp", "op": "exists" },
+        { "id": "correo-otp-assert-tiempo-2", "kind": "time", "maxMs": 5000 }
+      ]
+    }
+  ],
+  "infoNodes": [
+    {
+      "id": "correo-otp-nota",
+      "name": "Verificar emails sin cuentas reales",
+      "content": "Este flow comprueba que TU servicio envió un email y usa su código de verificación, sin cuentas de correo reales. Activa el SMTP embebido en Config ▸ Correo (puerto 1025), apunta ahí el envío de correo de tu servicio y crea el buzón {{buzon}}: el nodo 1 recupera el último correo recibido y EXTRAE solo el código (detección por palabra clave o regex propia, configurable en el panel); el nodo 2 simula «usar el código» contra un echo público. ¿Prefieres un buzón real desechable? El mismo panel integra mail.tm.\n\nCómo ejecutarlo: ▶ Run Flow en la web. Aviso: el nodo 1 llama al propio servidor de FlowTest ({{flowBase}}), así que necesita la app corriendo — por eso este flow no corre en el CLI sin más.",
+      "position": { "x": 80, "y": 40 },
+      "collapsed": false,
+      "scripts": []
+    }
+  ],
+  "sqlNodes": [],
+  "webNodes": [],
+  "connections": [
+    {
+      "id": "correo-otp-con-1",
+      "sourceId": "correo-otp-ultimo-correo",
+      "targetId": "correo-otp-usar-codigo",
+      "behavior": "next"
+    }
+  ],
+  "envVariables": {
+    "flowBase": "http://localhost:9998",
+    "buzon": "qa@flow.local"
+  }
+}

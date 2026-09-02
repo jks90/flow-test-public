@@ -1,0 +1,260 @@
+{
+  "version": "1.0",
+  "name": "Mapa mundial",
+  "nodes": [
+    {
+      "id": "n1-nueva-york-clima",
+      "name": "1 · 🇺🇸 Nueva York — clima",
+      "curl": "curl '{{meteoBase}}/v1/forecast?latitude=40.71&longitude=-74.01&current=temperature_2m,wind_speed_10m'",
+      "position": { "x": 560, "y": 850 },
+      "status": "idle",
+      "extractions": [
+        { "id": "x-temp-nueva-york", "varName": "tempNuevaYork", "jsonPath": "$.current.temperature_2m" }
+      ],
+      "asserts": [
+        { "id": "a-n1-status", "kind": "status", "expected": "2xx" },
+        { "id": "a-n1-temp", "kind": "jsonpath", "path": "$.current.temperature_2m", "op": "exists" },
+        { "id": "a-n1-time", "kind": "time", "maxMs": 8000 }
+      ],
+      "collapsed": true
+    },
+    {
+      "id": "n2-madrid-clima",
+      "name": "2 · 🇪🇸 Madrid — clima",
+      "curl": "curl '{{meteoBase}}/v1/forecast?latitude=40.42&longitude=-3.70&current=temperature_2m,wind_speed_10m'",
+      "position": { "x": 1080, "y": 850 },
+      "status": "idle",
+      "extractions": [
+        { "id": "x-temp-madrid", "varName": "tempMadrid", "jsonPath": "$.current.temperature_2m" }
+      ],
+      "asserts": [
+        { "id": "a-n2-status", "kind": "status", "expected": "2xx" },
+        { "id": "a-n2-temp", "kind": "jsonpath", "path": "$.current.temperature_2m", "op": "exists" },
+        { "id": "a-n2-time", "kind": "time", "maxMs": 8000 }
+      ],
+      "collapsed": true
+    },
+    {
+      "id": "n3-tokio-clima",
+      "name": "3 · 🇯🇵 Tokio — clima",
+      "curl": "curl '{{meteoBase}}/v1/forecast?latitude=35.68&longitude=139.69&current=temperature_2m,wind_speed_10m'",
+      "position": { "x": 1960, "y": 880 },
+      "status": "idle",
+      "extractions": [
+        { "id": "x-temp-tokio", "varName": "tempTokio", "jsonPath": "$.current.temperature_2m" }
+      ],
+      "asserts": [
+        { "id": "a-n3-status", "kind": "status", "expected": "2xx" },
+        { "id": "a-n3-temp", "kind": "jsonpath", "path": "$.current.temperature_2m", "op": "exists" },
+        { "id": "a-n3-time", "kind": "time", "maxMs": 8000 }
+      ],
+      "collapsed": true
+    },
+    {
+      "id": "n4-sidney-clima",
+      "name": "4 · 🇦🇺 Sídney — clima",
+      "curl": "curl '{{meteoBase}}/v1/forecast?latitude=-33.87&longitude=151.21&current=temperature_2m,wind_speed_10m'",
+      "position": { "x": 2000, "y": 1420 },
+      "status": "idle",
+      "extractions": [
+        { "id": "x-temp-sidney", "varName": "tempSidney", "jsonPath": "$.current.temperature_2m" }
+      ],
+      "asserts": [
+        { "id": "a-n4-status", "kind": "status", "expected": "2xx" },
+        { "id": "a-n4-temp", "kind": "jsonpath", "path": "$.current.temperature_2m", "op": "exists" },
+        { "id": "a-n4-time", "kind": "time", "maxMs": 8000 }
+      ],
+      "collapsed": true
+    },
+    {
+      "id": "n5-sao-paulo-divisa",
+      "name": "5 · 🇧🇷 São Paulo — divisa EUR→BRL",
+      "curl": "curl '{{divisasBase}}/v1/latest?base=EUR&symbols=BRL'",
+      "position": { "x": 760, "y": 1340 },
+      "status": "idle",
+      "extractions": [
+        { "id": "x-eur-brl", "varName": "eurBrl", "jsonPath": "$.rates.BRL" }
+      ],
+      "asserts": [
+        { "id": "a-n5-status", "kind": "status", "expected": "2xx" },
+        { "id": "a-n5-brl", "kind": "jsonpath", "path": "$.rates.BRL", "op": "gt", "value": "0" },
+        { "id": "a-n5-time", "kind": "time", "maxMs": 8000 }
+      ],
+      "collapsed": true
+    },
+    {
+      "id": "n6-johannesburgo-divisa",
+      "name": "6 · 🇿🇦 Johannesburgo — divisa EUR→ZAR",
+      "curl": "curl '{{divisasBase}}/v1/latest?base=EUR&symbols=ZAR'",
+      "position": { "x": 1250, "y": 1360 },
+      "status": "idle",
+      "extractions": [
+        { "id": "x-eur-zar", "varName": "eurZar", "jsonPath": "$.rates.ZAR" }
+      ],
+      "asserts": [
+        { "id": "a-n6-status", "kind": "status", "expected": "2xx" },
+        { "id": "a-n6-zar", "kind": "jsonpath", "path": "$.rates.ZAR", "op": "gt", "value": "0" },
+        { "id": "a-n6-time", "kind": "time", "maxMs": 8000 }
+      ],
+      "collapsed": true
+    }
+  ],
+  "infoNodes": [
+    {
+      "id": "nota-mapa",
+      "name": "Mapa mundial — fondo del flow",
+      "content": "Demo de settings.background: un mapa del mundo como imagen de fondo del canvas y una petición REAL anclada sobre cada ciudad — open-meteo para el clima y frankfurter para el cambio de divisa, todo APIs públicas sin clave. Cada nodo lleva asserts de status, JSONPath y latencia (time, 8 s), así el flow sirve también de chequeo mundial de APIs. El fondo necesita flows/assets/backgrounds/world-map.png — viene en examples/workspace/assets, copia la carpeta assets junto a tus flows.\n\n▶ Ejecútalo con «Run Flow» en la web, o en CLI:\nflow-run --flow \"flows/paneles/Mapa mundial.flow.json\"",
+      "position": { "x": 80, "y": 40 },
+      "collapsed": false,
+      "scripts": []
+    },
+    {
+      "id": "nota-esquema",
+      "name": "Esquema del flow",
+      "content": "flowchart LR\n  NY[\"🇺🇸 Nueva York<br/>clima\"] --> MAD[\"🇪🇸 Madrid<br/>clima\"]\n  MAD --> TOK[\"🇯🇵 Tokio<br/>clima\"]\n  TOK --> SYD[\"🇦🇺 Sídney<br/>clima\"]\n  NY -. paralelo .-> SAO[\"🇧🇷 São Paulo<br/>EUR→BRL\"]\n  MAD -. paralelo .-> JNB[\"🇿🇦 Johannesburgo<br/>EUR→ZAR\"]",
+      "position": { "x": 640, "y": 40 },
+      "collapsed": false,
+      "scripts": [],
+      "renderMode": "mermaid"
+    }
+  ],
+  "sqlNodes": [],
+  "webNodes": [],
+  "connections": [
+    {
+      "id": "c-ny-madrid",
+      "sourceId": "n1-nueva-york-clima",
+      "targetId": "n2-madrid-clima",
+      "sourcePort": "right",
+      "targetPort": "left",
+      "behavior": "next"
+    },
+    {
+      "id": "c-madrid-tokio",
+      "sourceId": "n2-madrid-clima",
+      "targetId": "n3-tokio-clima",
+      "sourcePort": "right",
+      "targetPort": "left",
+      "behavior": "next"
+    },
+    {
+      "id": "c-tokio-sidney",
+      "sourceId": "n3-tokio-clima",
+      "targetId": "n4-sidney-clima",
+      "sourcePort": "right",
+      "targetPort": "left",
+      "behavior": "next"
+    },
+    {
+      "id": "c-ny-sao-paulo",
+      "sourceId": "n1-nueva-york-clima",
+      "targetId": "n5-sao-paulo-divisa",
+      "sourcePort": "right",
+      "targetPort": "left",
+      "behavior": "parallel"
+    },
+    {
+      "id": "c-madrid-johannesburgo",
+      "sourceId": "n2-madrid-clima",
+      "targetId": "n6-johannesburgo-divisa",
+      "sourcePort": "right",
+      "targetPort": "left",
+      "behavior": "parallel"
+    }
+  ],
+  "envVariables": {
+    "meteoBase": "https://api.open-meteo.com",
+    "divisasBase": "https://api.frankfurter.dev"
+  },
+  "drawings": [
+    {
+      "id": "d-titulo",
+      "type": "text",
+      "x": 60,
+      "y": 560,
+      "w": 900,
+      "h": 44,
+      "stroke": "#fbbf24",
+      "strokeWidth": 2,
+      "opacity": 1,
+      "sketchy": false,
+      "seed": 1350798149,
+      "text": "Chequeo mundial — cada caja lanza una petición real sobre su ciudad",
+      "font": "hand",
+      "fontSize": 30
+    },
+    {
+      "id": "d-europa-elipse",
+      "type": "ellipse",
+      "x": 980,
+      "y": 770,
+      "w": 520,
+      "h": 260,
+      "stroke": "#10b981",
+      "strokeWidth": 2,
+      "strokeStyle": "dashed",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 999426259
+    },
+    {
+      "id": "d-europa-texto",
+      "type": "text",
+      "x": 1000,
+      "y": 735,
+      "w": 152,
+      "h": 31,
+      "stroke": "#10b981",
+      "strokeWidth": 2,
+      "opacity": 1,
+      "sketchy": false,
+      "seed": 1230045134,
+      "text": "Europa (primaria)",
+      "font": "hand",
+      "fontSize": 20
+    },
+    {
+      "id": "d-failover-flecha",
+      "type": "arrow",
+      "x": 1520,
+      "y": 1120,
+      "w": 380,
+      "h": -160,
+      "stroke": "#60a5fa",
+      "strokeWidth": 2,
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 2007014699
+    },
+    {
+      "id": "d-failover-texto",
+      "type": "text",
+      "x": 1560,
+      "y": 1130,
+      "w": 124,
+      "h": 29,
+      "stroke": "#60a5fa",
+      "strokeWidth": 2,
+      "opacity": 1,
+      "sketchy": false,
+      "seed": 896092852,
+      "text": "failover → Asia",
+      "font": "hand",
+      "fontSize": 18
+    }
+  ],
+  "settings": {
+    "background": {
+      "imageSrc": "/flow-assets/backgrounds/world-map.png",
+      "x": 0,
+      "y": 520,
+      "width": 2400,
+      "opacity": 0.55
+    },
+    "viewport": {
+      "zoom": 0.4,
+      "scrollLeft": 0,
+      "scrollTop": 0
+    }
+  }
+}

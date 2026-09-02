@@ -1,0 +1,39 @@
+{
+  "version": "1.0",
+  "name": "04 · Notas con scripts",
+  "nodes": [
+    {
+      "id": "post-email-unico",
+      "name": "1 · POST con email único",
+      "curl": "curl -X POST \"https://httpbingo.org/post\" \\\n\n-H \"Content-Type: application/json\" \\\n\n-H \"User-Agent: flow-test\" \\\n\n-d '{\n  \"email\": \"{{emailUnico}}\"\n}'",
+      "position": { "x": 80, "y": 340 },
+      "status": "idle",
+      "collapsed": false,
+      "extractions": [
+        { "id": "ex-email-eco", "varName": "emailEco", "jsonPath": "$.json.email" }
+      ],
+      "asserts": [
+        { "id": "as-post-status", "kind": "status", "expected": "2xx" },
+        { "id": "as-post-email", "kind": "jsonpath", "path": "$.json.email", "op": "contains", "value": "qa+" },
+        { "id": "as-post-ms", "kind": "time", "maxMs": 8000 }
+      ]
+    }
+  ],
+  "infoNodes": [
+    {
+      "id": "nota-scripts",
+      "name": "Scripts JS de las notas",
+      "content": "Las notas pueden llevar scripts JavaScript que hacen return de un valor. Los \"before\" corren ANTES del primer request y su valor queda como variable: aquí emailUnico genera un email distinto en cada ejecución (qa+<timestamp>@ejemplo.com) y el nodo 1 lo envía en el body. Los \"after\" corren AL FINAL con TODAS las variables del run (extracciones como {{emailEco}} y automáticas como runId incluidas): aquí resumen compone un texto con vars.runId.\n\nPrecedencia en el CLI: envVariables < entorno < scripts < --var; con --skip-info-scripts se desactivan las dos fases.\n\nCómo ejecutarlo: ▶ Run Flow en la web · flow-run --flow \"aprende/04 Notas con scripts.flow.json\" en el CLI. Cada run manda un email nuevo, httpbingo lo devuelve en $.json.email y el assert comprueba que contiene \"qa+\".",
+      "position": { "x": 80, "y": 40 },
+      "collapsed": false,
+      "scripts": [
+        { "id": "sc-email-unico", "varName": "emailUnico", "code": "return 'qa+' + Date.now() + '@ejemplo.com'", "when": "before" },
+        { "id": "sc-resumen", "varName": "resumen", "code": "return 'Run ' + vars.runId + ' completado'", "when": "after" }
+      ]
+    }
+  ],
+  "sqlNodes": [],
+  "webNodes": [],
+  "connections": [],
+  "envVariables": {}
+}

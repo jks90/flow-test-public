@@ -1,0 +1,37 @@
+{
+  "version": "1.0",
+  "name": "06 · Data-driven",
+  "nodes": [
+    {
+      "id": "post-pais-capital",
+      "name": "1 · POST — país y capital",
+      "curl": "curl -X POST \"https://httpbingo.org/post\" \\\n\n-H \"Content-Type: application/json\" \\\n\n-H \"User-Agent: flow-test\" \\\n\n-d '{\n  \"pais\": \"{{pais}}\",\n  \"capital\": \"{{capital}}\"\n}'",
+      "position": { "x": 80, "y": 340 },
+      "status": "idle",
+      "collapsed": false,
+      "extractions": [],
+      "asserts": [
+        { "id": "as-post-status", "kind": "status", "expected": "2xx" },
+        { "id": "as-post-pais", "kind": "jsonpath", "path": "$.json.pais", "op": "exists" },
+        { "id": "as-post-tiempo", "kind": "time", "maxMs": 8000 }
+      ]
+    }
+  ],
+  "infoNodes": [
+    {
+      "id": "nota-data-driven",
+      "name": "Qué enseña este flow",
+      "content": "Un POST parametrizado: el body JSON usa {{pais}} y {{capital}}, que en una ejecución normal valen los defaults de envVariables (España / Madrid). Los asserts comprueban el 2xx y que el eco devuelva $.json.pais.\n\nLo interesante es el modo data-driven del CLI. Junto a este flow hay un 06-casos.csv con cabecera name,pais,capital y tres filas. Ejecuta:\n\nflow-run --flow \"06 Data-driven.flow.json\" --data 06-casos.csv\n\ny el flow corre UNA VEZ POR FILA, con las columnas de cada fila como variables (la columna name etiqueta cada caso en el resumen). Precedencia: envVariables < entorno < fila < --var. Si falla algún caso, exit 1 — perfecto para CI. También acepta un JSON array (--data casos.json).\n\nEn la web, ▶ Run Flow hace una sola pasada con los defaults.",
+      "position": { "x": 80, "y": 40 },
+      "collapsed": false,
+      "scripts": []
+    }
+  ],
+  "sqlNodes": [],
+  "webNodes": [],
+  "connections": [],
+  "envVariables": {
+    "pais": "España",
+    "capital": "Madrid"
+  }
+}

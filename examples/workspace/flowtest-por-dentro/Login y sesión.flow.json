@@ -1,0 +1,56 @@
+{
+  "version": "1.0",
+  "name": "Login y sesión",
+  "nodes": [
+    {
+      "id": "login-cloud",
+      "name": "1 · Login — entrar con tu cuenta del cloud",
+      "curl": "curl -X POST \"{{accountsBase}}/api/login\" -H \"Content-Type: application/json\" -d '{\"email\":\"{{tuEmail}}\",\"password\":\"{{password}}\"}'",
+      "position": { "x": 80, "y": 340 },
+      "status": "idle",
+      "collapsed": false,
+      "extractions": [
+        { "id": "ext-org", "varName": "org", "jsonPath": "$.org" }
+      ],
+      "asserts": [
+        { "id": "as-login-status", "kind": "status", "expected": "2xx" },
+        { "id": "as-login-ok", "kind": "jsonpath", "path": "$.ok", "op": "equals", "value": "true" },
+        { "id": "as-login-time", "kind": "time", "maxMs": 5000 }
+      ]
+    },
+    {
+      "id": "plan-mi-org",
+      "name": "2 · Plan de tu organización — encadena el slug extraído",
+      "curl": "curl \"{{accountsBase}}/api/org-plan/{{org}}\"",
+      "position": { "x": 640, "y": 340 },
+      "status": "idle",
+      "collapsed": false,
+      "extractions": [],
+      "asserts": [
+        { "id": "as-orgplan-status", "kind": "status", "expected": "2xx" },
+        { "id": "as-orgplan-plan", "kind": "jsonpath", "path": "$.plan", "op": "exists" },
+        { "id": "as-orgplan-time", "kind": "time", "maxMs": 5000 }
+      ]
+    }
+  ],
+  "infoNodes": [
+    {
+      "id": "nota-sesion",
+      "name": "Cómo funciona la sesión",
+      "content": "Qué enseña: el login de FlowTest Cloud por API con las MISMAS credenciales que usas en la web. El nodo 1 hace POST /api/login y comprueba con asserts que la respuesta trae \"ok\": true; de ahí extrae {{org}} (el slug de tu organización) y el nodo 2 lo encadena en GET /api/org-plan/<slug>, que devuelve tu plan, los límites y los días de trial que te quedan.\n\nOjo con la sesión: la API NO devuelve ningún token en el body — la sesión viaja en una cookie httpOnly que guarda el navegador, así que desde un flow no se pueden encadenar los endpoints privados /api/me/*. Moraleja: mira la respuesta real antes de diseñar la cadena.\n\nRellena {{tuEmail}} y {{password}} con una cuenta VERIFICADA (creada con [[Solicitar espacio cloud]] o desde la web) — mejor pásalas con --var en CLI para no dejarlas escritas. Varios intentos fallidos seguidos bloquean el login un rato (429), y con 2FA activado pide además el código (este flow no lo envía).\n\nCómo ejecutarlo: ▶ Run Flow en la web · flow-run --flow \"Login y sesión.flow.json\" en CLI.",
+      "position": { "x": 80, "y": 40 },
+      "collapsed": false,
+      "scripts": []
+    }
+  ],
+  "sqlNodes": [],
+  "webNodes": [],
+  "connections": [
+    { "id": "con-login-plan", "sourceId": "login-cloud", "targetId": "plan-mi-org", "behavior": "next" }
+  ],
+  "envVariables": {
+    "accountsBase": "https://app.flowtest.es",
+    "tuEmail": "tu-email@ejemplo.com",
+    "password": "elige-una-de-8+"
+  }
+}

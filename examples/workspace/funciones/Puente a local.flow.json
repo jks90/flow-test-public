@@ -1,0 +1,45 @@
+{
+  "version": "1.0",
+  "name": "Puente a local",
+  "nodes": [
+    {
+      "id": "puente-local-llamada",
+      "name": "1 · Llamar a mi API",
+      "curl": "curl \"{{miApiLocal}}/get?desde=flowtest\" \\\n\n-H \"User-Agent: flowtest\"",
+      "position": { "x": 80, "y": 340 },
+      "status": "idle",
+      "collapsed": false,
+      "extractions": [],
+      "asserts": [
+        { "id": "puente-local-assert-status", "kind": "status", "expected": "2xx" },
+        { "id": "puente-local-assert-eco", "kind": "jsonpath", "path": "$.args.desde", "op": "exists" },
+        { "id": "puente-local-assert-tiempo", "kind": "time", "maxMs": 5000 }
+      ]
+    }
+  ],
+  "infoNodes": [
+    {
+      "id": "puente-local-nota",
+      "name": "Probar tu localhost desde el cloud",
+      "content": "La feature estrella del cloud: probar TU API de localhost desde el navegador de app.flowtest.es. Tal cual está, el flow llama a un echo público ({{miApiLocal}}) para que puedas darle a ▶ Run Flow ya mismo y ver los asserts en verde.\n\nEl truco real: en app.flowtest.es cambia la variable miApiLocal a http://localhost:8080 y arranca en tu máquina el agente «flow-bridge» (viene en el paquete npm flowtest-run). El contenedor cloud NO ve tu localhost, así que la petición viaja cloud → flow-bridge (long-poll) → tu API → de vuelta al navegador — sin abrir puertos ni túneles.\n\nCómo ejecutarlo: ▶ Run Flow en la web · flow-run en CLI (en local el CLI llega directo, sin puente).",
+      "position": { "x": 80, "y": 40 },
+      "collapsed": false,
+      "scripts": []
+    },
+    {
+      "id": "puente-local-diagrama",
+      "name": "El viaje de la petición",
+      "content": "graph LR\n  Navegador --> Cloud\n  Cloud --> Bridge[\"flow-bridge (tu máquina)\"]\n  Bridge --> API[\"localhost:8080\"]",
+      "position": { "x": 640, "y": 40 },
+      "collapsed": false,
+      "scripts": [],
+      "renderMode": "mermaid"
+    }
+  ],
+  "sqlNodes": [],
+  "webNodes": [],
+  "connections": [],
+  "envVariables": {
+    "miApiLocal": "https://httpbingo.org"
+  }
+}

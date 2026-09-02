@@ -1,0 +1,57 @@
+{
+  "version": "1.0",
+  "name": "05 · SQL más HTTP",
+  "nodes": [
+    {
+      "id": "http-eco-dbok",
+      "name": "2 · HTTP — eco con dbOk",
+      "curl": "curl \"https://httpbingo.org/get?db={{dbOk}}\" \\\n\n-H \"User-Agent: flow-test\"",
+      "position": { "x": 640, "y": 340 },
+      "status": "idle",
+      "collapsed": false,
+      "extractions": [],
+      "asserts": [
+        { "id": "as-eco-status", "kind": "status", "expected": "2xx" },
+        { "id": "as-eco-arg-db", "kind": "jsonpath", "path": "$.args.db", "op": "exists" },
+        { "id": "as-eco-tiempo", "kind": "time", "maxMs": 8000 }
+      ]
+    }
+  ],
+  "infoNodes": [
+    {
+      "id": "nota-sql-mas-http",
+      "name": "Qué enseña este flow",
+      "content": "Este flow enseña el nodo SQL junto al HTTP. El nodo «1 · SQL» lanza una consulta a Postgres usando el perfil «demo-postgres» de sql-connections.json (hay uno de ejemplo en la raíz del workspace; los perfiles se buscan desde la carpeta del flow hacia arriba) y extrae la celda columna «ok» + fila 0 a la variable {{dbOk}}. En el mismo Run Flow los nodos SQL y HTTP comparten capas topológicas: aquí no hay conexión entre ellos (dos islas), así que ambos forman la primera capa y corren en paralelo.\n\nEl nodo SQL viene DESACTIVADO para que el flow corra en verde aunque no tengas base de datos: mientras tanto {{dbOk}} usa el valor por defecto de envVariables. Para activarlo: menú del icono de la caja → «Nodo activo», y rellena host/usuario/contraseña reales en el sql-connections.json de la raíz del workspace (trae placeholders). Si además conectas SQL → HTTP con una flecha «next», la extracción llegará al GET antes de ejecutarse.\n\nEjecútalo con ▶ Run Flow en la web, o en CLI: flow-run --flow \"05 SQL más HTTP.flow.json\"",
+      "position": { "x": 80, "y": 40 },
+      "collapsed": false,
+      "scripts": []
+    }
+  ],
+  "sqlNodes": [
+    {
+      "id": "sql-ping-postgres",
+      "name": "1 · SQL — ping a Postgres",
+      "position": { "x": 80, "y": 340 },
+      "collapsed": false,
+      "disabled": true,
+      "dbType": "postgres",
+      "connectionProfileId": "demo-postgres",
+      "host": "",
+      "port": "",
+      "database": "",
+      "username": "",
+      "password": "",
+      "query": "SELECT 1 AS ok, NOW() AS ahora",
+      "displayMode": "table",
+      "status": "idle",
+      "extractions": [
+        { "id": "ext-dbok", "varName": "dbOk", "column": "ok", "rowIndex": 0 }
+      ]
+    }
+  ],
+  "webNodes": [],
+  "connections": [],
+  "envVariables": {
+    "dbOk": "sin-bbdd"
+  }
+}

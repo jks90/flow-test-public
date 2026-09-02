@@ -35,6 +35,28 @@ docker run -d \
 - **MCP** (agentes IA): `claude mcp add --transport http flow-test http://localhost:9998/mcp`
   — la IA construye y ejecuta flows **en tu canvas, mientras lo ves**.
 
+## 🗂️ Galería: arranca con 16 flows de verdad
+
+¿Prefieres tocar antes que leer? Monta la **galería de ejemplos** como tu workspace y la app abre
+con un tour guiado dentro del propio producto — cada ejemplo se ejecuta con un clic:
+
+```bash
+git clone https://github.com/jks90/flow-test-public.git
+docker run -d \
+  --add-host=host.docker.internal:host-gateway \
+  -p 9998:3001 --name flow \
+  -v "$(pwd)/flow-test-public/examples/workspace:/app/flows" \
+  juankanh/flow-app:latest
+# abre http://localhost:9998 → icono «Proyecto» → «00 EMPIEZA AQUÍ.md»
+```
+
+Dentro: `aprende/` (variables, asserts, entornos, scripts, SQL, data-driven — un concepto por flow,
+5 minutos cada uno), `funciones/` (monitor 24x7, webhook desde CI, correo OTP, puente a local),
+`flowtest-por-dentro/` (nuestra propia plataforma probada con nuestra propia herramienta: alta,
+login, **compra de licencia** y salud — el funnel real, documentado como flow) y `paneles/` (los
+vistosos para enseñar en una demo). Todos con asserts, verificados con el CLI antes de publicarse.
+Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre desde la 5.5.0.)*
+
 ## Versiones de la imagen
 
 | Versión | Qué trae |

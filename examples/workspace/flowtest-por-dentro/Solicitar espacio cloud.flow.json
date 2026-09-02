@@ -1,0 +1,80 @@
+{
+  "version": "1.0",
+  "name": "Solicitar espacio cloud",
+  "nodes": [
+    {
+      "id": "registro-cloud",
+      "name": "1 · Registro — crear cuenta y organización",
+      "curl": "curl -X POST \"{{accountsBase}}/api/register\" -H \"Content-Type: application/json\" -d '{\"email\":\"{{tuEmail}}\",\"password\":\"{{password}}\",\"orgName\":\"{{organizacion}}\"}'",
+      "position": { "x": 80, "y": 340 },
+      "status": "idle",
+      "collapsed": false,
+      "extractions": [
+        { "id": "ext-org-slug", "varName": "orgSlug", "jsonPath": "$.org" }
+      ],
+      "asserts": [
+        { "id": "as-reg-status", "kind": "status", "expected": "2xx" },
+        { "id": "as-reg-ok", "kind": "jsonpath", "path": "$.ok", "op": "equals", "value": "true" },
+        { "id": "as-reg-time", "kind": "time", "maxMs": 8000 }
+      ]
+    },
+    {
+      "id": "plan-org",
+      "name": "2 · Plan de la organización recién creada",
+      "curl": "curl \"{{accountsBase}}/api/org-plan/{{orgSlug}}\"",
+      "position": { "x": 640, "y": 340 },
+      "status": "idle",
+      "collapsed": false,
+      "extractions": [],
+      "asserts": [
+        { "id": "as-plan-status", "kind": "status", "expected": "2xx" },
+        { "id": "as-plan-exists", "kind": "jsonpath", "path": "$.plan", "op": "exists" },
+        { "id": "as-plan-time", "kind": "time", "maxMs": 5000 }
+      ]
+    },
+    {
+      "id": "health-plataforma",
+      "name": "3 · Health de la plataforma",
+      "curl": "curl \"{{accountsBase}}/health\"",
+      "position": { "x": 1200, "y": 340 },
+      "status": "idle",
+      "collapsed": false,
+      "extractions": [],
+      "asserts": [
+        { "id": "as-health-status", "kind": "status", "expected": "2xx" },
+        { "id": "as-health-time", "kind": "time", "maxMs": 5000 }
+      ]
+    }
+  ],
+  "infoNodes": [
+    {
+      "id": "nota-aviso",
+      "name": "⚠️ Léeme antes de ejecutar",
+      "content": "ESTE FLOW CREA UNA CUENTA REAL en app.flowtest.es (trial de 14 días). PON TU EMAIL DE VERDAD en {{tuEmail}} y una contraseña de 8+ caracteres en {{password}}, y LUEGO VERIFICA LA CUENTA DESDE TU CORREO. ÚSALO UNA SOLA VEZ.\n\nQué enseña: el alta de FlowTest Cloud convertida en flow — registro (POST /api/register), consulta del plan de la organización recién creada (con el slug extraído de la respuesta) y health check final. Cada nodo lleva asserts: no basta con que responda, tiene que responder BIEN.\n\nCómo ejecutarlo: ▶ Run Flow en la web · flow-run --flow \"Solicitar espacio cloud.flow.json\" en CLI.\n\nY la moraleja: así de fácil es automatizar CUALQUIER alta — la nuestra incluida.",
+      "position": { "x": 80, "y": 40 },
+      "collapsed": false,
+      "scripts": []
+    },
+    {
+      "id": "nota-diagrama",
+      "name": "Diagrama del flujo",
+      "content": "graph LR\n  R[1 · Registro<br/>POST /api/register] -->|orgSlug| P[2 · Plan de la org<br/>GET /api/org-plan/orgSlug]\n  P --> H[3 · Health<br/>GET /health]",
+      "position": { "x": 640, "y": 40 },
+      "collapsed": false,
+      "scripts": [],
+      "renderMode": "mermaid"
+    }
+  ],
+  "sqlNodes": [],
+  "webNodes": [],
+  "connections": [
+    { "id": "con-registro-plan", "sourceId": "registro-cloud", "targetId": "plan-org", "behavior": "next" },
+    { "id": "con-plan-health", "sourceId": "plan-org", "targetId": "health-plataforma", "behavior": "next" }
+  ],
+  "envVariables": {
+    "accountsBase": "https://app.flowtest.es",
+    "tuEmail": "tu-email@ejemplo.com",
+    "password": "elige-una-de-8+",
+    "organizacion": "Mi equipo"
+  }
+}

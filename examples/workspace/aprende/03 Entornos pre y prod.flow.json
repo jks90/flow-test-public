@@ -1,0 +1,61 @@
+{
+  "version": "1.0",
+  "name": "03 · Entornos pre y prod",
+  "nodes": [
+    {
+      "id": "tiempo-actual",
+      "name": "1 · Tiempo actual (Open-Meteo)",
+      "curl": "curl \"https://api.open-meteo.com/v1/forecast?latitude={{lat}}&longitude={{lon}}&current=temperature_2m\"",
+      "position": { "x": 80, "y": 340 },
+      "status": "idle",
+      "collapsed": false,
+      "extractions": [
+        { "id": "ex-temperatura", "varName": "temperatura", "jsonPath": "$.current.temperature_2m" }
+      ],
+      "asserts": [
+        { "id": "as-tiempo-status", "kind": "status", "expected": "2xx" },
+        { "id": "as-tiempo-temp", "kind": "jsonpath", "path": "$.current.temperature_2m", "op": "exists" },
+        { "id": "as-tiempo-ms", "kind": "time", "maxMs": 8000 }
+      ]
+    },
+    {
+      "id": "eco-ciudad",
+      "name": "2 · Eco de la ciudad (httpbingo)",
+      "curl": "curl \"https://httpbingo.org/get?ciudad={{ciudad}}&temperatura={{temperatura}}\" -H \"User-Agent: flow-test\"",
+      "position": { "x": 640, "y": 340 },
+      "status": "idle",
+      "collapsed": false,
+      "extractions": [],
+      "asserts": [
+        { "id": "as-eco-status", "kind": "status", "expected": "2xx" },
+        { "id": "as-eco-ciudad", "kind": "jsonpath", "path": "$.args.ciudad", "op": "exists" },
+        { "id": "as-eco-ms", "kind": "time", "maxMs": 8000 }
+      ]
+    }
+  ],
+  "infoNodes": [
+    {
+      "id": "nota-entornos",
+      "name": "Entornos con nombre",
+      "content": "Mismo flow, dos juegos de datos: envVariables trae los valores por defecto (Madrid) y environments define los overrides de PRE (Barcelona) y PROD (Madrid); el entorno activo es PRE, así que al ejecutar sus valores pisan a los de envVariables. Cámbialo desde el selector de entorno del panel Variables (web) o con --env prod en el CLI, sin tocar el fichero.\n\nEl nodo 1 pide a Open-Meteo el tiempo de las coordenadas del entorno activo (asserts: status 2xx + $.current.temperature_2m exists) y extrae {{temperatura}}; el nodo 2 reenvía ciudad y temperatura a httpbingo.org como eco y verifica que $.args.ciudad exists.\n\nCómo ejecutarlo: ▶ Run Flow en la web · flow-run --flow \"aprende/03 Entornos pre y prod.flow.json\" en el CLI (añade --env prod para probar con los datos de PROD).",
+      "position": { "x": 80, "y": 40 },
+      "collapsed": false,
+      "scripts": []
+    }
+  ],
+  "sqlNodes": [],
+  "webNodes": [],
+  "connections": [
+    { "id": "con-tiempo-eco", "sourceId": "tiempo-actual", "targetId": "eco-ciudad", "behavior": "next" }
+  ],
+  "envVariables": {
+    "lat": "40.4168",
+    "lon": "-3.7038",
+    "ciudad": "Madrid"
+  },
+  "environments": {
+    "pre": { "lat": "41.3874", "lon": "2.1686", "ciudad": "Barcelona" },
+    "prod": { "lat": "40.4168", "lon": "-3.7038", "ciudad": "Madrid" }
+  },
+  "activeEnvironment": "pre"
+}

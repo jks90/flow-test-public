@@ -1,0 +1,54 @@
+{
+  "version": "1.0",
+  "name": "01 · Variables y cadenas",
+  "nodes": [
+    {
+      "id": "tipo-cambio-eur",
+      "name": "1 · Tipo de cambio EUR (Frankfurter)",
+      "curl": "curl \"https://api.frankfurter.dev/v1/latest?base={{base}}\"",
+      "position": { "x": 80, "y": 340 },
+      "status": "idle",
+      "collapsed": false,
+      "extractions": [
+        { "id": "ext-eur-usd", "varName": "eurUsd", "jsonPath": "$.rates.USD" }
+      ],
+      "asserts": [
+        { "id": "as-cambio-status", "kind": "status", "expected": "2xx" },
+        { "id": "as-cambio-usd", "kind": "jsonpath", "path": "$.rates.USD", "op": "exists" },
+        { "id": "as-cambio-tiempo", "kind": "time", "maxMs": 8000 }
+      ]
+    },
+    {
+      "id": "echo-eur-usd",
+      "name": "2 · Echo con {{eurUsd}} (httpbingo)",
+      "curl": "curl \"https://httpbingo.org/get?eur_usd={{eurUsd}}\" \\\n\n-H \"User-Agent: flowtest\"",
+      "position": { "x": 640, "y": 340 },
+      "status": "idle",
+      "collapsed": false,
+      "extractions": [],
+      "asserts": [
+        { "id": "as-echo-status", "kind": "status", "expected": "2xx" },
+        { "id": "as-echo-arg", "kind": "jsonpath", "path": "$.args.eur_usd", "op": "exists" },
+        { "id": "as-echo-tiempo", "kind": "time", "maxMs": 8000 }
+      ]
+    }
+  ],
+  "infoNodes": [
+    {
+      "id": "nota-variables",
+      "name": "Qué enseña este flow",
+      "content": "Las dos piezas básicas de FlowTest: variables {{...}} y extracciones JSONPath. El nodo 1 pide a Frankfurter el cambio del euro (usa {{base}}, definida en envVariables) y extrae $.rates.USD en la variable eurUsd. El nodo 2 usa {{eurUsd}} en su propia URL contra el echo de httpbingo, que la devuelve en $.args — así compruebas que la interpolación funcionó (el curl lleva una cabecera User-Agent porque httpbingo rechaza las peticiones que no la traen). Las variables fluyen de un nodo al siguiente por las flechas: todo lo que extraes aguas arriba está disponible aguas abajo.\n\nEjecutar: ▶ Run Flow en la web · flow-run en CLI.",
+      "position": { "x": 80, "y": 40 },
+      "collapsed": false,
+      "scripts": []
+    }
+  ],
+  "sqlNodes": [],
+  "webNodes": [],
+  "connections": [
+    { "id": "con-cambio-echo", "sourceId": "tipo-cambio-eur", "targetId": "echo-eur-usd", "behavior": "next" }
+  ],
+  "envVariables": {
+    "base": "EUR"
+  }
+}

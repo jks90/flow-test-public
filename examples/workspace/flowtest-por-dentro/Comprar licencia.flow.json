@@ -1,0 +1,80 @@
+{
+  "version": "1.0",
+  "name": "Comprar licencia",
+  "nodes": [
+    {
+      "id": "antes-de-comprar",
+      "name": "1 · Antes de comprar",
+      "curl": "curl -X POST \"{{accountsBase}}/api/license/validate\" \\\n\n-H \"Content-Type: application/json\" \\\n\n-d '{\n  \"token\": \"{{licencia}}\"\n}'",
+      "position": { "x": 80, "y": 340 },
+      "status": "idle",
+      "collapsed": false,
+      "extractions": [
+        { "id": "ext-motivo", "varName": "motivo", "jsonPath": "$.reason" }
+      ],
+      "asserts": [
+        { "id": "as-antes-status", "kind": "status", "expected": "2xx" },
+        { "id": "as-antes-valid", "kind": "jsonpath", "path": "$.valid", "op": "equals", "value": "false" }
+      ]
+    },
+    {
+      "id": "ya-tengo-clave",
+      "name": "2 · Ya tengo mi clave",
+      "curl": "curl -X POST \"{{accountsBase}}/api/license/validate\" \\\n\n-H \"Content-Type: application/json\" \\\n\n-d '{\n  \"token\": \"{{licencia}}\"\n}'",
+      "position": { "x": 640, "y": 340 },
+      "status": "idle",
+      "collapsed": false,
+      "disabled": true,
+      "extractions": [
+        { "id": "ext-plan", "varName": "planComprado", "jsonPath": "$.plan" }
+      ],
+      "asserts": [
+        { "id": "as-clave-status", "kind": "status", "expected": "2xx" },
+        { "id": "as-clave-valid", "kind": "jsonpath", "path": "$.valid", "op": "equals", "value": "true" }
+      ]
+    },
+    {
+      "id": "salud-servidor-licencias",
+      "name": "3 · Salud del servidor de licencias",
+      "curl": "curl \"{{accountsBase}}/health\"",
+      "position": { "x": 1200, "y": 340 },
+      "status": "idle",
+      "collapsed": false,
+      "extractions": [],
+      "asserts": [
+        { "id": "as-salud-status", "kind": "status", "expected": "2xx" },
+        { "id": "as-salud-ok", "kind": "jsonpath", "path": "$.ok", "op": "equals", "value": "true" },
+        { "id": "as-salud-tiempo", "kind": "time", "maxMs": 5000 }
+      ]
+    }
+  ],
+  "infoNodes": [
+    {
+      "id": "leeme-comprar",
+      "name": "Léeme · Cómo comprar",
+      "content": "Este flow ES nuestro proceso de venta, documentado con nuestra propia herramienta. El nodo 1 valida una licencia vacía contra el servidor real y sale en VERDE a propósito: su assert espera exactamente valid=false, demostrando que sin clave no se valida nada.\n\nComprar es 1 clic en https://flowtest.es/comprar-licencia (checkout de Lemon Squeezy, 29,99 €/año). La clave llega por email: pégala en Config ▸ Licencia de tu instalación… o en la variable «licencia» de este flow y activa el nodo 2 (menú del nodo ▸ Nodo activo) para verla validar contra nuestro servidor con firma RS256.\n\n▶ Ejecutar: botón «Run Flow» en la web · flow-run en CLI.",
+      "position": { "x": 80, "y": 40 },
+      "collapsed": false,
+      "scripts": []
+    },
+    {
+      "id": "mapa-comprar",
+      "name": "Mapa del flujo",
+      "content": "graph LR\n  A[1 · Antes de comprar] -->|sin clave, valid=false| B[2 · Ya tengo mi clave]\n  B -->|con tu licencia, valid=true| C[3 · Salud del servidor]",
+      "position": { "x": 640, "y": 40 },
+      "collapsed": false,
+      "scripts": [],
+      "renderMode": "mermaid"
+    }
+  ],
+  "sqlNodes": [],
+  "webNodes": [],
+  "connections": [
+    { "id": "con-antes-clave", "sourceId": "antes-de-comprar", "targetId": "ya-tengo-clave", "behavior": "next" },
+    { "id": "con-clave-salud", "sourceId": "ya-tengo-clave", "targetId": "salud-servidor-licencias", "behavior": "next" }
+  ],
+  "envVariables": {
+    "accountsBase": "https://app.flowtest.es",
+    "licencia": ""
+  }
+}

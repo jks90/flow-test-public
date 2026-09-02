@@ -1,0 +1,51 @@
+{
+  "version": "1.0",
+  "name": "Salud de la plataforma",
+  "nodes": [
+    {
+      "id": "salud-servicio",
+      "name": "1 · Salud del servicio",
+      "curl": "curl \"{{accountsBase}}/health\"",
+      "position": { "x": 80, "y": 340 },
+      "status": "idle",
+      "collapsed": false,
+      "extractions": [],
+      "asserts": [
+        { "id": "as-salud-status", "kind": "status", "expected": "2xx" },
+        { "id": "as-salud-ok", "kind": "jsonpath", "path": "$.ok", "op": "equals", "value": "true" },
+        { "id": "as-salud-tiempo", "kind": "time", "maxMs": 5000 }
+      ]
+    },
+    {
+      "id": "tls-check",
+      "name": "2 · Certificados TLS de las orgs",
+      "curl": "curl \"{{accountsBase}}/api/tls-check?domain={{dominio}}\"",
+      "position": { "x": 640, "y": 340 },
+      "status": "idle",
+      "collapsed": false,
+      "extractions": [],
+      "asserts": [
+        { "id": "as-tls-status", "kind": "status", "expected": "2xx" }
+      ]
+    }
+  ],
+  "infoNodes": [
+    {
+      "id": "leeme-salud",
+      "name": "Léeme · Vigilar la plataforma",
+      "content": "Este es el MISMO flow con el que nosotros vigilamos flowtest.es: /health comprueba el servicio y su base de datos (assert ok=true y respuesta en menos de 5 s) y /api/tls-check valida el dominio con el que se emiten los certificados TLS de las orgs (parámetro domain, variable «dominio»).\n\nAñádele settings.monitor {intervalMin, notifyUrl, notify} y tenlo funcionando 24x7: el servidor lo ejecuta solo cada X minutos y te avisa por POST al fallar o cambiar de estado.\n\nEn esta carpeta tienes además «00 LEEME.md» con el mapa completo de la plataforma.\n\n▶ Ejecutar: botón «Run Flow» en la web · flow-run en CLI.",
+      "position": { "x": 80, "y": 40 },
+      "collapsed": false,
+      "scripts": []
+    }
+  ],
+  "sqlNodes": [],
+  "webNodes": [],
+  "connections": [
+    { "id": "con-salud-tls", "sourceId": "salud-servicio", "targetId": "tls-check", "behavior": "next" }
+  ],
+  "envVariables": {
+    "accountsBase": "https://app.flowtest.es",
+    "dominio": "app.flowtest.es"
+  }
+}
