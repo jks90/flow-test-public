@@ -22,6 +22,10 @@ letra** cuando escriba flows a mano.
   `envVariables`; deja `infoNodes` y `webNodes` como arrays vacíos (salvo que quieras
   documentar el flow con una nota o un diagrama, ver InfoNode más abajo).
 - `name` corto y descriptivo (`{dominio}-{caso}`), que coincida con el nombre del fichero.
+- Opcionales de primer nivel: `environments` + `activeEnvironment` (5.3.0 — juegos de overrides
+  con nombre sobre `envVariables`; el CLI los elige con `--env <nombre>`), `settings`
+  (4.48.0 — vista/`webhook {token}`/`monitor {intervalMin, notifyUrl?, notify}`; los dos últimos
+  publican automatización server-side al guardar el flow) y `drawings` (pizarra; solo si hay).
 
 ## RequestNode (`nodes[]`)
 
@@ -50,6 +54,12 @@ Reglas:
 - Un nodo pasa con status HTTP 2xx; cualquier otra cosa lo marca FAIL.
 - `status` siempre `"idle"` en disco; `position.x` suele incrementarse ~520 por nodo en la
   misma fila (`y` constante).
+- **`asserts`** (opcional, 5.3.0): condiciones extra para dar el nodo por bueno aunque el HTTP
+  sea 2xx — el CLI sale con exit ≠ 0 si fallan. Lista de objetos con `id` (uuid) y `kind`:
+  `{ "kind": "status", "expected": "2xx" | "200-204" | "200,201" }` ·
+  `{ "kind": "jsonpath", "path": "$.data.id", "op": "exists" | "equals" | "not-equals" | "contains" | "gt" | "lt", "value": "..." }` ·
+  `{ "kind": "time", "maxMs": 2000 }`. Ponles siempre un assert de status y uno de jsonpath a
+  los nodos importantes: convierten el flow en un test de verdad.
 
 ## SqlNode (`sqlNodes[]`)
 

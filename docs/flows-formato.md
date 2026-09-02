@@ -25,6 +25,8 @@ API.
 | `webNodes` | Nodos Web (opcional; solo en la web) |
 | `connections` | Aristas del grafo: qué se ejecuta después de qué |
 | `envVariables` | Variables iniciales del flow (`{{clave}}`) |
+| `environments` / `activeEnvironment` | Entornos con nombre (opcional, desde la **5.3.0**): `{"pre": {...}, "prod": {...}}` — overrides sobre `envVariables` al ejecutar; `activeEnvironment` fija el activo |
+| `settings` | Configuración del flow (opcional, desde la **4.48.0**): vista, webhook entrante, monitor… (ver abajo) |
 | `drawings` | Dibujos de la pizarra (opcional, desde la **4.24.0**; solo se escribe si hay alguno) |
 
 Todos los nodos admiten además dos campos opcionales: `order` (nº de orden que usan *Alinear en
@@ -52,6 +54,21 @@ arrastre).
 - **`extractions`**: tras la respuesta, cada extracción evalúa un **JSONPath** sobre el body
   y guarda el valor como variable para los nodos siguientes. Rutas tipo `$.data.items[0].id`.
 - Un nodo se considera OK con status HTTP 2xx.
+- **`asserts`** (opcional, desde la **5.3.0**): condiciones que deben cumplirse para dar el nodo
+  por bueno **aunque el HTTP sea 2xx** — web, CLI (exit ≠ 0) y MCP las evalúan igual:
+
+  ```json
+  "asserts": [
+    { "id": "a1", "kind": "status", "expected": "2xx" },
+    { "id": "a2", "kind": "jsonpath", "path": "$.data.id", "op": "exists" },
+    { "id": "a3", "kind": "jsonpath", "path": "$.status", "op": "equals", "value": "active" },
+    { "id": "a4", "kind": "time", "maxMs": 2000 }
+  ]
+  ```
+
+  `kind: "status"` admite `2xx`, rangos `200-204` o listas `200,201`; `jsonpath` admite
+  `op`: `exists` | `equals` | `not-equals` | `contains` | `gt` | `lt` (con `value`);
+  `time` falla si la respuesta tarda más de `maxMs`.
 
 ## Nodos SQL (`sqlNodes[]`)
 
@@ -167,6 +184,28 @@ Ejemplo completo: [`examples/pizarra-anotada.flow.json`](../examples/pizarra-ano
 - Se interpolan con `{{nombre}}` en cualquier curl, query o campo de conexión.
 - En el CLI, `--var clave=valor` sobrescribe cualquier variable.
 - Variables automáticas: `runId` y `runTimestamp`.
+- **Entornos** (5.3.0): `environments` define juegos de overrides con nombre y
+  `activeEnvironment` el activo; al ejecutar, el entorno pisa a `envVariables`
+  (precedencia final: `envVariables` < entorno < scripts/extracciones < `--var`).
+  En el CLI, `--env <nombre>` elige entorno sin tocar el fichero.
+
+## Configuración del flow (`settings`) — opcional
+
+```json
+"settings": {
+  "webhook": { "token": "af31…" },
+  "monitor": { "intervalMin": 15, "notifyUrl": "https://hooks.slack.com/…", "notify": "fail" }
+}
+```
+
+- `webhook` (5.3.0): publica `POST /hook/<token>` en el servidor — cualquier sistema lanza el
+  flow por HTTP (query params y body JSON plano llegan como variables; `__env` elige entorno).
+- `monitor` (5.4.0): el servidor ejecuta el flow solo cada `intervalMin` minutos, sin navegador;
+  historial de 100 runs en `flows/.monitors/` (`GET /monitors`) y aviso `POST` a `notifyUrl`
+  al fallar/cambiar de estado (`notify: "fail"`) o en cada run (`"always"`).
+- También puede llevar `view` (tamaño/compacto/separación de nodos), `hideConnections`,
+  `whiteboardStyle`, `viewport` y `background` (imagen de fondo del canvas) — todo visual;
+  el CLI lo ignora. Ambos bloques de automatización se publican al **guardar** el flow en `flows/`.
 
 ## Ejemplo completo
 
