@@ -4,7 +4,7 @@
 
 ```bash
 docker run -d --add-host=host.docker.internal:host-gateway \
-  -p 9998:3001 -p 1025:1025 --name flow juankanh/flow-app:5.8.0
+  -p 9998:3001 -p 1025:1025 --name flow juankanh/flow-app:5.8.1
 # web + API + MCP en http://localhost:9998 · 1025 = SMTP de prueba (Config ▸ Correo, 4.36)
 ```
 
@@ -123,6 +123,9 @@ flow-test se prueba **14 días gratis con todas las funciones** desde el primer 
 | 4.22.0 | Nº de orden por nodo + Alinear en fila/columna |
 | 4.23.0 | Scripts JS de las notas ejecutados al Run Flow (web, MCP y CLI; `--skip-info-scripts`), 📌 fijar cajas, Variables usadas en cada caja, tool MCP `tab_close` |
 | 4.24.0 | **Pizarra** estilo Excalidraw sobre el lienzo (`drawings` en el flow), barra lateral de iconos con un panel a la vez, **Guía de nodos**, Ocultar conectores, Maximizar Mermaid, tool MCP `node_add_info` (20 tools) |
+| **5.8.1** | 🔁 **Interruptor licencia ↔ cuenta cloud** (elige cuál gobierna cuando tienes las dos, sin mezclar) |
+| **5.8.0** | 🤖 Token MCP por usuario (conecta tu IA al cloud) · 🐳 vincular Docker a la cuenta (hereda el plan) · credenciales con ámbito 🔒 privado / 👥 equipo |
+| **5.5.0 – 5.7.0** | 👥 Colaboración en vivo (Business) + Ctrl+Z del canvas · credenciales cifradas `{{secret:X}}` · carpetas privadas por miembro · Business = 1.000 flows |
 | **5.4.0** | **Monitores programados** server-side con historial y notifyUrl (modal Automatización) |
 | **5.3.0** | **Asserts + entornos + webhook + data-driven + OpenAPI** — CI con exit ≠ 0, `--env`/`--data`, `POST /hook/<token>` y spec → flow |
 | **5.1.0** | **Prueba 14 días + licencia validada online** — tras la prueba, ejecutar flows requiere licencia o cuenta cloud (flowtest.es); revocable en remoto. Ver/editar nunca se bloquea |
