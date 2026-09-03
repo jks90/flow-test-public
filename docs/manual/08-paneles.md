@@ -398,3 +398,12 @@ workspace compartido: solo su dueño la ve en el panel Proyecto y solo él puede
 borrar lo que hay dentro (los demás reciben un 403 — ni siquiera aparece en sus listados). El resto
 del árbol sigue siendo el espacio común del equipo de siempre. En self-hosted no aplica: sin
 cuentas, tu máquina es toda tuya.
+
+**Guardar con ámbito (5.7):** el modal «Guardar como…» (Ctrl+Shift+S) trae en el cloud un selector
+**👥 Compartido / 🔒 Privado** — al elegir Privado el flow va a tu `privado/<usuario>/` sin teclear
+la ruta — y muestra las carpetas existentes como **chips clicables** (filtradas por ámbito) en vez de
+una caja de texto a ciegas. La ruta final y su aviso se actualizan en vivo.
+
+**Límite de flows por plan (5.7):** Trial 3 · Pro 100 (+packs de 100) · **Business 1.000** (10× Pro).
+Al llegar al tope, guardar un flow NUEVO devuelve un aviso (los existentes se siguen editando). Los
+flows de fábrica (bienvenida y `ejemplos/`) no cuentan.
