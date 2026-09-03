@@ -26,7 +26,7 @@ docker run -d \
   -p 9998:3001 \
   -p 1025:1025 \
   --name flow \
-  juankanh/flow-app:5.7.0
+  juankanh/flow-app:5.8.0
 ```
 
 - **Web**: http://localhost:9998 — el canvas visual.
@@ -61,7 +61,8 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 
 | Versión | Qué trae |
 |---------|----------|
-| **5.7.0** (recomendada) | 🔒 **Credenciales cifradas** (`{{secret:X}}`, AES-256 server-side) · **carpetas privadas por miembro** en el cloud (`privado/<tú>/`) con **guardar Compartido/🔒 Privado** · **Business = 1.000 flows** (10× Pro, no ilimitado) · fixes de colaboración (roster sin usuarios fantasma) |
+| **5.8.0** (recomendada) | 🤖 **Conecta tu IA al cloud** (token MCP por usuario) · 🐳 **vincula tu Docker a la cuenta** (hereda el plan de tu suscripción, sin claves) · credenciales con ámbito 🔒 privado / 👥 del equipo |
+| **5.7.0** | 🔒 **Credenciales cifradas** (`{{secret:X}}`, AES-256 server-side) · **carpetas privadas por miembro** en el cloud (`privado/<tú>/`) con **guardar Compartido/🔒 Privado** · **Business = 1.000 flows** (10× Pro, no ilimitado) · fixes de colaboración (roster sin usuarios fantasma) |
 | **5.6.0** | 🔒 **Credenciales cifradas** (`{{secret:X}}` — AES-256 en el servidor, el navegador nunca ve el valor, flows compartibles sin filtrar nada) y **carpetas privadas por miembro** en el cloud (`privado/<tú>/`, invisible e intocable para el resto del equipo) |
 | **5.5.0** | 👥 **Colaboración en vivo (Business)**: presencia + edición del mismo flow sincronizada por nodos entre navegadores, con aviso de pisada; **Ctrl+Z/Ctrl+Y del canvas** (todos los planes); **galería montable** con tour ▶; panel Proyecto compacto estilo árbol; leer `.md` libre en trial; imagen **sin componentes GPL** |
 | **5.4.0** | **Monitores programados**: el servidor ejecuta el flow cada N min sin navegador, historial de 100 runs y aviso por POST al fallar (modal «Automatización…») |
@@ -101,7 +102,7 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 | 4.4 – 4.22 | Nodo Web + modo **Live** (login real, capturas con sus llamadas HTTP), `flow-explore`, Chromium en la imagen, CAs corporativas en `/certs`, teclado directo en Live, checks LNA desactivados, nº de orden y alineado — historial completo en el manual |
 
 ```bash
-docker pull juankanh/flow-app:5.7.0
+docker pull juankanh/flow-app:5.8.0
 ```
 
 ## Documentación

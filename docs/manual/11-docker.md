@@ -4,7 +4,7 @@
 
 ```bash
 docker run -d --add-host=host.docker.internal:host-gateway \
-  -p 9998:3001 -p 1025:1025 --name flow juankanh/flow-app:5.7.0
+  -p 9998:3001 -p 1025:1025 --name flow juankanh/flow-app:5.8.0
 # web + API + MCP en http://localhost:9998 · 1025 = SMTP de prueba (Config ▸ Correo, 4.36)
 ```
 
@@ -155,3 +155,17 @@ flow-test se prueba **14 días gratis con todas las funciones** desde el primer 
 | 4.28.2 | Campo **`#` = `columna,fila`** (1,1 arriba a la izquierda) y **Layout ▸ Alinear en cuadrícula**; `cell` en el flow y en el MCP (`canvas_layout grid`); 4.28.1: **Auto Layout respeta las celdas**; 4.28.2: **fix Run Flow** (flechas `next` desde notas/SQL/web ya no bloquean el request destino, ciclos al final, scripts de notas en el Historial) |
 | 4.27.0 | **Config ▸ Vista**: tamaño de los nodos, **modo compacto** (caja con icono + título con estado + ▶, tooltip al pasar el ratón, clic abre la card) y **separación entre nodos** (mínima configurable, apartar vecinas al soltar, «Separar nodos solapados ahora») |
 | 4.26.0 | **`flows/` como proyecto**: panel Proyecto, abrir/guardar con **Ctrl+S** en el fichero, «Guardar como…», detección de cambios en disco, ficheros con el dueño del host desde Docker; **enlaces `[[flow#nodo]]`** entre flows en las notas; `FLOW_FLOWS_DIR` para apuntar el proyecto a otra carpeta |
+
+## Vincular esta instalación a tu cuenta cloud 🆕 (5.8)
+
+¿Tienes una **suscripción en app.flowtest.es** y también corres FlowTest self-hosted (Docker)? En
+vez de gestionar una clave de licencia, tu Docker puede **heredar el plan de tu cuenta**:
+
+1. En tu cuenta cloud → **🔌 Máquina local → 🐳 Vincular Docker** → **Generar token de vinculación**.
+2. En tu Docker: **Config ▸ Licencia ▸ «🐳 Vincular con mi cuenta cloud»** → pega el token. (O arranca
+   con `-e FLOW_ACCOUNT_TOKEN=flowlink_…`.)
+
+Tu instalación heredará el plan de la org (Pro o Business) sin claves RS256. El **workspace sigue en
+tu disco local** — esto solo hereda el plan, no mueve datos. Tope de instalaciones vinculadas:
+**Pro 2 · Business = asientos × 2**. Se desvincula desde el mismo panel; el admin lista las
+instalaciones vinculadas de cada cuenta.

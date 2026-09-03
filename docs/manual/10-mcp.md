@@ -37,3 +37,16 @@ Y en una conversación: *«créame un flow que haga login en mi API y liste los 
 > [!WARNING]
 > **La pestaña controladora**
 > El puente controla **la última pestaña conectada**. Si tienes abiertas la web del dev (5173) y la del contenedor (9998), cada servidor tiene su propio puente — asegúrate de a cuál apunta tu cliente MCP, o la IA pintará «en la otra».
+
+## Conectar tu IA al espacio del cloud 🆕 (5.8)
+
+Además del MCP local (`localhost:9998/mcp`), si tienes cuenta en **app.flowtest.es** puedes conectar
+tu asistente a **tu espacio del cloud**:
+
+1. En tu cuenta → **🤖 MCP (IA)** → **Generar token MCP** (se muestra una vez).
+2. Copia el comando ya montado y pégalo en tu terminal:
+   `claude mcp add --transport http flow-cloud https://app.flowtest.es/mcp --header "Authorization: Bearer <tu-token>"`
+
+A partir de ahí la IA construye y ejecuta flows en tu org del cloud igual que en local — respetando
+tus **carpetas y credenciales privadas**. El token es personal (Pro o Business), se lista con su
+último uso en tu cuenta y en el admin, y se revoca cuando quieras. Máximo 5 por usuario.
