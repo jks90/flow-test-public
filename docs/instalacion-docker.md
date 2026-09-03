@@ -72,8 +72,6 @@ Prueba de conectividad desde la otra máquina antes de tocar el servicio: `nc -z
 | `FLOW_MAIL_DOMAIN` | `flowtest.local` | Dominio por defecto de los buzones de prueba (editable en el panel) |
 | `FLOW_MAIL_DIR` | `<flows>/.mail` | Dónde se guardan buzones y correos (carpeta oculta, fuera del panel Proyecto) |
 | `FLOW_VIEWPORT` | `1366x850` | Resolución de la sesión Live, por ejemplo `1920x1080`; la vista y los clics se adaptan a la resolución efectiva |
-| `FLOW_FAKE_WEBCAM` | *(sin definir)* | Ruta a un MJPEG/Y4M que Chromium servirá como webcam. Solo QA |
-| `FLOW_VIDEOMOCK_MOLDS` | *(sin definir)* | Carpeta privada con las plantillas necesarias para `POST /videomock/dni` |
 
 Ejemplo con MCP protegido por token:
 
@@ -91,8 +89,6 @@ dentro del volumen de flows:
 ```bash
 docker run -d --add-host=host.docker.internal:host-gateway \
   -p 9998:3001 --name flow \
-  -e FLOW_FAKE_WEBCAM=/app/flows/webcam/DNIWebcamMock.mjpeg \
-  -e FLOW_VIDEOMOCK_MOLDS=/app/flows/molds \
   -e FLOW_VIEWPORT=1920x1080 \
   -v "$(pwd)/flows:/app/flows" \
   juankanh/flow-app:5.4.0

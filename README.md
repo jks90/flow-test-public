@@ -93,7 +93,7 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 | 4.23.0 | Los **scripts JS de las notas se ejecutan al pulsar Run Flow** (web, MCP `flow_run` y CLI) y sus valores entran como variables antes de la primera petición (`--skip-info-scripts` en CLI); **📌 fijar** cajas (ningún relayout ni arrastre las mueve); franja **Variables usadas** en cada caja request/SQL con edición in situ; tool MCP `tab_close` |
 | 4.22.0 | **Nº de orden** por nodo (campo `#` en la cabecera, persistido en el flow) y **Alinear en fila / en columna** en el menú Layout |
 | 4.13 – 4.21 | **Toolbar compacta**: desplegables Add Node y Layout, modal Config (Historial, Consola, SQL Conns, GitHub, Variables, Global), Expand All; **cajas colapsadas compactas** (ancho por tipo, botones bajo el título); Collapse All acerca las cajas sin reordenar y Expand All restaura posiciones; anti-solapes al expandir; conmutador Vista previa / Texto en las notas; minimapa oculto por defecto |
-| 4.12.1 | **Videomock de DNI para QA**: Chromium puede usar un MJPEG/Y4M montado como webcam mediante `FLOW_FAKE_WEBCAM`; `POST /videomock/dni` regenera el DNI con datos del titular usando plantillas privadas. `FLOW_VIEWPORT` configura la sesión Live y el frontend usa sus dimensiones reales para escalar la vista y los clics |
+| 4.12.1 | `FLOW_VIEWPORT` configura la resolución de la sesión Live y el frontend usa sus dimensiones reales para escalar la vista y los clics. (La webcam falsa de QA de esta versión se retiró en la 5.5.0) |
 | 4.9.0 | **Apps internas sin fallos mudos**: los checks de Local Network Access de Chromium vienen desactivados en el navegador de captura (una web pública ya puede llamar a su API en red privada; `FLOW_CHROME_LNA_CHECKS=on` los restaura), aviso en pantalla si aparece un bloqueo LNA/PNA y pista de DNS corporativo en `ERR_NAME_NOT_RESOLVED` |
 | 4.8.0 | **Pestañas Consola y Network en el nodo Web**: con la sesión Live abierta ves los `console.*`/errores de la página y todo su tráfico (método/URL/status/duración, fallos `net::ERR_*` incluidos — nunca headers ni cuerpos), con contadores en vivo y botón Limpiar |
 | 4.7.0 | **Teclear directo sobre la vista Live** (imprimibles, Enter/Tab/flechas, Ctrl+V pega — OTPs y contraseñas sin la caja aparte), errores `ERR_CERT_*` explicados con su pista (CA en `/certs` o `FLOW_CHROME_ARGS=--ignore-certificate-errors`), sesiones de perfil concurrentes (pestañas del mismo Chromium), `FLOW_SESSION_IDLE_MS` y `POST /capture-session/logout` que borra el perfil (logout real del SSO) |
@@ -169,6 +169,8 @@ sin pasos intermedios.
 > [`juankanh/flow-app`](https://hub.docker.com/r/juankanh/flow-app).
 
 ## Licencia y planes
+
+> Componentes de terceros incluidos en la imagen y sus licencias: [LICENCIAS.md](LICENCIAS.md).
 
 **flow-test es software propietario** ([`LICENSE`](LICENSE)):
 

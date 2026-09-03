@@ -23,8 +23,6 @@ services:
     #   - FLOW_REWRITE_LOCALHOST=false   # si tu objetivo vive DENTRO del contenedor
     #   - FLOW_CAPTURE_COOKIES=CF_Authorization=<valor>   # captura/Live tras SSO (cookie de sesión)
     #   - FLOW_CAPTURE_HEADERS={"CF-Access-Client-Id":"<id>","CF-Access-Client-Secret":"<secreto>"}
-    #   - FLOW_FAKE_WEBCAM=/app/flows/webcam/DNIWebcamMock.mjpeg  # solo QA
-    #   - FLOW_VIDEOMOCK_MOLDS=/app/flows/molds                  # plantillas privadas, no Git
     #   - FLOW_VIEWPORT=1920x1080                                # default: 1366x850
     #   - FLOW_MAIL_AUTOSTART=true                               # arrancar el SMTP de prueba con el contenedor
     #   - FLOW_MAIL_DOMAIN=midominiotest.com                     # dominio de los buzones (default flowtest.local)
