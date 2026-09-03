@@ -75,3 +75,18 @@ En el **CLI**: `flow-run --flow api.flow.json --env prod` (si no pasas `--env`, 
 entorno activo guardado; un nombre inexistente da error con la lista de los disponibles).
 Precedencia total: `envVariables < entorno < scripts de notas < --var`. Por **MCP**,
 `variables_set` acepta `environment` (escribe en ese set, creándolo si falta) y `activate: true`.
+
+## Credenciales cifradas 🆕 (5.6 · Pro)
+
+Los tokens y contraseñas no tienen por qué vivir en `envVariables` (que se comparten y se
+exportan con el flow). En **Variables ▸ 🔒 Credenciales (servidor)** guardas valores que se
+**cifran (AES-256) en el servidor** y se usan como `{{secret:nombre}}` en cualquier curl,
+header, body, query SQL o campo de conexión:
+
+- El navegador **nunca ve el valor** — solo el nombre; la sustitución ocurre en el servidor al
+  ejecutar (web, CLI, webhook entrante y monitores, todos por igual).
+- El `.flow.json` guarda el placeholder tal cual: **compartir o versionar el flow no filtra nada**
+  (la galería, un repo git, un compañero de colaboración… ven `{{secret:apiKey}}`, no la clave).
+- Un secreto inexistente hace fallar el nodo con un error claro, nunca envía el placeholder al API.
+- La clave maestra vive en `<flows>/.secret-key` (autogenerada) o en la variable de entorno
+  `FLOW_SECRET_KEY` (64 hex) si prefieres inyectarla tú.

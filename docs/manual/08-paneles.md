@@ -390,3 +390,11 @@ Las filas de fichero son ahora **una sola línea estilo árbol** (icono + nombre
 en fantasma): cabe más del doble de proyecto en pantalla. Los detalles (nº de nodos, dibujos, fecha)
 viven en el tooltip; el JSON inválido se marca con un chip rojo `!JSON`. Y desde la 5.5.0 los
 documentos `.md` del proyecto se abren **en cualquier plan** (el tour de la galería incluido).
+
+## Carpetas privadas por miembro 🆕 (5.6 · cloud)
+
+En una organización del cloud, cada miembro tiene su carpeta **`privado/<usuario>/` 🔒** dentro del
+workspace compartido: solo su dueño la ve en el panel Proyecto y solo él puede abrir, guardar o
+borrar lo que hay dentro (los demás reciben un 403 — ni siquiera aparece en sus listados). El resto
+del árbol sigue siendo el espacio común del equipo de siempre. En self-hosted no aplica: sin
+cuentas, tu máquina es toda tuya.
