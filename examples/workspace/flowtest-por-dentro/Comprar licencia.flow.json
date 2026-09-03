@@ -6,7 +6,7 @@
       "id": "antes-de-comprar",
       "name": "1 · Antes de comprar",
       "curl": "curl -X POST \"{{accountsBase}}/api/license/validate\" \\\n\n-H \"Content-Type: application/json\" \\\n\n-d '{\n  \"token\": \"{{licencia}}\"\n}'",
-      "position": { "x": 80, "y": 340 },
+      "position": { "x": 80, "y": 620 },
       "status": "idle",
       "collapsed": false,
       "extractions": [
@@ -21,7 +21,7 @@
       "id": "ya-tengo-clave",
       "name": "2 · Ya tengo mi clave",
       "curl": "curl -X POST \"{{accountsBase}}/api/license/validate\" \\\n\n-H \"Content-Type: application/json\" \\\n\n-d '{\n  \"token\": \"{{licencia}}\"\n}'",
-      "position": { "x": 640, "y": 340 },
+      "position": { "x": 660, "y": 620 },
       "status": "idle",
       "collapsed": false,
       "disabled": true,
@@ -37,7 +37,7 @@
       "id": "salud-servidor-licencias",
       "name": "3 · Salud del servidor de licencias",
       "curl": "curl \"{{accountsBase}}/health\"",
-      "position": { "x": 1200, "y": 340 },
+      "position": { "x": 1240, "y": 620 },
       "status": "idle",
       "collapsed": false,
       "extractions": [],
@@ -53,7 +53,7 @@
       "id": "leeme-comprar",
       "name": "Léeme · Cómo comprar",
       "content": "Este flow ES nuestro proceso de venta, documentado con nuestra propia herramienta. El nodo 1 valida una licencia vacía contra el servidor real y sale en VERDE a propósito: su assert espera exactamente valid=false, demostrando que sin clave no se valida nada.\n\nComprar es 1 clic en https://flowtest.es/comprar-licencia (checkout de Lemon Squeezy, 29,99 €/año). La clave llega por email: pégala en Config ▸ Licencia de tu instalación… o en la variable «licencia» de este flow y activa el nodo 2 (menú del nodo ▸ Nodo activo) para verla validar contra nuestro servidor con firma RS256.\n\n▶ Ejecutar: botón «Run Flow» en la web · flow-run en CLI.",
-      "position": { "x": 80, "y": 40 },
+      "position": { "x": 80, "y": 110 },
       "collapsed": false,
       "scripts": []
     },
@@ -61,7 +61,7 @@
       "id": "mapa-comprar",
       "name": "Mapa del flujo",
       "content": "graph LR\n  A[1 · Antes de comprar] -->|sin clave, valid=false| B[2 · Ya tengo mi clave]\n  B -->|con tu licencia, valid=true| C[3 · Salud del servidor]",
-      "position": { "x": 640, "y": 40 },
+      "position": { "x": 520, "y": 110 },
       "collapsed": false,
       "scripts": [],
       "renderMode": "mermaid"
@@ -76,5 +76,48 @@
   "envVariables": {
     "accountsBase": "https://app.flowtest.es",
     "licencia": ""
-  }
+  },
+  "drawings": [
+    {
+      "id": "wb-titulo-comprar",
+      "type": "text",
+      "x": 80, "y": 18, "w": 700, "h": 48,
+      "stroke": "#f59e0b", "strokeWidth": 2, "strokeStyle": "solid",
+      "opacity": 1, "sketchy": true, "seed": 4211,
+      "text": "Comprar licencia — de la prueba a Pro",
+      "font": "excali", "fontSize": 32
+    },
+    {
+      "id": "wb-marco-pasos",
+      "type": "rect",
+      "x": 30, "y": 570, "w": 1700, "h": 620,
+      "stroke": "#f59e0b", "strokeWidth": 2, "strokeStyle": "dashed",
+      "fill": "transparent", "opacity": 0.85, "sketchy": true, "seed": 4212
+    },
+    {
+      "id": "wb-nota-clave",
+      "type": "text",
+      "x": 960, "y": 440, "w": 310, "h": 52,
+      "stroke": "#f59e0b", "strokeWidth": 2, "strokeStyle": "solid",
+      "opacity": 1, "sketchy": true, "seed": 4213,
+      "text": "pega tu clave en {{licencia}}:\naquí se extrae {{planComprado}}",
+      "font": "hand", "fontSize": 18
+    },
+    {
+      "id": "wb-flecha-clave",
+      "type": "arrow",
+      "x": 1010, "y": 500, "w": -80, "h": 92,
+      "stroke": "#f59e0b", "strokeWidth": 2, "strokeStyle": "solid",
+      "opacity": 1, "sketchy": true, "seed": 4214
+    },
+    {
+      "id": "wb-pie-marco",
+      "type": "text",
+      "x": 40, "y": 1210, "w": 560, "h": 28,
+      "stroke": "#f59e0b", "strokeWidth": 2, "strokeStyle": "solid",
+      "opacity": 0.9, "sketchy": true, "seed": 4215,
+      "text": "3 pasos reales contra app.flowtest.es — sin datos de pago",
+      "font": "hand", "fontSize": 16
+    }
+  ]
 }

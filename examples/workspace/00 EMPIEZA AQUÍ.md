@@ -12,6 +12,8 @@ En orden, cada uno enseña una sola cosa y la enseña ejecutándose:
 - [[04 · Notas con scripts]] — una nota con JavaScript genera datos únicos por ejecución (emails, timestamps, ids) antes de la primera petición.
 - [[05 · SQL más HTTP]] — llamas a la API y verificas directamente en la base de datos, en el mismo grafo y con las mismas variables.
 - [[06 · Data-driven]] — una sola cadena, un CSV de casos: el CLI ejecuta el flow una vez por fila y te dice cuáles pasaron.
+- [[07 · Errores y reintentos]] — retry con backoff por nodo, pausas en el conector (el badge ⏱) y una rama on_error de plan B: resiliencia que se ve.
+- [[08 · Paralelo y tiempos]] — el grafo ES el orden: la fila entera corre a la vez y el cierre espera a todos; en el CLI, exactamente igual.
 
 ## ⚙️ Funciones que pagan el café
 
@@ -21,6 +23,7 @@ Lo que convierte un juguete visual en una herramienta que trabaja mientras duerm
 - [[Webhook desde CI]] — tu pipeline lanza el flow con un simple `POST /hook/<token>` y recibe el resultado por nodo: tests de API en Jenkins o GitHub Actions sin instalar nada más.
 - [[Correo OTP]] — probar un registro con código de verificación sin cuentas de correo reales: el SMTP embebido captura el email y te extrae el OTP como variable.
 - [[Puente a local]] — tu API vive en `localhost` y el flow corre en Docker: el puente `host.docker.internal` la alcanza igual, y aquí lo ves funcionando.
+- [[Documentar una web]] — el nodo Web carga flowtest.es EN VIVO dentro del canvas, junto a tres capturas que hizo el propio producto (POST /capture, Chromium del servidor) — no están pegadas a mano.
 
 ## 🏠 FlowTest por dentro
 
@@ -30,6 +33,8 @@ Nuestra propia plataforma, probada con nuestra propia herramienta — estos cuat
 - [[Login y sesión]] — credenciales → token → perfil → logout contra el servicio de cuentas.
 - [[Comprar licencia]] — planes y checkout: el mismo camino que recorre un cliente que paga.
 - [[Salud de la plataforma]] — health checks de la web, las cuentas y el TLS; el flow que nosotros mismos monitorizamos.
+- [[Automatiza tu FlowTest]] — tu instalación también tiene API: /monitors, /hook/<token> y /access — vigila tu FlowTest CON FlowTest.
+- [[Puente cloud (flow-bridge)]] — el endpoint auténtico del puente cloud→local, rechazando un token falso como debe (401), con el viaje de la petición en un diagrama.
 
 Más detalle (y el aviso importante) en `flowtest-por-dentro/00 LEEME.md`.
 
@@ -39,6 +44,7 @@ Para cuando quieras impresionar en pantalla grande:
 
 - [[Crypto portfolio]] — precios en vivo encadenados y calculados sobre el canvas.
 - [[Mapa mundial]] — nodos colocados sobre una imagen de fondo: APIs de países y divisas repartidas por el mapa.
+- [[Arquitectura FlowTest]] — el mapa del sistema en un diagrama Mermaid vivo + cuatro cajitas tocando los endpoints reales del cloud, ahora mismo.
 
 Y si quieres el ejemplo XXL, el bundle `economia-global-bundle` del repo (en `../economia-global-bundle`) es un workspace completo de economía global con decenas de nodos, SQL y documentación enlazada.
 

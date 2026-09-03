@@ -1,0 +1,138 @@
+{
+  "version": "1.0",
+  "name": "Automatiza tu FlowTest",
+  "nodes": [
+    {
+      "id": "monitores-activos",
+      "name": "1 · Monitores activos",
+      "curl": "curl \"{{flowBase}}/monitors\"",
+      "position": {
+        "x": 80,
+        "y": 701
+      },
+      "status": "idle",
+      "collapsed": false,
+      "extractions": [],
+      "asserts": [
+        {
+          "id": "as-monitores-status",
+          "kind": "status",
+          "expected": "2xx"
+        },
+        {
+          "id": "as-monitores-lista",
+          "kind": "jsonpath",
+          "path": "$.monitors",
+          "op": "exists"
+        },
+        {
+          "id": "as-monitores-tiempo",
+          "kind": "time",
+          "maxMs": 5000
+        }
+      ]
+    },
+    {
+      "id": "estado-acceso",
+      "name": "2 · Estado del acceso",
+      "curl": "curl \"{{flowBase}}/access\"",
+      "position": {
+        "x": 660,
+        "y": 701
+      },
+      "status": "idle",
+      "collapsed": false,
+      "extractions": [],
+      "asserts": [
+        {
+          "id": "as-acceso-status",
+          "kind": "status",
+          "expected": "2xx"
+        },
+        {
+          "id": "as-acceso-modo",
+          "kind": "jsonpath",
+          "path": "$.mode",
+          "op": "exists"
+        }
+      ]
+    }
+  ],
+  "infoNodes": [
+    {
+      "id": "leeme-automatiza",
+      "name": "Léeme · Vigila tu FlowTest CON FlowTest",
+      "content": "Tu instalación local de FlowTest también tiene API — y este flow la usa para vigilarse a sí misma:\n\n· GET /monitors — los flows con monitor programado (settings.monitor) y el resultado de sus últimas ejecuciones.\n· GET /access — el estado de tu acceso: modo (trial, licencia, cloud…) y días restantes.\n· POST /hook/<token> — webhook entrante: cualquier sistema externo puede ejecutar un flow tuyo con una simple petición HTTP.\n\nTodo esto se configura desde el modal «Automatización…» del menú del logo: ahí publicas el webhook de un flow y su monitor programado (intervalo, aviso por POST al fallar o cambiar de estado).\n\n▶ Ejecutar: botón «Run Flow» en la web · flow-run en CLI. La variable {{flowBase}} apunta a tu instalación (http://localhost:9998 con el contenedor Docker).",
+      "position": {
+        "x": 80,
+        "y": 110
+      },
+      "collapsed": false,
+      "scripts": []
+    }
+  ],
+  "sqlNodes": [],
+  "webNodes": [],
+  "connections": [
+    {
+      "id": "con-monitores-acceso",
+      "sourceId": "monitores-activos",
+      "targetId": "estado-acceso",
+      "behavior": "next"
+    }
+  ],
+  "envVariables": {
+    "flowBase": "http://localhost:9998"
+  },
+  "drawings": [
+    {
+      "id": "wb-titulo-automatiza",
+      "type": "text",
+      "x": 80,
+      "y": 18,
+      "w": 700,
+      "h": 48,
+      "text": "Automatiza tu FlowTest",
+      "font": "excali",
+      "fontSize": 32,
+      "stroke": "#f59e0b",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7401
+    },
+    {
+      "id": "wb-marco-automatiza",
+      "type": "rect",
+      "x": 30,
+      "y": 651,
+      "w": 1100,
+      "h": 620,
+      "stroke": "#f59e0b",
+      "strokeWidth": 2,
+      "strokeStyle": "dashed",
+      "fill": "transparent",
+      "opacity": 0.85,
+      "sketchy": true,
+      "seed": 7402
+    },
+    {
+      "id": "wb-etiqueta-automatiza",
+      "type": "text",
+      "x": 50,
+      "y": 657,
+      "w": 380,
+      "h": 24,
+      "text": "la API de tu propia instalación",
+      "font": "hand",
+      "fontSize": 16,
+      "stroke": "#f59e0b",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 0.9,
+      "sketchy": true,
+      "seed": 7403
+    }
+  ]
+}

@@ -6,91 +6,226 @@
       "id": "n1-ethplorer-eth-tokens",
       "name": "1 · Ethplorer — ETH + tokens",
       "curl": "curl 'https://api.ethplorer.io/getAddressInfo/{{walletAddr}}?apiKey=freekey'",
-      "position": { "x": 60, "y": 679 },
+      "position": {
+        "x": 80,
+        "y": 739
+      },
       "status": "idle",
       "extractions": [
-        { "id": "x-eth-balance", "varName": "ethBalance", "jsonPath": "$.ETH.balance" },
-        { "id": "x-eth-price-usd", "varName": "ethPriceUsd", "jsonPath": "$.ETH.price.rate" }
+        {
+          "id": "x-eth-balance",
+          "varName": "ethBalance",
+          "jsonPath": "$.ETH.balance"
+        },
+        {
+          "id": "x-eth-price-usd",
+          "varName": "ethPriceUsd",
+          "jsonPath": "$.ETH.price.rate"
+        }
       ],
       "asserts": [
-        { "id": "a-n1-status", "kind": "status", "expected": "2xx" },
-        { "id": "a-n1-eth-balance", "kind": "jsonpath", "path": "$.ETH.balance", "op": "exists" },
-        { "id": "a-n1-time", "kind": "time", "maxMs": 15000 }
+        {
+          "id": "a-n1-status",
+          "kind": "status",
+          "expected": "2xx"
+        },
+        {
+          "id": "a-n1-eth-balance",
+          "kind": "jsonpath",
+          "path": "$.ETH.balance",
+          "op": "exists"
+        },
+        {
+          "id": "a-n1-time",
+          "kind": "time",
+          "maxMs": 15000
+        }
       ],
       "collapsed": false,
-      "cell": { "col": 1, "row": 2 },
-      "cron": { "enabled": true, "expression": "*/15 * * * *" }
+      "cell": {
+        "col": 1,
+        "row": 2
+      },
+      "cron": {
+        "enabled": true,
+        "expression": "*/15 * * * *"
+      }
     },
     {
       "id": "n2-blockscout-saldo-eth",
       "name": "2 · Blockscout — saldo Ethereum",
       "curl": "curl 'https://eth.blockscout.com/api/v2/addresses/{{walletAddr}}'",
-      "position": { "x": 580, "y": 679 },
+      "position": {
+        "x": 660,
+        "y": 739
+      },
       "status": "idle",
       "extractions": [
-        { "id": "x-eth-balance-wei", "varName": "ethBalanceWei", "jsonPath": "$.coin_balance" },
-        { "id": "x-eth-usd-blockscout", "varName": "ethUsdBlockscout", "jsonPath": "$.exchange_rate" }
+        {
+          "id": "x-eth-balance-wei",
+          "varName": "ethBalanceWei",
+          "jsonPath": "$.coin_balance"
+        },
+        {
+          "id": "x-eth-usd-blockscout",
+          "varName": "ethUsdBlockscout",
+          "jsonPath": "$.exchange_rate"
+        }
       ],
       "asserts": [
-        { "id": "a-n2-status", "kind": "status", "expected": "2xx" },
-        { "id": "a-n2-coin-balance", "kind": "jsonpath", "path": "$.coin_balance", "op": "exists" },
-        { "id": "a-n2-time", "kind": "time", "maxMs": 15000 }
+        {
+          "id": "a-n2-status",
+          "kind": "status",
+          "expected": "2xx"
+        },
+        {
+          "id": "a-n2-coin-balance",
+          "kind": "jsonpath",
+          "path": "$.coin_balance",
+          "op": "exists"
+        },
+        {
+          "id": "a-n2-time",
+          "kind": "time",
+          "maxMs": 15000
+        }
       ],
       "collapsed": false,
-      "cell": { "col": 2, "row": 2 }
+      "cell": {
+        "col": 2,
+        "row": 2
+      }
     },
     {
       "id": "n3-blockscout-tokens-erc20",
       "name": "3 · Blockscout — tokens ERC-20",
       "curl": "curl 'https://eth.blockscout.com/api/v2/addresses/{{walletAddr}}/token-balances'",
-      "position": { "x": 1100, "y": 679 },
+      "position": {
+        "x": 1240,
+        "y": 739
+      },
       "status": "idle",
       "extractions": [
-        { "id": "x-token1-symbol", "varName": "token1Symbol", "jsonPath": "$[0].token.symbol" }
+        {
+          "id": "x-token1-symbol",
+          "varName": "token1Symbol",
+          "jsonPath": "$[0].token.symbol"
+        }
       ],
       "asserts": [
-        { "id": "a-n3-status", "kind": "status", "expected": "2xx" },
-        { "id": "a-n3-token", "kind": "jsonpath", "path": "$[0].token.symbol", "op": "exists" },
-        { "id": "a-n3-time", "kind": "time", "maxMs": 45000 }
+        {
+          "id": "a-n3-status",
+          "kind": "status",
+          "expected": "2xx"
+        },
+        {
+          "id": "a-n3-token",
+          "kind": "jsonpath",
+          "path": "$[0].token.symbol",
+          "op": "exists"
+        },
+        {
+          "id": "a-n3-time",
+          "kind": "time",
+          "maxMs": 45000
+        }
       ],
       "collapsed": false,
-      "cell": { "col": 3, "row": 2 }
+      "cell": {
+        "col": 3,
+        "row": 2
+      }
     },
     {
       "id": "n4-blockscout-saldo-polygon",
       "name": "4 · Blockscout — saldo Polygon",
       "curl": "curl 'https://polygon.blockscout.com/api/v2/addresses/{{walletAddr}}'",
-      "position": { "x": 1620, "y": 679 },
+      "position": {
+        "x": 1820,
+        "y": 739
+      },
       "status": "idle",
       "extractions": [
-        { "id": "x-pol-balance-wei", "varName": "polBalanceWei", "jsonPath": "$.coin_balance" },
-        { "id": "x-pol-usd", "varName": "polUsd", "jsonPath": "$.exchange_rate" }
+        {
+          "id": "x-pol-balance-wei",
+          "varName": "polBalanceWei",
+          "jsonPath": "$.coin_balance"
+        },
+        {
+          "id": "x-pol-usd",
+          "varName": "polUsd",
+          "jsonPath": "$.exchange_rate"
+        }
       ],
       "asserts": [
-        { "id": "a-n4-status", "kind": "status", "expected": "2xx" },
-        { "id": "a-n4-coin-balance", "kind": "jsonpath", "path": "$.coin_balance", "op": "exists" },
-        { "id": "a-n4-time", "kind": "time", "maxMs": 15000 }
+        {
+          "id": "a-n4-status",
+          "kind": "status",
+          "expected": "2xx"
+        },
+        {
+          "id": "a-n4-coin-balance",
+          "kind": "jsonpath",
+          "path": "$.coin_balance",
+          "op": "exists"
+        },
+        {
+          "id": "a-n4-time",
+          "kind": "time",
+          "maxMs": 15000
+        }
       ],
       "collapsed": false,
-      "cell": { "col": 4, "row": 2 }
+      "cell": {
+        "col": 4,
+        "row": 2
+      }
     },
     {
       "id": "n5-coingecko-precios-eur",
       "name": "5 · CoinGecko — precios EUR",
       "curl": "curl 'https://api.coingecko.com/api/v3/simple/price?ids={{monedas}}&vs_currencies=usd,eur' -H 'User-Agent: flow-test-portfolio/1.0' -H 'Accept: application/json'",
-      "position": { "x": 2140, "y": 679 },
+      "position": {
+        "x": 760,
+        "y": 1359
+      },
       "status": "idle",
       "extractions": [
-        { "id": "x-eth-eur", "varName": "ethEur", "jsonPath": "$.ethereum.eur" },
-        { "id": "x-usdt-eur", "varName": "usdtEur", "jsonPath": "$.tether.eur" }
+        {
+          "id": "x-eth-eur",
+          "varName": "ethEur",
+          "jsonPath": "$.ethereum.eur"
+        },
+        {
+          "id": "x-usdt-eur",
+          "varName": "usdtEur",
+          "jsonPath": "$.tether.eur"
+        }
       ],
       "asserts": [
-        { "id": "a-n5-status", "kind": "status", "expected": "2xx" },
-        { "id": "a-n5-eth-eur", "kind": "jsonpath", "path": "$.ethereum.eur", "op": "gt", "value": "0" },
-        { "id": "a-n5-time", "kind": "time", "maxMs": 10000 }
+        {
+          "id": "a-n5-status",
+          "kind": "status",
+          "expected": "2xx"
+        },
+        {
+          "id": "a-n5-eth-eur",
+          "kind": "jsonpath",
+          "path": "$.ethereum.eur",
+          "op": "gt",
+          "value": "0"
+        },
+        {
+          "id": "a-n5-time",
+          "kind": "time",
+          "maxMs": 10000
+        }
       ],
       "collapsed": false,
-      "cell": { "col": 5, "row": 2 }
+      "cell": {
+        "col": 2,
+        "row": 3
+      }
     }
   ],
   "infoNodes": [
@@ -98,29 +233,47 @@
       "id": "nota-portfolio",
       "name": "Portfolio crypto — {{walletAddr}}",
       "content": "Lee el portfolio on-chain de la cartera {{walletAddr}} usando solo APIs públicas sin registro: Ethplorer (ETH + tokens con precio, apiKey=freekey), Blockscout (saldos nativos en Ethereum y Polygon) y CoinGecko (precios en EUR). La cartera de ejemplo es vitalik.eth, la dirección pública más famosa de Ethereum — cámbiala en Variables → walletAddr para auditar la tuya.\n\n⚠ La API pública api.debank.com exige una firma generada por su JS (devuelve 429 desde curl), así que el flow cruza las MISMAS posiciones desde fuentes libres. El nodo Web de abajo carga el perfil DeBank real ({{debankProfile}}) — usa «Live» si el iframe viene bloqueado.\n\n▶ Ejecútalo con «Run Flow» en la web, o en CLI:\nflow-run --flow \"flows/paneles/Crypto portfolio.flow.json\"\nCada nodo lleva asserts de status, JSONPath y latencia: si algo no cuadra, el run falla (exit 1 en CI).",
-      "position": { "x": 20, "y": 20 },
+      "position": {
+        "x": 80,
+        "y": 110
+      },
       "collapsed": false,
       "scripts": [],
-      "cell": { "col": 1, "row": 1 }
+      "cell": {
+        "col": 1,
+        "row": 1
+      }
     },
     {
       "id": "nota-esquema",
       "name": "Esquema del flow",
       "content": "flowchart LR\n  A[\"Ethplorer<br/>ETH + tokens con precio\"] --> B[\"Blockscout<br/>saldo Ethereum\"]\n  B --> C[\"Blockscout<br/>tokens ERC-20\"]\n  C --> D[\"Blockscout<br/>saldo Polygon\"]\n  D --> E[\"CoinGecko<br/>precios EUR\"]\n  W[\"Web: perfil DeBank\"] -.vista en vivo.- A",
-      "position": { "x": 540, "y": 64 },
+      "position": {
+        "x": 520,
+        "y": 110
+      },
       "collapsed": false,
       "scripts": [],
       "renderMode": "mermaid",
-      "cell": { "col": 2, "row": 1 }
+      "cell": {
+        "col": 2,
+        "row": 1
+      }
     },
     {
       "id": "nota-resumen",
       "name": "Resumen del portfolio (en vivo)",
       "content": "📊 RESUMEN — se actualiza con cada Run (cron ⏱ */15)\n\nEthereum\n· ETH: {{ethBalance}}  (precio: {{ethPriceUsd}} $ / {{ethEur}} €)\n· saldo on-chain (wei): {{ethBalanceWei}}\n· 1er token ERC-20: {{token1Symbol}}  (USDT/EUR: {{usdtEur}})\n\nPolygon\n· POL (wei): {{polBalanceWei}}  (precio: {{polUsd}} $)\n\nCartera: {{walletAddr}}\nFuente cruzada: Ethplorer + Blockscout + CoinGecko — compara con {{debankProfile}}",
-      "position": { "x": 1080, "y": 60 },
+      "position": {
+        "x": 960,
+        "y": 110
+      },
       "collapsed": false,
       "scripts": [],
-      "cell": { "col": 3, "row": 1 }
+      "cell": {
+        "col": 3,
+        "row": 1
+      }
     }
   ],
   "sqlNodes": [],
@@ -129,10 +282,16 @@
       "id": "web-perfil-debank",
       "name": "Perfil DeBank (vista real)",
       "url": "https://debank.com/profile/{{walletAddr}}",
-      "position": { "x": 520, "y": 1327 },
+      "position": {
+        "x": 80,
+        "y": 1359
+      },
       "collapsed": false,
       "status": "idle",
-      "cell": { "col": 2, "row": 3 }
+      "cell": {
+        "col": 1,
+        "row": 3
+      }
     }
   ],
   "connections": [
@@ -176,380 +335,101 @@
   },
   "drawings": [
     {
-      "id": "d-usdt-texto",
+      "id": "d-titulo-panel",
       "type": "text",
-      "x": 322,
-      "y": 163.5,
-      "w": 57,
-      "h": 31,
-      "stroke": "#f59e0b",
+      "x": 80,
+      "y": 18,
+      "w": 700,
+      "h": 48,
+      "stroke": "#60a5fa",
       "strokeWidth": 2,
-      "strokeStyle": "dashed",
+      "strokeStyle": "solid",
       "opacity": 1,
-      "seed": 250611655,
-      "text": "USDT",
+      "sketchy": true,
+      "seed": 424242001,
+      "text": "Crypto portfolio — panel on-chain en vivo",
+      "font": "excali",
+      "fontSize": 32
+    },
+    {
+      "id": "d-texto-cron",
+      "type": "text",
+      "x": 1450,
+      "y": 30,
+      "w": 380,
+      "h": 31,
+      "stroke": "#60a5fa",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 0.9,
+      "sketchy": true,
+      "seed": 424242002,
+      "text": "⏱ el cron */15 relanza toda la cadena",
       "font": "excali",
       "fontSize": 20
     },
     {
-      "id": "d-eth-texto",
-      "type": "text",
-      "x": 454,
-      "y": 161.5,
-      "w": 45,
-      "h": 31,
-      "stroke": "#f59e0b",
-      "strokeWidth": 2,
-      "strokeStyle": "dashed",
-      "opacity": 1,
-      "seed": 1716328661,
-      "text": "ETH",
-      "font": "excali",
-      "fontSize": 20
-    },
-    {
-      "id": "d-linea-separadora",
-      "type": "line",
-      "x": 411,
-      "y": 127.5,
-      "w": 0,
-      "h": 108,
-      "stroke": "#f59e0b",
-      "strokeWidth": 2,
-      "strokeStyle": "dashed",
-      "opacity": 1,
-      "sketchy": false,
-      "seed": 987205742,
-      "font": "excali"
-    },
-    {
-      "id": "d-persona-cabeza",
-      "type": "ellipse",
-      "x": 394,
-      "y": 299.5,
-      "w": 25,
-      "h": 26,
-      "stroke": "#f59e0b",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "fill": "transparent",
-      "opacity": 1,
-      "sketchy": false,
-      "seed": 55074625
-    },
-    {
-      "id": "d-persona-cuerpo",
-      "type": "line",
-      "x": 405,
-      "y": 325.5,
-      "w": 0,
-      "h": 46,
-      "stroke": "#f59e0b",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "opacity": 1,
-      "sketchy": false,
-      "seed": 301409467
-    },
-    {
-      "id": "d-persona-pierna-izq",
-      "type": "line",
-      "x": 403,
-      "y": 371.5,
-      "w": -16,
-      "h": 14,
-      "stroke": "#f59e0b",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "opacity": 1,
-      "sketchy": false,
-      "seed": 1841777871
-    },
-    {
-      "id": "d-persona-pierna-der",
-      "type": "line",
-      "x": 404,
-      "y": 373.5,
-      "w": 16,
-      "h": 12,
-      "stroke": "#f59e0b",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "opacity": 1,
-      "sketchy": false,
-      "seed": 1233412404
-    },
-    {
-      "id": "d-persona-brazo-izq",
-      "type": "line",
-      "x": 401,
-      "y": 326.5,
-      "w": -17,
-      "h": 13,
-      "stroke": "#f59e0b",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "opacity": 1,
-      "sketchy": false,
-      "seed": 1675898898
-    },
-    {
-      "id": "d-persona-brazo-der",
-      "type": "line",
-      "x": 405,
-      "y": 324.5,
-      "w": 17,
-      "h": 13,
-      "stroke": "#f59e0b",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "opacity": 1,
-      "sketchy": false,
-      "seed": 939978617
-    },
-    {
-      "id": "d-uniswap-texto",
-      "type": "text",
-      "x": 779,
-      "y": 85.5,
-      "w": 109,
-      "h": 31,
-      "stroke": "#f59e0b",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "opacity": 1,
-      "seed": 1251444370,
-      "text": "UniswapV3",
-      "font": "excali",
-      "fontSize": 20
-    },
-    {
-      "id": "d-tokens-marco",
+      "id": "d-marco-onchain",
       "type": "rect",
-      "x": 294,
-      "y": 127.5,
-      "w": 243,
-      "h": 106,
-      "stroke": "#f59e0b",
-      "strokeWidth": 2,
-      "strokeStyle": "dashed",
-      "fill": "transparent",
-      "opacity": 1,
-      "sketchy": false,
-      "seed": 1367880254
-    },
-    {
-      "id": "d-flecha-ida",
-      "type": "arrow",
-      "x": 382,
-      "y": 257.5,
-      "w": 64,
-      "h": 1,
-      "stroke": "#f59e0b",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "opacity": 1,
-      "sketchy": false,
-      "seed": 1003673825
-    },
-    {
-      "id": "d-flecha-vuelta",
-      "type": "arrow",
-      "x": 438,
-      "y": 276.5,
-      "w": -62,
-      "h": 0,
-      "stroke": "#f59e0b",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "opacity": 1,
-      "sketchy": false,
-      "seed": 1260467128
-    },
-    {
-      "id": "d-fiat-pregunta",
-      "type": "text",
-      "x": 261,
-      "y": 572.5,
-      "w": 305,
-      "h": 31,
-      "stroke": "#f59e0b",
-      "strokeWidth": 2,
-      "strokeStyle": "dashed",
-      "opacity": 1,
-      "seed": 2116457253,
-      "text": "¿Cómo pasar de fiat a crypto?",
-      "font": "excali",
-      "fontSize": 20
-    },
-    {
-      "id": "d-impermanent-texto",
-      "type": "text",
-      "x": 1080,
-      "y": 84.5,
-      "w": 169,
-      "h": 31,
-      "stroke": "#ef4444",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "opacity": 1,
-      "seed": 1897054626,
-      "text": "impermanentLost",
-      "font": "excali",
-      "fontSize": 20
-    },
-    {
-      "id": "d-protocolo-texto",
-      "type": "text",
-      "x": 782,
-      "y": 23.5,
-      "w": 104,
-      "h": 31,
-      "stroke": "#f59e0b",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "opacity": 1,
-      "seed": 286374407,
-      "text": "Protocolo",
-      "font": "excali",
-      "fontSize": 20
-    },
-    {
-      "id": "d-protocolo-linea",
-      "type": "line",
-      "x": 772,
-      "y": 51.5,
-      "w": 124,
-      "h": -1,
-      "stroke": "#f59e0b",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "opacity": 1,
-      "sketchy": false,
-      "seed": 1894133915
-    },
-    {
-      "id": "d-peligros-texto",
-      "type": "text",
-      "x": 1122,
-      "y": 25.5,
-      "w": 84,
-      "h": 31,
-      "stroke": "#ef4444",
-      "strokeWidth": 2,
-      "strokeStyle": "solid",
-      "opacity": 1,
-      "seed": 1115098745,
-      "text": "Peligros",
-      "font": "excali",
-      "fontSize": 20
-    },
-    {
-      "id": "d-onchain-marco",
-      "type": "rect",
-      "x": 30,
-      "y": 632,
-      "w": 2590,
-      "h": 660,
+      "x": 35,
+      "y": 694,
+      "w": 2250,
+      "h": 1270,
       "stroke": "#60a5fa",
       "strokeWidth": 2,
       "strokeStyle": "dashed",
       "fill": "transparent",
       "opacity": 0.9,
       "sketchy": true,
-      "seed": 1266925961
+      "seed": 424242003
     },
     {
-      "id": "d-onchain-titulo",
-      "type": "text",
-      "x": 42,
-      "y": 592,
-      "w": 670,
-      "h": 36,
+      "id": "d-flecha-eur",
+      "type": "arrow",
+      "x": 1310,
+      "y": 1569,
+      "w": -70,
+      "h": 0,
       "stroke": "#60a5fa",
       "strokeWidth": 2,
+      "strokeStyle": "solid",
       "opacity": 1,
-      "sketchy": false,
-      "seed": 1860547701,
-      "text": "Datos on-chain · el cron ⏱ */15 relanza la cadena entera",
-      "font": "excali",
-      "fontSize": 24
+      "sketchy": true,
+      "seed": 424242004
     },
     {
-      "id": "d-debank-titulo",
+      "id": "d-texto-eur",
       "type": "text",
-      "x": 524,
-      "y": 1288,
-      "w": 672,
-      "h": 34,
-      "stroke": "#f59e0b",
-      "strokeWidth": 2,
-      "opacity": 1,
-      "sketchy": false,
-      "seed": 1457318177,
-      "text": "Perfil DeBank real — pulsa «Live» si el iframe viene bloqueado",
-      "font": "excali",
-      "fontSize": 22
-    },
-    {
-      "id": "d-apuntes-marco",
-      "type": "rect",
-      "x": 2700,
-      "y": 632,
-      "w": 620,
-      "h": 330,
-      "stroke": "#fbbf24",
+      "x": 1340,
+      "y": 1551,
+      "w": 440,
+      "h": 31,
+      "stroke": "#60a5fa",
       "strokeWidth": 2,
       "strokeStyle": "solid",
-      "fill": "#fbbf2412",
       "opacity": 1,
       "sketchy": true,
-      "seed": 1098837813
+      "seed": 424242005,
+      "text": "aquí se extrae {{ethEur}} — precio en €",
+      "font": "excali",
+      "fontSize": 20
     },
     {
-      "id": "d-apuntes-titulo",
+      "id": "d-texto-debank",
       "type": "text",
-      "x": 2724,
-      "y": 652,
-      "w": 102,
-      "h": 41,
-      "stroke": "#fbbf24",
+      "x": 80,
+      "y": 1999,
+      "w": 760,
+      "h": 31,
+      "stroke": "#60a5fa",
       "strokeWidth": 2,
-      "opacity": 1,
-      "sketchy": false,
-      "seed": 1525637613,
-      "text": "Apuntes",
-      "font": "marker",
-      "fontSize": 28
-    },
-    {
-      "id": "d-apuntes-nota",
-      "type": "text",
-      "x": 2724,
-      "y": 706,
-      "w": 330,
-      "h": 164,
-      "stroke": "#e2e8f0",
-      "strokeWidth": 2,
-      "opacity": 1,
-      "sketchy": false,
-      "seed": 1996590406,
-      "text": "Cartera demo: vitalik.eth\n0xd8dA…6045 — la dirección\npública más famosa de Ethereum.\nCámbiala en Variables →\nwalletAddr para auditar\nla tuya.",
-      "font": "hand",
-      "fontSize": 21
-    },
-    {
-      "id": "d-apuntes-flecha",
-      "type": "arrow",
-      "x": 2690,
-      "y": 700,
-      "w": -60,
-      "h": 30,
-      "stroke": "#fbbf24",
-      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 0.9,
       "sketchy": true,
-      "opacity": 1,
-      "seed": 320847271
+      "seed": 424242006,
+      "text": "Vista real: perfil DeBank del wallet — pulsa «Live» si el iframe se bloquea",
+      "font": "excali",
+      "fontSize": 20
     }
   ],
   "settings": {

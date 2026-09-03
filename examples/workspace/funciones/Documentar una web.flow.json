@@ -1,0 +1,135 @@
+{
+  "version": "1.0",
+  "name": "Documentar una web",
+  "nodes": [],
+  "infoNodes": [
+    {
+      "id": "docweb-nota",
+      "name": "El nodo Web y las capturas",
+      "content": "El escaparate visual de FlowTest: el nodo Web embebe una página real dentro del canvas (su ▶ la carga o recarga). Su modo Live va más allá: navega con sesión real —login incluido— y cada «Capturar pantalla» crea un nodo Captura + las llamadas HTTP que hizo la página como cajitas replayables. Y flow-explore (CLI) documenta un sitio entero él solo: pantalla a pantalla, captura + llamadas + informe markdown.\n\nLas tres capturas de la derecha NO están pegadas a mano: las hizo el propio producto con POST /capture (el Chromium del servidor) el 2026-09-02, y se sirven desde flows/assets como /flow-assets/*.\n\nEjecutar: abre este flow en la web y pulsa ▶ en el nodo Web para cargar flowtest.es en vivo; las líneas «none» hacia las capturas son informativas. El CLI ignora nodos Web y capturas: este flow es 100 % documentación visual.",
+      "position": {
+        "x": 80,
+        "y": 110
+      },
+      "collapsed": false,
+      "scripts": []
+    },
+    {
+      "id": "docweb-cap-landing",
+      "name": "Captura — landing",
+      "content": "https://flowtest.es · capturada el 2026-09-02 con POST /capture (Chromium del servidor).",
+      "position": {
+        "x": 760,
+        "y": 682
+      },
+      "collapsed": false,
+      "scripts": [],
+      "renderMode": "image",
+      "imageSrc": "/flow-assets/captures/landing.png"
+    },
+    {
+      "id": "docweb-cap-docs",
+      "name": "Captura — documentación",
+      "content": "https://flowtest.es/docs/ · capturada el 2026-09-02 con POST /capture (Chromium del servidor).",
+      "position": {
+        "x": 1300,
+        "y": 682
+      },
+      "collapsed": false,
+      "scripts": [],
+      "renderMode": "image",
+      "imageSrc": "/flow-assets/captures/docs.png"
+    },
+    {
+      "id": "docweb-cap-login",
+      "name": "Captura — login del cloud",
+      "content": "https://app.flowtest.es/login.html · capturada el 2026-09-02 con POST /capture (Chromium del servidor).",
+      "position": {
+        "x": 1840,
+        "y": 682
+      },
+      "collapsed": false,
+      "scripts": [],
+      "renderMode": "image",
+      "imageSrc": "/flow-assets/captures/cloud-login.png"
+    }
+  ],
+  "sqlNodes": [],
+  "webNodes": [
+    {
+      "id": "docweb-web",
+      "name": "Web — flowtest.es",
+      "url": "https://flowtest.es",
+      "position": {
+        "x": 80,
+        "y": 682
+      },
+      "collapsed": false,
+      "status": "idle"
+    }
+  ],
+  "connections": [
+    {
+      "id": "docweb-con-web-landing",
+      "sourceId": "docweb-web",
+      "targetId": "docweb-cap-landing",
+      "behavior": "none"
+    },
+    {
+      "id": "docweb-con-web-docs",
+      "sourceId": "docweb-web",
+      "targetId": "docweb-cap-docs",
+      "behavior": "none"
+    },
+    {
+      "id": "docweb-con-web-login",
+      "sourceId": "docweb-web",
+      "targetId": "docweb-cap-login",
+      "behavior": "none"
+    }
+  ],
+  "envVariables": {},
+  "drawings": [
+    {
+      "id": "wb-titulo",
+      "type": "text",
+      "x": 80,
+      "y": 18,
+      "w": 700,
+      "h": 48,
+      "stroke": "#34d399",
+      "strokeWidth": 2,
+      "text": "Documentar una web — el canvas la enseña",
+      "fontSize": 32,
+      "font": "excali"
+    },
+    {
+      "id": "wb-marco-capturas",
+      "type": "rect",
+      "x": 710,
+      "y": 632,
+      "w": 1600,
+      "h": 620,
+      "stroke": "#34d399",
+      "strokeWidth": 2,
+      "strokeStyle": "dashed",
+      "fill": "transparent",
+      "opacity": 0.9,
+      "sketchy": true,
+      "seed": 3101
+    },
+    {
+      "id": "wb-nota-capturas",
+      "type": "text",
+      "x": 760,
+      "y": 1292,
+      "w": 560,
+      "h": 30,
+      "stroke": "#34d399",
+      "strokeWidth": 2,
+      "text": "hechas por FlowTest, no pegadas a mano",
+      "fontSize": 18,
+      "font": "sketch"
+    }
+  ]
+}

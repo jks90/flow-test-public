@@ -20,3 +20,10 @@ La plataforma tiene tres piezas, y estos flows tocan las tres:
 | [[Salud de la plataforma]] | `GET /health` de cuentas, la web y `GET /api/tls-check` | El health check que nosotros mismos monitorizamos |
 
 Nuestra propia plataforma, probada con nuestra propia herramienta: si un día [[Salud de la plataforma]] se pone rojo, nos hemos enterado antes que tú.
+
+## Los dos flows nuevos de la carpeta
+
+| Flow | Qué toca |
+|------|----------|
+| [[Automatiza tu FlowTest]] | `GET /monitors` y `GET /access` de TU instalación (localhost:9998) — la API local |
+| [[Puente cloud (flow-bridge)]] | `GET app.flowtest.es/api/bridge/poll` — el endpoint real del puente cloud→local (401 con token falso, como debe ser) |

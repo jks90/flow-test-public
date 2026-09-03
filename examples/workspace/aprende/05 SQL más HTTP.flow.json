@@ -6,14 +6,30 @@
       "id": "http-eco-dbok",
       "name": "2 · HTTP — eco con dbOk",
       "curl": "curl \"https://httpbingo.org/get?db={{dbOk}}\" \\\n\n-H \"User-Agent: flow-test\"",
-      "position": { "x": 640, "y": 340 },
+      "position": {
+        "x": 700,
+        "y": 759
+      },
       "status": "idle",
       "collapsed": false,
       "extractions": [],
       "asserts": [
-        { "id": "as-eco-status", "kind": "status", "expected": "2xx" },
-        { "id": "as-eco-arg-db", "kind": "jsonpath", "path": "$.args.db", "op": "exists" },
-        { "id": "as-eco-tiempo", "kind": "time", "maxMs": 8000 }
+        {
+          "id": "as-eco-status",
+          "kind": "status",
+          "expected": "2xx"
+        },
+        {
+          "id": "as-eco-arg-db",
+          "kind": "jsonpath",
+          "path": "$.args.db",
+          "op": "exists"
+        },
+        {
+          "id": "as-eco-tiempo",
+          "kind": "time",
+          "maxMs": 8000
+        }
       ]
     }
   ],
@@ -22,7 +38,10 @@
       "id": "nota-sql-mas-http",
       "name": "Qué enseña este flow",
       "content": "Este flow enseña el nodo SQL junto al HTTP. El nodo «1 · SQL» lanza una consulta a Postgres usando el perfil «demo-postgres» de sql-connections.json (hay uno de ejemplo en la raíz del workspace; los perfiles se buscan desde la carpeta del flow hacia arriba) y extrae la celda columna «ok» + fila 0 a la variable {{dbOk}}. En el mismo Run Flow los nodos SQL y HTTP comparten capas topológicas: aquí no hay conexión entre ellos (dos islas), así que ambos forman la primera capa y corren en paralelo.\n\nEl nodo SQL viene DESACTIVADO para que el flow corra en verde aunque no tengas base de datos: mientras tanto {{dbOk}} usa el valor por defecto de envVariables. Para activarlo: menú del icono de la caja → «Nodo activo», y rellena host/usuario/contraseña reales en el sql-connections.json de la raíz del workspace (trae placeholders). Si además conectas SQL → HTTP con una flecha «next», la extracción llegará al GET antes de ejecutarse.\n\nEjecútalo con ▶ Run Flow en la web, o en CLI: flow-run --flow \"05 SQL más HTTP.flow.json\"",
-      "position": { "x": 80, "y": 40 },
+      "position": {
+        "x": 80,
+        "y": 110
+      },
       "collapsed": false,
       "scripts": []
     }
@@ -31,7 +50,10 @@
     {
       "id": "sql-ping-postgres",
       "name": "1 · SQL — ping a Postgres",
-      "position": { "x": 80, "y": 340 },
+      "position": {
+        "x": 80,
+        "y": 759
+      },
       "collapsed": false,
       "disabled": true,
       "dbType": "postgres",
@@ -45,12 +67,99 @@
       "displayMode": "table",
       "status": "idle",
       "extractions": [
-        { "id": "ext-dbok", "varName": "dbOk", "column": "ok", "rowIndex": 0 }
+        {
+          "id": "ext-dbok",
+          "varName": "dbOk",
+          "column": "ok",
+          "rowIndex": 0
+        }
       ]
     }
   ],
   "webNodes": [],
   "connections": [],
+  "drawings": [
+    {
+      "id": "wb-titulo",
+      "type": "text",
+      "x": 80,
+      "y": 18,
+      "w": 700,
+      "h": 48,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 4205,
+      "text": "05 · SQL más HTTP",
+      "font": "excali",
+      "fontSize": 32
+    },
+    {
+      "id": "wb-marco-ejecucion",
+      "type": "rect",
+      "x": 30,
+      "y": 709,
+      "w": 1140,
+      "h": 620,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2,
+      "strokeStyle": "dashed",
+      "fill": "transparent",
+      "opacity": 0.85,
+      "sketchy": true,
+      "seed": 4206
+    },
+    {
+      "id": "wb-texto-dbok",
+      "type": "text",
+      "x": 560,
+      "y": 390,
+      "w": 250,
+      "h": 26,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 4207,
+      "text": "aquí se extrae {{dbOk}}",
+      "font": "hand",
+      "fontSize": 18
+    },
+    {
+      "id": "wb-flecha-dbok",
+      "type": "arrow",
+      "x": 660,
+      "y": 425,
+      "w": -190,
+      "h": 165,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 4208
+    },
+    {
+      "id": "wb-nota-paralelo",
+      "type": "text",
+      "x": 90,
+      "y": 1364,
+      "w": 400,
+      "h": 24,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 0.85,
+      "sketchy": true,
+      "seed": 4209,
+      "text": "dos islas = misma capa: corren en paralelo",
+      "font": "hand",
+      "fontSize": 16
+    }
+  ],
   "envVariables": {
     "dbOk": "sin-bbdd"
   }

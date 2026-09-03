@@ -6,14 +6,30 @@
       "id": "post-pais-capital",
       "name": "1 · POST — país y capital",
       "curl": "curl -X POST \"https://httpbingo.org/post\" \\\n\n-H \"Content-Type: application/json\" \\\n\n-H \"User-Agent: flow-test\" \\\n\n-d '{\n  \"pais\": \"{{pais}}\",\n  \"capital\": \"{{capital}}\"\n}'",
-      "position": { "x": 80, "y": 340 },
+      "position": {
+        "x": 80,
+        "y": 701
+      },
       "status": "idle",
       "collapsed": false,
       "extractions": [],
       "asserts": [
-        { "id": "as-post-status", "kind": "status", "expected": "2xx" },
-        { "id": "as-post-pais", "kind": "jsonpath", "path": "$.json.pais", "op": "exists" },
-        { "id": "as-post-tiempo", "kind": "time", "maxMs": 8000 }
+        {
+          "id": "as-post-status",
+          "kind": "status",
+          "expected": "2xx"
+        },
+        {
+          "id": "as-post-pais",
+          "kind": "jsonpath",
+          "path": "$.json.pais",
+          "op": "exists"
+        },
+        {
+          "id": "as-post-tiempo",
+          "kind": "time",
+          "maxMs": 8000
+        }
       ]
     }
   ],
@@ -22,7 +38,10 @@
       "id": "nota-data-driven",
       "name": "Qué enseña este flow",
       "content": "Un POST parametrizado: el body JSON usa {{pais}} y {{capital}}, que en una ejecución normal valen los defaults de envVariables (España / Madrid). Los asserts comprueban el 2xx y que el eco devuelva $.json.pais.\n\nLo interesante es el modo data-driven del CLI. Junto a este flow hay un 06-casos.csv con cabecera name,pais,capital y tres filas. Ejecuta:\n\nflow-run --flow \"06 Data-driven.flow.json\" --data 06-casos.csv\n\ny el flow corre UNA VEZ POR FILA, con las columnas de cada fila como variables (la columna name etiqueta cada caso en el resumen). Precedencia: envVariables < entorno < fila < --var. Si falla algún caso, exit 1 — perfecto para CI. También acepta un JSON array (--data casos.json).\n\nEn la web, ▶ Run Flow hace una sola pasada con los defaults.",
-      "position": { "x": 80, "y": 40 },
+      "position": {
+        "x": 80,
+        "y": 110
+      },
       "collapsed": false,
       "scripts": []
     }
@@ -33,5 +52,87 @@
   "envVariables": {
     "pais": "España",
     "capital": "Madrid"
-  }
+  },
+  "drawings": [
+    {
+      "id": "wb-titulo",
+      "type": "text",
+      "x": 80,
+      "y": 18,
+      "w": 700,
+      "h": 48,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 1106,
+      "text": "06 · Data-driven — un flow, N casos",
+      "font": "excali",
+      "fontSize": 32
+    },
+    {
+      "id": "wb-marco-run",
+      "type": "rect",
+      "x": 30,
+      "y": 651,
+      "w": 520,
+      "h": 620,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2,
+      "strokeStyle": "dashed",
+      "fill": "transparent",
+      "opacity": 0.9,
+      "sketchy": true,
+      "seed": 2106
+    },
+    {
+      "id": "wb-nota-vars",
+      "type": "text",
+      "x": 700,
+      "y": 741,
+      "w": 380,
+      "h": 30,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 3106,
+      "text": "cada fila del CSV pisa {{pais}} y {{capital}}",
+      "font": "sketch",
+      "fontSize": 18
+    },
+    {
+      "id": "wb-flecha-vars",
+      "type": "arrow",
+      "x": 730,
+      "y": 786,
+      "w": -165,
+      "h": 95,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 4106
+    },
+    {
+      "id": "wb-cmd-cli",
+      "type": "text",
+      "x": 700,
+      "y": 931,
+      "w": 560,
+      "h": 24,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 0.9,
+      "sketchy": false,
+      "seed": 5106,
+      "text": "flow-run --flow \"06 Data-driven.flow.json\" --data 06-casos.csv",
+      "font": "mono",
+      "fontSize": 14
+    }
+  ]
 }

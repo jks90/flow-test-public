@@ -6,7 +6,7 @@
       "id": "tipo-cambio-eur",
       "name": "1 · Tipo de cambio EUR (Frankfurter)",
       "curl": "curl \"https://api.frankfurter.dev/v1/latest?base={{base}}\"",
-      "position": { "x": 80, "y": 340 },
+      "position": { "x": 80, "y": 620 },
       "status": "idle",
       "collapsed": false,
       "extractions": [
@@ -22,7 +22,7 @@
       "id": "echo-eur-usd",
       "name": "2 · Echo con {{eurUsd}} (httpbingo)",
       "curl": "curl \"https://httpbingo.org/get?eur_usd={{eurUsd}}\" \\\n\n-H \"User-Agent: flowtest\"",
-      "position": { "x": 640, "y": 340 },
+      "position": { "x": 660, "y": 620 },
       "status": "idle",
       "collapsed": false,
       "extractions": [],
@@ -38,7 +38,7 @@
       "id": "nota-variables",
       "name": "Qué enseña este flow",
       "content": "Las dos piezas básicas de FlowTest: variables {{...}} y extracciones JSONPath. El nodo 1 pide a Frankfurter el cambio del euro (usa {{base}}, definida en envVariables) y extrae $.rates.USD en la variable eurUsd. El nodo 2 usa {{eurUsd}} en su propia URL contra el echo de httpbingo, que la devuelve en $.args — así compruebas que la interpolación funcionó (el curl lleva una cabecera User-Agent porque httpbingo rechaza las peticiones que no la traen). Las variables fluyen de un nodo al siguiente por las flechas: todo lo que extraes aguas arriba está disponible aguas abajo.\n\nEjecutar: ▶ Run Flow en la web · flow-run en CLI.",
-      "position": { "x": 80, "y": 40 },
+      "position": { "x": 80, "y": 110 },
       "collapsed": false,
       "scripts": []
     }
@@ -47,6 +47,47 @@
   "webNodes": [],
   "connections": [
     { "id": "con-cambio-echo", "sourceId": "tipo-cambio-eur", "targetId": "echo-eur-usd", "behavior": "next" }
+  ],
+  "drawings": [
+    {
+      "id": "wb-titulo",
+      "type": "text",
+      "x": 80, "y": 18, "w": 700, "h": 48,
+      "text": "01 · Variables y cadenas",
+      "font": "excali", "fontSize": 32,
+      "stroke": "#a78bfa", "strokeWidth": 2, "strokeStyle": "solid",
+      "opacity": 1, "sketchy": true, "seed": 1101
+    },
+    {
+      "id": "wb-titulo-subrayado",
+      "type": "line",
+      "x": 82, "y": 74, "w": 360, "h": 4,
+      "stroke": "#a78bfa", "strokeWidth": 2, "strokeStyle": "solid",
+      "opacity": 0.7, "sketchy": true, "seed": 1102
+    },
+    {
+      "id": "wb-marco-ejecutables",
+      "type": "rect",
+      "x": 30, "y": 570, "w": 1100, "h": 620,
+      "stroke": "#a78bfa", "strokeWidth": 2, "strokeStyle": "dashed",
+      "fill": "transparent", "opacity": 0.85, "sketchy": true, "seed": 1103
+    },
+    {
+      "id": "wb-nota-extraccion",
+      "type": "text",
+      "x": 140, "y": 1275, "w": 360, "h": 36,
+      "text": "aquí se extrae {{eurUsd}}",
+      "font": "hand", "fontSize": 18,
+      "stroke": "#a78bfa", "strokeWidth": 2, "strokeStyle": "solid",
+      "opacity": 1, "sketchy": true, "seed": 1104
+    },
+    {
+      "id": "wb-flecha-extraccion",
+      "type": "arrow",
+      "x": 300, "y": 1266, "w": -32, "h": -64,
+      "stroke": "#a78bfa", "strokeWidth": 2, "strokeStyle": "solid",
+      "opacity": 1, "sketchy": true, "seed": 1105
+    }
   ],
   "envVariables": {
     "base": "EUR"

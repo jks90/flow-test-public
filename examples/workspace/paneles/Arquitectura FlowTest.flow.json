@@ -1,0 +1,278 @@
+{
+  "version": "1.0",
+  "name": "Arquitectura FlowTest",
+  "nodes": [
+    {
+      "id": "req-salud-cloud",
+      "name": "Salud cloud",
+      "curl": "curl \"{{cloudBase}}/health\"",
+      "position": {
+        "x": 80,
+        "y": 860
+      },
+      "status": "idle",
+      "extractions": [
+        {
+          "id": "x-servicio-cloud",
+          "varName": "servicioCloud",
+          "jsonPath": "$.service"
+        },
+        {
+          "id": "x-orgs-activas",
+          "varName": "orgsActivas",
+          "jsonPath": "$.orgs"
+        }
+      ],
+      "asserts": [
+        {
+          "id": "a-salud-status",
+          "kind": "status",
+          "expected": "2xx"
+        },
+        {
+          "id": "a-salud-ok",
+          "kind": "jsonpath",
+          "path": "$.ok",
+          "op": "equals",
+          "value": "true"
+        },
+        {
+          "id": "a-salud-time",
+          "kind": "time",
+          "maxMs": 8000
+        }
+      ],
+      "collapsed": true,
+      "cell": {
+        "col": 1,
+        "row": 2
+      }
+    },
+    {
+      "id": "req-validar-licencia",
+      "name": "Validación de licencias",
+      "curl": "curl -X POST \"{{cloudBase}}/api/license/validate\" \\\n\n-H \"Content-Type: application/json\" \\\n\n-d '{\"token\":\"{{tokenLicencia}}\"}'",
+      "position": {
+        "x": 500,
+        "y": 860
+      },
+      "status": "idle",
+      "extractions": [
+        {
+          "id": "x-motivo-licencia",
+          "varName": "motivoLicencia",
+          "jsonPath": "$.reason"
+        }
+      ],
+      "asserts": [
+        {
+          "id": "a-lic-status",
+          "kind": "status",
+          "expected": "2xx"
+        },
+        {
+          "id": "a-lic-valid-false",
+          "kind": "jsonpath",
+          "path": "$.valid",
+          "op": "equals",
+          "value": "false"
+        }
+      ],
+      "collapsed": true,
+      "cell": {
+        "col": 2,
+        "row": 2
+      }
+    },
+    {
+      "id": "req-plan-org",
+      "name": "Plan de una org",
+      "curl": "curl \"{{cloudBase}}/api/org-plan/{{orgSlug}}\"",
+      "position": {
+        "x": 920,
+        "y": 860
+      },
+      "status": "idle",
+      "extractions": [],
+      "asserts": [
+        {
+          "id": "as-orgplan-status",
+          "kind": "status",
+          "expected": "2xx"
+        },
+        {
+          "id": "as-orgplan-plan",
+          "kind": "jsonpath",
+          "path": "$.plan",
+          "op": "exists"
+        }
+      ],
+      "collapsed": true,
+      "cell": {
+        "col": 3,
+        "row": 2
+      }
+    },
+    {
+      "id": "req-web-publica",
+      "name": "Web pública",
+      "curl": "curl \"{{webBase}}/\"",
+      "position": {
+        "x": 1340,
+        "y": 860
+      },
+      "status": "idle",
+      "extractions": [],
+      "asserts": [
+        {
+          "id": "a-web-status",
+          "kind": "status",
+          "expected": "2xx"
+        },
+        {
+          "id": "a-web-time",
+          "kind": "time",
+          "maxMs": 8000
+        }
+      ],
+      "collapsed": true,
+      "cell": {
+        "col": 4,
+        "row": 2
+      }
+    }
+  ],
+  "infoNodes": [
+    {
+      "id": "nota-arquitectura",
+      "name": "Arquitectura FlowTest — el panel técnico",
+      "content": "Qué enseña: el sistema FlowTest completo de una pasada — el canvas web dispara todo a través del servidor Node (/proxy y /sql-proxy, así el navegador no pelea con CORS) contra tus APIs y BBDD; el mismo motor corre como CLI (flow-run) y empaquetado en la imagen Docker juankanh/flow-app; los agentes IA entran por el MCP embebido (/mcp) y construyen flows en el canvas en vivo; los monitores y webhooks corren server-side sin navegador; y el cloud app.flowtest.es gobierna cuentas, licencias RS256 y pagos (Lemon Squeezy).\n\nLas 4 cajitas de abajo no son decoración: tocan los endpoints reales del cloud, ahora mismo, cada una con sus asserts. En vivo tras ejecutar: servicio={{servicioCloud}} · orgs={{orgsActivas}} · licencia vacía → {{motivoLicencia}}.\n\n▶ Ejecútalo con «Run Flow» en la web, o desde CLI:\nflow-run --flow \"flows/paneles/Arquitectura FlowTest.flow.json\"\nSi algún assert falla, exit 1 — listo para CI.",
+      "position": {
+        "x": 80,
+        "y": 110
+      },
+      "collapsed": false,
+      "scripts": [],
+      "cell": {
+        "col": 1,
+        "row": 1
+      }
+    },
+    {
+      "id": "nota-esquema-sistema",
+      "name": "Esquema del sistema",
+      "content": "graph TB\n  IA[\"🤖 Agentes IA\"] -- \"MCP /mcp\" --> UI[\"🖥 Canvas web (React)\"]\n  UI --> SRV[\"Servidor Node · /proxy y /sql-proxy\"]\n  SRV --> API[\"APIs del usuario\"]\n  SRV --> DB[(\"BBDD · pg / mysql / oracle\")]\n  CLI[\"⌨ CLI flow-run — CI/CD\"] --> API\n  AUTO[\"⏱ Monitores y webhooks server-side\"] --> CLI\n  DOCKER[\"🐳 Imagen Docker juankanh/flow-app\"] -. contiene .- SRV\n  SRV -. \"licencia · phone-home 12 h\" .-> CLOUD\n  subgraph CLOUD[\"☁ Cloud — app.flowtest.es\"]\n    ACC[\"Cuentas y orgs\"] --> LIC[\"Licencias RS256\"]\n    ACC --> PAY[\"Pagos — Lemon Squeezy\"]\n  end",
+      "position": {
+        "x": 520,
+        "y": 110
+      },
+      "collapsed": false,
+      "scripts": [],
+      "renderMode": "mermaid",
+      "cell": {
+        "col": 2,
+        "row": 1
+      }
+    }
+  ],
+  "sqlNodes": [],
+  "webNodes": [],
+  "connections": [
+    {
+      "id": "c-esquema-salud",
+      "sourceId": "nota-esquema-sistema",
+      "targetId": "req-salud-cloud",
+      "sourcePort": "bottom",
+      "targetPort": "top",
+      "behavior": "none"
+    },
+    {
+      "id": "c-esquema-licencia",
+      "sourceId": "nota-esquema-sistema",
+      "targetId": "req-validar-licencia",
+      "sourcePort": "bottom",
+      "targetPort": "top",
+      "behavior": "none"
+    },
+    {
+      "id": "c-esquema-org",
+      "sourceId": "nota-esquema-sistema",
+      "targetId": "req-plan-org",
+      "sourcePort": "bottom",
+      "targetPort": "top",
+      "behavior": "none"
+    },
+    {
+      "id": "c-esquema-web",
+      "sourceId": "nota-esquema-sistema",
+      "targetId": "req-web-publica",
+      "sourcePort": "bottom",
+      "targetPort": "top",
+      "behavior": "none"
+    }
+  ],
+  "envVariables": {
+    "cloudBase": "https://app.flowtest.es",
+    "webBase": "https://flowtest.es",
+    "orgSlug": "demo-pro",
+    "tokenLicencia": ""
+  },
+  "drawings": [
+    {
+      "id": "d-titulo-arquitectura",
+      "type": "text",
+      "x": 80,
+      "y": 18,
+      "w": 700,
+      "h": 48,
+      "stroke": "#60a5fa",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 515151001,
+      "text": "Arquitectura FlowTest — el mapa del sistema",
+      "font": "excali",
+      "fontSize": 32
+    },
+    {
+      "id": "d-marco-endpoints",
+      "type": "rect",
+      "x": 35,
+      "y": 815,
+      "w": 1610,
+      "h": 200,
+      "stroke": "#60a5fa",
+      "strokeWidth": 2,
+      "strokeStyle": "dashed",
+      "fill": "transparent",
+      "opacity": 0.9,
+      "sketchy": true,
+      "seed": 515151002
+    },
+    {
+      "id": "d-texto-endpoints",
+      "type": "text",
+      "x": 80,
+      "y": 1035,
+      "w": 360,
+      "h": 31,
+      "stroke": "#60a5fa",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 0.9,
+      "sketchy": true,
+      "seed": 515151003,
+      "text": "endpoints reales, ahora mismo",
+      "font": "excali",
+      "fontSize": 20
+    }
+  ],
+  "settings": {
+    "viewport": {
+      "zoom": 1,
+      "scrollLeft": 0,
+      "scrollTop": 0
+    }
+  }
+}

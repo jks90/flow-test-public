@@ -6,7 +6,7 @@
       "id": "correo-otp-ultimo-correo",
       "name": "1 · Último correo del buzón",
       "curl": "curl \"{{flowBase}}/mail/messages/latest?to={{buzon}}\"",
-      "position": { "x": 80, "y": 340 },
+      "position": { "x": 80, "y": 620 },
       "status": "idle",
       "collapsed": false,
       "extractions": [
@@ -22,7 +22,7 @@
       "id": "correo-otp-usar-codigo",
       "name": "2 · Usar el código extraído",
       "curl": "curl \"https://httpbingo.org/get?otp={{otp}}\"",
-      "position": { "x": 640, "y": 340 },
+      "position": { "x": 660, "y": 620 },
       "status": "idle",
       "collapsed": false,
       "extractions": [],
@@ -38,7 +38,7 @@
       "id": "correo-otp-nota",
       "name": "Verificar emails sin cuentas reales",
       "content": "Este flow comprueba que TU servicio envió un email y usa su código de verificación, sin cuentas de correo reales. Activa el SMTP embebido en Config ▸ Correo (puerto 1025), apunta ahí el envío de correo de tu servicio y crea el buzón {{buzon}}: el nodo 1 recupera el último correo recibido y EXTRAE solo el código (detección por palabra clave o regex propia, configurable en el panel); el nodo 2 simula «usar el código» contra un echo público. ¿Prefieres un buzón real desechable? El mismo panel integra mail.tm.\n\nCómo ejecutarlo: ▶ Run Flow en la web. Aviso: el nodo 1 llama al propio servidor de FlowTest ({{flowBase}}), así que necesita la app corriendo — por eso este flow no corre en el CLI sin más.",
-      "position": { "x": 80, "y": 40 },
+      "position": { "x": 80, "y": 110 },
       "collapsed": false,
       "scripts": []
     }
@@ -51,6 +51,40 @@
       "sourceId": "correo-otp-ultimo-correo",
       "targetId": "correo-otp-usar-codigo",
       "behavior": "next"
+    }
+  ],
+  "drawings": [
+    {
+      "id": "correo-otp-wb-titulo",
+      "type": "text",
+      "x": 80, "y": 18, "w": 700, "h": 48,
+      "text": "Correo OTP — verifica el email sin cuentas reales",
+      "font": "excali", "fontSize": 32,
+      "stroke": "#34d399", "strokeWidth": 2, "strokeStyle": "solid",
+      "opacity": 1, "sketchy": true, "seed": 3401
+    },
+    {
+      "id": "correo-otp-wb-marco",
+      "type": "rect",
+      "x": 30, "y": 575, "w": 1100, "h": 610,
+      "stroke": "#34d399", "strokeWidth": 2, "strokeStyle": "dashed",
+      "fill": "transparent", "opacity": 0.9, "sketchy": true, "seed": 3402
+    },
+    {
+      "id": "correo-otp-wb-nota-otp",
+      "type": "text",
+      "x": 560, "y": 440, "w": 360, "h": 30,
+      "text": "aquí se extrae {{otp}} del correo",
+      "font": "sketch", "fontSize": 20,
+      "stroke": "#34d399", "strokeWidth": 2, "strokeStyle": "solid",
+      "opacity": 1, "sketchy": true, "seed": 3403
+    },
+    {
+      "id": "correo-otp-wb-flecha",
+      "type": "arrow",
+      "x": 620, "y": 480, "w": -130, "h": 110,
+      "stroke": "#34d399", "strokeWidth": 2, "strokeStyle": "solid",
+      "opacity": 1, "sketchy": true, "seed": 3404
     }
   ],
   "envVariables": {

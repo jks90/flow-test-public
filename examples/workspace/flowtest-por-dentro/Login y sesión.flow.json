@@ -6,30 +6,67 @@
       "id": "login-cloud",
       "name": "1 · Login — entrar con tu cuenta del cloud",
       "curl": "curl -X POST \"{{accountsBase}}/api/login\" -H \"Content-Type: application/json\" -d '{\"email\":\"{{tuEmail}}\",\"password\":\"{{password}}\"}'",
-      "position": { "x": 80, "y": 340 },
+      "position": {
+        "x": 80,
+        "y": 800
+      },
       "status": "idle",
       "collapsed": false,
       "extractions": [
-        { "id": "ext-org", "varName": "org", "jsonPath": "$.org" }
+        {
+          "id": "ext-org",
+          "varName": "org",
+          "jsonPath": "$.org"
+        }
       ],
       "asserts": [
-        { "id": "as-login-status", "kind": "status", "expected": "2xx" },
-        { "id": "as-login-ok", "kind": "jsonpath", "path": "$.ok", "op": "equals", "value": "true" },
-        { "id": "as-login-time", "kind": "time", "maxMs": 5000 }
+        {
+          "id": "as-login-status",
+          "kind": "status",
+          "expected": "2xx"
+        },
+        {
+          "id": "as-login-ok",
+          "kind": "jsonpath",
+          "path": "$.ok",
+          "op": "equals",
+          "value": "true"
+        },
+        {
+          "id": "as-login-time",
+          "kind": "time",
+          "maxMs": 5000
+        }
       ]
     },
     {
       "id": "plan-mi-org",
       "name": "2 · Plan de tu organización — encadena el slug extraído",
       "curl": "curl \"{{accountsBase}}/api/org-plan/{{org}}\"",
-      "position": { "x": 640, "y": 340 },
+      "position": {
+        "x": 660,
+        "y": 800
+      },
       "status": "idle",
       "collapsed": false,
       "extractions": [],
       "asserts": [
-        { "id": "as-orgplan-status", "kind": "status", "expected": "2xx" },
-        { "id": "as-orgplan-plan", "kind": "jsonpath", "path": "$.plan", "op": "exists" },
-        { "id": "as-orgplan-time", "kind": "time", "maxMs": 5000 }
+        {
+          "id": "as-orgplan-status",
+          "kind": "status",
+          "expected": "2xx"
+        },
+        {
+          "id": "as-orgplan-plan",
+          "kind": "jsonpath",
+          "path": "$.plan",
+          "op": "exists"
+        },
+        {
+          "id": "as-orgplan-time",
+          "kind": "time",
+          "maxMs": 5000
+        }
       ]
     }
   ],
@@ -38,7 +75,10 @@
       "id": "nota-sesion",
       "name": "Cómo funciona la sesión",
       "content": "Qué enseña: el login de FlowTest Cloud por API con las MISMAS credenciales que usas en la web. El nodo 1 hace POST /api/login y comprueba con asserts que la respuesta trae \"ok\": true; de ahí extrae {{org}} (el slug de tu organización) y el nodo 2 lo encadena en GET /api/org-plan/<slug>, que devuelve tu plan, los límites y los días de trial que te quedan.\n\nOjo con la sesión: la API NO devuelve ningún token en el body — la sesión viaja en una cookie httpOnly que guarda el navegador, así que desde un flow no se pueden encadenar los endpoints privados /api/me/*. Moraleja: mira la respuesta real antes de diseñar la cadena.\n\nRellena {{tuEmail}} y {{password}} con una cuenta VERIFICADA (creada con [[Solicitar espacio cloud]] o desde la web) — mejor pásalas con --var en CLI para no dejarlas escritas. Varios intentos fallidos seguidos bloquean el login un rato (429), y con 2FA activado pide además el código (este flow no lo envía).\n\nCómo ejecutarlo: ▶ Run Flow en la web · flow-run --flow \"Login y sesión.flow.json\" en CLI.",
-      "position": { "x": 80, "y": 40 },
+      "position": {
+        "x": 80,
+        "y": 110
+      },
       "collapsed": false,
       "scripts": []
     }
@@ -46,11 +86,98 @@
   "sqlNodes": [],
   "webNodes": [],
   "connections": [
-    { "id": "con-login-plan", "sourceId": "login-cloud", "targetId": "plan-mi-org", "behavior": "next" }
+    {
+      "id": "con-login-plan",
+      "sourceId": "login-cloud",
+      "targetId": "plan-mi-org",
+      "behavior": "next"
+    }
   ],
   "envVariables": {
     "accountsBase": "https://app.flowtest.es",
     "tuEmail": "tu-email@ejemplo.com",
     "password": "elige-una-de-8+"
-  }
+  },
+  "drawings": [
+    {
+      "id": "wb-titulo-login-sesion",
+      "type": "text",
+      "x": 80,
+      "y": 18,
+      "w": 700,
+      "h": 48,
+      "text": "Login y sesión — FlowTest Cloud",
+      "font": "excali",
+      "fontSize": 32,
+      "stroke": "#f59e0b",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 1101
+    },
+    {
+      "id": "wb-marco-cadena",
+      "type": "rect",
+      "x": 32,
+      "y": 752,
+      "w": 1096,
+      "h": 616,
+      "stroke": "#f59e0b",
+      "strokeWidth": 2,
+      "strokeStyle": "dashed",
+      "fill": "transparent",
+      "opacity": 0.9,
+      "sketchy": true,
+      "seed": 1102
+    },
+    {
+      "id": "wb-caption-cadena",
+      "type": "text",
+      "x": 48,
+      "y": 1386,
+      "w": 460,
+      "h": 26,
+      "text": "cadena ejecutable: login → plan de la org",
+      "font": "excali",
+      "fontSize": 18,
+      "stroke": "#f59e0b",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 0.9,
+      "sketchy": true,
+      "seed": 1103
+    },
+    {
+      "id": "wb-nota-extraccion",
+      "type": "text",
+      "x": 560,
+      "y": 650,
+      "w": 380,
+      "h": 28,
+      "text": "aquí se extrae {{org}} para el paso 2",
+      "font": "excali",
+      "fontSize": 20,
+      "stroke": "#f59e0b",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 1104
+    },
+    {
+      "id": "wb-flecha-extraccion",
+      "type": "arrow",
+      "x": 600,
+      "y": 720,
+      "w": -250,
+      "h": 53,
+      "stroke": "#f59e0b",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 1105
+    }
+  ]
 }

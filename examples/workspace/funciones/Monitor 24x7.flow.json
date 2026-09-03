@@ -6,28 +6,61 @@
       "id": "monitor-divisas-latest",
       "name": "1 · Divisas — GET latest (Frankfurter)",
       "curl": "curl \"https://api.frankfurter.dev/v1/latest\"",
-      "position": { "x": 80, "y": 340 },
+      "position": {
+        "x": 80,
+        "y": 682
+      },
       "status": "idle",
       "collapsed": false,
       "extractions": [],
       "asserts": [
-        { "id": "monitor-divisas-status", "kind": "status", "expected": "2xx" },
-        { "id": "monitor-divisas-base", "kind": "jsonpath", "path": "$.base", "op": "equals", "value": "EUR" },
-        { "id": "monitor-divisas-tiempo", "kind": "time", "maxMs": 5000 }
+        {
+          "id": "monitor-divisas-status",
+          "kind": "status",
+          "expected": "2xx"
+        },
+        {
+          "id": "monitor-divisas-base",
+          "kind": "jsonpath",
+          "path": "$.base",
+          "op": "equals",
+          "value": "EUR"
+        },
+        {
+          "id": "monitor-divisas-tiempo",
+          "kind": "time",
+          "maxMs": 5000
+        }
       ]
     },
     {
       "id": "monitor-tiempo-madrid",
       "name": "2 · Tiempo Madrid — GET open-meteo",
       "curl": "curl \"https://api.open-meteo.com/v1/forecast?latitude=40.42&longitude=-3.70&current=temperature_2m\"",
-      "position": { "x": 640, "y": 340 },
+      "position": {
+        "x": 660,
+        "y": 682
+      },
       "status": "idle",
       "collapsed": false,
       "extractions": [],
       "asserts": [
-        { "id": "monitor-tiempo-status", "kind": "status", "expected": "2xx" },
-        { "id": "monitor-tiempo-dato", "kind": "jsonpath", "path": "$.current.temperature_2m", "op": "exists" },
-        { "id": "monitor-tiempo-tiempo", "kind": "time", "maxMs": 8000 }
+        {
+          "id": "monitor-tiempo-status",
+          "kind": "status",
+          "expected": "2xx"
+        },
+        {
+          "id": "monitor-tiempo-dato",
+          "kind": "jsonpath",
+          "path": "$.current.temperature_2m",
+          "op": "exists"
+        },
+        {
+          "id": "monitor-tiempo-tiempo",
+          "kind": "time",
+          "maxMs": 8000
+        }
       ]
     }
   ],
@@ -36,7 +69,10 @@
       "id": "monitor-nota",
       "name": "Monitor 24×7 sin navegador",
       "content": "Healthcheck de manual: dos GET a APIs públicas con asserts de status, de contenido (jsonpath $.base = EUR) y de tiempo de respuesta. La gracia está en settings.monitor: al GUARDAR este flow en flows/, el propio SERVIDOR lo ejecuta solo cada 15 minutos con el runner del CLI — sin navegador ni pestaña abierta.\n\n· Ponle notifyUrl (la URL de un webhook de Slack o n8n) y te llega un POST cuando falle o cambie de estado (notify: \"fail\"; con \"always\", en cada run).\n· Historial rodante de los últimos 100 runs en GET /monitors (y /monitors/history).\n· Todo se configura también desde el modal «Automatización…» del menú del logo, con el estado del monitor en vivo.\n\nEjecutar a mano: ▶ Run Flow en la web · flow-run --flow \"funciones/Monitor 24x7.flow.json\" en el CLI.",
-      "position": { "x": 80, "y": 40 },
+      "position": {
+        "x": 80,
+        "y": 110
+      },
       "collapsed": false,
       "scripts": []
     }
@@ -53,6 +89,79 @@
   ],
   "envVariables": {},
   "settings": {
-    "monitor": { "intervalMin": 15, "notify": "fail" }
-  }
+    "monitor": {
+      "intervalMin": 15,
+      "notify": "fail"
+    }
+  },
+  "drawings": [
+    {
+      "id": "wb-titulo",
+      "type": "text",
+      "x": 80,
+      "y": 18,
+      "w": 700,
+      "h": 48,
+      "stroke": "#34d399",
+      "strokeWidth": 2,
+      "text": "Monitor 24×7 — el servidor vigila por ti",
+      "fontSize": 32,
+      "font": "excali"
+    },
+    {
+      "id": "wb-marco-healthcheck",
+      "type": "rect",
+      "x": 30,
+      "y": 632,
+      "w": 1100,
+      "h": 620,
+      "stroke": "#34d399",
+      "strokeWidth": 2,
+      "strokeStyle": "dashed",
+      "fill": "transparent",
+      "opacity": 0.9,
+      "sketchy": true,
+      "seed": 2407
+    },
+    {
+      "id": "wb-nota-monitor",
+      "type": "text",
+      "x": 1180,
+      "y": 662,
+      "w": 380,
+      "h": 76,
+      "stroke": "#34d399",
+      "strokeWidth": 2,
+      "text": "este grupo corre solo cada 15 min\n(settings.monitor · POST al fallar)",
+      "fontSize": 18,
+      "font": "sketch"
+    },
+    {
+      "id": "wb-flecha-monitor",
+      "type": "arrow",
+      "x": 1240,
+      "y": 762,
+      "w": -100,
+      "h": -5,
+      "stroke": "#34d399",
+      "strokeWidth": 3,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 2409
+    },
+    {
+      "id": "wb-nota-asserts",
+      "type": "text",
+      "x": 80,
+      "y": 1302,
+      "w": 560,
+      "h": 30,
+      "stroke": "#34d399",
+      "strokeWidth": 2,
+      "text": "asserts de status, contenido y tiempo — exit ≠ 0 en el CLI si alguno falla",
+      "fontSize": 18,
+      "font": "sketch"
+    }
+  ]
 }

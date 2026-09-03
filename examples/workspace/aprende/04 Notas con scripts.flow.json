@@ -6,16 +6,37 @@
       "id": "post-email-unico",
       "name": "1 · POST con email único",
       "curl": "curl -X POST \"https://httpbingo.org/post\" \\\n\n-H \"Content-Type: application/json\" \\\n\n-H \"User-Agent: flow-test\" \\\n\n-d '{\n  \"email\": \"{{emailUnico}}\"\n}'",
-      "position": { "x": 80, "y": 340 },
+      "position": {
+        "x": 80,
+        "y": 663
+      },
       "status": "idle",
       "collapsed": false,
       "extractions": [
-        { "id": "ex-email-eco", "varName": "emailEco", "jsonPath": "$.json.email" }
+        {
+          "id": "ex-email-eco",
+          "varName": "emailEco",
+          "jsonPath": "$.json.email"
+        }
       ],
       "asserts": [
-        { "id": "as-post-status", "kind": "status", "expected": "2xx" },
-        { "id": "as-post-email", "kind": "jsonpath", "path": "$.json.email", "op": "contains", "value": "qa+" },
-        { "id": "as-post-ms", "kind": "time", "maxMs": 8000 }
+        {
+          "id": "as-post-status",
+          "kind": "status",
+          "expected": "2xx"
+        },
+        {
+          "id": "as-post-email",
+          "kind": "jsonpath",
+          "path": "$.json.email",
+          "op": "contains",
+          "value": "qa+"
+        },
+        {
+          "id": "as-post-ms",
+          "kind": "time",
+          "maxMs": 8000
+        }
       ]
     }
   ],
@@ -24,16 +45,113 @@
       "id": "nota-scripts",
       "name": "Scripts JS de las notas",
       "content": "Las notas pueden llevar scripts JavaScript que hacen return de un valor. Los \"before\" corren ANTES del primer request y su valor queda como variable: aquí emailUnico genera un email distinto en cada ejecución (qa+<timestamp>@ejemplo.com) y el nodo 1 lo envía en el body. Los \"after\" corren AL FINAL con TODAS las variables del run (extracciones como {{emailEco}} y automáticas como runId incluidas): aquí resumen compone un texto con vars.runId.\n\nPrecedencia en el CLI: envVariables < entorno < scripts < --var; con --skip-info-scripts se desactivan las dos fases.\n\nCómo ejecutarlo: ▶ Run Flow en la web · flow-run --flow \"aprende/04 Notas con scripts.flow.json\" en el CLI. Cada run manda un email nuevo, httpbingo lo devuelve en $.json.email y el assert comprueba que contiene \"qa+\".",
-      "position": { "x": 80, "y": 40 },
+      "position": {
+        "x": 80,
+        "y": 110
+      },
       "collapsed": false,
       "scripts": [
-        { "id": "sc-email-unico", "varName": "emailUnico", "code": "return 'qa+' + Date.now() + '@ejemplo.com'", "when": "before" },
-        { "id": "sc-resumen", "varName": "resumen", "code": "return 'Run ' + vars.runId + ' completado'", "when": "after" }
+        {
+          "id": "sc-email-unico",
+          "varName": "emailUnico",
+          "code": "return 'qa+' + Date.now() + '@ejemplo.com'",
+          "when": "before"
+        },
+        {
+          "id": "sc-resumen",
+          "varName": "resumen",
+          "code": "return 'Run ' + vars.runId + ' completado'",
+          "when": "after"
+        }
       ]
     }
   ],
   "sqlNodes": [],
   "webNodes": [],
   "connections": [],
-  "envVariables": {}
+  "envVariables": {},
+  "drawings": [
+    {
+      "id": "wb-titulo-04",
+      "type": "text",
+      "x": 80,
+      "y": 18,
+      "w": 700,
+      "h": 48,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2,
+      "text": "04 · Notas con scripts JS",
+      "fontSize": 32,
+      "font": "excali"
+    },
+    {
+      "id": "wb-marco-ejecucion",
+      "type": "rect",
+      "x": 30,
+      "y": 613,
+      "w": 520,
+      "h": 620,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2,
+      "strokeStyle": "dashed",
+      "fill": "transparent",
+      "opacity": 0.9,
+      "sketchy": true,
+      "seed": 4104
+    },
+    {
+      "id": "wb-flecha-nota",
+      "type": "arrow",
+      "x": 760,
+      "y": 210,
+      "w": -245,
+      "h": 40,
+      "stroke": "#a78bfa",
+      "strokeWidth": 3,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 4204
+    },
+    {
+      "id": "wb-texto-nota",
+      "type": "text",
+      "x": 620,
+      "y": 170,
+      "w": 460,
+      "h": 24,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2,
+      "text": "los scripts before/after viven en esta nota",
+      "fontSize": 16,
+      "font": "hand"
+    },
+    {
+      "id": "wb-flecha-post",
+      "type": "arrow",
+      "x": 790,
+      "y": 813,
+      "w": -215,
+      "h": -50,
+      "stroke": "#a78bfa",
+      "strokeWidth": 3,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 4304
+    },
+    {
+      "id": "wb-texto-post",
+      "type": "text",
+      "x": 610,
+      "y": 833,
+      "w": 470,
+      "h": 44,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2,
+      "text": "aquí viaja {{emailUnico}} y del eco\nse extrae {{emailEco}}",
+      "fontSize": 16,
+      "font": "hand"
+    }
+  ]
 }

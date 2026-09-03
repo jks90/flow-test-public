@@ -1,0 +1,188 @@
+{
+  "version": "1.0",
+  "name": "07 · Errores y reintentos",
+  "nodes": [
+    {
+      "id": "ok-con-retry",
+      "name": "1 · A la primera (con red de seguridad)",
+      "curl": "curl \"{{apiBase}}/status/200\" \\\n\n-H \"User-Agent: flow-test\"",
+      "position": {
+        "x": 80,
+        "y": 778
+      },
+      "status": "idle",
+      "collapsed": false,
+      "extractions": [],
+      "retry": {
+        "count": 3,
+        "backoffMs": 1000
+      },
+      "asserts": [
+        {
+          "id": "as-ok-status",
+          "kind": "status",
+          "expected": "2xx"
+        },
+        {
+          "id": "as-ok-tiempo",
+          "kind": "time",
+          "maxMs": 8000
+        }
+      ]
+    },
+    {
+      "id": "falla-y-reintenta",
+      "name": "2 · Actívame: falla y reintenta",
+      "curl": "curl \"{{apiBase}}/status/503\" \\\n\n-H \"User-Agent: flow-test\"",
+      "position": {
+        "x": 660,
+        "y": 778
+      },
+      "status": "idle",
+      "collapsed": false,
+      "disabled": true,
+      "extractions": [],
+      "retry": {
+        "count": 2,
+        "backoffMs": 500
+      },
+      "asserts": [
+        {
+          "id": "as-falla-status",
+          "kind": "status",
+          "expected": "2xx"
+        }
+      ]
+    },
+    {
+      "id": "plan-b",
+      "name": "3 · Plan B (rama on_error)",
+      "curl": "curl \"{{apiBase}}/get?plan=b\" \\\n\n-H \"User-Agent: flow-test\"",
+      "position": {
+        "x": 1240,
+        "y": 778
+      },
+      "status": "idle",
+      "collapsed": false,
+      "extractions": [
+        {
+          "id": "ext-plan-b",
+          "varName": "planRecibido",
+          "jsonPath": "$.args.plan[0]"
+        }
+      ],
+      "asserts": [
+        {
+          "id": "as-planb-status",
+          "kind": "status",
+          "expected": "2xx"
+        },
+        {
+          "id": "as-planb-plan",
+          "kind": "jsonpath",
+          "path": "$.args.plan",
+          "op": "equals",
+          "value": "b"
+        }
+      ]
+    }
+  ],
+  "infoNodes": [
+    {
+      "id": "nota-resiliencia",
+      "name": "Qué enseña este flow",
+      "content": "Resiliencia en tres piezas. (1) RETRY por nodo: el nodo 1 lleva retry {count: 3, backoffMs: 1000} — ante fallo de red, 5xx o 429 reintenta solo, con backoff exponencial, antes de marcar error (aquí responde 200 a la primera: la red de seguridad queda armada sin ruido). (2) delayMs EN EL CONECTOR: la flecha 1→2 lleva 1500 ms — mira el badge ⏱ sobre la línea; es una pausa antes de lanzar el destino, útil cuando el paso siguiente depende de un job o webhook asíncrono del backend. (3) Rama on_error: la flecha 2→3 solo se recorre cuando el nodo ORIGEN falla — tu plan B.\n\nEl nodo 2 (GET /status/503, retry {count: 2, backoffMs: 500}) está DESACTIVADO a propósito para que Run Flow salga verde. Para ver la resiliencia en acción: actívalo desde el menú de su caja (Nodo activo) y pulsa su ▶ — verás los 2 reintentos con backoff de 500 ms, el fallo final y cómo la rama on_error dispara el plan B (nodo 3). Ojo: en Run Flow y en el CLI solo las flechas next ordenan el grafo, así que el nodo 3 corre en la primera capa de todos modos; la rama on_error luce en la ejecución interactiva en cadena.\n\nEjecutar: ▶ Run Flow en la web (verde tal cual) · CLI: flow-run --flow \"aprende/07 Errores y reintentos.flow.json\".",
+      "position": {
+        "x": 80,
+        "y": 110
+      },
+      "collapsed": false,
+      "scripts": []
+    }
+  ],
+  "sqlNodes": [],
+  "webNodes": [],
+  "connections": [
+    {
+      "id": "con-ok-falla",
+      "sourceId": "ok-con-retry",
+      "targetId": "falla-y-reintenta",
+      "behavior": "next",
+      "delayMs": 1500
+    },
+    {
+      "id": "con-falla-planb",
+      "sourceId": "falla-y-reintenta",
+      "targetId": "plan-b",
+      "behavior": "on_error"
+    }
+  ],
+  "envVariables": {
+    "apiBase": "https://httpbingo.org"
+  },
+  "drawings": [
+    {
+      "id": "wb-titulo",
+      "type": "text",
+      "x": 80,
+      "y": 18,
+      "w": 700,
+      "h": 48,
+      "text": "07 · Errores y reintentos",
+      "font": "excali",
+      "fontSize": 32,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 2701
+    },
+    {
+      "id": "wb-marco-resiliencia",
+      "type": "rect",
+      "x": 35,
+      "y": 733,
+      "w": 1670,
+      "h": 615,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2.5,
+      "strokeStyle": "dashed",
+      "fill": "transparent",
+      "opacity": 0.9,
+      "sketchy": true,
+      "seed": 2702
+    },
+    {
+      "id": "wb-flecha-delay",
+      "type": "arrow",
+      "x": 580,
+      "y": 1408,
+      "w": 0,
+      "h": -120,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2.5,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 2703
+    },
+    {
+      "id": "wb-texto-delay",
+      "type": "text",
+      "x": 400,
+      "y": 1420,
+      "w": 400,
+      "h": 30,
+      "text": "el ⏱ del conector: delayMs 1500",
+      "font": "sketch",
+      "fontSize": 19,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 2704
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+# El contenedor de pruebas escribe sus marcadores en el workspace montado — jamás al repo
+examples/workspace/.install
+examples/workspace/.license
+examples/workspace/.license-check
+examples/workspace/.monitors/
+examples/workspace/.mail/
+examples/workspace/.chrome-profile/

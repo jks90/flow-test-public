@@ -6,30 +6,66 @@
       "id": "tiempo-actual",
       "name": "1 · Tiempo actual (Open-Meteo)",
       "curl": "curl \"https://api.open-meteo.com/v1/forecast?latitude={{lat}}&longitude={{lon}}&current=temperature_2m\"",
-      "position": { "x": 80, "y": 340 },
+      "position": {
+        "x": 80,
+        "y": 682
+      },
       "status": "idle",
       "collapsed": false,
       "extractions": [
-        { "id": "ex-temperatura", "varName": "temperatura", "jsonPath": "$.current.temperature_2m" }
+        {
+          "id": "ex-temperatura",
+          "varName": "temperatura",
+          "jsonPath": "$.current.temperature_2m"
+        }
       ],
       "asserts": [
-        { "id": "as-tiempo-status", "kind": "status", "expected": "2xx" },
-        { "id": "as-tiempo-temp", "kind": "jsonpath", "path": "$.current.temperature_2m", "op": "exists" },
-        { "id": "as-tiempo-ms", "kind": "time", "maxMs": 8000 }
+        {
+          "id": "as-tiempo-status",
+          "kind": "status",
+          "expected": "2xx"
+        },
+        {
+          "id": "as-tiempo-temp",
+          "kind": "jsonpath",
+          "path": "$.current.temperature_2m",
+          "op": "exists"
+        },
+        {
+          "id": "as-tiempo-ms",
+          "kind": "time",
+          "maxMs": 8000
+        }
       ]
     },
     {
       "id": "eco-ciudad",
       "name": "2 · Eco de la ciudad (httpbingo)",
       "curl": "curl \"https://httpbingo.org/get?ciudad={{ciudad}}&temperatura={{temperatura}}\" -H \"User-Agent: flow-test\"",
-      "position": { "x": 640, "y": 340 },
+      "position": {
+        "x": 660,
+        "y": 682
+      },
       "status": "idle",
       "collapsed": false,
       "extractions": [],
       "asserts": [
-        { "id": "as-eco-status", "kind": "status", "expected": "2xx" },
-        { "id": "as-eco-ciudad", "kind": "jsonpath", "path": "$.args.ciudad", "op": "exists" },
-        { "id": "as-eco-ms", "kind": "time", "maxMs": 8000 }
+        {
+          "id": "as-eco-status",
+          "kind": "status",
+          "expected": "2xx"
+        },
+        {
+          "id": "as-eco-ciudad",
+          "kind": "jsonpath",
+          "path": "$.args.ciudad",
+          "op": "exists"
+        },
+        {
+          "id": "as-eco-ms",
+          "kind": "time",
+          "maxMs": 8000
+        }
       ]
     }
   ],
@@ -38,7 +74,10 @@
       "id": "nota-entornos",
       "name": "Entornos con nombre",
       "content": "Mismo flow, dos juegos de datos: envVariables trae los valores por defecto (Madrid) y environments define los overrides de PRE (Barcelona) y PROD (Madrid); el entorno activo es PRE, así que al ejecutar sus valores pisan a los de envVariables. Cámbialo desde el selector de entorno del panel Variables (web) o con --env prod en el CLI, sin tocar el fichero.\n\nEl nodo 1 pide a Open-Meteo el tiempo de las coordenadas del entorno activo (asserts: status 2xx + $.current.temperature_2m exists) y extrae {{temperatura}}; el nodo 2 reenvía ciudad y temperatura a httpbingo.org como eco y verifica que $.args.ciudad exists.\n\nCómo ejecutarlo: ▶ Run Flow en la web · flow-run --flow \"aprende/03 Entornos pre y prod.flow.json\" en el CLI (añade --env prod para probar con los datos de PROD).",
-      "position": { "x": 80, "y": 40 },
+      "position": {
+        "x": 80,
+        "y": 110
+      },
       "collapsed": false,
       "scripts": []
     }
@@ -46,7 +85,12 @@
   "sqlNodes": [],
   "webNodes": [],
   "connections": [
-    { "id": "con-tiempo-eco", "sourceId": "tiempo-actual", "targetId": "eco-ciudad", "behavior": "next" }
+    {
+      "id": "con-tiempo-eco",
+      "sourceId": "tiempo-actual",
+      "targetId": "eco-ciudad",
+      "behavior": "next"
+    }
   ],
   "envVariables": {
     "lat": "40.4168",
@@ -54,8 +98,98 @@
     "ciudad": "Madrid"
   },
   "environments": {
-    "pre": { "lat": "41.3874", "lon": "2.1686", "ciudad": "Barcelona" },
-    "prod": { "lat": "40.4168", "lon": "-3.7038", "ciudad": "Madrid" }
+    "pre": {
+      "lat": "41.3874",
+      "lon": "2.1686",
+      "ciudad": "Barcelona"
+    },
+    "prod": {
+      "lat": "40.4168",
+      "lon": "-3.7038",
+      "ciudad": "Madrid"
+    }
   },
-  "activeEnvironment": "pre"
+  "activeEnvironment": "pre",
+  "drawings": [
+    {
+      "id": "wb-titulo",
+      "type": "text",
+      "x": 80,
+      "y": 18,
+      "w": 700,
+      "h": 48,
+      "text": "03 · Entornos pre y prod",
+      "stroke": "#a78bfa",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 3101,
+      "font": "excali",
+      "fontSize": 32
+    },
+    {
+      "id": "wb-nota-entorno-activo",
+      "type": "text",
+      "x": 520,
+      "y": 150,
+      "w": 520,
+      "h": 56,
+      "text": "PRE activo → Barcelona pisa a Madrid.\nCámbialo con --env prod o desde el panel Variables.",
+      "stroke": "#a78bfa",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 0.9,
+      "sketchy": true,
+      "seed": 3102,
+      "font": "hand",
+      "fontSize": 18
+    },
+    {
+      "id": "wb-marco-nodos",
+      "type": "rect",
+      "x": 35,
+      "y": 637,
+      "w": 1090,
+      "h": 610,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2.5,
+      "strokeStyle": "dashed",
+      "fill": "transparent",
+      "opacity": 0.9,
+      "sketchy": true,
+      "seed": 3103
+    },
+    {
+      "id": "wb-flecha-extraccion",
+      "type": "arrow",
+      "x": 330,
+      "y": 1327,
+      "w": -60,
+      "h": -55,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 3104
+    },
+    {
+      "id": "wb-texto-extraccion",
+      "type": "text",
+      "x": 350,
+      "y": 1312,
+      "w": 480,
+      "h": 30,
+      "text": "aquí se extrae {{temperatura}} y viaja al nodo 2",
+      "stroke": "#a78bfa",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 0.9,
+      "sketchy": true,
+      "seed": 3105,
+      "font": "hand",
+      "fontSize": 18
+    }
+  ]
 }

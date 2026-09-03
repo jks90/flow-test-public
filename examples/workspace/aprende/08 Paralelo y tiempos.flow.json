@@ -1,0 +1,270 @@
+{
+  "version": "1.0",
+  "name": "08 · Paralelo y tiempos",
+  "nodes": [
+    {
+      "id": "divisas-base",
+      "name": "1 · Divisas base",
+      "curl": "curl \"{{fxBase}}/latest\"",
+      "position": {
+        "x": 80,
+        "y": 644
+      },
+      "status": "idle",
+      "collapsed": false,
+      "extractions": [
+        {
+          "id": "ext-usd",
+          "varName": "usd",
+          "jsonPath": "$.rates.USD"
+        }
+      ],
+      "asserts": [
+        {
+          "id": "as-base-status",
+          "kind": "status",
+          "expected": "2xx"
+        },
+        {
+          "id": "as-base-usd",
+          "kind": "jsonpath",
+          "path": "$.rates.USD",
+          "op": "exists"
+        },
+        {
+          "id": "as-base-tiempo",
+          "kind": "time",
+          "maxMs": 6000
+        }
+      ]
+    },
+    {
+      "id": "paralelo-yen",
+      "name": "2a · Yen",
+      "curl": "curl \"{{fxBase}}/latest?symbols=JPY\"",
+      "position": {
+        "x": 80,
+        "y": 1264
+      },
+      "status": "idle",
+      "collapsed": false,
+      "extractions": [],
+      "asserts": [
+        {
+          "id": "as-yen-status",
+          "kind": "status",
+          "expected": "2xx"
+        },
+        {
+          "id": "as-yen-jpy",
+          "kind": "jsonpath",
+          "path": "$.rates.JPY",
+          "op": "exists"
+        },
+        {
+          "id": "as-yen-tiempo",
+          "kind": "time",
+          "maxMs": 6000
+        }
+      ]
+    },
+    {
+      "id": "paralelo-libra",
+      "name": "2b · Libra (sale 1,2 s tarde)",
+      "curl": "curl \"{{fxBase}}/latest?symbols=GBP\"",
+      "position": {
+        "x": 660,
+        "y": 1264
+      },
+      "status": "idle",
+      "collapsed": false,
+      "extractions": [],
+      "asserts": [
+        {
+          "id": "as-libra-status",
+          "kind": "status",
+          "expected": "2xx"
+        },
+        {
+          "id": "as-libra-gbp",
+          "kind": "jsonpath",
+          "path": "$.rates.GBP",
+          "op": "exists"
+        },
+        {
+          "id": "as-libra-tiempo",
+          "kind": "time",
+          "maxMs": 6000
+        }
+      ]
+    },
+    {
+      "id": "paralelo-franco",
+      "name": "2c · Franco",
+      "curl": "curl \"{{fxBase}}/latest?symbols=CHF\"",
+      "position": {
+        "x": 1240,
+        "y": 1264
+      },
+      "status": "idle",
+      "collapsed": false,
+      "extractions": [],
+      "asserts": [
+        {
+          "id": "as-franco-status",
+          "kind": "status",
+          "expected": "2xx"
+        },
+        {
+          "id": "as-franco-chf",
+          "kind": "jsonpath",
+          "path": "$.rates.CHF",
+          "op": "exists"
+        },
+        {
+          "id": "as-franco-tiempo",
+          "kind": "time",
+          "maxMs": 6000
+        }
+      ]
+    },
+    {
+      "id": "resumen-cierre",
+      "name": "3 · Resumen",
+      "curl": "curl \"https://httpbingo.org/get?usd={{usd}}\" \\\n\n-H \"User-Agent: flow-test\"",
+      "position": {
+        "x": 80,
+        "y": 1884
+      },
+      "status": "idle",
+      "collapsed": false,
+      "extractions": [],
+      "asserts": [
+        {
+          "id": "as-cierre-status",
+          "kind": "status",
+          "expected": "2xx"
+        },
+        {
+          "id": "as-cierre-usd",
+          "kind": "jsonpath",
+          "path": "$.args.usd",
+          "op": "exists"
+        },
+        {
+          "id": "as-cierre-tiempo",
+          "kind": "time",
+          "maxMs": 6000
+        }
+      ]
+    }
+  ],
+  "infoNodes": [
+    {
+      "id": "nota-paralelo",
+      "name": "Qué enseña este flow",
+      "content": "En flow-test NO hay un botón de «paralelo»: el GRAFO es el orden. Los nodos se agrupan en capas topológicas y cada capa corre A LA VEZ. Aquí «1 · Divisas base» es la raíz (y extrae $.rates.USD como {{usd}}); 2a, 2b y 2c cuelgan de ella con una conexión next cada uno, así que forman una misma capa y se lanzan en paralelo. El conector raíz→2b lleva delayMs 1200: la Libra sale 1,2 s más tarde, sin frenar al Yen ni al Franco. «3 · Resumen» recibe next desde LOS TRES, o sea que espera a que termine la capa entera antes de llamar a httpbingo con {{usd}}. El CLI hace exactamente lo mismo: mismas capas, mismo paralelo, mismos delays.\n\nEjecutar: ▶ Run Flow en la web (mira cómo 2a/2b/2c se encienden a la vez) · CLI: flow-run --flow \"aprende/08 Paralelo y tiempos.flow.json\".",
+      "position": {
+        "x": 80,
+        "y": 110
+      },
+      "collapsed": false,
+      "scripts": []
+    }
+  ],
+  "sqlNodes": [],
+  "webNodes": [],
+  "connections": [
+    {
+      "id": "con-base-yen",
+      "sourceId": "divisas-base",
+      "targetId": "paralelo-yen",
+      "behavior": "next"
+    },
+    {
+      "id": "con-base-libra",
+      "sourceId": "divisas-base",
+      "targetId": "paralelo-libra",
+      "behavior": "next",
+      "delayMs": 1200
+    },
+    {
+      "id": "con-base-franco",
+      "sourceId": "divisas-base",
+      "targetId": "paralelo-franco",
+      "behavior": "next"
+    },
+    {
+      "id": "con-yen-cierre",
+      "sourceId": "paralelo-yen",
+      "targetId": "resumen-cierre",
+      "behavior": "next"
+    },
+    {
+      "id": "con-libra-cierre",
+      "sourceId": "paralelo-libra",
+      "targetId": "resumen-cierre",
+      "behavior": "next"
+    },
+    {
+      "id": "con-franco-cierre",
+      "sourceId": "paralelo-franco",
+      "targetId": "resumen-cierre",
+      "behavior": "next"
+    }
+  ],
+  "envVariables": {
+    "fxBase": "https://api.frankfurter.dev/v1"
+  },
+  "drawings": [
+    {
+      "id": "wb-titulo",
+      "type": "text",
+      "x": 80,
+      "y": 18,
+      "w": 700,
+      "h": 48,
+      "text": "08 · Paralelo y tiempos",
+      "font": "excali",
+      "fontSize": 32,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 8101
+    },
+    {
+      "id": "wb-marco-capa",
+      "type": "rect",
+      "x": 30,
+      "y": 1214,
+      "w": 1700,
+      "h": 620,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2.5,
+      "strokeStyle": "dashed",
+      "fill": "transparent",
+      "opacity": 0.9,
+      "sketchy": true,
+      "seed": 8102
+    },
+    {
+      "id": "wb-texto-capa",
+      "type": "text",
+      "x": 620,
+      "y": 1172,
+      "w": 460,
+      "h": 34,
+      "text": "esta fila corre A LA VEZ",
+      "font": "sketch",
+      "fontSize": 20,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 8103
+    }
+  ]
+}

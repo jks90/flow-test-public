@@ -6,14 +6,30 @@
       "id": "puente-local-llamada",
       "name": "1 · Llamar a mi API",
       "curl": "curl \"{{miApiLocal}}/get?desde=flowtest\" \\\n\n-H \"User-Agent: flowtest\"",
-      "position": { "x": 80, "y": 340 },
+      "position": {
+        "x": 80,
+        "y": 624
+      },
       "status": "idle",
       "collapsed": false,
       "extractions": [],
       "asserts": [
-        { "id": "puente-local-assert-status", "kind": "status", "expected": "2xx" },
-        { "id": "puente-local-assert-eco", "kind": "jsonpath", "path": "$.args.desde", "op": "exists" },
-        { "id": "puente-local-assert-tiempo", "kind": "time", "maxMs": 5000 }
+        {
+          "id": "puente-local-assert-status",
+          "kind": "status",
+          "expected": "2xx"
+        },
+        {
+          "id": "puente-local-assert-eco",
+          "kind": "jsonpath",
+          "path": "$.args.desde",
+          "op": "exists"
+        },
+        {
+          "id": "puente-local-assert-tiempo",
+          "kind": "time",
+          "maxMs": 5000
+        }
       ]
     }
   ],
@@ -22,7 +38,10 @@
       "id": "puente-local-nota",
       "name": "Probar tu localhost desde el cloud",
       "content": "La feature estrella del cloud: probar TU API de localhost desde el navegador de app.flowtest.es. Tal cual está, el flow llama a un echo público ({{miApiLocal}}) para que puedas darle a ▶ Run Flow ya mismo y ver los asserts en verde.\n\nEl truco real: en app.flowtest.es cambia la variable miApiLocal a http://localhost:8080 y arranca en tu máquina el agente «flow-bridge» (viene en el paquete npm flowtest-run). El contenedor cloud NO ve tu localhost, así que la petición viaja cloud → flow-bridge (long-poll) → tu API → de vuelta al navegador — sin abrir puertos ni túneles.\n\nCómo ejecutarlo: ▶ Run Flow en la web · flow-run en CLI (en local el CLI llega directo, sin puente).",
-      "position": { "x": 80, "y": 40 },
+      "position": {
+        "x": 80,
+        "y": 110
+      },
       "collapsed": false,
       "scripts": []
     },
@@ -30,7 +49,10 @@
       "id": "puente-local-diagrama",
       "name": "El viaje de la petición",
       "content": "graph LR\n  Navegador --> Cloud\n  Cloud --> Bridge[\"flow-bridge (tu máquina)\"]\n  Bridge --> API[\"localhost:8080\"]",
-      "position": { "x": 640, "y": 40 },
+      "position": {
+        "x": 520,
+        "y": 110
+      },
       "collapsed": false,
       "scripts": [],
       "renderMode": "mermaid"
@@ -41,5 +63,70 @@
   "connections": [],
   "envVariables": {
     "miApiLocal": "https://httpbingo.org"
-  }
+  },
+  "drawings": [
+    {
+      "id": "wb-titulo",
+      "type": "text",
+      "x": 80,
+      "y": 18,
+      "w": 700,
+      "h": 48,
+      "stroke": "#34d399",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7301,
+      "text": "Puente a local — tu localhost desde el cloud",
+      "font": "excali",
+      "fontSize": 32
+    },
+    {
+      "id": "wb-marco-ejecutable",
+      "type": "rect",
+      "x": 30,
+      "y": 576,
+      "w": 520,
+      "h": 616,
+      "stroke": "#34d399",
+      "strokeWidth": 2,
+      "strokeStyle": "dashed",
+      "fill": "transparent",
+      "opacity": 0.9,
+      "sketchy": true,
+      "seed": 7302
+    },
+    {
+      "id": "wb-anno-texto",
+      "type": "text",
+      "x": 590,
+      "y": 704,
+      "w": 340,
+      "h": 52,
+      "stroke": "#34d399",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7303,
+      "text": "aquí cambia {{miApiLocal}}\na tu localhost + flow-bridge",
+      "font": "hand",
+      "fontSize": 18
+    },
+    {
+      "id": "wb-anno-flecha",
+      "type": "arrow",
+      "x": 720,
+      "y": 794,
+      "w": -160,
+      "h": 70,
+      "stroke": "#34d399",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 0.9,
+      "sketchy": true,
+      "seed": 7304
+    }
+  ]
 }

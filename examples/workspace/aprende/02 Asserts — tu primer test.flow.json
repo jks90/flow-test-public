@@ -6,7 +6,7 @@
       "id": "geocoding-madrid",
       "name": "1 · Geocoding de {{ciudad}} (3 asserts)",
       "curl": "curl \"https://geocoding-api.open-meteo.com/v1/search?name={{ciudad}}&count=1&language=es\"",
-      "position": { "x": 80, "y": 340 },
+      "position": { "x": 80, "y": 620 },
       "status": "idle",
       "collapsed": false,
       "extractions": [
@@ -23,7 +23,7 @@
       "id": "forecast-assert-roto",
       "name": "2 · Actívame y verás fallar un assert",
       "curl": "curl \"https://api.open-meteo.com/v1/forecast?latitude={{lat}}&longitude={{lon}}&current=temperature_2m\"",
-      "position": { "x": 640, "y": 340 },
+      "position": { "x": 660, "y": 620 },
       "status": "idle",
       "collapsed": false,
       "disabled": true,
@@ -39,7 +39,7 @@
       "id": "nota-asserts",
       "name": "Qué enseña este flow",
       "content": "Un assert convierte una petición en un TEST: si no se cumple, el nodo se marca en rojo (error) aunque el HTTP sea 200, y el CLI sale con exit 1 — listo para CI. El nodo 1 comprueba tres cosas sobre el geocoding de open-meteo: status 2xx, que $.results[0].name sea \"Madrid\" y que responda en menos de 8 s. El nodo 2 está DESACTIVADO a propósito: su assert exige $.hourly.temperature_2m, pero la query solo pide current — actívalo desde el menú de la caja (Nodo activo) y verás fallar un assert de verdad sobre un HTTP 200.\n\nEjecutar: ▶ Run Flow en la web · flow-run en CLI.",
-      "position": { "x": 80, "y": 40 },
+      "position": { "x": 80, "y": 110 },
       "collapsed": false,
       "scripts": []
     }
@@ -51,5 +51,55 @@
   ],
   "envVariables": {
     "ciudad": "Madrid"
-  }
+  },
+  "drawings": [
+    {
+      "id": "wb-titulo",
+      "type": "text",
+      "x": 80, "y": 18, "w": 700, "h": 48,
+      "text": "02 · Asserts — tu primer test",
+      "font": "excali", "fontSize": 32,
+      "stroke": "#a78bfa", "strokeWidth": 2, "strokeStyle": "solid",
+      "opacity": 1, "sketchy": true, "seed": 2101
+    },
+    {
+      "id": "wb-marco-tests",
+      "type": "rect",
+      "x": 30, "y": 570, "w": 1095, "h": 615,
+      "stroke": "#a78bfa", "strokeWidth": 2.5, "strokeStyle": "dashed",
+      "fill": "transparent", "opacity": 0.9, "sketchy": true, "seed": 2102
+    },
+    {
+      "id": "wb-flecha-extraccion",
+      "type": "arrow",
+      "x": 265, "y": 1252, "w": 0, "h": -82,
+      "stroke": "#a78bfa", "strokeWidth": 2.5, "strokeStyle": "solid",
+      "opacity": 1, "sketchy": true, "seed": 2103
+    },
+    {
+      "id": "wb-texto-extraccion",
+      "type": "text",
+      "x": 80, "y": 1262, "w": 400, "h": 30,
+      "text": "aquí se extraen {{lat}} y {{lon}}",
+      "font": "sketch", "fontSize": 19,
+      "stroke": "#a78bfa", "strokeWidth": 2, "strokeStyle": "solid",
+      "opacity": 1, "sketchy": true, "seed": 2104
+    },
+    {
+      "id": "wb-flecha-roto",
+      "type": "arrow",
+      "x": 1160, "y": 884, "w": -28, "h": 0,
+      "stroke": "#a78bfa", "strokeWidth": 2.5, "strokeStyle": "solid",
+      "opacity": 1, "sketchy": true, "seed": 2105
+    },
+    {
+      "id": "wb-texto-roto",
+      "type": "text",
+      "x": 1170, "y": 855, "w": 330, "h": 56,
+      "text": "assert roto a propósito:\nactívalo y míralo fallar",
+      "font": "sketch", "fontSize": 18,
+      "stroke": "#a78bfa", "strokeWidth": 2, "strokeStyle": "solid",
+      "opacity": 1, "sketchy": true, "seed": 2106
+    }
+  ]
 }
