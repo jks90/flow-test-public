@@ -4,7 +4,7 @@
 
 ```bash
 docker run -d --add-host=host.docker.internal:host-gateway \
-  -p 9998:3001 -p 1025:1025 --name flow juankanh/flow-app:5.8.1
+  -p 9998:3001 -p 1025:1025 --name flow juankanh/flow-app:5.9.0
 # web + API + MCP en http://localhost:9998 · 1025 = SMTP de prueba (Config ▸ Correo, 4.36)
 ```
 
@@ -123,6 +123,7 @@ flow-test se prueba **14 días gratis con todas las funciones** desde el primer 
 | 4.22.0 | Nº de orden por nodo + Alinear en fila/columna |
 | 4.23.0 | Scripts JS de las notas ejecutados al Run Flow (web, MCP y CLI; `--skip-info-scripts`), 📌 fijar cajas, Variables usadas en cada caja, tool MCP `tab_close` |
 | 4.24.0 | **Pizarra** estilo Excalidraw sobre el lienzo (`drawings` en el flow), barra lateral de iconos con un panel a la vez, **Guía de nodos**, Ocultar conectores, Maximizar Mermaid, tool MCP `node_add_info` (20 tools) |
+| **5.9.0** | ☁️ **Sincronizar flows local ↔ cloud** (Docker vinculado): traer/subir flows entre tu disco y tu espacio del cloud desde el botón ☁️ del panel Proyecto |
 | **5.8.1** | 🔁 **Interruptor licencia ↔ cuenta cloud** (elige cuál gobierna cuando tienes las dos, sin mezclar) |
 | **5.8.0** | 🤖 Token MCP por usuario (conecta tu IA al cloud) · 🐳 vincular Docker a la cuenta (hereda el plan) · credenciales con ámbito 🔒 privado / 👥 equipo |
 | **5.5.0 – 5.7.0** | 👥 Colaboración en vivo (Business) + Ctrl+Z del canvas · credenciales cifradas `{{secret:X}}` · carpetas privadas por miembro · Business = 1.000 flows |
@@ -172,3 +173,12 @@ Tu instalación heredará el plan de la org (Pro o Business) sin claves RS256. E
 tu disco local** — esto solo hereda el plan, no mueve datos. Tope de instalaciones vinculadas:
 **Pro 2 · Business = asientos × 2**. Se desvincula desde el mismo panel; el admin lista las
 instalaciones vinculadas de cada cuenta.
+
+### Sincronizar flows local ↔ cloud 🆕 (5.9)
+
+Con el Docker **vinculado**, el panel **Proyecto** muestra un botón **☁️**: ábrelo para **traer** flows de
+tu espacio del cloud a tu disco o **subir** los locales al cloud. Dos columnas (Local / En tu cloud) con
+⬆️ Subir y ⬇️ Traer por flow; si el destino ya existe te pregunta antes de sobrescribir. Respeta tus
+**carpetas privadas** (cada uno ve las suyas y las compartidas del equipo). El **token de vinculación se
+queda en el servidor** — el navegador nunca lo ve. La sincronización **copia** el fichero, no fusiona
+cambios (en la subida gana tu versión local).

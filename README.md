@@ -26,7 +26,7 @@ docker run -d \
   -p 9998:3001 \
   -p 1025:1025 \
   --name flow \
-  juankanh/flow-app:5.8.1
+  juankanh/flow-app:5.9.0
 ```
 
 - **Web**: http://localhost:9998 — el canvas visual.
@@ -61,7 +61,8 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 
 | Versión | Qué trae |
 |---------|----------|
-| **5.8.1** (recomendada) | 🔁 **Interruptor licencia ↔ cuenta cloud**: si tienes clave **y** cuenta vinculada, un selector elige cuál gobierna la instalación (sin mezclar); pausar la vinculación vuelve a la licencia con un clic |
+| **5.9.0** (recomendada) | ☁️ **Sincroniza tus flows local ↔ cloud**: si tu Docker está vinculado a tu cuenta, trae o sube flows entre tu disco y tu espacio del cloud desde el botón ☁️ del panel Proyecto (respeta carpetas privadas; el token se queda en el servidor) |
+| **5.8.1** | 🔁 **Interruptor licencia ↔ cuenta cloud**: si tienes clave **y** cuenta vinculada, un selector elige cuál gobierna la instalación (sin mezclar); pausar la vinculación vuelve a la licencia con un clic |
 | **5.8.0** | 🤖 **Conecta tu IA al cloud** (token MCP por usuario) · 🐳 **vincula tu Docker a la cuenta** (hereda el plan de tu suscripción, sin claves) · credenciales con ámbito 🔒 privado / 👥 del equipo |
 | **5.7.0** | 🔒 **Credenciales cifradas** (`{{secret:X}}`, AES-256 server-side) · **carpetas privadas por miembro** en el cloud (`privado/<tú>/`) con **guardar Compartido/🔒 Privado** · **Business = 1.000 flows** (10× Pro, no ilimitado) · fixes de colaboración (roster sin usuarios fantasma) |
 | **5.6.0** | 🔒 **Credenciales cifradas** (`{{secret:X}}` — AES-256 en el servidor, el navegador nunca ve el valor, flows compartibles sin filtrar nada) y **carpetas privadas por miembro** en el cloud (`privado/<tú>/`, invisible e intocable para el resto del equipo) |
@@ -76,8 +77,6 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 | **4.50.0** | **Imágenes y GIF en la pizarra**: sección «Imagen / GIF» del panel Pizarra (fichero subido al proyecto o URL) y **Ctrl+V de una imagen del portapapeles**; los GIF se animan; se mueven, redimensionan (proporción fija, Shift la libera), duplican y ordenan como cualquier dibujo, viajan en el `.flow.json` y el MCP las añade con `whiteboard_update` (`type: image`) |
 | **4.49.1** | **Imagen de fondo del flow** (4.49.1: también se ve en el minimapa): Config → Vista → «Fondo del flow» pone una imagen (un mapa del mundo, un plano, un diagrama…) detrás del lienzo — subida al proyecto o por URL, con posición, ancho (alto automático) y opacidad — en las mismas coordenadas que los nodos, así que puedes ordenar nodos y pizarra encima; se guarda en el flow (`settings.background`), sale en el PDF y el MCP la controla con `flow_background` |
 | **4.48.0** | **La configuración vive en cada flow**: Config ▸ Vista (tamaño de nodos, modo compacto, separación…), Ocultar conectores, el estilo de la pizarra y el zoom/posición del lienzo se guardan dentro del `.flow.json` (`settings`) y cambian al cambiar de pestaña — cada flow se abre tal y como lo dejaste, también en otro navegador u ordenador; el zoom no marca la pestaña como modificada y el navegador solo guarda el valor por defecto para flows sin la suya |
-| **4.47.0** | **Copiar y pegar en la pizarra, y mover el grupo desde dentro**: Ctrl+C/X/V (y botones Copiar/Pegar en el panel) duplican la selección donde quieras, con desplazamiento acumulado en cada pegado; y arrastrar desde el hueco **dentro** de una selección (p. ej. entre los trazos de una figura) mueve el grupo entero en vez de empezar un rectángulo nuevo y perder la selección |
-| **4.46.0** | **Selección múltiple en la pizarra**: con la herramienta Seleccionar, arrastra sobre el fondo del lienzo para dibujar un rectángulo que selecciona todos los dibujos que toca (Shift acumula) — y mueve, cambia de estilo, duplica o borra el grupo entero de una vez |
 | 4.41.0 | **Árbol de carpetas en el panel Proyecto**: las subcarpetas de `flows/` se anidan dentro de su padre (nombre corto e indentación por nivel, sin rutas planas repetidas tipo `flows/a/b/`); plegar una carpeta oculta **todo su subárbol**, su contador suma todos los ficheros que contiene y el plegado se recuerda |
 | 4.40.0 | **Los `.md` se abren como pestañas**: los documentos Markdown del panel Proyecto ya no se abren en un modal sino como **una pestaña más** (chip **MD**) — el documento ocupa el área del canvas y convive con los flows; los enlaces `[[flow]]` y su ▶ funcionan igual; solo lectura (Ctrl+S avisa y nunca pisa el fichero); las filas del panel saben si el documento está abierto (ir a la pestaña / cerrar) |
 | 4.39.0 | **▶ Ejecutar un flow desde un documento**: cada enlace `[[flow]]` del visor Markdown lleva adosado un botón verde **▶** que abre ese flow del proyecto y lanza su **Run Flow** completo (scripts de notas + nodos HTTP y SQL), cerrando el visor para ver la ejecución en el canvas — un `.md` con enlaces se convierte en un lanzador de baterías de prueba |
@@ -103,7 +102,7 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 | 4.4 – 4.22 | Nodo Web + modo **Live** (login real, capturas con sus llamadas HTTP), `flow-explore`, Chromium en la imagen, CAs corporativas en `/certs`, teclado directo en Live, checks LNA desactivados, nº de orden y alineado — historial completo en el manual |
 
 ```bash
-docker pull juankanh/flow-app:5.8.1
+docker pull juankanh/flow-app:5.9.0
 ```
 
 ## Documentación
