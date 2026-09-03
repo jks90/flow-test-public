@@ -357,3 +357,36 @@ navegador abierto** — la diferencia clave con el cron por nodo. Guarda los úl
 `notifyUrl`, hace POST con el resultado **al fallar o cambiar de estado** (o en cada run):
 apunta a un webhook de Slack/Telegram/n8n… o al `/hook/` de otro flow para reaccionar en cadena.
 Se publica al guardar el flow (Ctrl+S).
+
+## Colaboración en vivo 🆕 (5.5 · exclusiva Business)
+
+Dos (o más) personas con **el mismo fichero de `flows/` abierto** se ven editar en tiempo real:
+
+- **Presencia**: chip flotante **👥 N** (arriba a la derecha) con quién está conectado y en qué flow
+  (verde pulsante si alguien comparte el tuyo); tu nombre es editable desde el propio chip y las filas
+  del panel Proyecto muestran un punto de color por cada compañero que tenga ese fichero abierto.
+- **Edición sincronizada por nodos**: mueves una caja, cambias un curl, dibujas en la pizarra… y el
+  resto lo ve al instante, con una etiqueta «✏️ nombre» sobre el nodo tocado. Cada uno conserva SUS
+  respuestas y ejecuciones (se comparte el documento, no el run).
+- **Aviso de pisada**: si dos tocáis lo mismo a la vez, gana el último **y el que pierde se entera
+  siempre** — toast «⚠️ X sobrescribió tu cambio en “nodo”» + línea en la Consola, con la salida a mano:
+  **Ctrl+Z recupera tu versión** (y se la reenvía al resto).
+- **Guardado coordinado**: cuando un compañero guarda (Ctrl+S), tu pestaña adopta el fichero y queda
+  limpia — sin conflictos de «cambió en disco».
+
+Disponible con **plan Business** (cloud) o licencia team/enterprise (self-hosted); sin él, la función
+ni aparece. El fichero sigue mandando: la colaboración sincroniza canvases vivos, quien guarda escribe.
+
+## Deshacer y rehacer del canvas 🆕 (5.5 · todos los planes)
+
+**Ctrl+Z / Ctrl+Y** (o Ctrl+Shift+Z) deshacen y rehacen los cambios **estructurales** del flow activo:
+mover/crear/borrar nodos, conexiones, pizarra, variables… (50 pasos por pestaña). Las respuestas y
+resultados se conservan al deshacer. Dentro de un campo de texto sigue mandando el undo nativo, y si
+tu último clic fue en la pizarra, el atajo deshace la pizarra (como siempre).
+
+## Panel Proyecto compacto 🆕 (5.5)
+
+Las filas de fichero son ahora **una sola línea estilo árbol** (icono + nombre + los mismos botones,
+en fantasma): cabe más del doble de proyecto en pantalla. Los detalles (nº de nodos, dibujos, fecha)
+viven en el tooltip; el JSON inválido se marca con un chip rojo `!JSON`. Y desde la 5.5.0 los
+documentos `.md` del proyecto se abren **en cualquier plan** (el tour de la galería incluido).

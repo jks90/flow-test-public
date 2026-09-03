@@ -26,7 +26,7 @@ docker run -d \
   -p 9998:3001 \
   -p 1025:1025 \
   --name flow \
-  juankanh/flow-app:5.4.0
+  juankanh/flow-app:5.5.0
 ```
 
 - **Web**: http://localhost:9998 — el canvas visual.
@@ -61,7 +61,8 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 
 | Versión | Qué trae |
 |---------|----------|
-| **5.4.0** (recomendada) | **Monitores programados**: el servidor ejecuta el flow cada N min sin navegador, historial de 100 runs y aviso por POST al fallar (modal «Automatización…») |
+| **5.5.0** (recomendada) | 👥 **Colaboración en vivo (Business)**: presencia + edición del mismo flow sincronizada por nodos entre navegadores, con aviso de pisada; **Ctrl+Z/Ctrl+Y del canvas** (todos los planes); **galería montable** con tour ▶; panel Proyecto compacto estilo árbol; leer `.md` libre en trial; imagen **sin componentes GPL** |
+| **5.4.0** | **Monitores programados**: el servidor ejecuta el flow cada N min sin navegador, historial de 100 runs y aviso por POST al fallar (modal «Automatización…») |
 | **5.3.0** | **CI + specs**: asserts por nodo (CLI exit ≠ 0), entornos con nombre (`--env`), **webhook entrante** (`POST /hook/<token>`), data-driven (`--data`) e **import OpenAPI/Swagger** |
 | **5.1.0** | **Prueba 14 días + licencia online** (validada y revocable); ver/editar nunca se bloquea |
 | **5.0.1** | **Fix de seguridad**: la imagen ya no incluye flows del proyecto — solo el flow de bienvenida limpio. Usa siempre ≥ 5.0.1 |
@@ -91,22 +92,14 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 | 4.26.0 | **`flows/` como proyecto**: el panel **Proyecto** lista los `.flow.json` del contenedor (`/app/flows`, móntalo con `-v ./flows:/app/flows`) por carpeta, marca cuál está abierto, cuál tiene cambios (●) y cuál cambió en disco; abres cualquiera en una pestaña y **Ctrl+S** (o el botón **Guardar**) escribe la pestaña en su fichero — se acabó exportar y sobrescribir a mano. Pestañas nuevas → «Guardar como…» (nombre + carpeta); si el fichero cambió en disco (CLI, MCP, git) avisa antes de pisarlo y permite recargarlo. Los ficheros conservan el dueño del host aunque el contenedor corra como root. `FLOW_FLOWS_DIR` apunta el proyecto a cualquier carpeta (el panel muestra la ruta real). **Enlaces entre flows** en las notas: `[[otro-flow]]`, `[[otro-flow|texto]]`, `[[otro-flow#Nombre de nodo]]` abren ese flow y centran el nodo; las URLs http(s) son clicables |
 | 4.24.0 | **Pizarra estilo Excalidraw** sobre el lienzo (lápiz, línea, flecha, rectángulo, elipse, texto, borrador; trazo boceto o limpio, colores, relleno, deshacer/rehacer; los dibujos se guardan en el flow como `drawings` y se ven en el minimapa), **barra lateral de iconos** con un panel visible a la vez (Variables, Global, SQL, GitHub, Pizarra, Guía de nodos), **Guía de nodos** (índice por tipo/nombre con foco al clic) y **Ocultar conectores** en el menú Layout, botón **Maximizar** en la vista previa Mermaid (pantalla completa con zoom), tool MCP `node_add_info` (notas/diagramas/capturas desde la IA; 20 tools) |
 | 4.23.0 | Los **scripts JS de las notas se ejecutan al pulsar Run Flow** (web, MCP `flow_run` y CLI) y sus valores entran como variables antes de la primera petición (`--skip-info-scripts` en CLI); **📌 fijar** cajas (ningún relayout ni arrastre las mueve); franja **Variables usadas** en cada caja request/SQL con edición in situ; tool MCP `tab_close` |
-| 4.22.0 | **Nº de orden** por nodo (campo `#` en la cabecera, persistido en el flow) y **Alinear en fila / en columna** en el menú Layout |
-| 4.13 – 4.21 | **Toolbar compacta**: desplegables Add Node y Layout, modal Config (Historial, Consola, SQL Conns, GitHub, Variables, Global), Expand All; **cajas colapsadas compactas** (ancho por tipo, botones bajo el título); Collapse All acerca las cajas sin reordenar y Expand All restaura posiciones; anti-solapes al expandir; conmutador Vista previa / Texto en las notas; minimapa oculto por defecto |
-| 4.12.1 | `FLOW_VIEWPORT` configura la resolución de la sesión Live y el frontend usa sus dimensiones reales para escalar la vista y los clics. (La webcam falsa de QA de esta versión se retiró en la 5.5.0) |
-| 4.9.0 | **Apps internas sin fallos mudos**: los checks de Local Network Access de Chromium vienen desactivados en el navegador de captura (una web pública ya puede llamar a su API en red privada; `FLOW_CHROME_LNA_CHECKS=on` los restaura), aviso en pantalla si aparece un bloqueo LNA/PNA y pista de DNS corporativo en `ERR_NAME_NOT_RESOLVED` |
-| 4.8.0 | **Pestañas Consola y Network en el nodo Web**: con la sesión Live abierta ves los `console.*`/errores de la página y todo su tráfico (método/URL/status/duración, fallos `net::ERR_*` incluidos — nunca headers ni cuerpos), con contadores en vivo y botón Limpiar |
-| 4.7.0 | **Teclear directo sobre la vista Live** (imprimibles, Enter/Tab/flechas, Ctrl+V pega — OTPs y contraseñas sin la caja aparte), errores `ERR_CERT_*` explicados con su pista (CA en `/certs` o `FLOW_CHROME_ARGS=--ignore-certificate-errors`), sesiones de perfil concurrentes (pestañas del mismo Chromium), `FLOW_SESSION_IDLE_MS` y `POST /capture-session/logout` que borra el perfil (logout real del SSO) |
-| 4.6.0 | **Login una vez y esquemas honestos**: perfil de Chromium persistente para el modo Live (el OTP/SSO sobrevive al idle y a restarts), CAs corporativas cargadas desde `/certs` al arrancar, fallos de navegación visibles en el canvas (`navigation: {ok, errorCode, finalUrl}`), sonda de iframes que nombra al host bloqueante real (el SSO tras el redirect) y ofrece Live, barra de URL y pegar del portapapeles en Live |
-| 4.5.0 | **Toda la funcionalidad web dentro del contenedor**: la imagen trae Chromium — el nodo Captura, el modo Live y el crawl de `flow-explore` funcionan en Docker sin instalar nada. Webs tras SSO (p. ej. Cloudflare Access): credenciales por `FLOW_CAPTURE_COOKIES` / `FLOW_CAPTURE_HEADERS` o por petición |
-| 4.4.0 | **Documentar webs**: nodo Captura (screenshot de una web desde el canvas), modo **Live** del nodo Web (navegas la web embebida y cada captura crea la documentación con sus llamadas HTTP) y CLI `flow-explore`. En esta versión las funciones que usan Chrome corrían solo desde el código fuente. Auto Layout para todos los nodos y maximizar el nodo Web |
 | 4.3.0 | Nodos de nota en **modo Mermaid** («Add Mermaid»): diagramas renderizados en vivo en el canvas, con interpolación `{{variable}}` — esquematiza qué llama a qué junto al propio flow |
 | 4.2.0 | **MCP embebido** (`/mcp`, 18 tools: la IA construye/ejecuta flows en la web en directo) + puente AI↔web por SSE + typecheck del frontend saneado |
 | 4.1.x | El CLI ejecuta **sqlNodes** (Postgres/MySQL/Oracle) con paridad con la web: perfiles de conexión, `{{variables}}` en queries, extracciones por columna. ⚠️ Desde aquí `--dir flows` toca BBDD reales (`--skip-sql-nodes` para el comportamiento antiguo) |
 | 4.0.16 | Web + CLI HTTP: curl import, extracciones JSONPath, reports en `resumen/`, batch, cron, multi-pestaña |
+| 4.4 – 4.22 | Nodo Web + modo **Live** (login real, capturas con sus llamadas HTTP), `flow-explore`, Chromium en la imagen, CAs corporativas en `/certs`, teclado directo en Live, checks LNA desactivados, nº de orden y alineado — historial completo en el manual |
 
 ```bash
-docker pull juankanh/flow-app:5.4.0
+docker pull juankanh/flow-app:5.5.0
 ```
 
 ## Documentación
