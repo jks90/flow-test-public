@@ -6,30 +6,66 @@
       "id": "correo-otp-ultimo-correo",
       "name": "1 · Último correo del buzón",
       "curl": "curl \"{{flowBase}}/mail/messages/latest?to={{buzon}}\"",
-      "position": { "x": 80, "y": 620 },
+      "position": {
+        "x": 80,
+        "y": 664
+      },
       "status": "idle",
       "collapsed": false,
       "extractions": [
-        { "id": "correo-otp-ext-codigo", "varName": "otp", "jsonPath": "$.code" }
+        {
+          "id": "correo-otp-ext-codigo",
+          "varName": "otp",
+          "jsonPath": "$.code"
+        }
       ],
       "asserts": [
-        { "id": "correo-otp-assert-status", "kind": "status", "expected": "2xx" },
-        { "id": "correo-otp-assert-codigo", "kind": "jsonpath", "path": "$.code", "op": "exists" },
-        { "id": "correo-otp-assert-tiempo", "kind": "time", "maxMs": 3000 }
+        {
+          "id": "correo-otp-assert-status",
+          "kind": "status",
+          "expected": "2xx"
+        },
+        {
+          "id": "correo-otp-assert-codigo",
+          "kind": "jsonpath",
+          "path": "$.code",
+          "op": "exists"
+        },
+        {
+          "id": "correo-otp-assert-tiempo",
+          "kind": "time",
+          "maxMs": 3000
+        }
       ]
     },
     {
       "id": "correo-otp-usar-codigo",
       "name": "2 · Usar el código extraído",
       "curl": "curl \"https://httpbingo.org/get?otp={{otp}}\"",
-      "position": { "x": 660, "y": 620 },
+      "position": {
+        "x": 660,
+        "y": 664
+      },
       "status": "idle",
       "collapsed": false,
       "extractions": [],
       "asserts": [
-        { "id": "correo-otp-assert-status-2", "kind": "status", "expected": "2xx" },
-        { "id": "correo-otp-assert-eco", "kind": "jsonpath", "path": "$.args.otp", "op": "exists" },
-        { "id": "correo-otp-assert-tiempo-2", "kind": "time", "maxMs": 5000 }
+        {
+          "id": "correo-otp-assert-status-2",
+          "kind": "status",
+          "expected": "2xx"
+        },
+        {
+          "id": "correo-otp-assert-eco",
+          "kind": "jsonpath",
+          "path": "$.args.otp",
+          "op": "exists"
+        },
+        {
+          "id": "correo-otp-assert-tiempo-2",
+          "kind": "time",
+          "maxMs": 5000
+        }
       ]
     }
   ],
@@ -38,9 +74,25 @@
       "id": "correo-otp-nota",
       "name": "Verificar emails sin cuentas reales",
       "content": "Este flow comprueba que TU servicio envió un email y usa su código de verificación, sin cuentas de correo reales. Activa el SMTP embebido en Config ▸ Correo (puerto 1025), apunta ahí el envío de correo de tu servicio y crea el buzón {{buzon}}: el nodo 1 recupera el último correo recibido y EXTRAE solo el código (detección por palabra clave o regex propia, configurable en el panel); el nodo 2 simula «usar el código» contra un echo público. ¿Prefieres un buzón real desechable? El mismo panel integra mail.tm.\n\nCómo ejecutarlo: ▶ Run Flow en la web. Aviso: el nodo 1 llama al propio servidor de FlowTest ({{flowBase}}), así que necesita la app corriendo — por eso este flow no corre en el CLI sin más.",
-      "position": { "x": 80, "y": 110 },
+      "position": {
+        "x": 80,
+        "y": 110
+      },
       "collapsed": false,
       "scripts": []
+    },
+    {
+      "id": "cap-doc-docs-funciones",
+      "name": "📸 Config ▸ Correo, en el manual",
+      "content": "https://flowtest.es/docs/08-paneles-y-utilidades.html · capturada con el POST /capture del propio producto (Chromium del servidor), 2026-09-03.",
+      "position": {
+        "x": 540,
+        "y": 110
+      },
+      "collapsed": false,
+      "scripts": [],
+      "renderMode": "image",
+      "imageSrc": "/flow-assets/captures/docs-funciones.png"
     }
   ],
   "sqlNodes": [],
@@ -57,34 +109,138 @@
     {
       "id": "correo-otp-wb-titulo",
       "type": "text",
-      "x": 80, "y": 18, "w": 700, "h": 48,
+      "x": 80,
+      "y": 18,
+      "w": 700,
+      "h": 48,
       "text": "Correo OTP — verifica el email sin cuentas reales",
-      "font": "excali", "fontSize": 32,
-      "stroke": "#34d399", "strokeWidth": 2, "strokeStyle": "solid",
-      "opacity": 1, "sketchy": true, "seed": 3401
+      "font": "excali",
+      "fontSize": 32,
+      "stroke": "#34d399",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 3401
     },
     {
       "id": "correo-otp-wb-marco",
       "type": "rect",
-      "x": 30, "y": 575, "w": 1100, "h": 610,
-      "stroke": "#34d399", "strokeWidth": 2, "strokeStyle": "dashed",
-      "fill": "transparent", "opacity": 0.9, "sketchy": true, "seed": 3402
+      "x": 30,
+      "y": 619,
+      "w": 1100,
+      "h": 610,
+      "stroke": "#34d399",
+      "strokeWidth": 2,
+      "strokeStyle": "dashed",
+      "fill": "transparent",
+      "opacity": 0.9,
+      "sketchy": true,
+      "seed": 3402
     },
     {
       "id": "correo-otp-wb-nota-otp",
       "type": "text",
-      "x": 560, "y": 440, "w": 360, "h": 30,
+      "x": 560,
+      "y": 440,
+      "w": 360,
+      "h": 30,
       "text": "aquí se extrae {{otp}} del correo",
-      "font": "sketch", "fontSize": 20,
-      "stroke": "#34d399", "strokeWidth": 2, "strokeStyle": "solid",
-      "opacity": 1, "sketchy": true, "seed": 3403
+      "font": "sketch",
+      "fontSize": 20,
+      "stroke": "#34d399",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 3403
     },
     {
       "id": "correo-otp-wb-flecha",
       "type": "arrow",
-      "x": 620, "y": 480, "w": -130, "h": 110,
-      "stroke": "#34d399", "strokeWidth": 2, "strokeStyle": "solid",
-      "opacity": 1, "sketchy": true, "seed": 3404
+      "x": 620,
+      "y": 524,
+      "w": -130,
+      "h": 110,
+      "stroke": "#34d399",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 3404
+    },
+    {
+      "id": "chart-7111-96",
+      "type": "rect",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7207,
+      "stroke": "#fbbf24",
+      "strokeWidth": 3,
+      "strokeStyle": "solid",
+      "x": 1280,
+      "y": 240,
+      "w": 220,
+      "h": 140,
+      "fill": "#fbbf2422"
+    },
+    {
+      "id": "chart-7111-flap",
+      "type": "pen",
+      "points": [
+        {
+          "x": 1280.7,
+          "y": 242
+        },
+        {
+          "x": 1388.7,
+          "y": 323.5
+        },
+        {
+          "x": 1498.3,
+          "y": 241.7
+        }
+      ],
+      "stroke": "#fbbf24",
+      "strokeWidth": 3,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7111
+    },
+    {
+      "id": "chart-7112-97",
+      "type": "text",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7209,
+      "stroke": "#34d399",
+      "strokeWidth": 3,
+      "strokeStyle": "solid",
+      "x": 1540,
+      "y": 280,
+      "w": 200.88,
+      "h": 28,
+      "text": "→ {{otp}} = 482913",
+      "font": "marker",
+      "fontSize": 18
+    },
+    {
+      "id": "chart-7113-98",
+      "type": "text",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7211,
+      "stroke": "#fbbf24",
+      "strokeWidth": 3,
+      "strokeStyle": "solid",
+      "x": 1280,
+      "y": 170,
+      "w": 326.74,
+      "h": 27,
+      "text": "el código sale del correo, solo",
+      "font": "marker",
+      "fontSize": 17
     }
   ],
   "envVariables": {

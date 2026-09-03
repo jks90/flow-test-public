@@ -117,10 +117,35 @@
       "collapsed": false,
       "scripts": [],
       "renderMode": "mermaid"
+    },
+    {
+      "id": "cap-doc-cloud-login",
+      "name": "📸 app.flowtest.es — donde nace tu espacio",
+      "content": "https://app.flowtest.es · capturada con el POST /capture del propio producto (Chromium del servidor), 2026-09-03.",
+      "position": {
+        "x": 980,
+        "y": 110
+      },
+      "collapsed": false,
+      "scripts": [],
+      "renderMode": "image",
+      "imageSrc": "/flow-assets/captures/cloud-login.png"
     }
   ],
   "sqlNodes": [],
-  "webNodes": [],
+  "webNodes": [
+    {
+      "id": "web-doc-vivo",
+      "name": "Web — app.flowtest.es (regístrate aquí)",
+      "url": "https://app.flowtest.es",
+      "position": {
+        "x": 1820,
+        "y": 663
+      },
+      "collapsed": false,
+      "status": "idle"
+    }
+  ],
   "connections": [
     {
       "id": "con-registro-plan",
@@ -209,6 +234,147 @@
       "text": "aquí se extrae {{orgSlug}} para el paso 2",
       "fontSize": 20,
       "font": "hand"
+    },
+    {
+      "id": "chart-7119-102",
+      "type": "arrow",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7221,
+      "stroke": "#fb923c",
+      "strokeWidth": 2.5,
+      "strokeStyle": "solid",
+      "x": 80,
+      "y": 1693,
+      "w": 440,
+      "h": 0
+    },
+    {
+      "id": "chart-7120-103",
+      "type": "arrow",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7223,
+      "stroke": "#fb923c",
+      "strokeWidth": 2.5,
+      "strokeStyle": "solid",
+      "x": 80,
+      "y": 1693,
+      "w": 0,
+      "h": -290
+    },
+    {
+      "id": "chart-7121-104",
+      "type": "rect",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7225,
+      "stroke": "#fb923c",
+      "strokeWidth": 2.5,
+      "strokeStyle": "solid",
+      "x": 98.0,
+      "y": 1446.5,
+      "w": 86.8,
+      "h": 246.5,
+      "fill": "#fb923c33"
+    },
+    {
+      "id": "chart-7159-105",
+      "type": "text",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7264,
+      "stroke": "#fb923c",
+      "strokeWidth": 3,
+      "strokeStyle": "solid",
+      "x": 94.0,
+      "y": 1701,
+      "w": 60,
+      "h": 23,
+      "text": "alta",
+      "font": "sketch",
+      "fontSize": 13
+    },
+    {
+      "id": "chart-7122-106",
+      "type": "rect",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7228,
+      "stroke": "#fbbf24",
+      "strokeWidth": 2.5,
+      "strokeStyle": "solid",
+      "x": 238.0,
+      "y": 1520.45,
+      "w": 86.8,
+      "h": 172.55,
+      "fill": "#fbbf2433"
+    },
+    {
+      "id": "chart-7160-107",
+      "type": "text",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7267,
+      "stroke": "#fbbf24",
+      "strokeWidth": 3,
+      "strokeStyle": "solid",
+      "x": 234.0,
+      "y": 1701,
+      "w": 60,
+      "h": 23,
+      "text": "verify",
+      "font": "sketch",
+      "fontSize": 13
+    },
+    {
+      "id": "chart-7123-108",
+      "type": "rect",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7231,
+      "stroke": "#34d399",
+      "strokeWidth": 2.5,
+      "strokeStyle": "solid",
+      "x": 378.0,
+      "y": 1545.1,
+      "w": 86.8,
+      "h": 147.9,
+      "fill": "#34d39933"
+    },
+    {
+      "id": "chart-7161-109",
+      "type": "text",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7270,
+      "stroke": "#34d399",
+      "strokeWidth": 3,
+      "strokeStyle": "solid",
+      "x": 374.0,
+      "y": 1701,
+      "w": 72.54,
+      "h": 23,
+      "text": "org lista",
+      "font": "sketch",
+      "fontSize": 13
+    },
+    {
+      "id": "chart-7179-110",
+      "type": "text",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7289,
+      "stroke": "#fb923c",
+      "strokeWidth": 3,
+      "strokeStyle": "solid",
+      "x": 80,
+      "y": 1373,
+      "w": 231.88,
+      "h": 27,
+      "text": "el embudo del registro",
+      "font": "marker",
+      "fontSize": 17
     }
   ]
 }

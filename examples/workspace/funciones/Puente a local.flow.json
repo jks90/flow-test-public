@@ -8,7 +8,7 @@
       "curl": "curl \"{{miApiLocal}}/get?desde=flowtest\" \\\n\n-H \"User-Agent: flowtest\"",
       "position": {
         "x": 80,
-        "y": 624
+        "y": 644
       },
       "status": "idle",
       "collapsed": false,
@@ -56,6 +56,19 @@
       "collapsed": false,
       "scripts": [],
       "renderMode": "mermaid"
+    },
+    {
+      "id": "cap-doc-flowtest-app",
+      "name": "📸 FlowTest corriendo — capturado por sí mismo",
+      "content": "http://localhost:9998 · capturada con el POST /capture del propio producto (Chromium del servidor), 2026-09-03.",
+      "position": {
+        "x": 980,
+        "y": 110
+      },
+      "collapsed": false,
+      "scripts": [],
+      "renderMode": "image",
+      "imageSrc": "/flow-assets/captures/flowtest-app.png"
     }
   ],
   "sqlNodes": [],
@@ -86,7 +99,7 @@
       "id": "wb-marco-ejecutable",
       "type": "rect",
       "x": 30,
-      "y": 576,
+      "y": 596,
       "w": 520,
       "h": 616,
       "stroke": "#34d399",
@@ -101,7 +114,7 @@
       "id": "wb-anno-texto",
       "type": "text",
       "x": 590,
-      "y": 704,
+      "y": 724,
       "w": 340,
       "h": 52,
       "stroke": "#34d399",
@@ -118,7 +131,7 @@
       "id": "wb-anno-flecha",
       "type": "arrow",
       "x": 720,
-      "y": 794,
+      "y": 814,
       "w": -160,
       "h": 70,
       "stroke": "#34d399",
@@ -127,6 +140,153 @@
       "opacity": 0.9,
       "sketchy": true,
       "seed": 7304
+    },
+    {
+      "id": "chart-7114-arc",
+      "type": "pen",
+      "points": [
+        {
+          "x": 1498.7,
+          "y": 348.3
+        },
+        {
+          "x": 1521.4,
+          "y": 333.9
+        },
+        {
+          "x": 1542.2,
+          "y": 320.9
+        },
+        {
+          "x": 1564.4,
+          "y": 309.4
+        },
+        {
+          "x": 1589.4,
+          "y": 295.8
+        },
+        {
+          "x": 1607.8,
+          "y": 284.4
+        },
+        {
+          "x": 1633.5,
+          "y": 276.3
+        },
+        {
+          "x": 1652,
+          "y": 270.9
+        },
+        {
+          "x": 1677.4,
+          "y": 265.4
+        },
+        {
+          "x": 1697.3,
+          "y": 259.5
+        },
+        {
+          "x": 1720.9,
+          "y": 259.3
+        },
+        {
+          "x": 1741.7,
+          "y": 261.2
+        },
+        {
+          "x": 1763.4,
+          "y": 262
+        },
+        {
+          "x": 1785.1,
+          "y": 267.5
+        },
+        {
+          "x": 1806.5,
+          "y": 276.4
+        },
+        {
+          "x": 1828.8,
+          "y": 285.7
+        },
+        {
+          "x": 1853.1,
+          "y": 298.2
+        },
+        {
+          "x": 1875.9,
+          "y": 310.5
+        },
+        {
+          "x": 1897.1,
+          "y": 324.2
+        },
+        {
+          "x": 1917.5,
+          "y": 337.4
+        },
+        {
+          "x": 1938.9,
+          "y": 349.1
+        }
+      ],
+      "stroke": "#34d399",
+      "strokeWidth": 3.5,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7114
+    },
+    {
+      "id": "chart-7115-99",
+      "type": "text",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7214,
+      "stroke": "#60a5fa",
+      "strokeWidth": 3,
+      "strokeStyle": "solid",
+      "x": 1480,
+      "y": 370,
+      "w": 60,
+      "h": 25,
+      "text": "cloud",
+      "font": "sketch",
+      "fontSize": 15
+    },
+    {
+      "id": "chart-7116-100",
+      "type": "text",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7216,
+      "stroke": "#fb923c",
+      "strokeWidth": 3,
+      "strokeStyle": "solid",
+      "x": 1890,
+      "y": 370,
+      "w": 111.6,
+      "h": 25,
+      "text": "tu localhost",
+      "font": "sketch",
+      "fontSize": 15
+    },
+    {
+      "id": "chart-7117-101",
+      "type": "text",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7218,
+      "stroke": "#34d399",
+      "strokeWidth": 3,
+      "strokeStyle": "solid",
+      "x": 1590,
+      "y": 190,
+      "w": 221.34,
+      "h": 27,
+      "text": "el puente flow-bridge",
+      "font": "marker",
+      "fontSize": 17
     }
   ]
 }

@@ -6,30 +6,66 @@
       "id": "tipo-cambio-eur",
       "name": "1 · Tipo de cambio EUR (Frankfurter)",
       "curl": "curl \"https://api.frankfurter.dev/v1/latest?base={{base}}\"",
-      "position": { "x": 80, "y": 620 },
+      "position": {
+        "x": 80,
+        "y": 644
+      },
       "status": "idle",
       "collapsed": false,
       "extractions": [
-        { "id": "ext-eur-usd", "varName": "eurUsd", "jsonPath": "$.rates.USD" }
+        {
+          "id": "ext-eur-usd",
+          "varName": "eurUsd",
+          "jsonPath": "$.rates.USD"
+        }
       ],
       "asserts": [
-        { "id": "as-cambio-status", "kind": "status", "expected": "2xx" },
-        { "id": "as-cambio-usd", "kind": "jsonpath", "path": "$.rates.USD", "op": "exists" },
-        { "id": "as-cambio-tiempo", "kind": "time", "maxMs": 8000 }
+        {
+          "id": "as-cambio-status",
+          "kind": "status",
+          "expected": "2xx"
+        },
+        {
+          "id": "as-cambio-usd",
+          "kind": "jsonpath",
+          "path": "$.rates.USD",
+          "op": "exists"
+        },
+        {
+          "id": "as-cambio-tiempo",
+          "kind": "time",
+          "maxMs": 8000
+        }
       ]
     },
     {
       "id": "echo-eur-usd",
       "name": "2 · Echo con {{eurUsd}} (httpbingo)",
       "curl": "curl \"https://httpbingo.org/get?eur_usd={{eurUsd}}\" \\\n\n-H \"User-Agent: flowtest\"",
-      "position": { "x": 660, "y": 620 },
+      "position": {
+        "x": 660,
+        "y": 644
+      },
       "status": "idle",
       "collapsed": false,
       "extractions": [],
       "asserts": [
-        { "id": "as-echo-status", "kind": "status", "expected": "2xx" },
-        { "id": "as-echo-arg", "kind": "jsonpath", "path": "$.args.eur_usd", "op": "exists" },
-        { "id": "as-echo-tiempo", "kind": "time", "maxMs": 8000 }
+        {
+          "id": "as-echo-status",
+          "kind": "status",
+          "expected": "2xx"
+        },
+        {
+          "id": "as-echo-arg",
+          "kind": "jsonpath",
+          "path": "$.args.eur_usd",
+          "op": "exists"
+        },
+        {
+          "id": "as-echo-tiempo",
+          "kind": "time",
+          "maxMs": 8000
+        }
       ]
     }
   ],
@@ -38,55 +74,284 @@
       "id": "nota-variables",
       "name": "Qué enseña este flow",
       "content": "Las dos piezas básicas de FlowTest: variables {{...}} y extracciones JSONPath. El nodo 1 pide a Frankfurter el cambio del euro (usa {{base}}, definida en envVariables) y extrae $.rates.USD en la variable eurUsd. El nodo 2 usa {{eurUsd}} en su propia URL contra el echo de httpbingo, que la devuelve en $.args — así compruebas que la interpolación funcionó (el curl lleva una cabecera User-Agent porque httpbingo rechaza las peticiones que no la traen). Las variables fluyen de un nodo al siguiente por las flechas: todo lo que extraes aguas arriba está disponible aguas abajo.\n\nEjecutar: ▶ Run Flow en la web · flow-run en CLI.",
-      "position": { "x": 80, "y": 110 },
+      "position": {
+        "x": 80,
+        "y": 110
+      },
       "collapsed": false,
       "scripts": []
+    },
+    {
+      "id": "cap-doc-frankfurter",
+      "name": "📸 frankfurter.dev — la API que llamas",
+      "content": "https://frankfurter.dev · capturada con el POST /capture del propio producto (Chromium del servidor), 2026-09-03.",
+      "position": {
+        "x": 540,
+        "y": 110
+      },
+      "collapsed": false,
+      "scripts": [],
+      "renderMode": "image",
+      "imageSrc": "/flow-assets/captures/frankfurter.png"
     }
   ],
   "sqlNodes": [],
   "webNodes": [],
   "connections": [
-    { "id": "con-cambio-echo", "sourceId": "tipo-cambio-eur", "targetId": "echo-eur-usd", "behavior": "next" }
+    {
+      "id": "con-cambio-echo",
+      "sourceId": "tipo-cambio-eur",
+      "targetId": "echo-eur-usd",
+      "behavior": "next"
+    }
   ],
   "drawings": [
     {
       "id": "wb-titulo",
       "type": "text",
-      "x": 80, "y": 18, "w": 700, "h": 48,
+      "x": 80,
+      "y": 18,
+      "w": 700,
+      "h": 48,
       "text": "01 · Variables y cadenas",
-      "font": "excali", "fontSize": 32,
-      "stroke": "#a78bfa", "strokeWidth": 2, "strokeStyle": "solid",
-      "opacity": 1, "sketchy": true, "seed": 1101
+      "font": "excali",
+      "fontSize": 32,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 1101
     },
     {
       "id": "wb-titulo-subrayado",
       "type": "line",
-      "x": 82, "y": 74, "w": 360, "h": 4,
-      "stroke": "#a78bfa", "strokeWidth": 2, "strokeStyle": "solid",
-      "opacity": 0.7, "sketchy": true, "seed": 1102
+      "x": 82,
+      "y": 74,
+      "w": 360,
+      "h": 4,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 0.7,
+      "sketchy": true,
+      "seed": 1102
     },
     {
       "id": "wb-marco-ejecutables",
       "type": "rect",
-      "x": 30, "y": 570, "w": 1100, "h": 620,
-      "stroke": "#a78bfa", "strokeWidth": 2, "strokeStyle": "dashed",
-      "fill": "transparent", "opacity": 0.85, "sketchy": true, "seed": 1103
+      "x": 30,
+      "y": 594,
+      "w": 1100,
+      "h": 620,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2,
+      "strokeStyle": "dashed",
+      "fill": "transparent",
+      "opacity": 0.85,
+      "sketchy": true,
+      "seed": 1103
     },
     {
       "id": "wb-nota-extraccion",
       "type": "text",
-      "x": 140, "y": 1275, "w": 360, "h": 36,
+      "x": 140,
+      "y": 1299,
+      "w": 360,
+      "h": 36,
       "text": "aquí se extrae {{eurUsd}}",
-      "font": "hand", "fontSize": 18,
-      "stroke": "#a78bfa", "strokeWidth": 2, "strokeStyle": "solid",
-      "opacity": 1, "sketchy": true, "seed": 1104
+      "font": "hand",
+      "fontSize": 18,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 1104
     },
     {
       "id": "wb-flecha-extraccion",
       "type": "arrow",
-      "x": 300, "y": 1266, "w": -32, "h": -64,
-      "stroke": "#a78bfa", "strokeWidth": 2, "strokeStyle": "solid",
-      "opacity": 1, "sketchy": true, "seed": 1105
+      "x": 300,
+      "y": 1290,
+      "w": -32,
+      "h": -64,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 1105
+    },
+    {
+      "id": "chart-7101-1",
+      "type": "ellipse",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7102,
+      "stroke": "#34d399",
+      "strokeWidth": 3,
+      "strokeStyle": "solid",
+      "x": 1445,
+      "y": 310,
+      "w": 110,
+      "h": 60,
+      "fill": "#34d39922"
+    },
+    {
+      "id": "chart-7102-2",
+      "type": "text",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7104,
+      "stroke": "#34d399",
+      "strokeWidth": 3,
+      "strokeStyle": "solid",
+      "x": 1460,
+      "y": 329,
+      "w": 93,
+      "h": 25,
+      "text": "{{eurUsd}}",
+      "font": "marker",
+      "fontSize": 15
+    },
+    {
+      "id": "chart-7111-3",
+      "type": "line",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7114,
+      "stroke": "#60a5fa",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "x": 1500,
+      "y": 310,
+      "w": -5.3884459162483544e-15,
+      "h": -68
+    },
+    {
+      "id": "chart-7121-4",
+      "type": "ellipse",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7125,
+      "stroke": "#60a5fa",
+      "strokeWidth": 2.5,
+      "strokeStyle": "solid",
+      "x": 1448,
+      "y": 198,
+      "w": 104,
+      "h": 44,
+      "fill": "#60a5fa22"
+    },
+    {
+      "id": "chart-7141-5",
+      "type": "text",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7146,
+      "stroke": "#60a5fa",
+      "strokeWidth": 3,
+      "strokeStyle": "solid",
+      "x": 1458,
+      "y": 211,
+      "w": 145.08,
+      "h": 23,
+      "text": "extrae $.rates.USD",
+      "font": "sketch",
+      "fontSize": 13
+    },
+    {
+      "id": "chart-7112-6",
+      "type": "line",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7118,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "x": 1547.631397208144,
+      "y": 355,
+      "w": 88.33459118601277,
+      "h": 34.00000000000001
+    },
+    {
+      "id": "chart-7122-7",
+      "type": "ellipse",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7129,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2.5,
+      "strokeStyle": "solid",
+      "x": 1612.5448267190434,
+      "y": 378,
+      "w": 104,
+      "h": 44,
+      "fill": "#a78bfa22"
+    },
+    {
+      "id": "chart-7142-8",
+      "type": "text",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7150,
+      "stroke": "#a78bfa",
+      "strokeWidth": 3,
+      "strokeStyle": "solid",
+      "x": 1622.5448267190434,
+      "y": 391,
+      "w": 153.14,
+      "h": 23,
+      "text": "viaja por la flecha",
+      "font": "sketch",
+      "fontSize": 13
+    },
+    {
+      "id": "chart-7113-9",
+      "type": "line",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7122,
+      "stroke": "#fb923c",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "x": 1452.368602791856,
+      "y": 355,
+      "w": -88.3345911860128,
+      "h": 34.00000000000004
+    },
+    {
+      "id": "chart-7123-10",
+      "type": "ellipse",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7133,
+      "stroke": "#fb923c",
+      "strokeWidth": 2.5,
+      "strokeStyle": "solid",
+      "x": 1283.4551732809566,
+      "y": 378.00000000000006,
+      "w": 104,
+      "h": 44,
+      "fill": "#fb923c22"
+    },
+    {
+      "id": "chart-7143-11",
+      "type": "text",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7154,
+      "stroke": "#fb923c",
+      "strokeWidth": 3,
+      "strokeStyle": "solid",
+      "x": 1293.4551732809566,
+      "y": 391.00000000000006,
+      "w": 128.96,
+      "h": 23,
+      "text": "se usa en la URL",
+      "font": "sketch",
+      "fontSize": 13
     }
   ],
   "envVariables": {

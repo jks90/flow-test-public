@@ -98,6 +98,19 @@
       },
       "collapsed": false,
       "scripts": []
+    },
+    {
+      "id": "cap-doc-httpbingo",
+      "name": "📸 httpbingo.org/status — fabrica de errores",
+      "content": "https://httpbingo.org · capturada con el POST /capture del propio producto (Chromium del servidor), 2026-09-03.",
+      "position": {
+        "x": 540,
+        "y": 110
+      },
+      "collapsed": false,
+      "scripts": [],
+      "renderMode": "image",
+      "imageSrc": "/flow-assets/captures/httpbingo.png"
     }
   ],
   "sqlNodes": [],
@@ -183,6 +196,177 @@
       "opacity": 1,
       "sketchy": true,
       "seed": 2704
+    },
+    {
+      "id": "chart-7107-53",
+      "type": "arrow",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7160,
+      "stroke": "#f87171",
+      "strokeWidth": 2.5,
+      "strokeStyle": "solid",
+      "x": 1815,
+      "y": 490,
+      "w": 480,
+      "h": 0
+    },
+    {
+      "id": "chart-7108-54",
+      "type": "arrow",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7162,
+      "stroke": "#f87171",
+      "strokeWidth": 2.5,
+      "strokeStyle": "solid",
+      "x": 1815,
+      "y": 490,
+      "w": 0,
+      "h": -300
+    },
+    {
+      "id": "chart-7107-line",
+      "type": "pen",
+      "points": [
+        {
+          "x": 1826.6,
+          "y": 201.4
+        },
+        {
+          "x": 1917.9,
+          "y": 203.3
+        },
+        {
+          "x": 2011.4,
+          "y": 468.7
+        },
+        {
+          "x": 2099.2,
+          "y": 332.7
+        },
+        {
+          "x": 2189.8,
+          "y": 203.0
+        },
+        {
+          "x": 2280.5,
+          "y": 200.0
+        }
+      ],
+      "stroke": "#f87171",
+      "strokeWidth": 3,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7107
+    },
+    {
+      "id": "chart-7207-55",
+      "type": "ellipse",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7262,
+      "stroke": "#f87171",
+      "strokeWidth": 2.5,
+      "strokeStyle": "solid",
+      "x": 1824.0,
+      "y": 197.0,
+      "w": 10,
+      "h": 10,
+      "fill": "#f8717155"
+    },
+    {
+      "id": "chart-7208-56",
+      "type": "ellipse",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7264,
+      "stroke": "#f87171",
+      "strokeWidth": 2.5,
+      "strokeStyle": "solid",
+      "x": 1914.4,
+      "y": 197.0,
+      "w": 10,
+      "h": 10,
+      "fill": "#f8717155"
+    },
+    {
+      "id": "chart-7209-57",
+      "type": "ellipse",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7266,
+      "stroke": "#34d399",
+      "strokeWidth": 2.5,
+      "strokeStyle": "solid",
+      "x": 2004.8,
+      "y": 463.0,
+      "w": 10,
+      "h": 10,
+      "fill": "#34d39955"
+    },
+    {
+      "id": "chart-7210-58",
+      "type": "ellipse",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7268,
+      "stroke": "#f87171",
+      "strokeWidth": 2.5,
+      "strokeStyle": "solid",
+      "x": 2095.2,
+      "y": 330.0,
+      "w": 10,
+      "h": 10,
+      "fill": "#f8717155"
+    },
+    {
+      "id": "chart-7211-59",
+      "type": "ellipse",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7270,
+      "stroke": "#f87171",
+      "strokeWidth": 2.5,
+      "strokeStyle": "solid",
+      "x": 2185.6,
+      "y": 197.0,
+      "w": 10,
+      "h": 10,
+      "fill": "#f8717155"
+    },
+    {
+      "id": "chart-7212-60",
+      "type": "ellipse",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7272,
+      "stroke": "#f87171",
+      "strokeWidth": 2.5,
+      "strokeStyle": "solid",
+      "x": 2276.0,
+      "y": 197.0,
+      "w": 10,
+      "h": 10,
+      "fill": "#f8717155"
+    },
+    {
+      "id": "chart-7168-61",
+      "type": "text",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7229,
+      "stroke": "#f87171",
+      "strokeWidth": 3,
+      "strokeStyle": "solid",
+      "x": 1815,
+      "y": 160,
+      "w": 284.58,
+      "h": 27,
+      "text": "cae, reintenta, se recupera",
+      "font": "marker",
+      "fontSize": 17
     }
   ]
 }

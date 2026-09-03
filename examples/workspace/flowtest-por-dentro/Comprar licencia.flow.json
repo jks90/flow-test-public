@@ -6,45 +6,96 @@
       "id": "antes-de-comprar",
       "name": "1 · Antes de comprar",
       "curl": "curl -X POST \"{{accountsBase}}/api/license/validate\" \\\n\n-H \"Content-Type: application/json\" \\\n\n-d '{\n  \"token\": \"{{licencia}}\"\n}'",
-      "position": { "x": 80, "y": 620 },
+      "position": {
+        "x": 80,
+        "y": 664
+      },
       "status": "idle",
       "collapsed": false,
       "extractions": [
-        { "id": "ext-motivo", "varName": "motivo", "jsonPath": "$.reason" }
+        {
+          "id": "ext-motivo",
+          "varName": "motivo",
+          "jsonPath": "$.reason"
+        }
       ],
       "asserts": [
-        { "id": "as-antes-status", "kind": "status", "expected": "2xx" },
-        { "id": "as-antes-valid", "kind": "jsonpath", "path": "$.valid", "op": "equals", "value": "false" }
+        {
+          "id": "as-antes-status",
+          "kind": "status",
+          "expected": "2xx"
+        },
+        {
+          "id": "as-antes-valid",
+          "kind": "jsonpath",
+          "path": "$.valid",
+          "op": "equals",
+          "value": "false"
+        }
       ]
     },
     {
       "id": "ya-tengo-clave",
       "name": "2 · Ya tengo mi clave",
       "curl": "curl -X POST \"{{accountsBase}}/api/license/validate\" \\\n\n-H \"Content-Type: application/json\" \\\n\n-d '{\n  \"token\": \"{{licencia}}\"\n}'",
-      "position": { "x": 660, "y": 620 },
+      "position": {
+        "x": 660,
+        "y": 664
+      },
       "status": "idle",
       "collapsed": false,
       "disabled": true,
       "extractions": [
-        { "id": "ext-plan", "varName": "planComprado", "jsonPath": "$.plan" }
+        {
+          "id": "ext-plan",
+          "varName": "planComprado",
+          "jsonPath": "$.plan"
+        }
       ],
       "asserts": [
-        { "id": "as-clave-status", "kind": "status", "expected": "2xx" },
-        { "id": "as-clave-valid", "kind": "jsonpath", "path": "$.valid", "op": "equals", "value": "true" }
+        {
+          "id": "as-clave-status",
+          "kind": "status",
+          "expected": "2xx"
+        },
+        {
+          "id": "as-clave-valid",
+          "kind": "jsonpath",
+          "path": "$.valid",
+          "op": "equals",
+          "value": "true"
+        }
       ]
     },
     {
       "id": "salud-servidor-licencias",
       "name": "3 · Salud del servidor de licencias",
       "curl": "curl \"{{accountsBase}}/health\"",
-      "position": { "x": 1240, "y": 620 },
+      "position": {
+        "x": 1240,
+        "y": 664
+      },
       "status": "idle",
       "collapsed": false,
       "extractions": [],
       "asserts": [
-        { "id": "as-salud-status", "kind": "status", "expected": "2xx" },
-        { "id": "as-salud-ok", "kind": "jsonpath", "path": "$.ok", "op": "equals", "value": "true" },
-        { "id": "as-salud-tiempo", "kind": "time", "maxMs": 5000 }
+        {
+          "id": "as-salud-status",
+          "kind": "status",
+          "expected": "2xx"
+        },
+        {
+          "id": "as-salud-ok",
+          "kind": "jsonpath",
+          "path": "$.ok",
+          "op": "equals",
+          "value": "true"
+        },
+        {
+          "id": "as-salud-tiempo",
+          "kind": "time",
+          "maxMs": 5000
+        }
       ]
     }
   ],
@@ -53,7 +104,10 @@
       "id": "leeme-comprar",
       "name": "Léeme · Cómo comprar",
       "content": "Este flow ES nuestro proceso de venta, documentado con nuestra propia herramienta. El nodo 1 valida una licencia vacía contra el servidor real y sale en VERDE a propósito: su assert espera exactamente valid=false, demostrando que sin clave no se valida nada.\n\nComprar es 1 clic en https://flowtest.es/comprar-licencia (checkout de Lemon Squeezy, 29,99 €/año). La clave llega por email: pégala en Config ▸ Licencia de tu instalación… o en la variable «licencia» de este flow y activa el nodo 2 (menú del nodo ▸ Nodo activo) para verla validar contra nuestro servidor con firma RS256.\n\n▶ Ejecutar: botón «Run Flow» en la web · flow-run en CLI.",
-      "position": { "x": 80, "y": 110 },
+      "position": {
+        "x": 80,
+        "y": 110
+      },
       "collapsed": false,
       "scripts": []
     },
@@ -61,17 +115,55 @@
       "id": "mapa-comprar",
       "name": "Mapa del flujo",
       "content": "graph LR\n  A[1 · Antes de comprar] -->|sin clave, valid=false| B[2 · Ya tengo mi clave]\n  B -->|con tu licencia, valid=true| C[3 · Salud del servidor]",
-      "position": { "x": 520, "y": 110 },
+      "position": {
+        "x": 520,
+        "y": 110
+      },
       "collapsed": false,
       "scripts": [],
       "renderMode": "mermaid"
+    },
+    {
+      "id": "cap-doc-precios",
+      "name": "📸 flowtest.es#precios — lo que cuesta",
+      "content": "https://flowtest.es/#precios · capturada con el POST /capture del propio producto (Chromium del servidor), 2026-09-03.",
+      "position": {
+        "x": 980,
+        "y": 110
+      },
+      "collapsed": false,
+      "scripts": [],
+      "renderMode": "image",
+      "imageSrc": "/flow-assets/captures/precios.png"
     }
   ],
   "sqlNodes": [],
-  "webNodes": [],
+  "webNodes": [
+    {
+      "id": "web-doc-vivo",
+      "name": "Web — flowtest.es (los planes, en vivo)",
+      "url": "https://flowtest.es",
+      "position": {
+        "x": 1820,
+        "y": 664
+      },
+      "collapsed": false,
+      "status": "idle"
+    }
+  ],
   "connections": [
-    { "id": "con-antes-clave", "sourceId": "antes-de-comprar", "targetId": "ya-tengo-clave", "behavior": "next" },
-    { "id": "con-clave-salud", "sourceId": "ya-tengo-clave", "targetId": "salud-servidor-licencias", "behavior": "next" }
+    {
+      "id": "con-antes-clave",
+      "sourceId": "antes-de-comprar",
+      "targetId": "ya-tengo-clave",
+      "behavior": "next"
+    },
+    {
+      "id": "con-clave-salud",
+      "sourceId": "ya-tengo-clave",
+      "targetId": "salud-servidor-licencias",
+      "behavior": "next"
+    }
   ],
   "envVariables": {
     "accountsBase": "https://app.flowtest.es",
@@ -81,43 +173,223 @@
     {
       "id": "wb-titulo-comprar",
       "type": "text",
-      "x": 80, "y": 18, "w": 700, "h": 48,
-      "stroke": "#f59e0b", "strokeWidth": 2, "strokeStyle": "solid",
-      "opacity": 1, "sketchy": true, "seed": 4211,
+      "x": 80,
+      "y": 18,
+      "w": 700,
+      "h": 48,
+      "stroke": "#f59e0b",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 4211,
       "text": "Comprar licencia — de la prueba a Pro",
-      "font": "excali", "fontSize": 32
+      "font": "excali",
+      "fontSize": 32
     },
     {
       "id": "wb-marco-pasos",
       "type": "rect",
-      "x": 30, "y": 570, "w": 1700, "h": 620,
-      "stroke": "#f59e0b", "strokeWidth": 2, "strokeStyle": "dashed",
-      "fill": "transparent", "opacity": 0.85, "sketchy": true, "seed": 4212
+      "x": 30,
+      "y": 614,
+      "w": 1700,
+      "h": 620,
+      "stroke": "#f59e0b",
+      "strokeWidth": 2,
+      "strokeStyle": "dashed",
+      "fill": "transparent",
+      "opacity": 0.85,
+      "sketchy": true,
+      "seed": 4212
     },
     {
       "id": "wb-nota-clave",
       "type": "text",
-      "x": 960, "y": 440, "w": 310, "h": 52,
-      "stroke": "#f59e0b", "strokeWidth": 2, "strokeStyle": "solid",
-      "opacity": 1, "sketchy": true, "seed": 4213,
+      "x": 960,
+      "y": 440,
+      "w": 310,
+      "h": 52,
+      "stroke": "#f59e0b",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 4213,
       "text": "pega tu clave en {{licencia}}:\naquí se extrae {{planComprado}}",
-      "font": "hand", "fontSize": 18
+      "font": "hand",
+      "fontSize": 18
     },
     {
       "id": "wb-flecha-clave",
       "type": "arrow",
-      "x": 1010, "y": 500, "w": -80, "h": 92,
-      "stroke": "#f59e0b", "strokeWidth": 2, "strokeStyle": "solid",
-      "opacity": 1, "sketchy": true, "seed": 4214
+      "x": 1010,
+      "y": 544,
+      "w": -80,
+      "h": 92,
+      "stroke": "#f59e0b",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 4214
     },
     {
       "id": "wb-pie-marco",
       "type": "text",
-      "x": 40, "y": 1210, "w": 560, "h": 28,
-      "stroke": "#f59e0b", "strokeWidth": 2, "strokeStyle": "solid",
-      "opacity": 0.9, "sketchy": true, "seed": 4215,
+      "x": 40,
+      "y": 1254,
+      "w": 560,
+      "h": 28,
+      "stroke": "#f59e0b",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "opacity": 0.9,
+      "sketchy": true,
+      "seed": 4215,
       "text": "3 pasos reales contra app.flowtest.es — sin datos de pago",
-      "font": "hand", "fontSize": 16
+      "font": "hand",
+      "fontSize": 16
+    },
+    {
+      "id": "chart-7121-122",
+      "type": "arrow",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7243,
+      "stroke": "#34d399",
+      "strokeWidth": 2.5,
+      "strokeStyle": "solid",
+      "x": 80,
+      "y": 1704,
+      "w": 470,
+      "h": 0
+    },
+    {
+      "id": "chart-7122-123",
+      "type": "arrow",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7245,
+      "stroke": "#34d399",
+      "strokeWidth": 2.5,
+      "strokeStyle": "solid",
+      "x": 80,
+      "y": 1704,
+      "w": 0,
+      "h": -300
+    },
+    {
+      "id": "chart-7123-124",
+      "type": "rect",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7247,
+      "stroke": "#34d399",
+      "strokeWidth": 2.5,
+      "strokeStyle": "solid",
+      "x": 98,
+      "y": 1661.5708569523174,
+      "w": 93,
+      "h": 42.42914304768256,
+      "fill": "#34d39933"
+    },
+    {
+      "id": "chart-7161-125",
+      "type": "text",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7286,
+      "stroke": "#34d399",
+      "strokeWidth": 3,
+      "strokeStyle": "solid",
+      "x": 94,
+      "y": 1712,
+      "w": 64.48,
+      "h": 23,
+      "text": "Pro 4,99",
+      "font": "sketch",
+      "fontSize": 13
+    },
+    {
+      "id": "chart-7124-126",
+      "type": "rect",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7250,
+      "stroke": "#60a5fa",
+      "strokeWidth": 2.5,
+      "strokeStyle": "solid",
+      "x": 248,
+      "y": 1602.0510170056687,
+      "w": 93,
+      "h": 101.94898299433144,
+      "fill": "#60a5fa33"
+    },
+    {
+      "id": "chart-7162-127",
+      "type": "text",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7289,
+      "stroke": "#60a5fa",
+      "strokeWidth": 3,
+      "strokeStyle": "solid",
+      "x": 244,
+      "y": 1712,
+      "w": 72.54,
+      "h": 23,
+      "text": "Biz 11,99",
+      "font": "sketch",
+      "fontSize": 13
+    },
+    {
+      "id": "chart-7125-128",
+      "type": "rect",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7253,
+      "stroke": "#fbbf24",
+      "strokeWidth": 2.5,
+      "strokeStyle": "solid",
+      "x": 398,
+      "y": 1449,
+      "w": 93,
+      "h": 255,
+      "fill": "#fbbf2433"
+    },
+    {
+      "id": "chart-7163-129",
+      "type": "text",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7292,
+      "stroke": "#fbbf24",
+      "strokeWidth": 3,
+      "strokeStyle": "solid",
+      "x": 394,
+      "y": 1712,
+      "w": 72.54,
+      "h": 23,
+      "text": "Lic 29,99",
+      "font": "sketch",
+      "fontSize": 13
+    },
+    {
+      "id": "chart-7181-130",
+      "type": "text",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7311,
+      "stroke": "#fb923c",
+      "strokeWidth": 3,
+      "strokeStyle": "solid",
+      "x": 80,
+      "y": 1374,
+      "w": 231.88,
+      "h": 27,
+      "text": "los tres caminos, en €",
+      "font": "marker",
+      "fontSize": 17
     }
   ]
 }

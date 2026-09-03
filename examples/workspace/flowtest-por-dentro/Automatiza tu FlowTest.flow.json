@@ -69,6 +69,19 @@
       },
       "collapsed": false,
       "scripts": []
+    },
+    {
+      "id": "cap-doc-flowtest-app",
+      "name": "📸 Tu FlowTest, vigilado por tu FlowTest",
+      "content": "http://localhost:9998 · capturada con el POST /capture del propio producto (Chromium del servidor), 2026-09-03.",
+      "position": {
+        "x": 540,
+        "y": 110
+      },
+      "collapsed": false,
+      "scripts": [],
+      "renderMode": "image",
+      "imageSrc": "/flow-assets/captures/flowtest-app.png"
     }
   ],
   "sqlNodes": [],
@@ -133,6 +146,249 @@
       "opacity": 0.9,
       "sketchy": true,
       "seed": 7403
+    },
+    {
+      "id": "chart-7123-w0",
+      "type": "pen",
+      "points": [
+        {
+          "x": 1440.0,
+          "y": 351.6
+        },
+        {
+          "x": 1439.7,
+          "y": 240.2
+        },
+        {
+          "x": 1477.6,
+          "y": 246.7
+        },
+        {
+          "x": 1507.9,
+          "y": 266.0
+        },
+        {
+          "x": 1531.3,
+          "y": 292.8
+        },
+        {
+          "x": 1547.8,
+          "y": 325.1
+        },
+        {
+          "x": 1549.6,
+          "y": 361.4
+        },
+        {
+          "x": 1537.2,
+          "y": 397.2
+        },
+        {
+          "x": 1517.5,
+          "y": 428.0
+        },
+        {
+          "x": 1484.0,
+          "y": 451.5
+        },
+        {
+          "x": 1450.6,
+          "y": 459.2
+        },
+        {
+          "x": 1414.1,
+          "y": 455.8
+        },
+        {
+          "x": 1381.4,
+          "y": 441.2
+        },
+        {
+          "x": 1352.9,
+          "y": 417.7
+        },
+        {
+          "x": 1335.8,
+          "y": 382.0
+        },
+        {
+          "x": 1330.1,
+          "y": 346.3
+        },
+        {
+          "x": 1338.1,
+          "y": 310.4
+        },
+        {
+          "x": 1357.9,
+          "y": 276.5
+        },
+        {
+          "x": 1383.5,
+          "y": 255.4
+        },
+        {
+          "x": 1421.1,
+          "y": 243.5
+        },
+        {
+          "x": 1441.7,
+          "y": 349.5
+        }
+      ],
+      "stroke": "#34d399",
+      "strokeWidth": 2.8,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7123
+    },
+    {
+      "id": "chart-7153-132",
+      "type": "text",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7285,
+      "stroke": "#34d399",
+      "strokeWidth": 3,
+      "strokeStyle": "solid",
+      "x": 1451.8576474781328,
+      "y": 465.4496836107819,
+      "w": 60,
+      "h": 24,
+      "text": "97% OK",
+      "font": "sketch",
+      "fontSize": 14
+    },
+    {
+      "id": "chart-7123-w1",
+      "type": "pen",
+      "points": [
+        {
+          "x": 1440.7,
+          "y": 352.0
+        },
+        {
+          "x": 1421.3,
+          "y": 240.0
+        },
+        {
+          "x": 1421.4,
+          "y": 243.9
+        },
+        {
+          "x": 1422.1,
+          "y": 243.0
+        },
+        {
+          "x": 1424.8,
+          "y": 240.8
+        },
+        {
+          "x": 1426.1,
+          "y": 241.3
+        },
+        {
+          "x": 1424.1,
+          "y": 241.0
+        },
+        {
+          "x": 1427.8,
+          "y": 242.5
+        },
+        {
+          "x": 1426.7,
+          "y": 242.6
+        },
+        {
+          "x": 1427.4,
+          "y": 242.6
+        },
+        {
+          "x": 1431.1,
+          "y": 240.6
+        },
+        {
+          "x": 1430.6,
+          "y": 240.8
+        },
+        {
+          "x": 1430.5,
+          "y": 238.3
+        },
+        {
+          "x": 1434.1,
+          "y": 242.2
+        },
+        {
+          "x": 1434.8,
+          "y": 238.8
+        },
+        {
+          "x": 1434.3,
+          "y": 241.4
+        },
+        {
+          "x": 1436.8,
+          "y": 238.8
+        },
+        {
+          "x": 1435.9,
+          "y": 240.4
+        },
+        {
+          "x": 1438.3,
+          "y": 238.0
+        },
+        {
+          "x": 1438.4,
+          "y": 240.0
+        },
+        {
+          "x": 1437.9,
+          "y": 349.4
+        }
+      ],
+      "stroke": "#f87171",
+      "strokeWidth": 2.8,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7124
+    },
+    {
+      "id": "chart-7154-133",
+      "type": "text",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7287,
+      "stroke": "#f87171",
+      "strokeWidth": 3,
+      "strokeStyle": "solid",
+      "x": 1394.1423525218672,
+      "y": 218.5503163892181,
+      "w": 60,
+      "h": 24,
+      "text": "fallos",
+      "font": "sketch",
+      "fontSize": 14
+    },
+    {
+      "id": "chart-7124-134",
+      "type": "text",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7258,
+      "stroke": "#34d399",
+      "strokeWidth": 3,
+      "strokeStyle": "solid",
+      "x": 1270,
+      "y": 170,
+      "w": 242.42,
+      "h": 27,
+      "text": "okRate de tus monitores",
+      "font": "marker",
+      "fontSize": 17
     }
   ]
 }

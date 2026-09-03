@@ -64,6 +64,19 @@
           "when": "after"
         }
       ]
+    },
+    {
+      "id": "cap-doc-httpbingo",
+      "name": "📸 httpbingo.org — el eco que responde",
+      "content": "https://httpbingo.org · capturada con el POST /capture del propio producto (Chromium del servidor), 2026-09-03.",
+      "position": {
+        "x": 540,
+        "y": 110
+      },
+      "collapsed": false,
+      "scripts": [],
+      "renderMode": "image",
+      "imageSrc": "/flow-assets/captures/httpbingo.png"
     }
   ],
   "sqlNodes": [],
@@ -152,6 +165,177 @@
       "text": "aquí viaja {{emailUnico}} y del eco\nse extrae {{emailEco}}",
       "fontSize": 16,
       "font": "hand"
+    },
+    {
+      "id": "chart-7104-28",
+      "type": "arrow",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7132,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2.5,
+      "strokeStyle": "solid",
+      "x": 1190,
+      "y": 480,
+      "w": 460,
+      "h": 0
+    },
+    {
+      "id": "chart-7105-29",
+      "type": "arrow",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7134,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2.5,
+      "strokeStyle": "solid",
+      "x": 1190,
+      "y": 480,
+      "w": 0,
+      "h": -290
+    },
+    {
+      "id": "chart-7104-line",
+      "type": "pen",
+      "points": [
+        {
+          "x": 1203.5,
+          "y": 460.3
+        },
+        {
+          "x": 1288.6,
+          "y": 405.2
+        },
+        {
+          "x": 1376.8,
+          "y": 357.4
+        },
+        {
+          "x": 1465.1,
+          "y": 303.0
+        },
+        {
+          "x": 1547.4,
+          "y": 252.4
+        },
+        {
+          "x": 1636.3,
+          "y": 203.8
+        }
+      ],
+      "stroke": "#a78bfa",
+      "strokeWidth": 3,
+      "strokeStyle": "solid",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7104
+    },
+    {
+      "id": "chart-7204-30",
+      "type": "ellipse",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7234,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2.5,
+      "strokeStyle": "solid",
+      "x": 1199.0,
+      "y": 453.0,
+      "w": 10,
+      "h": 10,
+      "fill": "#a78bfa55"
+    },
+    {
+      "id": "chart-7205-31",
+      "type": "ellipse",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7236,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2.5,
+      "strokeStyle": "solid",
+      "x": 1285.4,
+      "y": 401.8,
+      "w": 10,
+      "h": 10,
+      "fill": "#a78bfa55"
+    },
+    {
+      "id": "chart-7206-32",
+      "type": "ellipse",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7238,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2.5,
+      "strokeStyle": "solid",
+      "x": 1371.8,
+      "y": 350.6,
+      "w": 10,
+      "h": 10,
+      "fill": "#a78bfa55"
+    },
+    {
+      "id": "chart-7207-33",
+      "type": "ellipse",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7240,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2.5,
+      "strokeStyle": "solid",
+      "x": 1458.2,
+      "y": 299.4,
+      "w": 10,
+      "h": 10,
+      "fill": "#a78bfa55"
+    },
+    {
+      "id": "chart-7208-34",
+      "type": "ellipse",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7242,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2.5,
+      "strokeStyle": "solid",
+      "x": 1544.6,
+      "y": 248.2,
+      "w": 10,
+      "h": 10,
+      "fill": "#a78bfa55"
+    },
+    {
+      "id": "chart-7209-35",
+      "type": "ellipse",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7244,
+      "stroke": "#a78bfa",
+      "strokeWidth": 2.5,
+      "strokeStyle": "solid",
+      "x": 1631.0,
+      "y": 197.0,
+      "w": 10,
+      "h": 10,
+      "fill": "#a78bfa55"
+    },
+    {
+      "id": "chart-7165-36",
+      "type": "text",
+      "opacity": 1,
+      "sketchy": true,
+      "seed": 7201,
+      "stroke": "#a78bfa",
+      "strokeWidth": 3,
+      "strokeStyle": "solid",
+      "x": 1190,
+      "y": 160,
+      "w": 274.04,
+      "h": 27,
+      "text": "un email único en cada run",
+      "font": "marker",
+      "fontSize": 17
     }
   ]
 }
