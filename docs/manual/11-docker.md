@@ -4,10 +4,15 @@
 
 ```bash
 docker run -d --add-host=host.docker.internal:host-gateway \
-  -p 9998:3001 -p 1025:1025 --name flow juankanh/flow-app:5.9.1
+  -p 9998:3001 -p 1025:1025 --name flow juankanh/flow-app:5.11.0
 # web + API + MCP en http://localhost:9998 · 1025 = SMTP de prueba (Config ▸ Correo, 4.36)
 ```
 
+
+## Desde el móvil
+
+La misma instalación sirve una **vista móvil** en `http://tu-servidor:9998/m` (5.11): ejecutar flows,
+ver el resultado y leerlos como documentación, sin descargar el editor. Ver [12 La vista móvil](12-movil.md).
 
 ## Construir
 
@@ -123,6 +128,8 @@ flow-test se prueba **14 días gratis con todas las funciones** desde el primer 
 | 4.22.0 | Nº de orden por nodo + Alinear en fila/columna |
 | 4.23.0 | Scripts JS de las notas ejecutados al Run Flow (web, MCP y CLI; `--skip-info-scripts`), 📌 fijar cajas, Variables usadas en cada caja, tool MCP `tab_close` |
 | 4.24.0 | **Pizarra** estilo Excalidraw sobre el lienzo (`drawings` en el flow), barra lateral de iconos con un panel a la vez, **Guía de nodos**, Ocultar conectores, Maximizar Mermaid, tool MCP `node_add_info` (20 tools) |
+| **5.11.0** | 📱 **Vista móvil** en `/m`: ejecutar flows, ver resultados y leerlos como documentación desde el teléfono ([12](12-movil.md)) |
+| **5.10.0** | 🗂️ **El panel Proyecto apunta al entorno que gobierna** (disco local o tu espacio del cloud) |
 | **5.9.1** | 🔧 **Modo vinculado más limpio**: chip «☁️ org ● plan» en la barra superior (sin franja de aviso) y refresco inmediato del panel Proyecto / chips PRO al conmutar licencia ↔ cuenta cloud |
 | **5.9.0** | ☁️ **Sincronizar flows local ↔ cloud** (Docker vinculado): traer/subir flows entre tu disco y tu espacio del cloud desde el botón ☁️ del panel Proyecto |
 | **5.8.1** | 🔁 **Interruptor licencia ↔ cuenta cloud** (elige cuál gobierna cuando tienes las dos, sin mezclar) |
