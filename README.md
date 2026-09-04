@@ -26,7 +26,7 @@ docker run -d \
   -p 9998:3001 \
   -p 1025:1025 \
   --name flow \
-  juankanh/flow-app:5.9.0
+  juankanh/flow-app:5.9.1
 ```
 
 - **Web**: http://localhost:9998 — el canvas visual.
@@ -61,7 +61,8 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 
 | Versión | Qué trae |
 |---------|----------|
-| **5.9.0** (recomendada) | ☁️ **Sincroniza tus flows local ↔ cloud**: si tu Docker está vinculado a tu cuenta, trae o sube flows entre tu disco y tu espacio del cloud desde el botón ☁️ del panel Proyecto (respeta carpetas privadas; el token se queda en el servidor) |
+| **5.9.1** (recomendada) | 🔧 **Modo vinculado más limpio**: chip discreto «☁️ org ● plan» en la barra superior en vez de la franja de aviso, y el panel Proyecto / los chips PRO se actualizan al instante al conmutar licencia ↔ cuenta cloud |
+| **5.9.0** | ☁️ **Sincroniza tus flows local ↔ cloud**: si tu Docker está vinculado a tu cuenta, trae o sube flows entre tu disco y tu espacio del cloud desde el botón ☁️ del panel Proyecto (respeta carpetas privadas; el token se queda en el servidor) |
 | **5.8.1** | 🔁 **Interruptor licencia ↔ cuenta cloud**: si tienes clave **y** cuenta vinculada, un selector elige cuál gobierna la instalación (sin mezclar); pausar la vinculación vuelve a la licencia con un clic |
 | **5.8.0** | 🤖 **Conecta tu IA al cloud** (token MCP por usuario) · 🐳 **vincula tu Docker a la cuenta** (hereda el plan de tu suscripción, sin claves) · credenciales con ámbito 🔒 privado / 👥 del equipo |
 | **5.7.0** | 🔒 **Credenciales cifradas** (`{{secret:X}}`, AES-256 server-side) · **carpetas privadas por miembro** en el cloud (`privado/<tú>/`) con **guardar Compartido/🔒 Privado** · **Business = 1.000 flows** (10× Pro, no ilimitado) · fixes de colaboración (roster sin usuarios fantasma) |
@@ -102,7 +103,7 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 | 4.4 – 4.22 | Nodo Web + modo **Live** (login real, capturas con sus llamadas HTTP), `flow-explore`, Chromium en la imagen, CAs corporativas en `/certs`, teclado directo en Live, checks LNA desactivados, nº de orden y alineado — historial completo en el manual |
 
 ```bash
-docker pull juankanh/flow-app:5.9.0
+docker pull juankanh/flow-app:5.9.1
 ```
 
 ## Documentación

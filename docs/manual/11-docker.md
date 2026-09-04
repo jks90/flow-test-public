@@ -4,7 +4,7 @@
 
 ```bash
 docker run -d --add-host=host.docker.internal:host-gateway \
-  -p 9998:3001 -p 1025:1025 --name flow juankanh/flow-app:5.9.0
+  -p 9998:3001 -p 1025:1025 --name flow juankanh/flow-app:5.9.1
 # web + API + MCP en http://localhost:9998 · 1025 = SMTP de prueba (Config ▸ Correo, 4.36)
 ```
 
@@ -123,6 +123,7 @@ flow-test se prueba **14 días gratis con todas las funciones** desde el primer 
 | 4.22.0 | Nº de orden por nodo + Alinear en fila/columna |
 | 4.23.0 | Scripts JS de las notas ejecutados al Run Flow (web, MCP y CLI; `--skip-info-scripts`), 📌 fijar cajas, Variables usadas en cada caja, tool MCP `tab_close` |
 | 4.24.0 | **Pizarra** estilo Excalidraw sobre el lienzo (`drawings` en el flow), barra lateral de iconos con un panel a la vez, **Guía de nodos**, Ocultar conectores, Maximizar Mermaid, tool MCP `node_add_info` (20 tools) |
+| **5.9.1** | 🔧 **Modo vinculado más limpio**: chip «☁️ org ● plan» en la barra superior (sin franja de aviso) y refresco inmediato del panel Proyecto / chips PRO al conmutar licencia ↔ cuenta cloud |
 | **5.9.0** | ☁️ **Sincronizar flows local ↔ cloud** (Docker vinculado): traer/subir flows entre tu disco y tu espacio del cloud desde el botón ☁️ del panel Proyecto |
 | **5.8.1** | 🔁 **Interruptor licencia ↔ cuenta cloud** (elige cuál gobierna cuando tienes las dos, sin mezclar) |
 | **5.8.0** | 🤖 Token MCP por usuario (conecta tu IA al cloud) · 🐳 vincular Docker a la cuenta (hereda el plan) · credenciales con ámbito 🔒 privado / 👥 equipo |
@@ -173,6 +174,15 @@ Tu instalación heredará el plan de la org (Pro o Business) sin claves RS256. E
 tu disco local** — esto solo hereda el plan, no mueve datos. Tope de instalaciones vinculadas:
 **Pro 2 · Business = asientos × 2**. Se desvincula desde el mismo panel; el admin lista las
 instalaciones vinculadas de cada cuenta.
+
+Mientras la vinculación gobierna, la barra superior muestra un **chip discreto** «☁️ *org* ● PLAN» a la
+izquierda de **Config** (5.9.1) en lugar de la franja de aviso: verde con tu plan, ámbar con los días que
+quedan si la org está en prueba, rojo si la prueba terminó y «verificando…» hasta la primera validación.
+Clic en el chip → Config ▸ Licencia. Al conmutar entre licencia y cuenta cloud (o al vincular, desvincular,
+activar o quitar la licencia), el panel Proyecto (botón ☁️) y los chips PRO se actualizan al instante,
+sin recargar la página.
+
+![Chip de cuenta cloud en la barra superior (5.9.1)](assets/flowtest-68-chip-cloud.png)
 
 ### Sincronizar flows local ↔ cloud 🆕 (5.9)
 
