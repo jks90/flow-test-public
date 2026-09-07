@@ -1,5 +1,7 @@
 # 🤖 10 · El MCP embebido
 
+> **5.13** — Las mismas herramientas mueven el **asistente de IA embebido** ([13](13-asistente-ia.md)): un chat dentro de la app con tu clave de Claude u OpenAI que las llama en proceso, sin necesidad de Claude Code ni de configurar el MCP.
+
 Flow-test lleva un **servidor MCP dentro** (endpoint `/mcp`): cualquier cliente MCP —Claude Code, Claude Desktop— puede **construir, editar y ejecutar flows en tu canvas mientras miras**. La IA pinta las cajitas en directo en la última pestaña del navegador que esté conectada (la «controladora»).
 
 ## Conectarlo a Claude Code
