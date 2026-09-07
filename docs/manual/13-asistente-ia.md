@@ -20,6 +20,12 @@ Se abre con el icono ✨ de la barra lateral izquierda. Es una función **Pro**;
 
 En el **cloud**, un miembro puede usar la **clave de la org** (la comparte todo el equipo) o marcar **«solo mía»**: su clave privada manda sobre la compartida y solo la ve él.
 
+## Conexión desde el navegador
+
+En ⚙ Ajustes ▸ **Conexión con el proveedor** puedes elegir **«Desde este navegador»**: la clave se guarda en el **localStorage de tu navegador**, no en el servidor, y las llamadas a Claude u OpenAI salen directamente de tu navegador (Anthropic lo permite con una cabecera específica; OpenAI también). El servidor nunca ve la clave y **no necesita salida a Internet**: solo prepara el contexto (system prompt, herramientas, foto del flow), ejecuta cada herramienta que pide la IA (validación, puente al canvas, redacción y auditoría siguen ahí), anota el uso y guarda la conversación.
+
+Úsalo cuando el servidor no tenga Internet (red corporativa), cuando no quieras dejar tu clave en un servidor compartido, o para pasar por un proxy propio (campo «URL base»). A cambio, solo funciona en ese navegador (en otro equipo, o si borras los datos del sitio, hay que pegar la clave otra vez), no vale para el resto del equipo ni desde el móvil, y la clave queda tan protegida como el propio navegador. Todo lo demás es igual: mismas herramientas, confirmaciones, parar, deshacer turno, coste y tope mensual, y la conversación aparece en el historial desde cualquier navegador.
+
 ## Cómo trabaja
 
 En cada mensaje la IA recibe una **foto compacta del flow** (nodos con nombre, método, URL, celda y estado; conexiones; nombres de variables) y la lista de **lo que has cambiado tú a mano desde su último paso**. Por eso puedes editar el canvas mientras trabaja: en el siguiente paso lo ve y no lo pisa.
