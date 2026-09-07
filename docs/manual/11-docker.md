@@ -195,6 +195,8 @@ sin recargar la página.
 
 ### Sincronizar flows local ↔ cloud 🆕 (5.9)
 
+> **5.13** — También desde **«Guardar como…»** (Ctrl+Shift+S): con el Docker vinculado, el modal ofrece **💻 Local / ☁️ Cloud · tu org**. Elige Cloud, nombre y carpeta (con 🔒 Privado si tu plan lo tiene) y el flow se guarda directamente en tu espacio del cloud; la pestaña queda enlazada a esa copia (el siguiente Ctrl+S va allí) y el fichero local no se toca. Si ya existe con ese nombre, avisa antes de sobrescribir.
+
 Con el Docker **vinculado**, el panel **Proyecto** muestra un botón **☁️**: ábrelo para **traer** flows de
 tu espacio del cloud a tu disco o **subir** los locales al cloud. Dos columnas (Local / En tu cloud) con
 ⬆️ Subir y ⬇️ Traer por flow; si el destino ya existe te pregunta antes de sobrescribir. Respeta tus
