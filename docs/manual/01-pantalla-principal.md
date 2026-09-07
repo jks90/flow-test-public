@@ -66,6 +66,21 @@
 - En pantalla dividida exporta el canvas izquierdo; los nodos Web en modo Live salen con su último fotograma.
 - Límite práctico: ~19000 px por lado (el máximo de una página PDF). Errores y progreso se anotan en la Consola.
 
+### Compartir enlace público 🆕 (5.12)
+
+**Logo → Compartir enlace…** publica una **foto del canvas** — nodos con su contenido actual, conexiones, pizarra y las respuestas que haya — en una **URL que abre cualquiera con el enlace, sin tener la app ni cuenta**. Se ve como el PDF, pero en el navegador: barra con el nombre, la fecha y el número de nodos, zoom (ajustar al ancho, 1:1, ±, Ctrl+rueda), solo lectura (se pueden seleccionar y copiar textos, nada se ejecuta). Es una foto: si cambias el flow, crea otro enlace.
+
+![](assets/flowtest-72-compartir-enlace.png)
+
+- **Dónde se publica.** En una instalación normal, en este mismo servidor: la URL lleva su dirección, y si es `localhost` o una IP privada el modal avisa de que **solo se abrirá desde tu red**. Con el Docker **vinculado a una cuenta cloud** ([11](11-docker.md#vincular-esta-instalación-a-tu-cuenta-cloud--58)) el modal arranca en **☁️ Cloud**: la página se guarda en el espacio de tu org y el enlace es `https://<org>.app.flowtest.es/share/<id>`, **público en internet** aunque tu app pida sesión. «💻 Este servidor» sigue disponible.
+- **Caducidad.** Nunca, 7 o 30 días. Al pasar la fecha el servidor retira el enlace solo (página «ha caducado»). Sin caducidad vive hasta que lo retires.
+- **Gestión.** El modal lista los enlaces de este flow (o todos) con fecha, peso, nodos, **visitas** y caducidad: copiar, abrir, **retirar** (404 al instante). En el cloud también se ven y retiran desde **Mi cuenta → Mis flows → 🔗 Mis enlaces compartidos**, y el administrador desde su panel.
+- **Seguridad.** Quien tenga la URL lo ve: el id es aleatorio (144 bits), la página lleva `noindex` y no expone la app ni el servidor. Revisa antes que no haya tokens ni datos sensibles en las respuestas (los `{{secret:X}}` nunca salen; los valores de las cabeceras sí pueden). Cada página cuenta en la cuota de disco del plan.
+- **Plan.** Crear un enlace es **Pro** (en prueba, chip PRO y modal de compra); en el cloud además la org necesita suscripción activa, y si la pierde el servidor deja de servir sus enlaces. Ver y retirar no están limitados.
+- Si al pegar la URL en un chat se le queda un punto, un paréntesis o una barra detrás, el servidor la limpia y abre igual.
+
+![](assets/flowtest-73-enlace-publico.png)
+
 ## La barra lateral de iconos 🆕
 
 ![](assets/flowtest-32-rail-paneles.png)

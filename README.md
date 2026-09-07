@@ -26,7 +26,7 @@ docker run -d \
   -p 9998:3001 \
   -p 1025:1025 \
   --name flow \
-  juankanh/flow-app:5.11.0
+  juankanh/flow-app:5.12.0
 ```
 
 - **Web**: http://localhost:9998 — el canvas visual.
@@ -61,7 +61,8 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 
 | Versión | Qué trae |
 |---------|----------|
-| **5.11.0** (recomendada) | 📱 **Versión móvil**: entra en `/m` desde el teléfono para **ejecutar flows y ver el resultado** paso a paso, y leerlos como documentación. App aparte y ligera, instalable en la pantalla de inicio |
+| **5.12.0** (recomendada) | 🔗 **Compartir enlace**: publica una foto del canvas en una URL pública que abre cualquiera sin la app ni cuenta — se ve como el PDF, en el navegador. Con el Docker vinculado se publica en tu espacio del cloud (`https://<org>.app.flowtest.es/share/…`); caducidad opcional, visitas, y gestión desde el modal, tu cuenta y el admin |
+| **5.11.0** | 📱 **Versión móvil**: entra en `/m` desde el teléfono para **ejecutar flows y ver el resultado** paso a paso, y leerlos como documentación. App aparte y ligera, instalable en la pantalla de inicio |
 | **5.10.0** | 🗂️ **El panel Proyecto apunta a tu cloud**: con el Docker vinculado, lista y guarda los flows de tu espacio del cloud; el selector 💻 Local / ☁️ Cloud arranca en el entorno que gobierna |
 | **5.9.1** | 🔧 **Modo vinculado más limpio**: chip discreto «☁️ org ● plan» en la barra superior en vez de la franja de aviso, y el panel Proyecto / los chips PRO se actualizan al instante al conmutar licencia ↔ cuenta cloud |
 | **5.9.0** | ☁️ **Sincroniza tus flows local ↔ cloud**: si tu Docker está vinculado a tu cuenta, trae o sube flows entre tu disco y tu espacio del cloud desde el botón ☁️ del panel Proyecto (respeta carpetas privadas; el token se queda en el servidor) |
@@ -102,7 +103,7 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 | 4.4 – 4.22 | Nodo Web + modo **Live** (login real, capturas con sus llamadas HTTP), `flow-explore`, Chromium en la imagen, CAs corporativas en `/certs`, teclado directo en Live, checks LNA desactivados, nº de orden y alineado — historial completo en el manual |
 
 ```bash
-docker pull juankanh/flow-app:5.11.0
+docker pull juankanh/flow-app:5.12.0
 ```
 
 ## Documentación
