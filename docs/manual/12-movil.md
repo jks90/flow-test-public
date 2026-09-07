@@ -75,3 +75,8 @@ Si te sales de la pantalla a mitad, la ejecución se corta en el servidor: no qu
 - Un flow que vive **en tu cloud** se puede leer, pero para ejecutarlo con el motor de esta
   instalación el botón te ofrece **traerlo** a su disco primero.
 - Los documentos `.md` y `.pdf` del proyecto, y el borrado de ficheros, siguen siendo del escritorio.
+
+
+## La pestaña ✨ IA 🆕 (5.13.1)
+
+El detalle de un flow tiene una tercera pestaña, **✨ IA**: el mismo asistente del escritorio ([13](13-asistente-ia.md)) desde el teléfono. Con cada mensaje la IA recibe un resumen del flow que estás leyendo (pasos en orden de ejecución, variables, asserts), así puedes pedirle que te lo explique, que te diga qué mejorarías o que revise el último fallo. Sin el escritorio abierto **no edita nada** (no hay canvas): explica y propone. Si tienes el escritorio abierto en el mismo servidor, las herramientas actúan sobre esa pestaña y lo ves llegar allí, con las mismas confirmaciones (Sí/No) y el botón de parar. La clave, el proveedor y el modelo son los del servidor: se configuran en el escritorio (panel ✨ ▸ ⚙). Función Pro.

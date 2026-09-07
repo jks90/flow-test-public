@@ -73,6 +73,10 @@ Crea `flows/IA.md` con las normas de tu equipo (entornos, nombres, qué no tocar
 - Las conversaciones, los adjuntos, el uso (`usage.jsonl`) y la auditoría (`audit.jsonl`: quién ejecutó qué tool) viven en `flows/.ai/` del servidor. En el cloud, **Mi cuenta ▸ 🤖 Asistente de IA** muestra tu consumo del mes y el del equipo, y el administrador ve por org el uso por persona y modelo y las últimas acciones; ni las claves ni los chats salen del contenedor.
 - Cada llamada anota tokens y coste (precios de Anthropic por modelo; OpenAI muestra tokens y «—» en coste). El tope mensual corta el chat, no el resto de la app.
 
+## En el móvil 🆕 (5.13.1)
+
+La vista móvil (`/m`) tiene la pestaña **✨ IA** en cada flow: mismo asistente, con un resumen del flow como contexto. Sin escritorio abierto solo lee y propone; con el escritorio abierto edita ese canvas. Ver [12](12-movil.md#la-pestaña--ia--5131).
+
 ## Límites y consejos
 
 - Máximo 40 pasos (llamadas) por mensaje; si se queda corto, dile «continúa».

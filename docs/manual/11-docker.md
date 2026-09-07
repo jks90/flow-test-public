@@ -4,7 +4,7 @@
 
 ```bash
 docker run -d --add-host=host.docker.internal:host-gateway \
-  -p 9998:3001 -p 1025:1025 --name flow juankanh/flow-app:5.13.0
+  -p 9998:3001 -p 1025:1025 --name flow juankanh/flow-app:5.13.1
 # web + API + MCP en http://localhost:9998 · 1025 = SMTP de prueba (Config ▸ Correo, 4.36)
 ```
 
@@ -128,6 +128,7 @@ flow-test se prueba **14 días gratis con todas las funciones** desde el primer 
 | 4.22.0 | Nº de orden por nodo + Alinear en fila/columna |
 | 4.23.0 | Scripts JS de las notas ejecutados al Run Flow (web, MCP y CLI; `--skip-info-scripts`), 📌 fijar cajas, Variables usadas en cada caja, tool MCP `tab_close` |
 | 4.24.0 | **Pizarra** estilo Excalidraw sobre el lienzo (`drawings` en el flow), barra lateral de iconos con un panel a la vez, **Guía de nodos**, Ocultar conectores, Maximizar Mermaid, tool MCP `node_add_info` (20 tools) |
+| **5.13.1** | 🤖 IA en el **móvil** (pestaña ✨ IA en `/m`), «Entrar con Anthropic», conexión desde el navegador, Ctrl+V de capturas, «Guardar como…» ▸ ☁️ Cloud ([12](12-movil.md), [13](13-asistente-ia.md)) |
 | **5.13.0** | 🤖 **Asistente de IA** embebido con tu clave de Claude u OpenAI: construye, explica, prueba y arregla flows en el canvas en directo, con confirmaciones, parar, deshacer turno, comandos, adjuntos y coste ([13](13-asistente-ia.md)) |
 | **5.12.0** | 🔗 **Compartir enlace**: foto pública del canvas en `GET /share/<id>` (se ve como el PDF, sin app ni cuenta); con el Docker vinculado se publica en el cloud; caducidad opcional, visitas, cuota y gestión desde el modal, la cuenta y el admin ([01](01-pantalla-principal.md#compartir-enlace-público--512)) |
 | **5.11.0** | 📱 **Vista móvil** en `/m`: ejecutar flows, ver resultados y leerlos como documentación desde el teléfono ([12](12-movil.md)) |
