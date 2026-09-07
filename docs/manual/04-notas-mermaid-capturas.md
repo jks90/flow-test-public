@@ -23,6 +23,34 @@ Cada script tiene un conmutador **antes / después** en su cabecera:
 - Todo script recibe ahora **`vars`**: un objeto con las variables del flow en ese momento (entorno + runtime) más las de los scripts anteriores de la misma tanda. También al pulsar ▶ en la nota o en el script, y en las cadenas.
 - El Historial registra cada tanda como `JS` («scripts JS (antes)» / «(después)»). En el CLI ocurre lo mismo (`--var` sigue ganando; `--skip-info-scripts` salta las dos fases) y el MCP acepta `when: "after"` en `scripts`.
 
+### Scripts que dibujan botones, páginas y acciones 🆕 (5.14)
+
+Un script de nota es JavaScript que corre **dentro de la página de FlowTest** cuando ejecutas el flow (`new Function('vars', código)`), con los mismos permisos que la app. Además de devolver variables, puede **dibujar interfaz**: colgar del `document.body` una barra de botones, abrir una «página» (un `<dialog>` con pestañas), abrir una pestaña nueva del navegador con un informe (`window.open` + `document.write`), descargar un fichero (`Blob` + `<a download>`), copiar al portapapeles y, al pulsar un botón, **hablar con tu propia instalación** llamando al MCP embebido desde la página:
+
+```js
+const r = await fetch('/mcp', { method: 'POST',
+  headers: { 'Content-Type': 'application/json', Accept: 'application/json, text/event-stream' },
+  body: JSON.stringify({ jsonrpc: '2.0', id: Date.now(), method: 'tools/call',
+    params: { name: 'flow_run', arguments: {} } }) });   // o variables_set, flow_open, node_update…
+```
+
+El endpoint acepta llamadas sueltas sin sesión; `Accept` debe incluir `text/event-stream`. Si la instalación lleva `FLOW_MCP_TOKEN`, añade `Authorization: Bearer …` y haz que el botón lo diga si falla, en vez de callar.
+
+Ejemplos listos en la galería: **Scripts 04 · Divisas** (barra de botones, diálogo con conversor y pestañas, informe en pestaña nueva, CSV, copiar y ▶ que reejecuta el flow) y **Scripts 05 · Tiempo** (botones que escriben Variables y relanzan el flow).
+
+**El contrato de un script que dibuja** (lo que lo convierte en herramienta y no en trampa):
+
+1. **Guardas**: `if (typeof document === 'undefined') return 'CLI: sin interfaz'` (el CLI y los monitores no tienen página) y sin datos no dibuja nada.
+2. **Una sola instancia**: id fijo y `document.getElementById(ID)?.remove()` antes de crearse; como corre «después» de cada Run Flow, se redibuja con los datos nuevos.
+3. **Shadow DOM** (`host.attachShadow({ mode: 'open' })`): sus estilos no pisan los de la app ni al revés.
+4. **Nada persistente ni automático**: sin `localStorage`, sin `Notification`, sin `setInterval`, sin relanzar el flow por su cuenta. Cada acción es un clic del usuario; para ejecutar solo está el Monitor.
+5. **Botón ✕** siempre activo que quita el panel, y `return` de un texto de estado para que la nota diga qué pasó.
+6. El panel es de la página, no de la pestaña: sigue ahí al cambiar de flow hasta que lo quitas o reejecutas.
+
+**Lo que no cambia**: el `.flow.json` sigue siendo un fichero de datos y la app no se modifica. La otra cara: un flow que te pasen puede ejecutar código en tu navegador. Ejecuta solo flows en los que confíes; si repartes flows a gente que no los va a leer, quita los scripts o mantén una copia sin ellos.
+
+**Cómo llegan los datos al script**: las extracciones convierten lo que sacan en texto (`String(valor)`): un array queda como `"v1,v2,…"` (un array de pares como `[[ts, precio], …]` se aplana a `"ts,precio,ts,precio…"`) y un objeto como `[object Object]`. Extrae números, textos o arrays de primitivos y parsea en el script (`String(vars.x).split(',').map(Number)`).
+
 🆕 4.25: en el texto, `[[otro-flow]]`, `[[otro-flow|texto]]` y `[[otro-flow#Nombre de nodo]]` se convierten en **enlaces a otros flows del proyecto** (abre el flow y centra el nodo), y las URLs `http(s)` son clicables — ver [08 · Enlaces entre flows](08-paneles.md#enlaces-entre-flows-en-las-notas--425).
 
 ## Diagrama Mermaid (Add Mermaid, violeta)

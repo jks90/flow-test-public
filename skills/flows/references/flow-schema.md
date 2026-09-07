@@ -119,6 +119,11 @@ No se ejecutan (el CLI los ignora); documentan el flow dentro del canvas.
   petición** y su valor queda en `{{varName}}` (precedencia `envVariables` < scripts <
   `--var`). Úsalos solo cuando necesites datos únicos por ejecución (p. ej.
   `return 'qa+' + Date.now() + '@example.com'`); si no, `[]`.
+- Los scripts corren en la página web (o en el CLI, sin `document`) y reciben `vars`; con
+  `when: "after"` corren al acabar el run con todas las extracciones. Un array extraído llega
+  como texto `"v1,v2,…"` y un objeto como `[object Object]`: extrae primitivos y parsea. Un
+  script «after» también puede dibujar botones y paneles sobre FlowTest y llamar a `/mcp`
+  desde la página (ver SKILL.md ▸ «Scripts que dibujan interfaz» y su contrato de higiene).
 - Por MCP se crean con `node_add_info` (`renderMode` text | mermaid | image).
 
 ## WebNode (`webNodes[]`) — vista de una web / modo Live

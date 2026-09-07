@@ -181,6 +181,15 @@ en `flows/` (copia sin enlazar).
 `whiteboard_update` para rodear/señalar grupos de cajas y `node_focus` para llevar al usuario a un nodo.
 En las notas, `[[otro-flow#Nodo]]` enlaza flows del proyecto.
 
+**Botones, páginas y acciones dibujados por el flow** (5.14): un `node_add_info` con un script
+`when: "after"` puede crear una barra de botones o un diálogo sobre FlowTest y, desde esos botones,
+llamar al propio MCP por HTTP — `POST /mcp`, JSON-RPC `tools/call`, cabecera
+`Accept: application/json, text/event-stream`, sin sesión — para reejecutar (`flow_run`), cambiar
+Variables (`variables_set`) o abrir otro flow (`flow_open`). Con `FLOW_MCP_TOKEN` el script debe
+mandar `Authorization: Bearer`. Ejemplos y contrato de higiene (una instancia, Shadow DOM, sin
+localStorage/Notification/bucles, botón ✕) en el manual (04 ▸ «Scripts que dibujan botones…») y en la
+galería `scripts/04 Divisas` y `scripts/05 Tiempo`.
+
 **Verificar un desarrollo con BBDD**: `node_add_sql` para sembrar/consultar datos +
 `node_run` sobre el nodo SQL para lanzar la cadena SQL→HTTP con las variables extraídas.
 

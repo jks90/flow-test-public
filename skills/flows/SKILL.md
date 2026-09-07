@@ -111,6 +111,19 @@ reportar el resultado real (nunca asumido).
    nodo para encadenar (`jsonPath` en HTTP; `column`+`rowIndex` en SQL). Datos únicos por
    ejecución (emails, ids): un `node_add_info` con `scripts` (`return 'qa+' + Date.now() + '@x.com'`);
    cálculos sobre las respuestas (deltas, semáforos): un script con `when: 'after'` (`return Number(vars.total) > 0 ? 'OK' : 'VACÍO'`).
+   **Scripts que dibujan interfaz (5.14):** un script de nota corre dentro de la página de FlowTest,
+   así que puede pintar botones, un diálogo con pestañas, abrir un informe en pestaña nueva
+   (`window.open`), descargar un CSV o **llamar al MCP desde la página** para reejecutar, cambiar
+   Variables o abrir otro flow: `fetch('/mcp', {method:'POST', headers:{'Content-Type':'application/json',
+   Accept:'application/json, text/event-stream'}, body: JSON.stringify({jsonrpc:'2.0', id:1,
+   method:'tools/call', params:{name:'flow_run', arguments:{}}})})` (sin sesión; con `FLOW_MCP_TOKEN`,
+   `Authorization: Bearer`). Úsalo SOLO si el usuario pide botones/paneles/acciones, siempre con
+   `when: 'after'` y con el contrato: guarda `typeof document === 'undefined'`, id fijo +
+   `getElementById(ID)?.remove()` (una sola instancia), Shadow DOM, sin localStorage/Notification/
+   setInterval ni relanzar el flow solo, botón ✕ y `return` de un texto de estado. Copia los modelos
+   de la galería `scripts/04 Divisas` y `scripts/05 Tiempo`. Datos: las extracciones aplanan arrays a
+   `"v1,v2,…"` (pares `[[ts,p],…]` → `"ts,p,ts,p…"`) y los objetos salen como `[object Object]`:
+   extrae primitivos y parsea en el script.
 5. Documenta dentro del canvas si aporta: `node_add_info` con `renderMode: "mermaid"` para el
    esquema del flujo, `whiteboard_update` para rodear/etiquetar grupos de cajas, y en el texto de
    las notas `[[otro-flow#Nodo]]` para enlazar flows relacionados del proyecto.

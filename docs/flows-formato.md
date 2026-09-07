@@ -129,6 +129,11 @@ valores entran como variables antes de la primera petición.
   (web, MCP y CLI; en el CLI la precedencia es `envVariables` < scripts < `--var`, y
   `--skip-info-scripts` los desactiva). Útil para ids/emails únicos por ejecución:
   `return 'qa+' + Date.now() + '@example.com'`. Deja `[]` si no los necesitas.
+- Los scripts corren en la página web (o en el CLI, sin `document`) y reciben `vars`; con
+  `when: "after"` corren al acabar el run con todas las extracciones. Un array extraído llega
+  como texto `"v1,v2,…"` y un objeto como `[object Object]`: extrae primitivos y parsea. Un
+  script «after» también puede dibujar botones y paneles sobre FlowTest y llamar a `/mcp`
+  desde la página (ver el manual, 04 ▸ «Scripts que dibujan botones, páginas y acciones» y su contrato de higiene).
 
 ## Pizarra (`drawings[]`) — desde la 4.24.0
 
