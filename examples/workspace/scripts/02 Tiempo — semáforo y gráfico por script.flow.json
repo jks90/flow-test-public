@@ -1,0 +1,191 @@
+{
+  "version": "1.0",
+  "name": "Scripts 02 · Tiempo: semáforo y gráfico por script",
+  "nodes": [
+    {
+      "id": "0103cc03-1d90-450d-a443-09ea220d15ed",
+      "name": "1 · Previsión 7 días (Open-Meteo)",
+      "curl": "curl \"https://api.open-meteo.com/v1/forecast?latitude={{latitud}}&longitude={{longitud}}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=Europe%2FMadrid&forecast_days=7\" -H \"Accept: application/json\"",
+      "position": {
+        "x": 60,
+        "y": 679
+      },
+      "status": "idle",
+      "extractions": [
+        {
+          "id": "3155ff06-27e4-410b-abd9-4313aca5e9ee",
+          "varName": "dias",
+          "jsonPath": "$.daily.time"
+        },
+        {
+          "id": "cc8814c0-1ae7-4a7b-bc67-59a1cacf43ba",
+          "varName": "tmax",
+          "jsonPath": "$.daily.temperature_2m_max"
+        },
+        {
+          "id": "72f4ecb1-3378-4a01-8c4a-ec3e19f3c719",
+          "varName": "tmin",
+          "jsonPath": "$.daily.temperature_2m_min"
+        },
+        {
+          "id": "be8fb341-f207-45f2-a9a2-5403fb4b3890",
+          "varName": "lluvia",
+          "jsonPath": "$.daily.precipitation_sum"
+        }
+      ],
+      "collapsed": false,
+      "asserts": [
+        {
+          "id": "6cba9c59-7339-4523-942d-6f866c08098f",
+          "kind": "status",
+          "expected": "200"
+        },
+        {
+          "id": "5eb77868-93d2-4a94-97c8-a677b8bce5e7",
+          "kind": "jsonpath",
+          "path": "$.daily.time",
+          "op": "exists"
+        },
+        {
+          "id": "4c21d129-5266-421b-b379-a6eaa99461e2",
+          "kind": "time",
+          "maxMs": 8000
+        }
+      ],
+      "order": 2,
+      "cell": {
+        "col": 1,
+        "row": 2
+      }
+    }
+  ],
+  "infoNodes": [
+    {
+      "id": "4ffdd693-5a33-4c14-b84b-096f5c7d9074",
+      "name": "Qué demuestra este flow",
+      "content": "QUÉ DEMUESTRA ESTE FLOW\n\nUna sola petición a Open-Meteo (sin clave) trae 7 días de previsión y los scripts de nota convierten esos arrays en un semáforo por día, un aviso y un gráfico Mermaid. Todo dentro del .flow.json; la app solo ejecuta.\n\nCómo funciona\n1. Run Flow → la petición extrae $.daily.time, $.daily.temperature_2m_max, $.daily.temperature_2m_min y $.daily.precipitation_sum (cada array queda como \"v1,v2,…\").\n2. semanaEstado (script «después») cruza las cuatro listas y aplica los umbrales que hay en Variables: umbralRojo, umbralAmbar, umbralLluvia.\n3. tablaSemana, avisoSemana y graficoTemp leen ese JSON y alimentan las notas de la derecha.\n\nCámbialo: otra ciudad en Variables (ciudad, latitud, longitud), otros umbrales, o encadena un nodo que mande {{avisoSemana}} a un webhook (Slack, n8n) con un Monitor cada mañana.",
+      "position": {
+        "x": 60,
+        "y": 60
+      },
+      "collapsed": false,
+      "scripts": [],
+      "order": 1,
+      "cell": {
+        "col": 1,
+        "row": 1
+      }
+    },
+    {
+      "id": "24e48354-5670-40ac-b040-7e84afe5162d",
+      "name": "Semana · semáforo por día",
+      "content": "{{tablaSemana}}",
+      "position": {
+        "x": 520,
+        "y": 60
+      },
+      "collapsed": false,
+      "scripts": [],
+      "order": 3,
+      "cell": {
+        "col": 2,
+        "row": 1
+      }
+    },
+    {
+      "id": "e173880a-866a-457d-a283-75057a1904fe",
+      "name": "Avisos de la semana",
+      "content": "{{avisoSemana}}\n\nUmbrales (Variables): rojo ≥ {{umbralRojo}} °C · ámbar ≥ {{umbralAmbar}} °C · lluvia ≥ {{umbralLluvia}} mm",
+      "position": {
+        "x": 940,
+        "y": 60
+      },
+      "collapsed": false,
+      "scripts": [],
+      "order": 4,
+      "cell": {
+        "col": 3,
+        "row": 1
+      }
+    },
+    {
+      "id": "991aa943-561e-45d9-9ae1-17369b961f09",
+      "name": "Gráfico · Mermaid generado por script",
+      "content": "{{graficoTemp}}",
+      "position": {
+        "x": 520,
+        "y": 679
+      },
+      "collapsed": false,
+      "scripts": [],
+      "renderMode": "mermaid",
+      "order": 5,
+      "cell": {
+        "col": 2,
+        "row": 2
+      }
+    },
+    {
+      "id": "b11889ea-be14-4deb-87ee-c42d5650625d",
+      "name": "Motor · scripts JS (después)",
+      "content": "MOTOR · scripts JS de esta nota (icono Scripts en la cabecera)\n\n· semanaEstado: cruza {{dias}}, {{tmax}}, {{tmin}} y {{lluvia}}, aplica los umbrales y devuelve un JSON con una fila por día (🟢🟡🔴 calor · ☀️🌦☔ lluvia).\n· tablaSemana: la tabla legible de la nota «Semana».\n· avisoSemana: el aviso de la nota «Avisos» (o ✅ si no hay nada).\n· graficoTemp: un xychart de Mermaid con máximas (barras) y mínimas (línea).\n\nLos scripts solo devuelven valores → {{variables}}. No tocan la app ni el navegador.",
+      "position": {
+        "x": 60,
+        "y": 1097
+      },
+      "collapsed": false,
+      "scripts": [
+        {
+          "id": "e427a717-e5d6-46da-ba6b-6c0d43188fe9",
+          "varName": "semanaEstado",
+          "code": "// Open-Meteo devuelve arrays paralelos; las extracciones los aplanan a \"v1,v2,…\". Umbrales configurables en Variables.\nconst lista = (t) => String(t || '').split(',').map(s => s.trim()).filter(Boolean);\nconst dias = lista(vars.dias), tmax = lista(vars.tmax).map(Number), tmin = lista(vars.tmin).map(Number), lluvia = lista(vars.lluvia).map(Number);\nif (!dias.length) return JSON.stringify({ error: 'sin datos: ejecuta el flow' });\nconst rojo = Number(vars.umbralRojo || 35), ambar = Number(vars.umbralAmbar || 30), agua = Number(vars.umbralLluvia || 5);\nconst nombre = (iso) => ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'][new Date(iso + 'T12:00:00').getDay()];\nconst filas = dias.map((d, i) => ({ dia: d.slice(5).split('-').reverse().join('/'), nombre: nombre(d), tmax: tmax[i], tmin: tmin[i], lluvia: lluvia[i], calor: tmax[i] >= rojo ? '🔴' : tmax[i] >= ambar ? '🟡' : '🟢', cielo: lluvia[i] >= agua ? '☔' : lluvia[i] > 0 ? '🌦' : '☀️' }));\nreturn JSON.stringify({ ciudad: vars.ciudad, filas, tmaxSemana: Math.max(...tmax), tminSemana: Math.min(...tmin), lluviaTotal: Math.round(lluvia.reduce((s, v) => s + v, 0) * 10) / 10, rojos: filas.filter(f => f.calor === '🔴').length, mojados: filas.filter(f => f.cielo === '☔').length, generado: new Date().toISOString() });",
+          "when": "after"
+        },
+        {
+          "id": "8867c536-b08d-42c3-9770-e25f6e02de89",
+          "varName": "tablaSemana",
+          "code": "const e = JSON.parse(vars.semanaEstado || '{}'); if (e.error) return e.error;\nconst n = (v) => Number(v).toLocaleString('es-ES', { minimumFractionDigits: 1, maximumFractionDigits: 1 });\nreturn `${e.ciudad} · 7 días\\n\\n` + e.filas.map(f => `${f.calor}${f.cielo} ${f.nombre} ${f.dia} · ${n(f.tmax)}° / ${n(f.tmin)}° · ${n(f.lluvia)} mm`).join('\\n') + `\\n\\nMáx ${n(e.tmaxSemana)}° · mín ${n(e.tminSemana)}° · lluvia total ${n(e.lluviaTotal)} mm`;",
+          "when": "after"
+        },
+        {
+          "id": "21beaa0f-6ef8-4799-96cc-e4194b708f3a",
+          "varName": "avisoSemana",
+          "code": "const e = JSON.parse(vars.semanaEstado || '{}'); if (e.error) return '⏳ ' + e.error;\nconst avisos = [];\nif (e.rojos) avisos.push(`🔴 ${e.rojos} día${e.rojos > 1 ? 's' : ''} con máxima ≥ ${vars.umbralRojo || 35} °C`);\nif (e.mojados) avisos.push(`☔ lluvia ≥ ${vars.umbralLluvia || 5} mm en ${e.mojados} día${e.mojados > 1 ? 's' : ''} (${e.lluviaTotal} mm en total)`);\nreturn avisos.length ? avisos.join('\\n') : '✅ Semana tranquila: sin calor extremo ni lluvia destacable';",
+          "when": "after"
+        },
+        {
+          "id": "7f62d594-1b3d-45cd-b5a8-4706ca244606",
+          "varName": "graficoTemp",
+          "code": "const e = JSON.parse(vars.semanaEstado || '{}');\nif (e.error) return 'xychart-beta\\n  title \"Sin datos: ejecuta el flow\"\\n  x-axis [\"-\"]\\n  y-axis \"°C\" 0 --> 1\\n  bar [0]';\nconst lo = Math.min(...e.filas.map(f => f.tmin)), hi = Math.max(...e.filas.map(f => f.tmax));\nreturn `xychart-beta\\n  title \"${e.ciudad} · máxima (barras) y mínima (línea) · °C\"\\n  x-axis [${e.filas.map(f => '\"' + f.nombre + ' ' + f.dia + '\"').join(', ')}]\\n  y-axis \"°C\" ${Math.floor(lo - 2)} --> ${Math.ceil(hi + 2)}\\n  bar [${e.filas.map(f => f.tmax).join(', ')}]\\n  line [${e.filas.map(f => f.tmin).join(', ')}]`;",
+          "when": "after"
+        }
+      ],
+      "order": 6,
+      "cell": {
+        "col": 1,
+        "row": 3
+      }
+    }
+  ],
+  "sqlNodes": [],
+  "webNodes": [],
+  "connections": [],
+  "envVariables": {
+    "ciudad": "Madrid",
+    "latitud": "40.42",
+    "longitud": "-3.70",
+    "umbralRojo": "35",
+    "umbralAmbar": "30",
+    "umbralLluvia": "5",
+    "tablaSemana": "Pulsa Run Flow: la tabla se calcula con los scripts de la nota «Motor».",
+    "avisoSemana": "⏳ Pulsa Run Flow para calcular los avisos.",
+    "graficoTemp": "xychart-beta\n  title \"Pulsa Run Flow para ver la semana\"\n  x-axis [\"-\"]\n  y-axis \"°C\" 0 --> 1\n  bar [0]"
+  },
+  "settings": {
+    "viewport": {
+      "zoom": 1,
+      "scrollLeft": 0,
+      "scrollTop": 0
+    }
+  }
+}

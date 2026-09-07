@@ -48,6 +48,16 @@ Para cuando quieras impresionar en pantalla grande:
 
 Y si quieres el ejemplo XXL, el bundle `economia-global-bundle` del repo (en `../economia-global-bundle`) es un workspace completo de economía global con decenas de nodos, SQL y documentación enlazada.
 
+## 🧮 Scripts: lo que se calcula dentro del flow
+
+Tres flows que enseñan hasta dónde llegan los **scripts JS de las notas** — sin tocar la app, todo dentro del `.flow.json`:
+
+- [[Scripts 01 · Cripto: señal calculada en el flow]] — dos peticiones a CoinGecko traen 90 días de precios y un script «después» calcula SMA20/50, RSI14, variaciones y una señal por activo; otro script genera un **gráfico Mermaid** que la nota de al lado pinta en vivo.
+- [[Scripts 02 · Tiempo: semáforo y gráfico por script]] — una petición a Open-Meteo y los scripts la convierten en un semáforo por día 🟢🟡🔴, un aviso y un gráfico de máximas y mínimas; los umbrales y la ciudad se cambian en Variables.
+- [[Scripts 03 · Pedido: datos de prueba y verificación por script]] — scripts «antes» que fabrican un pedido distinto en cada run, un POST con asserts, y scripts «después» que comparan enviado vs recibido, validan el email y calculan base + IVA (con un pie de Mermaid).
+
+Regla de oro: un script hace `return` de un valor y ese valor pasa a ser una `{{variable}}`. Nada más — no pinta botones, no guarda cosas en el navegador, no relanza el flow.
+
 ## ⌨️ Y todo esto sin abrir el navegador
 
 ```bash

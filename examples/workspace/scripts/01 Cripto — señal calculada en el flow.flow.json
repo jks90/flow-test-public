@@ -1,0 +1,218 @@
+{
+  "version": "1.0",
+  "name": "Scripts 01 · Cripto: señal calculada en el flow",
+  "nodes": [
+    {
+      "id": "cdf51dee-d407-4ace-8217-828eb402dd7b",
+      "name": "1 · BTC · 90 días (CoinGecko)",
+      "curl": "curl \"https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=90&interval=daily\" -H \"Accept: application/json\" -H \"User-Agent: FlowTest-galeria/1.0 (+https://flowtest.es)\"",
+      "position": {
+        "x": 60,
+        "y": 775
+      },
+      "status": "idle",
+      "extractions": [
+        {
+          "id": "a2d56db3-37b4-4c06-a897-eeb580a7993f",
+          "varName": "btcSerie",
+          "jsonPath": "$.prices"
+        }
+      ],
+      "collapsed": false,
+      "asserts": [
+        {
+          "id": "53a4571a-8313-45c0-895d-b8df38d8d192",
+          "kind": "status",
+          "expected": "200"
+        },
+        {
+          "id": "9e998dea-847e-4919-a7f1-2e7a8ee79806",
+          "kind": "jsonpath",
+          "path": "$.prices",
+          "op": "exists"
+        }
+      ],
+      "order": 2,
+      "cell": {
+        "col": 1,
+        "row": 2
+      }
+    },
+    {
+      "id": "983ee519-81fb-4ab1-a8c2-bc8f6a959635",
+      "name": "2 · ETH · 90 días (CoinGecko)",
+      "curl": "curl \"https://api.coingecko.com/api/v3/coins/ethereum/market_chart?vs_currency=usd&days=90&interval=daily\" -H \"Accept: application/json\" -H \"User-Agent: FlowTest-galeria/1.0 (+https://flowtest.es)\"",
+      "position": {
+        "x": 520,
+        "y": 775
+      },
+      "status": "idle",
+      "extractions": [
+        {
+          "id": "afcabe28-5f50-4141-80c6-6961a38b335e",
+          "varName": "ethSerie",
+          "jsonPath": "$.prices"
+        }
+      ],
+      "collapsed": false,
+      "asserts": [
+        {
+          "id": "12ec6bad-c762-438e-8984-fd4f66e7af66",
+          "kind": "status",
+          "expected": "200"
+        },
+        {
+          "id": "0b2d8c03-9439-46ea-b56e-2f96e2663f6a",
+          "kind": "jsonpath",
+          "path": "$.prices",
+          "op": "exists"
+        }
+      ],
+      "order": 3,
+      "cell": {
+        "col": 2,
+        "row": 2
+      }
+    }
+  ],
+  "infoNodes": [
+    {
+      "id": "eab8a6f8-e70d-49cc-8ebb-42b9708f238c",
+      "name": "Qué demuestra este flow",
+      "content": "QUÉ DEMUESTRA ESTE FLOW\n\nLas señales se calculan DENTRO del .flow.json: dos peticiones a CoinGecko (sin clave) traen 90 días de precios y un script de nota («después») calcula SMA20, SMA50, RSI14, variación a 7 y 30 días y una señal simple por activo. Otro script genera un gráfico Mermaid que la nota de al lado pinta en vivo. La app no cambia: solo ejecuta.\n\nCómo funciona\n1. Run Flow → cada petición extrae $.prices (la extracción aplana el array a \"ts,precio,ts,precio…\").\n2. El script criptoEstado parsea las series y devuelve un JSON con todo calculado.\n3. btcResumen, ethResumen y graficoBtc leen ese JSON y alimentan las notas con {{variables}}.\n\nReglas: tendencia ALCISTA si precio > SMA20 > SMA50 (BAJISTA al revés); COMPRA/VENTA solo si el RSI14 no está en zona extrema. Ejemplo didáctico, no un consejo de inversión.\n\nCámbialo: otra moneda en el curl (ethereum → solana), otras ventanas en el script, otro activo en el gráfico. Los nodos llevan asserts (status 200 y que exista $.prices): con el CLI el flow falla con exit ≠ 0 si la API no responde.",
+      "position": {
+        "x": 60,
+        "y": 60
+      },
+      "collapsed": false,
+      "scripts": [],
+      "order": 1,
+      "cell": {
+        "col": 1,
+        "row": 1
+      }
+    },
+    {
+      "id": "442832e6-f26b-4004-99d8-6a245c4294a5",
+      "name": "Bitcoin · señal",
+      "content": "{{btcResumen}}",
+      "position": {
+        "x": 520,
+        "y": 60
+      },
+      "collapsed": false,
+      "scripts": [],
+      "order": 4,
+      "cell": {
+        "col": 2,
+        "row": 1
+      }
+    },
+    {
+      "id": "9d129b7f-501d-4e27-9ae7-888c9b637542",
+      "name": "Ethereum · señal",
+      "content": "{{ethResumen}}",
+      "position": {
+        "x": 980,
+        "y": 60
+      },
+      "collapsed": false,
+      "scripts": [],
+      "order": 5,
+      "cell": {
+        "col": 3,
+        "row": 1
+      }
+    },
+    {
+      "id": "e8c684cc-89a2-4a21-a31f-f68a90a781d4",
+      "name": "Gráfico BTC · Mermaid generado por script",
+      "content": "{{graficoBtc}}",
+      "position": {
+        "x": 980,
+        "y": 775
+      },
+      "collapsed": false,
+      "scripts": [],
+      "renderMode": "mermaid",
+      "order": 6,
+      "cell": {
+        "col": 3,
+        "row": 2
+      }
+    },
+    {
+      "id": "3be27ed7-70bd-493a-ac0e-db1188fc9d26",
+      "name": "Motor · scripts JS (después de las peticiones)",
+      "content": "MOTOR DE SEÑALES · scripts JS de esta nota\n\nAbre Scripts JS (icono de la cabecera) para verlos. Todos son «después»: corren cuando las peticiones han terminado y reciben en `vars` cada extracción.\n\n· fechaEjecucion («antes»): marca de tiempo del run.\n· criptoEstado: parsea {{btcSerie}} y {{ethSerie}}, calcula SMA20/50, RSI14, variaciones y señal → JSON.\n· btcResumen / ethResumen: formatean ese JSON para las notas de arriba.\n· graficoBtc: devuelve un diagrama Mermaid (xychart) con los últimos 30 cierres y la SMA20.\n\nUn script solo puede hacer `return` de un valor que pasa a ser {{variable}}: no toca la interfaz, no guarda nada en el navegador, no lanza peticiones. Para reejecutar solo: Monitor (menú del logo ▸ Automatización…).\n\nÚltimo cálculo: {{fechaEjecucion}}",
+      "position": {
+        "x": 60,
+        "y": 1226
+      },
+      "collapsed": false,
+      "scripts": [
+        {
+          "id": "1688f0b0-202f-4ad3-825d-7dcb79b46f8c",
+          "varName": "fechaEjecucion",
+          "when": "before",
+          "code": "return new Date().toLocaleString('es-ES');"
+        },
+        {
+          "id": "a7762d4e-6974-4da5-8e80-33184e71fac2",
+          "varName": "criptoEstado",
+          "when": "after",
+          "code": "// Lee las series extraídas. CoinGecko devuelve [[timestamp, precio], …] y la extracción las aplana a \"ts,precio,ts,precio…\".\nconst f = (t) => new Date(t).toISOString().slice(0, 10);\nconst serie = (txt) => { const n = String(txt || '').split(',').map(Number).filter(Number.isFinite); const out = []; for (let i = 0; i + 1 < n.length; i += 2) out.push({ t: n[i], p: n[i + 1] }); return out.filter((r, i, a) => i === a.length - 1 || f(r.t) !== f(a[i + 1].t)); }; // un punto por día (el último es el precio actual)\nconst sma = (a, n) => a.length >= n ? a.slice(-n).reduce((s, v) => s + v, 0) / n : null;\nconst rsi = (a, n = 14) => { if (a.length <= n) return null; let g = 0, l = 0; for (let i = a.length - n; i < a.length; i++) { const d = a[i] - a[i - 1]; if (d >= 0) g += d; else l -= d; } return l === 0 ? 100 : 100 - 100 / (1 + (g / n) / (l / n)); };\nconst analiza = (nombre, txt) => {\n  const rows = serie(txt); if (rows.length < 52) return { nombre, error: 'serie insuficiente (' + rows.length + ' puntos)' };\n  const p = rows.map(r => r.p), ult = p.at(-1);\n  const s20 = sma(p, 20), s50 = sma(p, 50), r14 = rsi(p);\n  const var7 = 100 * (ult / p.at(-8) - 1), var30 = 100 * (ult / p.at(-31) - 1);\n  const tendencia = ult > s20 && s20 > s50 ? 'ALCISTA' : ult < s20 && s20 < s50 ? 'BAJISTA' : 'MIXTA';\n  const senal = tendencia === 'ALCISTA' && r14 < 70 ? 'COMPRA · tendencia alcista y RSI sin sobrecompra' : tendencia === 'BAJISTA' && r14 > 30 ? 'VENTA · tendencia bajista y RSI sin sobreventa' : 'ESPERAR · sin tendencia clara o RSI en zona extrema';\n  return { nombre, ult, s20, s50, r14, var7, var30, max90: Math.max(...p), min90: Math.min(...p), tendencia, senal, fecha: f(rows.at(-1).t), ultimos30: p.slice(-30).map(v => Math.round(v * 100) / 100), fechas30: rows.slice(-30).map(r => f(r.t).slice(5)) };\n};\nreturn JSON.stringify({ generado: new Date().toISOString(), BTC: analiza('Bitcoin', vars.btcSerie), ETH: analiza('Ethereum', vars.ethSerie) });"
+        },
+        {
+          "id": "27b9a68e-50bb-40f1-9f5e-0414836f6b34",
+          "varName": "btcResumen",
+          "when": "after",
+          "code": "const a = JSON.parse(vars.criptoEstado || '{}').BTC; if (!a || a.error) return 'Sin datos: ' + (a?.error || 'ejecuta el flow');\nconst n = (v, d = 0) => Number(v).toLocaleString('es-ES', { minimumFractionDigits: d, maximumFractionDigits: d });\nreturn `${a.nombre} · ${n(a.ult)} USD (${a.fecha})\\n${a.senal}\\nTendencia ${a.tendencia} · SMA20 ${n(a.s20)} · SMA50 ${n(a.s50)} · RSI14 ${n(a.r14, 1)}\\n7 días ${n(a.var7, 2)} % · 30 días ${n(a.var30, 2)} %\\nRango 90 días: ${n(a.min90)} – ${n(a.max90)} USD`;"
+        },
+        {
+          "id": "136a1097-14c6-44f9-b3a2-a0c7c11bdb46",
+          "varName": "ethResumen",
+          "when": "after",
+          "code": "const a = JSON.parse(vars.criptoEstado || '{}').ETH; if (!a || a.error) return 'Sin datos: ' + (a?.error || 'ejecuta el flow');\nconst n = (v, d = 0) => Number(v).toLocaleString('es-ES', { minimumFractionDigits: d, maximumFractionDigits: d });\nreturn `${a.nombre} · ${n(a.ult)} USD (${a.fecha})\\n${a.senal}\\nTendencia ${a.tendencia} · SMA20 ${n(a.s20)} · SMA50 ${n(a.s50)} · RSI14 ${n(a.r14, 1)}\\n7 días ${n(a.var7, 2)} % · 30 días ${n(a.var30, 2)} %\\nRango 90 días: ${n(a.min90)} – ${n(a.max90)} USD`;"
+        },
+        {
+          "id": "40694b36-6e21-408d-93b3-890d42c68b73",
+          "varName": "graficoBtc",
+          "when": "after",
+          "code": "// Devuelve un diagrama Mermaid (xychart) que la nota de al lado pinta en vivo.\nconst a = JSON.parse(vars.criptoEstado || '{}').BTC;\nif (!a || a.error) return 'xychart-beta\\n  title \"Sin datos: ejecuta el flow\"\\n  x-axis [\"-\"]\\n  y-axis \"USD\" 0 --> 1\\n  line [0]';\nconst lo = Math.min(...a.ultimos30), hi = Math.max(...a.ultimos30), m = (hi - lo) * 0.08 || 1;\nreturn `xychart-beta\\n  title \"Bitcoin · últimos 30 días (USD) · barras = cierre · línea = SMA20\"\\n  x-axis [${a.fechas30.map(f => '\"' + f + '\"').join(', ')}]\\n  y-axis \"USD\" ${Math.floor(lo - m)} --> ${Math.ceil(hi + m)}\\n  bar [${a.ultimos30.map(v => Math.round(v)).join(', ')}]\\n  line [${a.ultimos30.map(() => Math.round(a.s20)).join(', ')}]`;"
+        }
+      ],
+      "order": 7,
+      "cell": {
+        "col": 1,
+        "row": 3
+      }
+    }
+  ],
+  "sqlNodes": [],
+  "webNodes": [],
+  "connections": [
+    {
+      "id": "291a25c1-3f2f-437b-906e-59d7b31557be",
+      "sourceId": "cdf51dee-d407-4ace-8217-828eb402dd7b",
+      "targetId": "983ee519-81fb-4ab1-a8c2-bc8f6a959635",
+      "sourcePort": "right",
+      "targetPort": "left",
+      "behavior": "next",
+      "delayMs": 1500
+    }
+  ],
+  "envVariables": {
+    "btcResumen": "Pulsa Run Flow: la señal de Bitcoin se calcula con los scripts de la nota «Motor».",
+    "ethResumen": "Pulsa Run Flow: la señal de Ethereum se calcula con los scripts de la nota «Motor».",
+    "graficoBtc": "xychart-beta\n  title \"Pulsa Run Flow para ver los últimos 30 días\"\n  x-axis [\"-\"]\n  y-axis \"USD\" 0 --> 1\n  bar [0]",
+    "fechaEjecucion": "7/9/2026, 22:59:58"
+  },
+  "settings": {
+    "viewport": {
+      "zoom": 1,
+      "scrollLeft": 0,
+      "scrollTop": 0
+    }
+  }
+}

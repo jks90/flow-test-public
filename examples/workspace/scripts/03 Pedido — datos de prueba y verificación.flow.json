@@ -1,0 +1,253 @@
+{
+  "version": "1.0",
+  "name": "Scripts 03 · Pedido: datos de prueba y verificación por script",
+  "nodes": [
+    {
+      "id": "a7cea3da-2c0c-4630-803c-350fdc86c102",
+      "name": "1 · POST pedido (eco de postman-echo)",
+      "curl": "curl -X POST \"https://postman-echo.com/post\" -H \"Content-Type: application/json\" -H \"Accept: application/json\" -d '{\"pedidoId\":\"{{pedidoId}}\",\"importe\":{{importe}},\"email\":\"{{emailCliente}}\",\"usuario\":{{usuarioId}},\"fecha\":\"{{fechaPedido}}\"}'",
+      "position": {
+        "x": 60,
+        "y": 756
+      },
+      "status": "idle",
+      "extractions": [
+        {
+          "id": "6223a652-7c9b-4419-9e17-50ff343c366e",
+          "varName": "ecoPedidoId",
+          "jsonPath": "$.json.pedidoId"
+        },
+        {
+          "id": "b867bd97-63f4-45cd-a31f-b57c03e6430a",
+          "varName": "ecoImporte",
+          "jsonPath": "$.json.importe"
+        },
+        {
+          "id": "613ccae0-7367-44ee-a814-764ff3571b18",
+          "varName": "ecoEmail",
+          "jsonPath": "$.json.email"
+        }
+      ],
+      "collapsed": false,
+      "asserts": [
+        {
+          "id": "2c536b24-47f5-4e16-b212-f92667db0ff0",
+          "kind": "status",
+          "expected": "200"
+        },
+        {
+          "id": "5caae73c-99ec-457e-9def-7ca732442f60",
+          "kind": "jsonpath",
+          "path": "$.json.pedidoId",
+          "op": "exists"
+        },
+        {
+          "id": "6a71090b-9ddc-459b-a368-7443fc9aada2",
+          "kind": "time",
+          "maxMs": 5000
+        }
+      ],
+      "order": 3,
+      "cell": {
+        "col": 1,
+        "row": 2
+      }
+    },
+    {
+      "id": "975f4ecf-d99e-4627-8007-b7f8ff6d0135",
+      "name": "2 · GET cliente (JSONPlaceholder)",
+      "curl": "curl \"https://jsonplaceholder.typicode.com/users/{{usuarioId}}\" -H \"Accept: application/json\"",
+      "position": {
+        "x": 520,
+        "y": 756
+      },
+      "status": "idle",
+      "extractions": [
+        {
+          "id": "ff0adb0f-2954-4406-b23a-292e7de3a681",
+          "varName": "nombreCliente",
+          "jsonPath": "$.name"
+        },
+        {
+          "id": "f3879a60-a991-4ca8-88aa-5ade0dcab892",
+          "varName": "empresaCliente",
+          "jsonPath": "$.company.name"
+        },
+        {
+          "id": "bc8e6163-231d-41ab-82f2-5b1d3543dcc9",
+          "varName": "ciudadCliente",
+          "jsonPath": "$.address.city"
+        }
+      ],
+      "collapsed": false,
+      "asserts": [
+        {
+          "id": "af4e2620-bd60-4800-bed0-086d8fb935bf",
+          "kind": "status",
+          "expected": "200"
+        },
+        {
+          "id": "b05c3a5a-43a2-4f83-89bd-42a094b2d106",
+          "kind": "jsonpath",
+          "path": "$.email",
+          "op": "exists"
+        }
+      ],
+      "order": 4,
+      "cell": {
+        "col": 2,
+        "row": 2
+      }
+    }
+  ],
+  "infoNodes": [
+    {
+      "id": "ba660885-9282-497f-a1f6-7e5a56c27c65",
+      "name": "Qué demuestra este flow",
+      "content": "QUÉ DEMUESTRA ESTE FLOW\n\nLos scripts «antes» fabrican datos de prueba distintos en cada ejecución (id de pedido, importe, email, cliente) y los scripts «después» verifican lo que devolvió el servicio y calculan el desglose. Todo vive en el .flow.json; la app solo ejecuta.\n\nCómo funciona\n1. Al pulsar Run Flow, los scripts «antes» de la nota «Datos de prueba» crean {{pedidoId}}, {{importe}}, {{emailCliente}} y {{usuarioId}}.\n2. El nodo 1 hace un POST a postman-echo.com con esos datos (el servicio devuelve el eco en $.json). Sus asserts exigen 200, que el eco lleve el pedidoId y menos de 5 s. Las extracciones guardan lo que volvió.\n3. El nodo 2 carga el cliente {{usuarioId}} de JSONPlaceholder y extrae nombre, empresa y ciudad.\n4. Al terminar, el script verificacion compara enviado vs recibido, valida el email y calcula base + IVA; graficoPedido devuelve un pie de Mermaid.\n\nCámbialo: rompe algo a propósito (quita \"importe\" del body del nodo 1) y verás el ❌ con el motivo. Con el CLI, exit ≠ 0 si un assert falla: útil en CI.",
+      "position": {
+        "x": 60,
+        "y": 60
+      },
+      "collapsed": false,
+      "scripts": [],
+      "order": 1,
+      "cell": {
+        "col": 1,
+        "row": 1
+      }
+    },
+    {
+      "id": "712d74e6-aac8-4c79-bf66-4e9a50e4ed29",
+      "name": "Datos de prueba · scripts «antes»",
+      "content": "DATOS DE PRUEBA (scripts «antes» de esta nota)\n\nCada Run Flow genera valores nuevos y el nodo 1 los envía tal cual:\n\npedidoId: {{pedidoId}}\nimporte: {{importe}} €\nemail: {{emailCliente}}\ncliente: #{{usuarioId}} · {{fechaPedido}}\n\nAbre Scripts JS en la cabecera: cinco scripts de una línea, cada uno hace return de un valor que pasa a ser {{variable}}.",
+      "position": {
+        "x": 520,
+        "y": 60
+      },
+      "collapsed": false,
+      "scripts": [
+        {
+          "id": "3953b1a2-eccc-4f26-ba89-b1d388900026",
+          "varName": "pedidoId",
+          "code": "return 'PED-' + Date.now().toString(36).toUpperCase();"
+        },
+        {
+          "id": "452d36cd-76c7-4652-9a6b-5e3d05c61a63",
+          "varName": "importe",
+          "code": "return (Math.random() * 490 + 10).toFixed(2);"
+        },
+        {
+          "id": "5a910dd6-de50-4cbe-9d8c-ef4d100a5118",
+          "varName": "emailCliente",
+          "code": "return 'cliente+' + Date.now() + '@ejemplo.com';"
+        },
+        {
+          "id": "8b3ea0fa-2b94-42c6-b8ec-fb1f4e6a0a3a",
+          "varName": "usuarioId",
+          "code": "return String(1 + Math.floor(Math.random() * 10));"
+        },
+        {
+          "id": "d2bc1bdc-66c4-464d-b9b3-3e7fc3c9a631",
+          "varName": "fechaPedido",
+          "code": "return new Date().toISOString().slice(0, 10);"
+        }
+      ],
+      "order": 2,
+      "cell": {
+        "col": 2,
+        "row": 1
+      }
+    },
+    {
+      "id": "493af40b-78e9-4411-a126-8b52270e3882",
+      "name": "Verificación · resultado",
+      "content": "{{verificacion}}",
+      "position": {
+        "x": 980,
+        "y": 60
+      },
+      "collapsed": false,
+      "scripts": [],
+      "order": 5,
+      "cell": {
+        "col": 3,
+        "row": 1
+      }
+    },
+    {
+      "id": "4d25121d-5d8d-4b21-b14c-c1433b6e921a",
+      "name": "Verificación · scripts «después»",
+      "content": "SCRIPTS «DESPUÉS» de esta nota (corren cuando ambos nodos han terminado)\n\n· verificacion: compara {{pedidoId}} / {{importe}} / {{emailCliente}} (lo que enviamos) con {{ecoPedidoId}} / {{ecoImporte}} / {{ecoEmail}} (lo que devolvió el servicio), comprueba que llegó el cliente y calcula base + IVA 21 %.\n· graficoPedido: devuelve un diagrama pie de Mermaid con el desglose.\n\nSi algo no cuadra, la nota «Verificación · resultado» empieza por ❌ y dice por qué.",
+      "position": {
+        "x": 980,
+        "y": 756
+      },
+      "collapsed": false,
+      "scripts": [
+        {
+          "id": "d6d92ff0-1e80-452e-ac90-99dd3ab0afe7",
+          "varName": "verificacion",
+          "code": "// Compara lo que enviamos (scripts «antes») con lo que devolvió el servicio (extracciones) y calcula el desglose.\nconst fallos = [];\nif (vars.ecoPedidoId !== vars.pedidoId) fallos.push('el servicio devolvió otro pedidoId');\nif (Number(vars.ecoImporte).toFixed(2) !== Number(vars.importe).toFixed(2)) fallos.push('el importe llegó alterado');\nif (!/^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$/.test(vars.ecoEmail || '')) fallos.push('email inválido en la respuesta');\nif (!vars.nombreCliente) fallos.push('no se pudo cargar el cliente');\nconst base = Number(vars.importe), iva = base * 0.21;\nconst n = (v) => v.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 });\nreturn (fallos.length ? '❌ ' + fallos.join(' · ') : '✅ El servicio devolvió intacto lo que enviamos y el cliente existe') + `\\n\\nPedido ${vars.pedidoId} · ${vars.fechaPedido}\\nCliente #${vars.usuarioId}: ${vars.nombreCliente} · ${vars.empresaCliente} · ${vars.ciudadCliente}\\nBase ${n(base)} € · IVA 21 % ${n(iva)} € · Total ${n(base + iva)} €`;",
+          "when": "after"
+        },
+        {
+          "id": "3b243b3d-52de-455e-87b3-d72a171ac2d7",
+          "varName": "graficoPedido",
+          "code": "const base = Number(vars.importe) || 0, iva = Math.round(base * 21) / 100;\nreturn `pie showData title Pedido ${vars.pedidoId || '?'} · desglose en €\\n  \"Base imponible\" : ${base.toFixed(2)}\\n  \"IVA 21 %\" : ${iva.toFixed(2)}`;",
+          "when": "after"
+        }
+      ],
+      "order": 6,
+      "cell": {
+        "col": 3,
+        "row": 2
+      }
+    },
+    {
+      "id": "8aeeffd7-f1e0-4c42-bb95-9a49ac7dd5f5",
+      "name": "Desglose · Mermaid generado por script",
+      "content": "{{graficoPedido}}",
+      "position": {
+        "x": 60,
+        "y": 1429
+      },
+      "collapsed": false,
+      "scripts": [],
+      "renderMode": "mermaid",
+      "order": 7,
+      "cell": {
+        "col": 1,
+        "row": 3
+      }
+    }
+  ],
+  "sqlNodes": [],
+  "webNodes": [],
+  "connections": [
+    {
+      "id": "f202101a-6d60-42e4-957f-0abbd428d29a",
+      "sourceId": "a7cea3da-2c0c-4630-803c-350fdc86c102",
+      "targetId": "975f4ecf-d99e-4627-8007-b7f8ff6d0135",
+      "sourcePort": "right",
+      "targetPort": "left",
+      "behavior": "next"
+    }
+  ],
+  "envVariables": {
+    "verificacion": "Pulsa Run Flow: los scripts «antes» generan el pedido, los nodos lo envían y los scripts «después» lo verifican aquí.",
+    "graficoPedido": "pie title Pulsa Run Flow para ver el desglose\n  \"pendiente\" : 1",
+    "pedidoId": "PED-MTRQ4PKE",
+    "importe": "109.75",
+    "emailCliente": "cliente+1788814774382@ejemplo.com",
+    "usuarioId": "7",
+    "fechaPedido": "2026-09-07"
+  },
+  "settings": {
+    "viewport": {
+      "zoom": 1,
+      "scrollLeft": 0,
+      "scrollTop": 0
+    }
+  }
+}

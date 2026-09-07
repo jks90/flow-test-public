@@ -19,6 +19,7 @@ docker run -d --add-host=host.docker.internal:host-gateway \
 | `funciones/` | Las que trabajan solas: **Monitor 24x7** (el servidor lo ejecuta cada 15 min y avisa al fallar), **Webhook desde CI** (`POST /hook/<token>` desde GitHub Actions), **Correo OTP** (el SMTP embebido captura el email y extrae el código), **Puente a local** |
 | `flowtest-por-dentro/` | Nuestra plataforma probada con nuestra herramienta, contra los endpoints reales de app.flowtest.es: **Solicitar espacio cloud** (⚠️ crea cuentas de verdad — lee su LEEME), **Login y sesión**, **Comprar licencia** (nuestro funnel de venta, como flow) y **Salud de la plataforma** |
 | `paneles/` | Los de enseñar en pantalla grande: **Crypto portfolio** (Ethplorer + Blockscout + CoinGecko encadenados) y **Mapa mundial** (nodos sobre una imagen de fondo) |
+| `scripts/` | 🆕 5.14 — **Lo que puede hacer un script de nota**, sin tocar la app: **Cripto** (CoinGecko → SMA/RSI y señal calculada en el flow + gráfico Mermaid generado por script), **Tiempo** (Open-Meteo → semáforo por día, aviso y gráfico; umbrales en Variables), **Pedido** (scripts «antes» que fabrican datos de prueba, POST con asserts y scripts «después» que verifican la respuesta y calculan el IVA) |
 
 Todos los flows llevan asserts y los ejecutables se verificaron con el CLI (exit 0) antes de
 publicarse. El tour `.md` se abre en la app desde la **5.5.0** (en versiones anteriores, léelo aquí
