@@ -26,7 +26,7 @@ docker run -d \
   -p 9998:3001 \
   -p 1025:1025 \
   --name flow \
-  juankanh/flow-app:5.14.0
+  juankanh/flow-app:5.14.1
 ```
 
 - **Web**: http://localhost:9998 — el canvas visual.
@@ -63,7 +63,8 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 
 | Versión | Qué trae |
 |---------|----------|
-| **5.14.0** (recomendada) | 📮 **Reportar un problema** desde la app (Config ▸ Reportar un problema, o 💬 en el móvil): error, idea o pregunta con captura del canvas, imagen pegada y datos técnicos opcionales (secretos tapados); bandeja del equipo, respuesta por email y «Mis reportes» en la app y en la cuenta. Pro/Business; sin red se guarda y se reintenta. El asistente de IA lleva la **skill de flows de serie** y un editor de instrucciones del proyecto; galería `scripts/` con 5 flows |
+| **5.14.1** (recomendada) | 🔒 **Seguridad**: los scripts JS de las notas se ejecutan en el servidor dentro de un **sandbox** (sin acceso a variables de entorno, red interna ni módulos del sistema) y, en el cloud, un **cortafuegos de salida** impide que un flow alcance servicios internos u otras organizaciones. Ver el informe de seguridad ([docs/seguridad.md](docs/seguridad.md)) |
+| **5.14.0** | 📮 **Reportar un problema** desde la app (Config ▸ Reportar un problema, o 💬 en el móvil): error, idea o pregunta con captura del canvas, imagen pegada y datos técnicos opcionales (secretos tapados); bandeja del equipo, respuesta por email y «Mis reportes» en la app y en la cuenta. Pro/Business; sin red se guarda y se reintenta. El asistente de IA lleva la **skill de flows de serie** y un editor de instrucciones del proyecto; galería `scripts/` con 5 flows |
 | **5.13.1** | 🤖 **IA también en el móvil** (pestaña «✨ IA» en `/m`: explica, revisa y propone sobre el flow; con el escritorio abierto edita ese canvas), **«Entrar con Anthropic»** (login OAuth sin claves), conexión directa desde el navegador, **Ctrl+V de capturas** en el chat y **«Guardar como…» ▸ ☁️ Cloud** |
 | **5.13.0** | 🤖 **Asistente de IA**: un chat dentro de la app que construye, explica, prueba y arregla flows en tu canvas en directo con tu clave de Claude u OpenAI; ves cada tool con su input mientras se escribe, pide permiso antes de borrar o ejecutar, se para y se deshace por turno; comandos `/explain` `/test` `/fix` `/docs`, adjuntos (OpenAPI, HAR, PDF, capturas), coste por turno y tope mensual |
 | **5.12.0** | 🔗 **Compartir enlace**: publica una foto del canvas en una URL pública que abre cualquiera sin la app ni cuenta — se ve como el PDF, en el navegador. Con el Docker vinculado se publica en tu espacio del cloud (`https://<org>.app.flowtest.es/share/…`); caducidad opcional, visitas, y gestión desde el modal, tu cuenta y el admin |
@@ -106,7 +107,7 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 | 4.4 – 4.22 | Nodo Web + modo **Live** (login real, capturas con sus llamadas HTTP), `flow-explore`, Chromium en la imagen, CAs corporativas en `/certs`, teclado directo en Live, checks LNA desactivados, nº de orden y alineado — historial completo en el manual |
 
 ```bash
-docker pull juankanh/flow-app:5.14.0
+docker pull juankanh/flow-app:5.14.1
 ```
 
 ## Documentación
