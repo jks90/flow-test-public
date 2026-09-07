@@ -6,6 +6,16 @@ Un chat dentro de la app que **construye, explica, prueba y arregla flows en tu 
 
 Se abre con el icono ✨ de la barra lateral izquierda. Es una función **Pro**; en la prueba de 14 días el panel se ve pero el chat pide pasar a Pro.
 
+## Qué sabe de serie: la skill de flows 🆕 (5.14)
+
+El asistente lleva **incorporada la skill de flows** — el mismo método que usan Claude Code y cualquier cliente MCP (`skills/flows/SKILL.md` del repo público): cómo se construye un flow bien hecho (nodo a nodo, celdas y `canvas_layout`, asserts y extracciones, `{{apiBase}}` y credenciales `{{secret:X}}`, verificación con `flow_run`/`runs_read`) y, desde la 5.14, qué pueden hacer los scripts de nota, incluidos los que dibujan botones y páginas. Va en el prompt de cada turno para **todos los usuarios del asistente** (es una función Pro/Business); con la caché del proveedor cuesta muy poco. Se puede apagar en ⚙ Ajustes («Skill de flows de serie») si prefieres un prompt mínimo.
+
+### Instrucciones del proyecto desde Ajustes
+
+![⚙ Ajustes: skill de flows de serie e instrucciones del proyecto](assets/flowtest-80-ia-skill.png)
+
+Debajo del interruptor hay un editor de **`flows/IA.md`**: las convenciones de tu equipo (entornos, nombres, qué no tocar) que la IA lee en cada chat detrás de la skill. Hasta 30 KB; vaciarlo borra el fichero. En el cloud el fichero es de la organización (lo ven todos los miembros); en una instalación propia vive en la carpeta de flows.
+
 ## Configurar: tu clave, tu proveedor
 
 ⚙ **Ajustes** dentro del panel:
