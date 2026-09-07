@@ -63,7 +63,7 @@ Puedes añadir detalle detrás: `/fix el login devuelve 401`.
 
 ## Adjuntos y contexto
 
-Arrastra ficheros al panel (o 📎): **OpenAPI/Swagger** (`.json`, `.yaml`), **HAR**, `.md`, `.txt`, `.csv`, `.curl`, **PDF** (Claude lo lee nativo, con citas) e **imágenes** (una captura de Postman, un error en pantalla). Hasta 20 MB por mensaje. Pídele «monta el flow de esta spec» o «este HAR es el login, reprodúcelo».
+Arrastra ficheros al panel, usa 📎 o **pega una captura con Ctrl+V** directamente en el chat: **OpenAPI/Swagger** (`.json`, `.yaml`), **HAR**, `.md`, `.txt`, `.csv`, `.curl`, **PDF** (Claude lo lee nativo, con citas) e **imágenes** PNG/JPG/GIF/WebP (una captura de Postman, un error en pantalla, un diagrama). Las imágenes llegan al modelo como imagen de verdad, tanto en Claude como en OpenAI; el texto y el YAML, como documentos. Hasta 20 MB por mensaje. Pídele «monta el flow de esta spec» o «este HAR es el login, reprodúcelo».
 
 Crea `flows/IA.md` con las normas de tu equipo (entornos, nombres, qué no tocar, cómo se autentica la API) y la IA lo lee en todas las conversaciones.
 
