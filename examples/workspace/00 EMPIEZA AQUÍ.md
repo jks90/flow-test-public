@@ -56,7 +56,10 @@ Tres flows que enseñan hasta dónde llegan los **scripts JS de las notas** — 
 - [[Scripts 02 · Tiempo: semáforo y gráfico por script]] — una petición a Open-Meteo y los scripts la convierten en un semáforo por día 🟢🟡🔴, un aviso y un gráfico de máximas y mínimas; los umbrales y la ciudad se cambian en Variables.
 - [[Scripts 03 · Pedido: datos de prueba y verificación por script]] — scripts «antes» que fabrican un pedido distinto en cada run, un POST con asserts, y scripts «después» que comparan enviado vs recibido, validan el email y calculan base + IVA (con un pie de Mermaid).
 
-Regla de oro: un script hace `return` de un valor y ese valor pasa a ser una `{{variable}}`. Nada más — no pinta botones, no guarda cosas en el navegador, no relanza el flow.
+- [[Scripts 04 · Divisas: botones, páginas y acciones]] — el script DIBUJA interfaz: una barra de botones abajo a la izquierda, una «página» (diálogo con pestañas y un conversor que recalcula al escribir), un informe en una pestaña nueva del navegador, descarga CSV, copiar, y ▶ que vuelve a ejecutar el flow hablando con el MCP de tu instalación.
+- [[Scripts 05 · Tiempo: botones que cambian el flow]] — botones que **cambian el flow**: cada ciudad escribe sus coordenadas en Variables (MCP `variables_set`) y relanza el flow (`flow_run`); al terminar, el script se redibuja con la previsión nueva.
+
+Los tres primeros siguen la regla de oro: un script hace `return` de un valor y ese valor pasa a ser una `{{variable}}`. Los dos últimos enseñan que un script también puede dibujar botones y páginas encima de FlowTest (corre dentro de la página, con todos sus permisos) — con higiene: una sola instancia, Shadow DOM, nada en localStorage, sin bucles ni notificaciones, cada acción es un clic tuyo. Ejecuta solo flows en los que confíes.
 
 ## ⌨️ Y todo esto sin abrir el navegador
 

@@ -1,0 +1,148 @@
+{
+  "version": "1.0",
+  "name": "Scripts 04 · Divisas: botones, páginas y acciones",
+  "nodes": [
+    {
+      "id": "1e9a5e39-f949-4cd8-a659-e867b317ecb6",
+      "name": "1 · Tasas del BCE (frankfurter.dev)",
+      "curl": "curl \"https://api.frankfurter.dev/v1/latest?base=EUR&symbols=USD,GBP,JPY,CHF,MXN\" -H \"Accept: application/json\"",
+      "position": {
+        "x": 60,
+        "y": 929
+      },
+      "status": "idle",
+      "extractions": [
+        {
+          "id": "7417a25c-625d-4f08-b102-202517ff077c",
+          "varName": "fecha",
+          "jsonPath": "$.date"
+        },
+        {
+          "id": "6e65be30-f3b9-4188-ac0a-db3ebbfb2086",
+          "varName": "usd",
+          "jsonPath": "$.rates.USD"
+        },
+        {
+          "id": "97a0a013-5fb3-4696-b65b-221a08a97f2c",
+          "varName": "gbp",
+          "jsonPath": "$.rates.GBP"
+        },
+        {
+          "id": "898b1eee-1c68-4fee-af3e-22c10d43b0ad",
+          "varName": "jpy",
+          "jsonPath": "$.rates.JPY"
+        },
+        {
+          "id": "3c4ca407-fd7b-4ddb-b86c-9701aaf6db10",
+          "varName": "chf",
+          "jsonPath": "$.rates.CHF"
+        },
+        {
+          "id": "4482e0fd-3188-42ff-bca2-105524669b75",
+          "varName": "mxn",
+          "jsonPath": "$.rates.MXN"
+        }
+      ],
+      "collapsed": false,
+      "asserts": [
+        {
+          "id": "8c5ba2fb-023d-44af-9294-8f35ae22f8e5",
+          "kind": "status",
+          "expected": "200"
+        },
+        {
+          "id": "edac57ef-fa6e-4b2d-9438-32e3bbcb9b5f",
+          "kind": "jsonpath",
+          "path": "$.rates.USD",
+          "op": "exists"
+        },
+        {
+          "id": "bfe79b23-dad0-45ad-913c-c69c0ccde675",
+          "kind": "time",
+          "maxMs": 8000
+        }
+      ],
+      "order": 4,
+      "cell": {
+        "col": 1,
+        "row": 2
+      }
+    }
+  ],
+  "infoNodes": [
+    {
+      "id": "6ac960a2-eb57-4a07-b4a3-ae71773b710f",
+      "name": "Qué demuestra este flow",
+      "content": "QUÉ DEMUESTRA ESTE FLOW\n\nUn script de nota puede DIBUJAR interfaz: una barra de botones, una «página» (un diálogo con pestañas), una pestaña nueva del navegador con un informe, una descarga y acciones que hablan con FlowTest. Todo sale del .flow.json; la app no cambia.\n\nCómo funciona\n1. Run Flow → la petición trae las tasas del BCE (frankfurter.dev) y extrae fecha, usd, gbp, jpy, chf y mxn.\n2. El script «después» panelDivisas (nota «Botones y páginas») cuelga un <div> con Shadow DOM de la página y pinta, abajo a la izquierda:\n   · Conversor → abre la página (dialog) con pestañas Conversor / Tabla / Acerca de; el input recalcula al escribir.\n   · Informe ↗ → abre una pestaña nueva del navegador con una página HTML generada por el script (imprimible).\n   · CSV → descarga las tasas · Copiar → al portapapeles.\n   · ▶ Actualizar → llama al MCP de tu propia instalación (POST /mcp · flow_run) y el flow se vuelve a ejecutar; al terminar, el script redibuja el panel con las tasas nuevas.\n   · ✕ → quita el panel.\n\nReglas de higiene que sigue (y que conviene copiar): una sola instancia (borra la anterior antes de crearse), estilos aislados en Shadow DOM, nada en localStorage, sin notificaciones, sin bucles: cada acción es un clic tuyo. El panel es de la página, no de la pestaña: si cambias de flow sigue ahí hasta que pulses ✕ o ejecutes de nuevo.\n\nOjo: esto funciona porque los scripts corren dentro de la página de FlowTest con todos sus permisos. Es potente y por eso mismo solo debes ejecutar flows en los que confíes.",
+      "position": {
+        "x": 60,
+        "y": 60
+      },
+      "collapsed": false,
+      "scripts": [],
+      "order": 1,
+      "cell": {
+        "col": 1,
+        "row": 1
+      }
+    },
+    {
+      "id": "b75ef464-36f7-4384-9440-35824695e539",
+      "name": "Botones y páginas · script «después»",
+      "content": "BOTONES Y PÁGINAS · script «después» de esta nota\n\nAbre Scripts JS (icono de la cabecera) para leerlo: unas 60 líneas. Estructura:\n1. Guardas: sin `document` (CLI) devuelve un texto y no hace nada; sin tasas, tampoco.\n2. `document.getElementById(ID)?.remove()` → una sola instancia.\n3. Un <div> colgado del body con `attachShadow`: dentro, el <style>, la barra y el <dialog>.\n4. Cada botón tiene su `onclick`: abrir la página, descargar (Blob + <a download>), copiar (clipboard), pestaña nueva (window.open + document.write) y `fetch('/mcp')` con tools/call flow_run para volver a ejecutar.\n5. `return` de un texto → {{panelDivisas}}.\n\nEstado: {{panelDivisas}}",
+      "position": {
+        "x": 520,
+        "y": 60
+      },
+      "collapsed": false,
+      "scripts": [
+        {
+          "id": "147192a2-c044-4353-bda0-a03b48328eb7",
+          "varName": "panelDivisas",
+          "code": "// Dibuja una barra de botones y una «página» (dialog con pestañas) con las tasas del flow. Solo en el navegador.\nif (typeof document === 'undefined') return 'CLI: sin interfaz (los botones solo existen en el navegador)';\nconst ID = 'flow-panel-divisas';\ndocument.getElementById(ID)?.remove(); // una sola instancia: cada Run Flow la recrea con datos nuevos\nconst tasas = [['USD', vars.usd, '$'], ['GBP', vars.gbp, '£'], ['JPY', vars.jpy, '¥'], ['CHF', vars.chf, 'CHF'], ['MXN', vars.mxn, 'MX$']].map(([c, v, s]) => ({ c, v: Number(v), s })).filter(t => Number.isFinite(t.v) && t.v > 0);\nif (!tasas.length) return 'Sin tasas: ejecuta el flow';\nconst fecha = vars.fecha || '';\nconst host = document.createElement('div'); host.id = ID; document.body.append(host);\nconst root = host.attachShadow({ mode: 'open' }); // estilos propios: ni pisa los de la app ni la app los pisa\nconst esc = (s) => String(s).replace(/[&<>\"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '\"': '&quot;', \"'\": '&#39;' }[c]));\nconst n = (v, d = 4) => Number(v).toLocaleString('es-ES', { maximumFractionDigits: d });\nroot.innerHTML = `<style>\n  :host{all:initial;font:13px system-ui,sans-serif;color:#e2e8f0}\n  .bar{position:fixed;left:16px;bottom:16px;z-index:50;display:flex;gap:6px;align-items:center;flex-wrap:wrap;max-width:calc(100vw - 32px);background:#0f172a;border:1px solid #334155;border-radius:12px;padding:8px 10px;box-shadow:0 8px 30px #0008}\n  .bar b{margin-right:4px;color:#38bdf8} .bar span{color:#94a3b8;margin-left:4px}\n  button{font:inherit;color:#e2e8f0;background:#1e293b;border:1px solid #475569;border-radius:8px;padding:6px 10px;cursor:pointer}\n  button:hover{background:#334155} button:disabled{opacity:.5;cursor:default} button.x{background:transparent;border-color:transparent;color:#94a3b8}\n  dialog{color:#e2e8f0;background:#0b1220;border:1px solid #334155;border-radius:14px;padding:0;width:min(640px,92vw)}\n  dialog::backdrop{background:#0009}\n  .tabs{display:flex;gap:4px;padding:12px 16px 0} .tabs button.on{background:#38bdf8;color:#0b1220;border-color:#38bdf8}\n  .page{padding:16px} .page[hidden]{display:none}\n  table{border-collapse:collapse;width:100%} td,th{padding:6px 8px;border-bottom:1px solid #1e293b;text-align:right} th:first-child,td:first-child{text-align:left}\n  input{font:inherit;padding:6px 8px;border-radius:8px;border:1px solid #475569;background:#1e293b;color:#e2e8f0;width:120px}\n</style>\n<div class=\"bar\"><b>💱 EUR · ${esc(fecha)}</b>\n  <button id=\"conv\">Conversor</button><button id=\"tabla\">Tabla</button><button id=\"informe\">Informe ↗</button><button id=\"csv\">CSV</button><button id=\"copiar\">Copiar</button><button id=\"run\">▶ Actualizar</button><span id=\"estado\"></span><button id=\"x\" class=\"x\" title=\"Quitar el panel (el próximo Run Flow lo vuelve a dibujar)\">✕</button></div>\n<dialog><div class=\"tabs\"><button data-p=\"conv\" class=\"on\">Conversor</button><button data-p=\"tabla\">Tabla</button><button data-p=\"acerca\">Acerca de</button><button id=\"cerrar\" style=\"margin-left:auto\">Cerrar</button></div>\n  <div class=\"page\" data-page=\"conv\"><p>Cantidad en EUR: <input id=\"eur\" type=\"number\" value=\"100\" min=\"0\" step=\"1\"></p><table id=\"convTabla\"></table></div>\n  <div class=\"page\" data-page=\"tabla\" hidden><table><tr><th>Divisa</th><th>1 EUR =</th><th>1 unidad = EUR</th></tr>${tasas.map(t => `<tr><td>${t.c}</td><td>${n(t.v)}</td><td>${n(1 / t.v)}</td></tr>`).join('')}</table></div>\n  <div class=\"page\" data-page=\"acerca\" hidden><p>Este panel lo dibuja un script «después» de la nota «Botones y páginas» cada vez que ejecutas el flow. Vive en un Shadow DOM propio, no guarda nada en el navegador y no relanza el flow solo: cada acción es un clic tuyo. ✕ lo quita.</p><p>Tasas del BCE vía frankfurter.dev · fecha ${esc(fecha)}.</p></div></dialog>`;\nconst $ = (s) => root.querySelector(s), dlg = $('dialog'), estado = (t) => { $('#estado').textContent = t; };\nconst pagina = (p) => { root.querySelectorAll('.page').forEach(el => { el.hidden = el.dataset.page !== p; }); root.querySelectorAll('.tabs [data-p]').forEach(b => b.classList.toggle('on', b.dataset.p === p)); if (!dlg.open) dlg.showModal(); };\nroot.querySelectorAll('.tabs [data-p]').forEach(b => { b.onclick = () => pagina(b.dataset.p); });\nconst convertir = () => { const eur = Number($('#eur').value) || 0; $('#convTabla').innerHTML = `<tr><th>Divisa</th><th>${n(eur, 2)} EUR =</th></tr>` + tasas.map(t => `<tr><td>${t.c}</td><td>${n(eur * t.v, 2)} ${t.s}</td></tr>`).join(''); };\n$('#eur').oninput = convertir; convertir();\n$('#conv').onclick = () => pagina('conv'); $('#tabla').onclick = () => pagina('tabla'); $('#cerrar').onclick = () => dlg.close();\nconst csv = () => 'divisa;eur_a_divisa;divisa_a_eur\\n' + tasas.map(t => `${t.c};${t.v};${(1 / t.v).toFixed(6)}`).join('\\n');\n$('#csv').onclick = () => { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv()], { type: 'text/csv' })); a.download = `divisas-${fecha || 'hoy'}.csv`; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000); estado('CSV descargado'); };\n$('#copiar').onclick = async () => { try { await navigator.clipboard.writeText(csv()); estado('Tabla copiada'); } catch { estado('Este navegador no deja copiar aquí'); } };\n$('#informe').onclick = () => { const w = window.open('', '_blank'); if (!w) { estado('El navegador bloqueó la pestaña nueva'); return; } w.document.write(`<!doctype html><title>Divisas EUR · ${esc(fecha)}</title><body style=\"font:15px system-ui;padding:32px;max-width:720px;margin:auto\"><h1>EUR frente a ${tasas.length} divisas · ${esc(fecha)}</h1><p>Página generada por un script del flow «Scripts 04» de FlowTest a partir de las variables del último Run Flow.</p><table border=\"1\" cellpadding=\"8\" style=\"border-collapse:collapse\"><tr><th>Divisa</th><th>1 EUR =</th></tr>${tasas.map(t => `<tr><td>${t.c}</td><td>${n(t.v)}</td></tr>`).join('')}</table><p><button onclick=\"print()\">Imprimir</button></p></body>`); w.document.close(); };\n$('#run').onclick = async () => { $('#run').disabled = true; estado('Ejecutando el flow…'); try { const r = await fetch('/mcp', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json, text/event-stream' }, body: JSON.stringify({ jsonrpc: '2.0', id: Date.now(), method: 'tools/call', params: { name: 'flow_run', arguments: {} } }) }); if (r.status === 401) throw new Error('el MCP pide token (FLOW_MCP_TOKEN)'); const j = await r.json(); if (j.error) throw new Error(j.error.message); } catch (e) { estado('No se pudo ejecutar: ' + e.message); $('#run').disabled = false; } };\n$('#x').onclick = () => host.remove();\nreturn `Panel dibujado a las ${new Date().toLocaleTimeString('es-ES')} con ${tasas.length} divisas`;",
+          "when": "after"
+        }
+      ],
+      "order": 2,
+      "cell": {
+        "col": 2,
+        "row": 1
+      }
+    },
+    {
+      "id": "ad657e91-4846-4c7a-946f-62bd728b5e82",
+      "name": "Tasas · variables extraídas",
+      "content": "EUR · {{fecha}}\n\nUSD {{usd}} · GBP {{gbp}} · JPY {{jpy}} · CHF {{chf}} · MXN {{mxn}}\n\nEstas seis variables son lo único que el script lee: el panel de abajo a la izquierda se construye a partir de ellas.",
+      "position": {
+        "x": 940,
+        "y": 60
+      },
+      "collapsed": false,
+      "scripts": [],
+      "order": 3,
+      "cell": {
+        "col": 3,
+        "row": 1
+      }
+    }
+  ],
+  "sqlNodes": [],
+  "webNodes": [],
+  "connections": [],
+  "envVariables": {
+    "panelDivisas": "Pulsa Run Flow: el panel con botones aparece abajo a la izquierda.",
+    "fecha": "—",
+    "usd": "—",
+    "gbp": "—",
+    "jpy": "—",
+    "chf": "—",
+    "mxn": "—"
+  },
+  "settings": {
+    "viewport": {
+      "zoom": 1,
+      "scrollLeft": 0,
+      "scrollTop": 0
+    }
+  }
+}

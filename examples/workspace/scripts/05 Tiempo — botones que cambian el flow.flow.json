@@ -1,0 +1,142 @@
+{
+  "version": "1.0",
+  "name": "Scripts 05 · Tiempo: botones que cambian el flow",
+  "nodes": [
+    {
+      "id": "0cbbe91b-6a83-4f44-b40e-d6db795f1b34",
+      "name": "1 · Previsión 7 días (Open-Meteo)",
+      "curl": "curl \"https://api.open-meteo.com/v1/forecast?latitude={{latitud}}&longitude={{longitud}}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=Europe%2FMadrid&forecast_days=7\" -H \"Accept: application/json\"",
+      "position": {
+        "x": 60,
+        "y": 852
+      },
+      "status": "idle",
+      "extractions": [
+        {
+          "id": "f2838730-5e2a-4c0b-b345-0d5301871f8f",
+          "varName": "dias",
+          "jsonPath": "$.daily.time"
+        },
+        {
+          "id": "f2d79276-c842-4864-93be-a63d63f98d19",
+          "varName": "tmax",
+          "jsonPath": "$.daily.temperature_2m_max"
+        },
+        {
+          "id": "adda03ec-489b-479a-a28f-8750bf9ff3ea",
+          "varName": "tmin",
+          "jsonPath": "$.daily.temperature_2m_min"
+        },
+        {
+          "id": "d12a405f-0461-4de2-8d09-0ac3f0f429ae",
+          "varName": "lluvia",
+          "jsonPath": "$.daily.precipitation_sum"
+        }
+      ],
+      "collapsed": false,
+      "asserts": [
+        {
+          "id": "ac4f007f-057d-47ee-a988-0cf0f8d6ae13",
+          "kind": "status",
+          "expected": "200"
+        },
+        {
+          "id": "1f645e88-b9f5-4493-a362-6917aeb50a0e",
+          "kind": "jsonpath",
+          "path": "$.daily.time",
+          "op": "exists"
+        },
+        {
+          "id": "c0daa47a-89db-4f9e-a532-1d8d6d5a6f3b",
+          "kind": "time",
+          "maxMs": 8000
+        }
+      ],
+      "order": 4,
+      "cell": {
+        "col": 1,
+        "row": 2
+      }
+    }
+  ],
+  "infoNodes": [
+    {
+      "id": "29a2269a-2ab3-4182-87ad-3de4763fd104",
+      "name": "Qué demuestra este flow",
+      "content": "QUÉ DEMUESTRA ESTE FLOW\n\nBotones que CAMBIAN el flow: el script dibuja una botonera con cinco ciudades y, al pulsar una, escribe sus coordenadas en Variables y vuelve a ejecutar el flow, hablando con el MCP de tu propia instalación. El resultado se ve en la propia botonera y en la nota «Previsión».\n\nCómo funciona\n1. Run Flow → la petición a Open-Meteo usa {{latitud}} y {{longitud}} y extrae días, máximas, mínimas y lluvia.\n2. resumenTiempo (script «después») escribe la previsión legible.\n3. botoneraCiudades (script «después», va detrás) dibuja la caja de arriba a la derecha: ciudad actual marcada, cinco botones, ▶ y ✕.\n4. Pulsar «Sevilla» → fetch('/mcp') tools/call variables_set {ciudad, latitud, longitud} → fetch('/mcp') flow_run → el flow corre otra vez → los scripts se reejecutan y la botonera se redibuja con Sevilla.\n\nLos scripts de una nota corren en orden y cada uno ve los valores de los anteriores: por eso el resumen va antes que la botonera.\n\nMismas reglas de higiene que el flow 04: una sola instancia, Shadow DOM, nada en localStorage, sin bucles (solo se ejecuta cuando pulsas). Si el MCP de tu instalación lleva token (FLOW_MCP_TOKEN), los botones lo dirán en vez de fallar en silencio.",
+      "position": {
+        "x": 60,
+        "y": 60
+      },
+      "collapsed": false,
+      "scripts": [],
+      "order": 1,
+      "cell": {
+        "col": 1,
+        "row": 1
+      }
+    },
+    {
+      "id": "23af51d4-aad4-4f21-9b17-cd51def88008",
+      "name": "Motor · resumen + botonera (scripts «después»)",
+      "content": "MOTOR · dos scripts «después», en este orden\n\n· resumenTiempo: convierte {{dias}}, {{tmax}}, {{tmin}} y {{lluvia}} en la previsión legible.\n· botoneraCiudades: dibuja la botonera y conecta cada botón con el MCP (variables_set + flow_run). Devuelve {{botoneraCiudades}}.\n\nCámbialo: añade ciudades al array CIUDADES del script, o cambia lo que hacen los botones (por ejemplo, flow_open para saltar a otro flow, o variables_set con otros umbrales).\n\nEstado: {{botoneraCiudades}}",
+      "position": {
+        "x": 520,
+        "y": 60
+      },
+      "collapsed": false,
+      "scripts": [
+        {
+          "id": "6284fd03-5ede-43b2-bae6-e942a8d387c1",
+          "varName": "resumenTiempo",
+          "when": "after",
+          "code": "const l = (t) => String(t || '').split(',').map(s => s.trim()).filter(Boolean);\nconst dias = l(vars.dias), tmax = l(vars.tmax).map(Number), tmin = l(vars.tmin).map(Number), lluvia = l(vars.lluvia).map(Number);\nif (!dias.length) return 'Sin datos: ejecuta el flow';\nconst nom = (iso) => ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'][new Date(iso + 'T12:00:00').getDay()];\nreturn `${vars.ciudad} · próximos ${dias.length} días\\n` + dias.map((d, i) => `${nom(d)} ${d.slice(8)}/${d.slice(5, 7)}   ${tmax[i].toFixed(1).padStart(5)}° / ${tmin[i].toFixed(1).padStart(5)}°   ${lluvia[i] > 0 ? '☔ ' + lluvia[i] + ' mm' : '☀️'}`).join('\\n');"
+        },
+        {
+          "id": "5bd104e3-c7c2-4b76-9065-4ba4802f0d67",
+          "varName": "botoneraCiudades",
+          "when": "after",
+          "code": "// Botones que CAMBIAN el flow: cada ciudad escribe latitud/longitud en Variables (por el MCP) y relanza el flow.\nif (typeof document === 'undefined') return 'CLI: sin interfaz';\nconst ID = 'flow-botonera-tiempo';\ndocument.getElementById(ID)?.remove(); // se recrea en cada Run Flow con la ciudad y el resumen nuevos\nconst CIUDADES = [['Madrid', 40.42, -3.70], ['Barcelona', 41.39, 2.17], ['Sevilla', 37.39, -5.99], ['Bilbao', 43.26, -2.93], ['Tenerife', 28.47, -16.25]];\nconst host = document.createElement('div'); host.id = ID; document.body.append(host);\nconst root = host.attachShadow({ mode: 'open' });\nconst esc = (s) => String(s).replace(/[&<>\"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '\"': '&quot;', \"'\": '&#39;' }[c]));\nroot.innerHTML = `<style>\n  :host{all:initial;font:13px system-ui,sans-serif;color:#e2e8f0}\n  .box{position:fixed;right:16px;top:72px;z-index:50;background:#0f172a;border:1px solid #334155;border-radius:12px;padding:10px 12px;box-shadow:0 8px 30px #0008;max-width:min(520px,calc(100vw - 32px))}\n  .bar{display:flex;gap:6px;align-items:center;flex-wrap:wrap} .bar b{color:#34d399;margin-right:4px} .bar span{color:#94a3b8}\n  button{font:inherit;color:#e2e8f0;background:#1e293b;border:1px solid #475569;border-radius:8px;padding:5px 9px;cursor:pointer}\n  button:hover{background:#334155} button.on{background:#34d399;color:#0b1220;border-color:#34d399} button:disabled{opacity:.5;cursor:default} button.x{background:transparent;border-color:transparent;color:#94a3b8}\n  pre{margin:10px 0 0;font:12px/1.5 ui-monospace,monospace;color:#cbd5e1;white-space:pre-wrap}\n</style>\n<div class=\"box\"><div class=\"bar\"><b>🌤 ${esc(vars.ciudad || '?')}</b>${CIUDADES.map(([c]) => `<button data-c=\"${esc(c)}\"${c === vars.ciudad ? ' class=\"on\"' : ''}>${esc(c)}</button>`).join('')}<button id=\"run\" title=\"Volver a ejecutar\">▶</button><button id=\"x\" class=\"x\" title=\"Quitar (el próximo Run Flow lo vuelve a dibujar)\">✕</button><span id=\"estado\"></span></div>\n<pre>${esc(vars.resumenTiempo || 'Ejecuta el flow para ver la previsión')}</pre></div>`;\nconst $ = (s) => root.querySelector(s), estado = (t) => { $('#estado').textContent = t; };\nconst bloquear = (v) => root.querySelectorAll('button:not(#x)').forEach(b => { b.disabled = v; }); // ✕ siempre disponible\nconst mcp = async (name, args) => { const r = await fetch('/mcp', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json, text/event-stream' }, body: JSON.stringify({ jsonrpc: '2.0', id: Date.now(), method: 'tools/call', params: { name, arguments: args || {} } }) }); if (r.status === 401) throw new Error('el MCP pide token (FLOW_MCP_TOKEN)'); const j = await r.json(); if (j.error) throw new Error(j.error.message); if (j.result?.isError) throw new Error(j.result.content?.[0]?.text || name); return j.result; };\nroot.querySelectorAll('[data-c]').forEach(b => { b.onclick = async () => { const [c, lat, lon] = CIUDADES.find(x => x[0] === b.dataset.c); bloquear(true); estado(`Cambiando a ${c} y ejecutando…`); try { await mcp('variables_set', { variables: { ciudad: c, latitud: String(lat), longitud: String(lon) } }); await mcp('flow_run', {}); } catch (e) { estado('Error: ' + e.message); bloquear(false); } }; });\n$('#run').onclick = async () => { bloquear(true); estado('Ejecutando…'); try { await mcp('flow_run', {}); } catch (e) { estado('Error: ' + e.message); bloquear(false); } };\n$('#x').onclick = () => host.remove();\nreturn `Botonera dibujada · ${vars.ciudad} · ${new Date().toLocaleTimeString('es-ES')}`;"
+        }
+      ],
+      "order": 2,
+      "cell": {
+        "col": 2,
+        "row": 1
+      }
+    },
+    {
+      "id": "b3174995-5e87-497c-800c-a055f20aa34a",
+      "name": "Previsión · {{ciudad}}",
+      "content": "{{resumenTiempo}}\n\nCoordenadas en Variables: {{latitud}}, {{longitud}} (las cambian los botones de la caja de arriba a la derecha).",
+      "position": {
+        "x": 940,
+        "y": 60
+      },
+      "collapsed": false,
+      "scripts": [],
+      "order": 3,
+      "cell": {
+        "col": 3,
+        "row": 1
+      }
+    }
+  ],
+  "sqlNodes": [],
+  "webNodes": [],
+  "connections": [],
+  "envVariables": {
+    "ciudad": "Madrid",
+    "latitud": "40.42",
+    "longitud": "-3.70",
+    "resumenTiempo": "Pulsa Run Flow: la previsión y la botonera aparecen al terminar.",
+    "botoneraCiudades": "Pulsa Run Flow: la botonera aparece abajo a la izquierda."
+  },
+  "settings": {
+    "viewport": {
+      "zoom": 1,
+      "scrollLeft": 0,
+      "scrollTop": 623
+    }
+  }
+}

@@ -35,7 +35,7 @@ docker run -d \
 - **MCP** (agentes IA): `claude mcp add --transport http flow-test http://localhost:9998/mcp`
   — la IA construye y ejecuta flows **en tu canvas, mientras lo ves**.
 
-## 🗂️ Galería: arranca con 19 flows de verdad
+## 🗂️ Galería: arranca con 21 flows de verdad
 
 ¿Prefieres tocar antes que leer? Monta la **galería de ejemplos** como tu workspace y la app abre
 con un tour guiado dentro del propio producto — cada ejemplo se ejecuta con un clic:
@@ -55,7 +55,8 @@ Dentro: `aprende/` (variables, asserts, entornos, scripts, SQL, data-driven — 
 `flowtest-por-dentro/` (nuestra propia plataforma probada con nuestra propia herramienta: alta,
 login, **compra de licencia** y salud — el funnel real, documentado como flow) `paneles/` (los
 vistosos para enseñar en una demo) y `scripts/` (🆕 5.14: señales de mercado, semáforo del tiempo y
-verificación de pedidos calculados con **scripts JS dentro del flow**, gráficos Mermaid incluidos). Todos con asserts, verificados con el CLI antes de publicarse.
+verificación de pedidos calculados con **scripts JS dentro del flow**, gráficos Mermaid incluidos, y dos flows cuyos
+scripts dibujan **botones, páginas y acciones** encima de FlowTest). Todos con asserts, verificados con el CLI antes de publicarse.
 Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre desde la 5.5.0.)*
 
 ## Versiones de la imagen
