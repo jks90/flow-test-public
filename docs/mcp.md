@@ -188,7 +188,10 @@ llamar al propio MCP por HTTP — `POST /mcp`, JSON-RPC `tools/call`, cabecera
 Variables (`variables_set`) o abrir otro flow (`flow_open`). Con `FLOW_MCP_TOKEN` el script debe
 mandar `Authorization: Bearer`. Ejemplos y contrato de higiene (una instancia, Shadow DOM, sin
 localStorage/Notification/bucles, botón ✕) en el manual (04 ▸ «Scripts que dibujan botones…») y en la
-galería `scripts/04 Divisas` y `scripts/05 Tiempo`.
+galería `scripts/04 Divisas` y `scripts/05 Tiempo`. Desde la 5.15 solo los **flows de confianza**
+ejecutan scripts en la página: los abiertos de fichero, cloud o import van a un sandbox sin DOM ni
+red y la app pregunta al usuario antes de ejecutar un script que la necesite (manual 04 ▸ «Sandbox y
+flows de confianza»); un flow creado con `flow_create` en la pestaña del usuario nace de confianza.
 
 **Verificar un desarrollo con BBDD**: `node_add_sql` para sembrar/consultar datos +
 `node_run` sobre el nodo SQL para lanzar la cadena SQL→HTTP con las variables extraídas.

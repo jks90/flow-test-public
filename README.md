@@ -26,7 +26,7 @@ docker run -d \
   -p 9998:3001 \
   -p 1025:1025 \
   --name flow \
-  juankanh/flow-app:5.14.1
+  juankanh/flow-app:5.15.1
 ```
 
 - **Web**: http://localhost:9998 — el canvas visual.
@@ -63,7 +63,11 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 
 | Versión | Qué trae |
 |---------|----------|
-| **5.14.1** (recomendada) | 🔒 **Seguridad**: los scripts JS de las notas se ejecutan en el servidor dentro de un **sandbox** (sin acceso a variables de entorno, red interna ni módulos del sistema) y, en el cloud, un **cortafuegos de salida** impide que un flow alcance servicios internos u otras organizaciones. Ver el informe de seguridad ([docs/seguridad.md](docs/seguridad.md)) |
+| **5.15.1** (recomendada) | 🛡️ **Sandbox de los scripts de nota en el navegador**: un flow que no es tuyo (abierto de disco o del cloud, importado, de la galería) ejecuta sus scripts JS en un sandbox sin página, sin sesión y sin red; si un script necesita dibujar interfaz o llamar al MCP, la app **pregunta antes de ejecutarlo** y puedes marcar el flow como **de confianza** (chip 🔒 / 🛡️ en la barra; se recuerda por fichero en tu navegador). Imagen con parches de Alpine y sin `npm` en el contenedor |
+| **5.15.0** | 🛡️ Primera versión del sandbox en el navegador y de los flows de confianza (la 5.15.1 pregunta antes de ejecutar en vez de tras un fallo silencioso) |
+| **5.14.3** | 🔒 Dependencias sin vulnerabilidades conocidas (`npm audit` a cero) y tope de memoria de los runners del servidor (`FLOW_RUNNER_HEAP_MB`, 512 MB) |
+| **5.14.2** | 🖼️ El visor de documentos `.md` del proyecto muestra **cualquier imagen del proyecto** (rutas relativas al documento), no solo las de `flows/assets/` |
+| **5.14.1** | 🔒 **Seguridad**: los scripts JS de las notas se ejecutan en el servidor dentro de un **sandbox** (sin acceso a variables de entorno, red interna ni módulos del sistema) y, en el cloud, un **cortafuegos de salida** impide que un flow alcance servicios internos u otras organizaciones. Ver el informe de seguridad ([docs/seguridad.md](docs/seguridad.md)) |
 | **5.14.0** | 📮 **Reportar un problema** desde la app (Config ▸ Reportar un problema, o 💬 en el móvil): error, idea o pregunta con captura del canvas, imagen pegada y datos técnicos opcionales (secretos tapados); bandeja del equipo, respuesta por email y «Mis reportes» en la app y en la cuenta. Pro/Business; sin red se guarda y se reintenta. El asistente de IA lleva la **skill de flows de serie** y un editor de instrucciones del proyecto; galería `scripts/` con 5 flows |
 | **5.13.1** | 🤖 **IA también en el móvil** (pestaña «✨ IA» en `/m`: explica, revisa y propone sobre el flow; con el escritorio abierto edita ese canvas), **«Entrar con Anthropic»** (login OAuth sin claves), conexión directa desde el navegador, **Ctrl+V de capturas** en el chat y **«Guardar como…» ▸ ☁️ Cloud** |
 | **5.13.0** | 🤖 **Asistente de IA**: un chat dentro de la app que construye, explica, prueba y arregla flows en tu canvas en directo con tu clave de Claude u OpenAI; ves cada tool con su input mientras se escribe, pide permiso antes de borrar o ejecutar, se para y se deshace por turno; comandos `/explain` `/test` `/fix` `/docs`, adjuntos (OpenAPI, HAR, PDF, capturas), coste por turno y tope mensual |
@@ -107,7 +111,7 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 | 4.4 – 4.22 | Nodo Web + modo **Live** (login real, capturas con sus llamadas HTTP), `flow-explore`, Chromium en la imagen, CAs corporativas en `/certs`, teclado directo en Live, checks LNA desactivados, nº de orden y alineado — historial completo en el manual |
 
 ```bash
-docker pull juankanh/flow-app:5.14.1
+docker pull juankanh/flow-app:5.15.1
 ```
 
 ## Documentación

@@ -16,6 +16,7 @@
 | **Run Flow** | Ejecuta todo el flujo en orden topológico (las flechas mandan). Desde la 4.23 ejecuta antes los **scripts JS de las notas** y mete sus valores como variables |
 | **Layout ▾** | Organización del canvas: colapsar, expandir, auto layout, alinear, **guía de nodos**, **ocultar conectores**, split |
 | **Config** | Modal con **Batch Run**, Historial, Consola, **Correo** (SMTP de prueba, 4.36), Vista, SQL Conns, GitHub Flows, Variables y Global. El badge verde es el contador de la consola |
+| **🔒 scripts en sandbox** / **🛡️ flow de confianza** (chip) 🆕 5.15 | Estado de los scripts de nota de la pestaña: en un sandbox sin página (flow abierto de fichero, cloud, import o galería) o en la página (flow de confianza). Clic para cambiarlo — [04](04-notas-mermaid-capturas.md#sandbox-y-flows-de-confianza--515) |
 
 ### El desplegable Add Node
 

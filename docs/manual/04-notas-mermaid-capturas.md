@@ -25,7 +25,7 @@ Cada script tiene un conmutador **antes / después** en su cabecera:
 
 ### Scripts que dibujan botones, páginas y acciones 🆕 (5.14)
 
-Un script de nota es JavaScript que corre **dentro de la página de FlowTest** cuando ejecutas el flow (`new Function('vars', código)`), con los mismos permisos que la app. Además de devolver variables, puede **dibujar interfaz**: colgar del `document.body` una barra de botones, abrir una «página» (un `<dialog>` con pestañas), abrir una pestaña nueva del navegador con un informe (`window.open` + `document.write`), descargar un fichero (`Blob` + `<a download>`), copiar al portapapeles y, al pulsar un botón, **hablar con tu propia instalación** llamando al MCP embebido desde la página:
+Un script de nota es JavaScript que corre **dentro de la página de FlowTest** cuando ejecutas el flow (`new Function('vars', código)`), con los mismos permisos que la app — desde la 5.15, solo en los **flows de confianza**; los demás corren en un sandbox sin página (ver [más abajo](#sandbox-y-flows-de-confianza--515)). Además de devolver variables, puede **dibujar interfaz**: colgar del `document.body` una barra de botones, abrir una «página» (un `<dialog>` con pestañas), abrir una pestaña nueva del navegador con un informe (`window.open` + `document.write`), descargar un fichero (`Blob` + `<a download>`), copiar al portapapeles y, al pulsar un botón, **hablar con tu propia instalación** llamando al MCP embebido desde la página:
 
 ```js
 const r = await fetch('/mcp', { method: 'POST',
@@ -47,11 +47,33 @@ Ejemplos listos en la galería: **Scripts 04 · Divisas** (barra de botones, di�
 5. **Botón ✕** siempre activo que quita el panel, y `return` de un texto de estado para que la nota diga qué pasó.
 6. El panel es de la página, no de la pestaña: sigue ahí al cambiar de flow hasta que lo quitas o reejecutas.
 
-**Lo que no cambia**: el `.flow.json` sigue siendo un fichero de datos y la app no se modifica. La otra cara: un flow que te pasen puede ejecutar código en tu navegador. Ejecuta solo flows en los que confíes; si repartes flows a gente que no los va a leer, quita los scripts o mantén una copia sin ellos.
+**Lo que no cambia**: el `.flow.json` sigue siendo un fichero de datos y la app no se modifica. La otra cara: un flow que te pasen puede ejecutar código en tu navegador — por eso desde la 5.15 los flows que no son tuyos corren sus scripts en un **sandbox** hasta que tú decides confiar (sección siguiente). Si repartes flows a gente que no los va a leer, quita los scripts o mantén una copia sin ellos.
 
 **Cómo llegan los datos al script**: las extracciones convierten lo que sacan en texto (`String(valor)`): un array queda como `"v1,v2,…"` (un array de pares como `[[ts, precio], …]` se aplana a `"ts,precio,ts,precio…"`) y un objeto como `[object Object]`. Extrae números, textos o arrays de primitivos y parsea en el script (`String(vars.x).split(',').map(Number)`).
 
 🆕 4.25: en el texto, `[[otro-flow]]`, `[[otro-flow|texto]]` y `[[otro-flow#Nombre de nodo]]` se convierten en **enlaces a otros flows del proyecto** (abre el flow y centra el nodo), y las URLs `http(s)` son clicables — ver [08 · Enlaces entre flows](08-paneles.md#enlaces-entre-flows-en-las-notas--425).
+
+### Sandbox y flows de confianza 🆕 (5.15)
+
+Un script de nota es código. Hasta la 5.14 corría siempre en la página, así que un flow que te pasaran podía hacer en tu navegador lo mismo que tú: leer y cambiar tu canvas por el MCP, guardar ficheros del proyecto, pintar cualquier cosa sobre la app. Desde la 5.15 la app distingue dos casos:
+
+- **🛡️ Flows de confianza**: los que nacen en esta pestaña (Nuevo flow, los que construye el asistente de IA o el MCP con `flow_create`) y los que marcas tú. Sus scripts corren en la página, como siempre: pueden dibujar interfaz y llamar al MCP.
+- **🔒 Todo lo demás** — abierto desde el panel Proyecto (disco o cloud), «Abrir .flow.json…», importado o de la galería: sus scripts corren en un **sandbox**: un iframe de origen opaco (sin cookies ni sesión, sin el DOM de la app, sin `localStorage`), con una CSP sin red (ni `fetch`, ni XHR, ni WebSocket) y dentro de un Worker con tope de tiempo (5 s: un bucle infinito se corta y no congela la app). El script recibe una **copia** de `vars`, devuelve su valor y nada más. Para los scripts que solo calculan (`return Number(vars.total) > 0 ? 'OK' : 'VACÍO'`) no cambia nada.
+
+![](assets/flowtest-82-chip-sandbox.png)
+
+El **chip de la barra superior** dice en qué estado está la pestaña: **🔒 scripts en sandbox** o **🛡️ flow de confianza**. Clic para cambiarlo (al conceder confianza pide confirmación; solo aparece en pestañas de flow, no en documentos).
+
+**Cuando un script necesita la página.** Si el código de un script de un flow no confiable usa `document`, `window`, `fetch`, `localStorage`, `Notification`… la app lo detecta **antes de ejecutarlo** (5.15.1) y pregunta:
+
+![](assets/flowtest-81-sandbox-modal.png)
+
+- **Confiar en este flow y volver a ejecutar**: el flow pasa a ser de confianza, el script se ejecuta en la página y a partir de ahora todos los de ese flow también.
+- **Seguir en el sandbox**: ese script (y los que pidan la página en la misma pestaña) devuelven un error explicativo en la nota, y no se vuelve a preguntar hasta que reabras el flow o toques el chip. Un script que ya corría en el sandbox y falla intentando usar la red o el DOM también dispara la pregunta.
+
+La decisión se guarda **por fichero y por navegador** (`localStorage`, clave `local:` o `cloud:` + ruta), nunca dentro del `.flow.json`: compartir el flow no comparte tu confianza, y la misma ruta en local y en el cloud se decide por separado. Retirarla es un clic en el chip.
+
+**Cuándo confiar.** Acepta si sabes de dónde viene el flow: lo hiciste tú, lo hizo tu equipo, o es de la galería y lo has leído. Un script que dibuja y sigue el contrato de arriba es una herramienta; el mismo script en un flow ajeno puede llevar cualquier cosa. En el servidor (CLI, móvil, webhooks, monitores) los scripts siguen corriendo en el sandbox `vm` de la 5.14.1, sin acceso a la página ni a los secretos del contenedor — y allí no se pregunta nada: un script no puede dibujar sin navegador.
 
 ## Diagrama Mermaid (Add Mermaid, violeta)
 

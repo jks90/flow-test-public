@@ -133,7 +133,9 @@ valores entran como variables antes de la primera petición.
   `when: "after"` corren al acabar el run con todas las extracciones. Un array extraído llega
   como texto `"v1,v2,…"` y un objeto como `[object Object]`: extrae primitivos y parsea. Un
   script «after» también puede dibujar botones y paneles sobre FlowTest y llamar a `/mcp`
-  desde la página (ver el manual, 04 ▸ «Scripts que dibujan botones, páginas y acciones» y su contrato de higiene).
+  desde la página (ver el manual, 04 ▸ «Scripts que dibujan botones, páginas y acciones» y su contrato de higiene). Desde la 5.15 eso solo
+  ocurre en flows **de confianza**: los abiertos de fichero, cloud o import corren en un sandbox sin
+  página hasta que el usuario confía (chip de la barra).
 
 ## Pizarra (`drawings[]`) — desde la 4.24.0
 

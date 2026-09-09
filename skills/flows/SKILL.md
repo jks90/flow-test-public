@@ -124,6 +124,12 @@ reportar el resultado real (nunca asumido).
    de la galería `scripts/04 Divisas` y `scripts/05 Tiempo`. Datos: las extracciones aplanan arrays a
    `"v1,v2,…"` (pares `[[ts,p],…]` → `"ts,p,ts,p…"`) y los objetos salen como `[object Object]`:
    extrae primitivos y parsea en el script.
+   **Sandbox y confianza (5.15):** los flows que el usuario abre de disco, del cloud o importa
+   corren sus scripts en un sandbox sin página (sin DOM, sin red); los que creas tú en su pestaña
+   (`flow_create`) nacen de confianza y lo siguen siendo al guardarlos. Si un script que dibuja va
+   en un flow abierto de fichero, la app le preguntará al usuario si confía en el flow antes de
+   ejecutarlo: avísale (chip 🔒 → 🛡️ en la barra) y no intentes rodear el sandbox. Los scripts que
+   solo calculan no necesitan nada.
 5. Documenta dentro del canvas si aporta: `node_add_info` con `renderMode: "mermaid"` para el
    esquema del flujo, `whiteboard_update` para rodear/etiquetar grupos de cajas, y en el texto de
    las notas `[[otro-flow#Nodo]]` para enlazar flows relacionados del proyecto.

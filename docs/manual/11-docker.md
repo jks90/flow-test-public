@@ -4,7 +4,7 @@
 
 ```bash
 docker run -d --add-host=host.docker.internal:host-gateway \
-  -p 9998:3001 -p 1025:1025 --name flow juankanh/flow-app:5.14.1
+  -p 9998:3001 -p 1025:1025 --name flow juankanh/flow-app:5.15.1
 # web + API + MCP en http://localhost:9998 · 1025 = SMTP de prueba (Config ▸ Correo, 4.36)
 ```
 
@@ -128,6 +128,10 @@ flow-test se prueba **14 días gratis con todas las funciones** desde el primer 
 | 4.22.0 | Nº de orden por nodo + Alinear en fila/columna |
 | 4.23.0 | Scripts JS de las notas ejecutados al Run Flow (web, MCP y CLI; `--skip-info-scripts`), 📌 fijar cajas, Variables usadas en cada caja, tool MCP `tab_close` |
 | 4.24.0 | **Pizarra** estilo Excalidraw sobre el lienzo (`drawings` en el flow), barra lateral de iconos con un panel a la vez, **Guía de nodos**, Ocultar conectores, Maximizar Mermaid, tool MCP `node_add_info` (20 tools) |
+| **5.15.1** | 🛡️ **Sandbox de los scripts de nota en el navegador** + flows de confianza (pregunta antes de ejecutar, chip 🔒/🛡️ en la barra) — [04](04-notas-mermaid-capturas.md#sandbox-y-flows-de-confianza--515); imagen con parches de Alpine y sin `npm` |
+| **5.15.0** | 🛡️ Primera versión del sandbox en el navegador y del modelo de confianza por fichero |
+| **5.14.3** | 🔒 `npm audit` a cero y tope de memoria de los runners (`FLOW_RUNNER_HEAP_MB`) |
+| **5.14.2** | 🖼️ Imágenes de cualquier ruta del proyecto en el visor de documentos `.md` (`GET /workspace/image`) — [08](08-paneles.md#documentos-markdown-en-el-panel--438) |
 | **5.14.1** | 🔒 **Endurecimiento de seguridad**: sandbox de los scripts de nota en el servidor + cortafuegos de salida (SSRF) en el cloud — ver [docs/seguridad.md](../seguridad.md) |
 | **5.14.0** | 📮 **Reportar un problema** desde la app (escritorio y móvil): error/idea/pregunta con captura y datos técnicos → bandeja del equipo, respuesta por email y «Mis reportes» (Pro/Business); el asistente de IA lleva la **skill de flows de serie**; galería `scripts/` |
 | **5.13.1** | 🤖 IA en el **móvil** (pestaña ✨ IA en `/m`), «Entrar con Anthropic», conexión desde el navegador, Ctrl+V de capturas, «Guardar como…» ▸ ☁️ Cloud ([12](12-movil.md), [13](13-asistente-ia.md)) |

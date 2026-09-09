@@ -173,6 +173,23 @@ plano de control y del contenedor de aplicación) y aplicamos, entre otros, esto
 
 ---
 
+## Endurecimiento del 9 de septiembre de 2026 (5.14.2 → 5.15.1)
+
+Segunda tanda, orientada a la cadena de suministro, a la infraestructura del cloud y al navegador:
+
+| Control | Detalle |
+|---------|---------|
+| Sandbox de scripts de nota **en el navegador** (5.15.0 / 5.15.1) | Los flows que no son de confianza ejecutan sus scripts en un iframe de origen opaco + Worker, con CSP sin red y tope de tiempo; el usuario decide por fichero si confía (chip en la barra, pregunta antes de ejecutar). Cierra el vector «un flow ajeno actúa con tu sesión». |
+| Dependencias sin vulnerabilidades conocidas (5.14.3) | `npm audit` a cero en la aplicación y en el plano de control; versiones fijadas. |
+| Imagen mínima (5.15.0) | Parches del sistema base (Alpine) en cada build y sin `npm`/`yarn` en el contenedor final; Trivy: 0 CRITICAL / 0 HIGH. |
+| Límite de memoria de los runners (5.14.3) | Cada ejecución en el servidor (móvil, webhook, monitor) corre con un tope de heap (`FLOW_RUNNER_HEAP_MB`, 512 MB por defecto). |
+| Red por organización (cloud) | Cada contenedor de organización vive en su propia red Docker, alcanzable solo desde el gateway; el orquestador la crea y la retira con la organización. |
+| Rotación de secretos (cloud) | Token de administración, secreto del puente y clave de sesión rotados. |
+| Cabeceras de seguridad (cloud) | HSTS, `nosniff`, `Referrer-Policy`, `Permissions-Policy`, `X-Frame-Options` + CSP `frame-ancestors` (salvo los enlaces compartidos, que se pueden incrustar) y sin cabeceras `Server` / `X-Powered-By`. |
+| Infraestructura | SSH solo con clave, base de datos fijada a una versión concreta, actualizaciones automáticas del SO, escaneos Trivy (imagen) y OWASP ZAP baseline (cloud) sin fallos. |
+
+---
+
 ## Despliegue seguro (operadores del cloud)
 
 Recomendaciones para desplegar el modo multiinquilino:
@@ -204,6 +221,10 @@ Agradecemos el trabajo de la comunidad de seguridad y reconoceremos las aportaci
 
 ## Registro de cambios de seguridad
 
+- **5.15.1 (2026-09-09):** sandbox de los scripts de nota en el navegador para los flows que no son
+  de confianza, con decisión por fichero y pregunta antes de ejecutar; imagen sin `npm` y con parches
+  del sistema; `npm audit` a cero; tope de memoria de los runners; en el cloud, red Docker por
+  organización, rotación de secretos, cabeceras HSTS / CSP y escaneos Trivy + ZAP.
 - **5.14.1 (2026-09-08):** revisión de seguridad y endurecimiento (sandbox de scripts en el servidor,
   cortafuegos de salida anti-SSRF, aislamiento de secretos en logs, carpetas privadas «falla cerrado»,
   integridad de facturación, cookies `Secure`, comparaciones en tiempo constante, tokens de un solo

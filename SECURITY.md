@@ -10,3 +10,6 @@ Visión general de los controles de seguridad del producto (arquitectura, aislam
 cifrado de credenciales, ejecución de flujos, anti-SSRF, despliegue seguro): **[docs/seguridad.md](docs/seguridad.md)**.
 
 Versiones con soporte de seguridad: la **última** imagen `juankanh/flow-app` publicada.
+
+Cada versión se publica tras `npm audit` sin hallazgos y un análisis Trivy de la imagen; el cloud se
+revisa con OWASP ZAP (baseline). Última revisión: 9 de septiembre de 2026.

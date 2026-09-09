@@ -96,13 +96,16 @@ El panel lista también los **`.md`** de `flows/` (recursivo): tus notas y los i
 
 ![](assets/flowtest-53-md-pestana.png)
 
-- Renderiza encabezados, listas, tablas, bloques de código, citas, desplegables `<details>` (los usan los informes del explorador) e imágenes — las que viven bajo `flows/assets/` se sirven solas (`/flow-assets/*`).
+- Renderiza encabezados, listas, tablas, bloques de código, citas, desplegables `<details>` (los usan los informes del explorador) e imágenes — 🆕 5.14.2: **cualquier imagen del proyecto** se ve, con rutas relativas al documento (`![](oro-2026-09-09-datos/semana.png)`) o desde la raíz de `flows/`; el servidor las sirve por `GET /workspace/image?path=` sin salir de `flows/` (misma guarda que el resto del workspace, carpetas privadas respetadas, 25 MB por imagen). Las de `flows/assets/` siguen por `/flow-assets/*`.
 - Los **enlaces `[[flow]]`, `[[flow|texto]]` y `[[flow#Nombre de nodo]]`** funcionan como en las notas: cierran el visor, abren ese flow del proyecto y centran el nodo. Las URLs se abren en pestaña nueva.
 - **▶ Ejecutar desde el documento** 🆕 (4.39): cada enlace `[[flow]]` lleva adosado un botón verde **▶** que abre el flow **y lanza su Run Flow completo** (scripts de notas + nodos HTTP y SQL en orden topológico) — un `.md` con enlaces sirve de lanzador de baterías de prueba. En `[[flow#Nodo]]` el ▶ ejecuta el flow entero.
 
   ![](assets/flowtest-52-enlace-run.png)
 - Botones: **ver la fuente** (el Markdown original) y **recargar desde disco**; la pestaña se cierra como cualquier otra.
 - **Solo lectura**: los `.md` se editan fuera (tu editor, git); la web no los guarda ni los borra. El MCP (`flow_files_list`) y la CLI siguen viendo únicamente `.flow.json`.
+
+![](assets/flowtest-83-md-imagenes.png)
+*Un informe del proyecto con sus gráficos, tal cual en el visor (5.14.2).*
 
 ### Documentos PDF en el panel 🆕 (4.45)
 
