@@ -82,7 +82,7 @@ ejemplo listo en [`mcp-config.stdio.example.json`](../mcp-config.stdio.example.j
 Además: los snapshots de estado que ve la IA **no incluyen las passwords** de los nodos SQL,
 y `flow_file_read` está limitado a la carpeta `flows/` (sin path traversal).
 
-## Las 37 tools
+## Las 39 tools
 
 ### Observar
 
@@ -122,6 +122,12 @@ y `flow_file_read` está limitado a la carpeta `flows/` (sin path traversal).
 | `flow_run` | Ejecuta el flow (el botón «Run Flow») y **espera al resultado**: run completo + variables extraídas. Primero los **scripts JS de las notas**, después **requests y SQL** en el mismo orden topológico (4.34; entradas `JS`, `SQL` y HTTP en el run), respetando las pausas `delayMs` de las flechas. Si no ejecuta nada (pestaña ocupada, flow sin nodos HTTP ni SQL) responde `finished:false` con el motivo |
 | `node_run` | Ejecuta un nodo de **cualquier tipo** y su cadena descendente hacia nodos de **cualquier tipo** (4.34): `next` si fue bien, `on_error` si falló, `parallel` siempre; respeta `delayMs`. Una nota lanza sus scripts; una web se recarga |
 | `flow_reset` 🆕 4.26 | Limpia respuestas, resultados, estados y variables runtime de la pestaña (el «Reset») |
+
+### Vigilancia en el servidor 🆕 5.17
+
+| Tool | Qué hace |
+|------|----------|
+| `flow_monitor` | `mode: "set"` programa el flow **en el servidor** (`intervalMin`, sin navegador) y define `rules` sobre las variables con las que termina el run — `{variable, op, value, message?}` con `op` `gt` `gte` `lt` `lte` `equals` `not-equals` `contains` `not-contains` `changed`. El servidor hace POST a `notifyUrl` (admite `{{secret:X}}`) **solo cuando una regla se dispara, se recupera o el valor cambia**, y cuando el run falla. Fusiona con lo que haya; `rules` reemplaza la lista. **Se publica al guardar**: llama a `flow_save` después. `"clear"` lo quita. `"status"` **no necesita pestaña web**: estado de cada regla (`active`, `value`, `since`), último aviso y los 10 últimos runs (de todos los flows vigilados o de `path`) |
 
 ### Lienzo 🆕 4.26
 

@@ -35,7 +35,7 @@ reportar el resultado real (nunca asumido).
 ### Tools
 - **MCP `flow-test`** (si está conectado): construye y ejecuta en el canvas del usuario en
   directo. Endpoint típico: `http://localhost:9998/mcp` (contenedor) o `:3001` (local).
-  Mapa de las 38 tools (5.3):
+  Mapa de las 39 tools (5.17):
   - Observar: `bridge_status`, `flow_state` (pestañas con `filePath`/`dirty`; nodos con
     `position`/`order`/`pinned`; notas con `renderMode`/contenido/`scripts`; `drawings`),
     `console_read`, `runs_read`.
@@ -47,6 +47,14 @@ reportar el resultado real (nunca asumido).
     `variables_set` (variables de la pestaña; 5.3: `environment`+`activate` para entornos con nombre), `global_variables_set` (globales), `tab_rename`,
     `sql_connections_list` (perfiles SQL para `connectionProfileId`).
   - Ejecutar: `flow_run`, `node_run`, `flow_reset`.
+  - **Vigilar sin navegador (5.17):** `flow_monitor` — `set` programa el flow EN EL SERVIDOR cada `intervalMin` y define `rules`
+    sobre las variables con las que termina el run (extracciones y scripts «después»): `{variable, op: gt|gte|lt|lte|equals|
+    not-equals|contains|not-contains|changed, value, message?}`. El servidor avisa por POST a `notifyUrl` (Slack, Telegram, ntfy,
+    n8n, o el `/hook/` de otro flow; admite `{{secret:X}}`) **solo cuando una regla se dispara, se recupera o el valor cambia** —
+    no en cada run. Se publica al guardar: llama a `flow_save` después. `status` (sin pestaña web) devuelve el estado de cada
+    regla y el último aviso; `clear` lo quita. Úsalo cuando el usuario pida «avísame si…», «vigila este dato», «alerta cuando…»:
+    extrae el dato a una variable (o calcúlalo en un script `when: 'after'`), pon la regla y guarda — nada de `cron` ni
+    `setInterval` en scripts de nota para esto.
   - Lienzo: `node_focus` (señalar un nodo al usuario), `canvas_layout`
     (`auto|row|column|grid|separate|collapse_all|expand_all|pin_all|unpin_all`; `grid` usa la celda `cell: {col,row}` de cada
     nodo — 1,1 arriba a la izquierda — que aceptan `node_add_*`/`node_update`; `separate` aparta

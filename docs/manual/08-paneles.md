@@ -361,6 +361,44 @@ navegador abierto** — la diferencia clave con el cron por nodo. Guarda los úl
 apunta a un webhook de Slack/Telegram/n8n… o al `/hook/` de otro flow para reaccionar en cadena.
 Se publica al guardar el flow (Ctrl+S).
 
+### Vigilancia: reglas y avisos 🆕 (5.17)
+
+Un monitor sin reglas solo sabe decir «el flow falló». Con **reglas** vigila un **dato**: el servidor
+ejecuta el flow cada N minutos, mira las variables con las que termina el run (las **extracciones** y
+los **scripts «después»**) y te avisa **solo cuando algo cambia de estado** — no en cada ejecución.
+
+![Reglas de vigilancia dentro del monitor programado, con el estado en vivo de cada una](assets/flowtest-86-vigilancia-reglas.png)
+
+1. Extrae el dato a una variable (JSONPath en el Request, columna en el SQL) o calcúlalo en un script
+   «después» de una nota (`return Number(vars.oro_precio) > Number(vars.resistencia) ? 'ROTURA' : 'RANGO'`).
+2. **Automatización… ▸ Monitor programado ▸ + Regla**: variable (el campo sugiere las que produce el flow),
+   operador y valor. Operadores: `>` `≥` `<` `≤` `=` `≠`, **contiene** / **no contiene** y **cambia**
+   (avisa cuando el valor es distinto al de la ejecución anterior). Los números se entienden aunque
+   vengan como `2.650,40` o `2650.4 USD`.
+3. Opcional: un **mensaje** propio con `{{variables}}` del run — «🥇 Oro en {{oro_precio}} $».
+4. Pon un `notifyUrl` y **guarda** (Ctrl+S): la vigilancia vive en el servidor.
+
+**Cuándo avisa.** 🔔 cuando una regla **se dispara** (la condición pasa a cumplirse), ✅ cuando **se
+recupera** (deja de cumplirse) y 🔁 cuando un valor vigilado con «cambia» es distinto. Un precio que
+lleva tres horas por encima del nivel manda **un** aviso, no treinta y seis. Si en una ejecución el dato
+no llega (la API falló), la regla **conserva su estado** y el aviso que recibes es el del fallo.
+
+**Qué recibe el `notifyUrl`.** Un POST JSON con `text` y `message` (el mismo resumen legible, una línea
+por alerta — lo que esperan Slack, Telegram, Mattermost, ntfy o n8n), `alerts`
+(`kind: fired | recovered | changed`, `message`, `variable`, `value`), `rules` (estado de cada regla) y
+el resultado del run. La URL admite **`{{secret:NOMBRE}}`** (Variables ▸ 🔒 Credenciales): el token de
+tu bot no se guarda en el `.flow.json`.
+
+```text
+https://ntfy.sh/{{secret:NTFY_TOPIC}}
+https://api.telegram.org/bot{{secret:TG_BOT}}/sendMessage?chat_id=123456
+https://hooks.slack.com/services/{{secret:SLACK_HOOK}}
+```
+
+El modal enseña el estado de cada regla (🔔 **disparada desde…**, 🟢 en calma, 👁️ vigilando, ❔ sin
+dato) y el **último aviso**. El historial solo guarda el valor de las variables vigiladas, nunca el
+resto. Una IA puede montarlo todo con la tool MCP **`flow_monitor`** (y consultar `status` sin navegador).
+
 ## Colaboración en vivo 🆕 (5.5 · exclusiva Business)
 
 Dos (o más) personas con **el mismo fichero de `flows/` abierto** se ven editar en tiempo real:

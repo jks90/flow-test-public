@@ -41,7 +41,7 @@ En ⚙ Ajustes ▸ **Conexión con el proveedor** puedes elegir **«Desde este n
 
 En cada mensaje la IA recibe una **foto compacta del flow** (nodos con nombre, método, URL, celda y estado; conexiones; nombres de variables) y la lista de **lo que has cambiado tú a mano desde su último paso**. Por eso puedes editar el canvas mientras trabaja: en el siguiente paso lo ve y no lo pisa.
 
-Después actúa con las **mismas 38 herramientas del MCP** (`node_add_request`, `nodes_connect`, `variables_set`, `flow_run`, `canvas_layout`…). Todo se retransmite en streaming al panel:
+Después actúa con las **mismas 39 herramientas del MCP** (`node_add_request`, `nodes_connect`, `variables_set`, `flow_run`, `canvas_layout`…). Todo se retransmite en streaming al panel:
 
 - el **razonamiento resumido** (plegado, «razonamiento») y el texto a medida que lo escribe;
 - cada **tool** como una tarjeta: nombre, el input **escribiéndose en directo**, estado (escribiendo → ejecutando → hecho/error) y el resultado plegable; los ids de los nodos tocados salen como chips: clic para centrar el canvas en ese nodo;
