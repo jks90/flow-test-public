@@ -201,7 +201,8 @@ Ejemplo completo: [`examples/pizarra-anotada.flow.json`](../examples/pizarra-ano
 ```json
 "settings": {
   "webhook": { "token": "af31…" },
-  "monitor": { "intervalMin": 15, "notifyUrl": "https://hooks.slack.com/…", "notify": "fail" }
+  "monitor": { "intervalMin": 15, "notifyUrl": "https://hooks.slack.com/…", "notify": "fail",
+               "rules": [{ "id": "r1", "name": "Oro rompe 2700", "variable": "oro_precio", "op": "gt", "value": "2700" }] }
 }
 ```
 
@@ -210,6 +211,11 @@ Ejemplo completo: [`examples/pizarra-anotada.flow.json`](../examples/pizarra-ano
 - `monitor` (5.4.0): el servidor ejecuta el flow solo cada `intervalMin` minutos, sin navegador;
   historial de 100 runs en `flows/.monitors/` (`GET /monitors`) y aviso `POST` a `notifyUrl`
   al fallar/cambiar de estado (`notify: "fail"`) o en cada run (`"always"`).
+- `monitor.rules` (5.17.0, opcional): **reglas de vigilancia** sobre las variables con las que termina el
+  run — `[{ "id", "name", "variable", "op", "value", "message"? }]` (máx. 20) con `op` = `gt` `gte` `lt`
+  `lte` `equals` `not-equals` `contains` `not-contains` `changed` (sin `value`). El servidor las evalúa tras
+  cada run del monitor y avisa a `notifyUrl` solo cuando una regla se dispara, se recupera o el valor cambia;
+  `message` admite `{{variables}}` del run y `notifyUrl` admite `{{secret:X}}`. El CLI las ignora.
 - También puede llevar `view` (tamaño/compacto/separación de nodos), `hideConnections`,
   `whiteboardStyle`, `viewport` y `background` (imagen de fondo del canvas) — todo visual;
   el CLI lo ignora. Ambos bloques de automatización se publican al **guardar** el flow en `flows/`.

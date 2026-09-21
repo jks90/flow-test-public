@@ -24,7 +24,7 @@ letra** cuando escriba flows a mano.
 - `name` corto y descriptivo (`{dominio}-{caso}`), que coincida con el nombre del fichero.
 - Opcionales de primer nivel: `environments` + `activeEnvironment` (5.3.0 — juegos de overrides
   con nombre sobre `envVariables`; el CLI los elige con `--env <nombre>`), `settings`
-  (4.48.0 — vista/`webhook {token}`/`monitor {intervalMin, notifyUrl?, notify}`; los dos últimos
+  (4.48.0 — vista/`webhook {token}`/`monitor {intervalMin, notifyUrl?, notify, rules?}` (5.17: `rules [{id, name, variable, op, value, message?}]` = vigilancia sobre las variables finales del run); los dos últimos
   publican automatización server-side al guardar el flow) y `drawings` (pizarra; solo si hay).
 
 ## RequestNode (`nodes[]`)
