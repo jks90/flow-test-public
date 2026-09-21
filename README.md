@@ -26,7 +26,7 @@ docker run -d \
   -p 9998:3001 \
   -p 1025:1025 \
   --name flow \
-  juankanh/flow-app:5.15.1
+  juankanh/flow-app:5.16.0
 ```
 
 - **Web**: http://localhost:9998 — el canvas visual.
@@ -63,7 +63,8 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 
 | Versión | Qué trae |
 |---------|----------|
-| **5.15.1** (recomendada) | 🛡️ **Sandbox de los scripts de nota en el navegador**: un flow que no es tuyo (abierto de disco o del cloud, importado, de la galería) ejecuta sus scripts JS en un sandbox sin página, sin sesión y sin red; si un script necesita dibujar interfaz o llamar al MCP, la app **pregunta antes de ejecutarlo** y puedes marcar el flow como **de confianza** (chip 🔒 / 🛡️ en la barra; se recuerda por fichero en tu navegador). Imagen con parches de Alpine y sin `npm` en el contenedor |
+| **5.16.0** (recomendada) | 🔎 **Notas a pantalla completa**: botón **Maximizar** junto a «Copiar» en la vista previa de cada nota (y «Maximizar nota» en el menú de la caja) — variables resueltas, enlaces vivos, tamaño de letra con Ctrl + rueda, Esc para cerrar ([04](https://github.com/jks90/flow-test-public/blob/main/docs/manual/04-notas-mermaid-capturas.md)). El panel Proyecto **recuerda** si estabas en 💻 Local o ☁️ Cloud al recargar |
+| **5.15.1** | 🛡️ **Sandbox de los scripts de nota en el navegador**: un flow que no es tuyo (abierto de disco o del cloud, importado, de la galería) ejecuta sus scripts JS en un sandbox sin página, sin sesión y sin red; si un script necesita dibujar interfaz o llamar al MCP, la app **pregunta antes de ejecutarlo** y puedes marcar el flow como **de confianza** (chip 🔒 / 🛡️ en la barra; se recuerda por fichero en tu navegador). Imagen con parches de Alpine y sin `npm` en el contenedor |
 | **5.15.0** | 🛡️ Primera versión del sandbox en el navegador y de los flows de confianza (la 5.15.1 pregunta antes de ejecutar en vez de tras un fallo silencioso) |
 | **5.14.3** | 🔒 Dependencias sin vulnerabilidades conocidas (`npm audit` a cero) y tope de memoria de los runners del servidor (`FLOW_RUNNER_HEAP_MB`, 512 MB) |
 | **5.14.2** | 🖼️ El visor de documentos `.md` del proyecto muestra **cualquier imagen del proyecto** (rutas relativas al documento), no solo las de `flows/assets/` |
@@ -96,7 +97,7 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 | 4.4 – 4.22 | Nodo Web + modo **Live** (login real, capturas con sus llamadas HTTP), `flow-explore`, Chromium en la imagen, CAs corporativas en `/certs`, teclado directo en Live, checks LNA desactivados, nº de orden y alineado — historial completo en el manual |
 
 ```bash
-docker pull juankanh/flow-app:5.15.1
+docker pull juankanh/flow-app:5.16.0
 ```
 
 ## Documentación

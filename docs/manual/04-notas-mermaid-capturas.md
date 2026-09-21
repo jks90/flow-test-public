@@ -10,6 +10,20 @@ Texto libre. Si escribes `{{variables}}`, la **vista previa** resuelve los valor
 
 ![](assets/flowtest-39-nota-copiar.png)
 
+### Nota a pantalla completa 🆕 (5.16)
+
+A la derecha de **Copiar**, el botón **Maximizar** abre la nota a pantalla completa — para leer una nota larga sin estirar la caja ni hacer zoom en el lienzo:
+
+![El botón Maximizar, junto a Copiar, en la cabecera de la vista previa](assets/flowtest-84-nota-boton-maximizar.png)
+
+![La nota abierta a pantalla completa, con las variables resueltas y los enlaces vivos](assets/flowtest-85-nota-pantalla-completa.png)
+
+- Se ve **como en la vista previa**: `{{variables}}` resueltas, URLs clicables y enlaces `[[flow]]` / `[[flow#Nodo]]` — al seguir uno, la nota se cierra y la app navega al flow.
+- **Tamaño de la letra**: botones − / % / + de la barra, **Ctrl + rueda** o `Ctrl +` / `Ctrl −` / `Ctrl 0` (de 60 % a 300 %).
+- **Copiar** copia la nota entera (texto plano + HTML, igual que el botón de la caja). **Esc** o **Cerrar** vuelven al lienzo.
+- En una **Captura**, la imagen sale encima del texto. Los diagramas Mermaid tienen su propio «Maximizar diagrama» con zoom.
+- También está en el menú de la caja (icono del tipo ▸ **Maximizar nota**), que funciona aunque la nota esté plegada.
+
 La pestaña **Scripts JS** define variables calculadas con JavaScript (`return "hola"` → variable disponible en el flow). **Desde la 4.23 esos scripts se ejecutan solos al pulsar Run Flow** (también con `flow_run` por MCP y en el CLI) y sus valores entran en el flow **antes de la primera petición** — ideal para ids, emails o tokens únicos por ejecución (`return 'qa+' + Date.now() + '@example.com'`). Precedencia en el CLI: `envVariables` < scripts < `--var`; `--skip-info-scripts` los desactiva. La pestaña **Cron** los recalcula periódicamente.
 
 ### Scripts «antes» y «después», con `vars` 🆕 (4.51)
