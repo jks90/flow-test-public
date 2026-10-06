@@ -80,3 +80,12 @@ Tras ejecutar, cada assert enseña su resultado real (`✓ status 2xx — recibi
 también sale en la Consola y en el historial. En el CLI, los asserts KO aparecen bajo el nodo y
 fuerzan `exit 1` (y en `--data`, el caso concreto queda marcado). El MCP los acepta en
 `node_add_request` (`asserts: [{kind, expected|path|op|value|maxMs}]`).
+### Errores esperados y variables 🆕 (5.19)
+
+- **Errores esperados:** si la caja lleva un assert de **status** que pide un error (`404`, `4xx`,
+  `400-499`…), la caja queda en **verde** cuando TODOS sus asserts se cumplen, aunque el HTTP no sea
+  2xx. Sirve para probar a propósito un «no encontrado» o un «sin permiso». El indicador OK de la
+  caja y del modal de respuesta siguen la misma regla, y el CLI también.
+- **Variables en los asserts:** `path`, `value` y `expected` aceptan `{{variables}}`, que se resuelven
+  justo antes de evaluar: `$.code equals {{taskCode}}` compara con lo que extrajo un paso anterior.
+

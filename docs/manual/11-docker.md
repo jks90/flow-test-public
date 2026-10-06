@@ -4,7 +4,7 @@
 
 ```bash
 docker run -d --add-host=host.docker.internal:host-gateway \
-  -p 9998:3001 -p 1025:1025 --name flow juankanh/flow-app:5.17.0
+  -p 9998:3001 -p 1025:1025 --name flow juankanh/flow-app:5.19.4
 # web + API + MCP en http://localhost:9998 · 1025 = SMTP de prueba (Config ▸ Correo, 4.36)
 ```
 
@@ -129,6 +129,9 @@ flow-test se prueba **14 días gratis con todas las funciones** desde el primer 
 | 4.23.0 | Scripts JS de las notas ejecutados al Run Flow (web, MCP y CLI; `--skip-info-scripts`), 📌 fijar cajas, Variables usadas en cada caja, tool MCP `tab_close` |
 | 4.24.0 | **Pizarra** estilo Excalidraw sobre el lienzo (`drawings` en el flow), barra lateral de iconos con un panel a la vez, **Guía de nodos**, Ocultar conectores, Maximizar Mermaid, tool MCP `node_add_info` (20 tools) |
 | **5.15.1** | 🛡️ **Sandbox de los scripts de nota en el navegador** + flows de confianza (pregunta antes de ejecutar, chip 🔒/🛡️ en la barra) — [04](04-notas-mermaid-capturas.md#sandbox-y-flows-de-confianza--515); imagen con parches de Alpine y sin `npm` |
+| **5.19.4** | 🗂️ El workspace no lista los git worktrees enlazados (copias de los agentes): sin flows repetidos en el panel Proyecto ni en `flow_files_list` — [08](08-paneles.md#carpetas-enlazadas-y-copias-de-los-agentes--5194) |
+| **5.19.0–5.19.3** | ✅ Asserts de status 4xx/5xx esperados y con `{{variables}}` ([02](02-nodo-request.md#errores-esperados-y-variables--519)); plugin Agentes con contexto, Ajustes y voz; `flow_open`/`flow_save` respetan el disco |
+| **5.18.0** | 🧩 Gestor de plugins con AgentOffice (Pro) y workspace con enlaces simbólicos — [08](08-paneles.md#plugins-y-agentoffice--518) |
 | **5.17.0** | 🔔 **Vigilancia en el servidor**: reglas sobre las variables del run en el monitor programado, aviso solo al dispararse o recuperarse, `{{secret:X}}` en `notifyUrl`, tool MCP `flow_monitor` — [08](08-paneles.md#vigilancia-reglas-y-avisos--517) |
 | **5.16.0** | 🔎 **Notas a pantalla completa**: botón Maximizar junto a «Copiar» y «Maximizar nota» en el menú de la caja — [04](04-notas-mermaid-capturas.md#nota-a-pantalla-completa--516). El panel Proyecto recuerda el entorno 💻 Local / ☁️ Cloud entre recargas (fix 5.15.2) |
 | **5.15.0** | 🛡️ Primera versión del sandbox en el navegador y del modelo de confianza por fichero |

@@ -26,7 +26,7 @@ docker run -d \
   -p 9998:3001 \
   -p 1025:1025 \
   --name flow \
-  juankanh/flow-app:5.17.0
+  juankanh/flow-app:5.19.4
 ```
 
 - **Web**: http://localhost:9998 — el canvas visual.
@@ -63,7 +63,10 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 
 | Versión | Qué trae |
 |---------|----------|
-| **5.17.0** (recomendada) | 🔔 **Vigilancia en el servidor**: al monitor programado se le añaden **reglas** sobre los datos que extrae el flow (`precio > 2700`, `senal cambia`, `estado contiene ERROR`…). El servidor lo ejecuta cada N min **sin navegador** y avisa por webhook (Slack, Telegram, ntfy, n8n…) **solo cuando una regla se dispara o se recupera**; `notifyUrl` admite `{{secret:X}}`; tool MCP `flow_monitor` (39 tools) — [08](https://github.com/jks90/flow-test-public/blob/main/docs/manual/08-paneles.md) |
+| **5.19.4** (recomendada) | 🗂️ El panel Proyecto y `flow_files_list` **ya no repiten los flows** de las copias de trabajo de los agentes (git worktrees dentro de un repo enlazado en el workspace) — [08](https://github.com/jks90/flow-test-public/blob/main/docs/manual/08-paneles.md#carpetas-enlazadas-y-copias-de-los-agentes--5194) |
+| **5.19.0–5.19.3** | ✅ **Asserts de errores esperados**: un assert de status `404`/`4xx` deja el nodo en verde si se cumple, y los asserts aceptan `{{variables}}` ([02](https://github.com/jks90/flow-test-public/blob/main/docs/manual/02-nodo-request.md#errores-esperados-y-variables--519)). Plugin Agentes: recibe lo que estás viendo, panel de Ajustes propio y escucha por voz; `flow_open` recarga del disco y `flow_save` no pisa cambios ajenos |
+| **5.18.0** | 🧩 **Plugins** (Config ▸ Plugins) con **AgentOffice** como primero: una oficina de agentes de IA que trabaja en tus repos, embebida en FlowTest (Pro). El workspace **sigue enlaces simbólicos**: una carpeta de proyecto puede reunir los `flows/` de varios repos — [08](https://github.com/jks90/flow-test-public/blob/main/docs/manual/08-paneles.md#plugins-y-agentoffice--518) |
+| **5.17.0** | 🔔 **Vigilancia en el servidor**: al monitor programado se le añaden **reglas** sobre los datos que extrae el flow (`precio > 2700`, `senal cambia`, `estado contiene ERROR`…). El servidor lo ejecuta cada N min **sin navegador** y avisa por webhook (Slack, Telegram, ntfy, n8n…) **solo cuando una regla se dispara o se recupera**; `notifyUrl` admite `{{secret:X}}`; tool MCP `flow_monitor` (39 tools) — [08](https://github.com/jks90/flow-test-public/blob/main/docs/manual/08-paneles.md) |
 | **5.16.0** | 🔎 **Notas a pantalla completa**: botón **Maximizar** junto a «Copiar» en la vista previa de cada nota (y «Maximizar nota» en el menú de la caja) — variables resueltas, enlaces vivos, tamaño de letra con Ctrl + rueda, Esc para cerrar ([04](https://github.com/jks90/flow-test-public/blob/main/docs/manual/04-notas-mermaid-capturas.md)). El panel Proyecto **recuerda** si estabas en 💻 Local o ☁️ Cloud al recargar |
 | **5.15.1** | 🛡️ **Sandbox de los scripts de nota en el navegador**: un flow que no es tuyo (abierto de disco o del cloud, importado, de la galería) ejecuta sus scripts JS en un sandbox sin página, sin sesión y sin red; si un script necesita dibujar interfaz o llamar al MCP, la app **pregunta antes de ejecutarlo** y puedes marcar el flow como **de confianza** (chip 🔒 / 🛡️ en la barra; se recuerda por fichero en tu navegador). Imagen con parches de Alpine y sin `npm` en el contenedor |
 | **5.15.0** | 🛡️ Primera versión del sandbox en el navegador y de los flows de confianza (la 5.15.1 pregunta antes de ejecutar en vez de tras un fallo silencioso) |
@@ -98,7 +101,7 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 | 4.4 – 4.22 | Nodo Web + modo **Live** (login real, capturas con sus llamadas HTTP), `flow-explore`, Chromium en la imagen, CAs corporativas en `/certs`, teclado directo en Live, checks LNA desactivados, nº de orden y alineado — historial completo en el manual |
 
 ```bash
-docker pull juankanh/flow-app:5.17.0
+docker pull juankanh/flow-app:5.19.4
 ```
 
 ## Documentación

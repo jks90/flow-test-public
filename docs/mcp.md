@@ -147,8 +147,8 @@ La carpeta `flows/` del servidor es el proyecto (en Docker `/app/flows`, o `FLOW
 | Tool | Qué hace |
 |------|----------|
 | `flow_files_list` | Lista los `.flow.json` con metadatos (ruta, carpeta, tamaño, fecha, nombre del flow, nº de nodos) — lo mismo que muestra el panel |
-| `flow_open` 🆕 4.26 | Abre un fichero en una pestaña **enlazada** al fichero (ids de nodos conservados); si ya está abierto, la activa. Después `flow_save` / Ctrl+S escriben en él |
-| `flow_save` | Guarda la pestaña en el proyecto **como Ctrl+S**: la pestaña queda enlazada al fichero y deja de estar «sin guardar». Sin `fileName` usa el fichero enlazado (o el nombre del flow); admite subcarpetas (`int/login`) |
+| `flow_open` 🆕 4.26 | Abre un fichero en una pestaña **enlazada** al fichero (ids de nodos conservados); si ya está abierto, la activa. Desde la 5.19.2, si ya estaba abierto **lo recarga desde el disco** (no te quedas con una copia vieja). Después `flow_save` / Ctrl+S escriben en él |
+| `flow_save` | Guarda la pestaña en el proyecto **como Ctrl+S**: la pestaña queda enlazada al fichero y deja de estar «sin guardar». Sin `fileName` usa el fichero enlazado (o el nombre del flow); admite subcarpetas (`int/login`). Desde la 5.19.2, si el fichero cambió en disco desde que se abrió, **no lo pisa** (409) salvo `force: true` |
 | `flow_file_delete` 🆕 4.26 | Borra un fichero del proyecto; si estaba abierto cierra su pestaña |
 | `flow_file_read` | Lee un `.flow.json` como JSON sin abrirlo |
 

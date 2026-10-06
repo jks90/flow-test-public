@@ -118,6 +118,16 @@ El panel Proyecto lista también los **`.pdf`** de `flows/` (recursivo, chip **P
 - Solo lectura: Ctrl+S nunca lo pisa, y la pestaña jamás aparece como «sin guardar». Los enlaces `[[flow]]` de notas y documentos siguen resolviendo **solo contra flows** (los `.md`/`.pdf` quedan fuera).
 - Servido por `GET /workspace/pdf?path=` con las mismas guardas que el resto del workspace (nada fuera de `flows/`, carpetas ocultas excluidas, máx. 50 MB).
 
+### Carpetas enlazadas y copias de los agentes 🆕 (5.19.4)
+
+Desde la 5.18 el workspace **sigue enlaces simbólicos**: una carpeta de proyecto puede ser un «hub»
+con enlaces a los `flows/` de varios repos y a sus documentos, y el panel los lista como propios.
+
+Si enlazas un repo entero en el que trabajan agentes (por ejemplo con AgentOffice), sus **copias de
+trabajo** (git worktrees, una por tarea) repetirían todos los flows. Desde la 5.19.4 el panel
+Proyecto, `/workspace/flows` y la tool MCP `flow_files_list` **saltan los git worktrees enlazados**;
+los submódulos de git se siguen listando.
+
 ## Enlaces entre flows en las notas 🆕 (4.25)
 
 En el texto de una **nota** (Add Note), escribe:
@@ -448,3 +458,17 @@ una caja de texto a ciegas. La ruta final y su aviso se actualizan en vivo.
 **Límite de flows por plan (5.7):** Trial 3 · Pro 100 (+packs de 100) · **Business 1.000** (10× Pro).
 Al llegar al tope, guardar un flow NUEVO devuelve un aviso (los existentes se siguen editando). Los
 flows de fábrica (bienvenida y `ejemplos/`) no cuentan.
+
+## Plugins y AgentOffice 🆕 (5.18)
+
+**Config ▸ Plugins** lista las extensiones de FlowTest con un interruptor para activarlas. La
+primera es **AgentOffice** (Pro): una oficina de agentes de IA (Claude Code / Codex) que trabaja en
+tus repos con un tablero de tareas, una rama por tarea y revisión humana antes de fusionar.
+
+- AgentOffice corre **aparte** (sidecar) y FlowTest lo sirve en `/agents/`; se configura con
+  `FLOW_AGENTS_URL` (y `FLOW_AGENTS_TOKEN` si no está en la misma máquina).
+- Al activarlo aparece un botón en la barra principal que lo abre **embebido**. AgentOffice recibe
+  lo que estás viendo (pestaña, flow, nodo seleccionado) y puede pedirle a FlowTest que abra un flow
+  o enseñe un diff (5.19).
+- Tiene su propio panel de **Ajustes** tipo Cmd y un indicador «👂 escuchando» cuando su Guía
+  atiende por voz (5.19.2–5.19.3).
