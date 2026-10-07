@@ -118,6 +118,17 @@ El panel Proyecto lista también los **`.pdf`** de `flows/` (recursivo, chip **P
 - Solo lectura: Ctrl+S nunca lo pisa, y la pestaña jamás aparece como «sin guardar». Los enlaces `[[flow]]` de notas y documentos siguen resolviendo **solo contra flows** (los `.md`/`.pdf` quedan fuera).
 - Servido por `GET /workspace/pdf?path=` con las mismas guardas que el resto del workspace (nada fuera de `flows/`, carpetas ocultas excluidas, máx. 50 MB).
 
+### Ordenar el proyecto 🆕 (5.20)
+
+En **💻 Local**, el panel Proyecto sirve también para ordenar la carpeta:
+
+- **Carpeta nueva**: botón de carpeta en la barra del panel (crea en `flows/`) o al pasar el ratón por una carpeta (crea dentro). Las carpetas **vacías** también se ven.
+- **Mover**: **arrastra** un flow, un documento o una carpeta entera y suéltalo sobre otra carpeta (o sobre `flows/`). Si el flow estaba abierto, **su pestaña lo sigue**: Ctrl+S guarda ya en la ruta nueva.
+- **✏️ Mover o renombrar**: en cada fichero y en cada carpeta; escribe la ruta nueva dentro de `flows/` (si la carpeta de destino no existe, se crea). Un flow sigue acabando en `.flow.json` y un documento conserva su extensión.
+- **Borrar**: 🗑 en flows y, desde la 5.20.1, también en documentos **`.md` y `.pdf`** (con confirmación; si estaba abierto, se cierra su pestaña). Una carpeta se borra cuando está **vacía**. Un **enlace** se quita sin tocar el fichero al que apunta.
+
+Nada de esto sale de `flows/` ni toca carpetas ocultas o privadas de otro miembro. En **☁️ Cloud** el panel sigue siendo de solo abrir y guardar.
+
 ### Carpetas enlazadas y copias de los agentes 🆕 (5.19.4)
 
 Desde la 5.18 el workspace **sigue enlaces simbólicos**: una carpeta de proyecto puede ser un «hub»
