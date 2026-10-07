@@ -129,6 +129,15 @@ En **💻 Local**, el panel Proyecto sirve también para ordenar la carpeta:
 
 Nada de esto sale de `flows/` ni toca carpetas ocultas o privadas de otro miembro. En **☁️ Cloud** el panel sigue siendo de solo abrir y guardar.
 
+### Panel Proyecto a medida 🆕 (5.21)
+
+![Panel Proyecto con un script abierto, carpetas enlazadas con su destino y el botón de carpetas ocultas](assets/flowtest-87-panel-proyecto-a-medida.png)
+
+- **Scripts visibles**: los `.js`, `.mjs`, `.cjs`, `.ts`, `.py`, `.sh` y `.sql` de la carpeta salen en el árbol (chip ámbar con la extensión, p. ej. **MJS**). Clic = pestaña de solo lectura con el código tal cual. Se mueven, renombran y borran como los documentos. El MCP y la CLI siguen viendo solo flows.
+- **A dónde apunta cada enlace**: si una carpeta es un enlace simbólico (un workspace «hub» que reúne los `flows/` de varios repos), junto al contador aparece su destino en gris — `→ ~/dev/mi-repo/flows`; pasa el ratón para verlo entero. Solo en 💻 Local.
+- **Ancho del panel**: arrastra el **borde derecho** del panel para ensancharlo o estrecharlo (de 220 a 900 px); **doble clic** en el borde vuelve al ancho normal. Se recuerda en el navegador.
+- **Ocultar carpetas**: pasa el ratón por una carpeta y pulsa **👁‍🗨** para sacarla del árbol (y de los contadores). Arriba aparece **«👁‍🗨 N»**: púlsalo para ver las ocultas atenuadas y recupera una con **👁**. Es solo la vista de tu navegador: los ficheros siguen en disco y el resto de la app los ve.
+
 ### Carpetas enlazadas y copias de los agentes 🆕 (5.19.4)
 
 Desde la 5.18 el workspace **sigue enlaces simbólicos**: una carpeta de proyecto puede ser un «hub»

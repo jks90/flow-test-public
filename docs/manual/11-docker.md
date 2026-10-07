@@ -4,7 +4,7 @@
 
 ```bash
 docker run -d --add-host=host.docker.internal:host-gateway \
-  -p 9998:3001 -p 1025:1025 --name flow juankanh/flow-app:5.20.2
+  -p 9998:3001 -p 1025:1025 --name flow juankanh/flow-app:5.21.0
 # web + API + MCP en http://localhost:9998 · 1025 = SMTP de prueba (Config ▸ Correo, 4.36)
 ```
 
@@ -129,6 +129,7 @@ flow-test se prueba **14 días gratis con todas las funciones** desde el primer 
 | 4.23.0 | Scripts JS de las notas ejecutados al Run Flow (web, MCP y CLI; `--skip-info-scripts`), 📌 fijar cajas, Variables usadas en cada caja, tool MCP `tab_close` |
 | 4.24.0 | **Pizarra** estilo Excalidraw sobre el lienzo (`drawings` en el flow), barra lateral de iconos con un panel a la vez, **Guía de nodos**, Ocultar conectores, Maximizar Mermaid, tool MCP `node_add_info` (20 tools) |
 | **5.15.1** | 🛡️ **Sandbox de los scripts de nota en el navegador** + flows de confianza (pregunta antes de ejecutar, chip 🔒/🛡️ en la barra) — [04](04-notas-mermaid-capturas.md#sandbox-y-flows-de-confianza--515); imagen con parches de Alpine y sin `npm` |
+| **5.21.0** | 🗂️ Panel Proyecto a medida: scripts visibles como código, destino de las carpetas enlazadas, ancho ajustable y ocultar carpetas |
 | **5.20.2** | 🗑️ Borrado de documentos por `DELETE /workspace/file`; la pestaña se cierra solo si era del disco local |
 | **5.20.1** | 🗂️ Ordenar el proyecto: carpetas nuevas, arrastrar y soltar, mover/renombrar, borrar carpetas vacías y documentos `.md`/`.pdf` — [08](08-paneles.md#ordenar-el-proyecto--520) |
 | **5.19.4** | 🗂️ El workspace no lista los git worktrees enlazados (copias de los agentes): sin flows repetidos en el panel Proyecto ni en `flow_files_list` — [08](08-paneles.md#carpetas-enlazadas-y-copias-de-los-agentes--5194) |
