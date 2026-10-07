@@ -26,7 +26,7 @@ docker run -d \
   -p 9998:3001 \
   -p 1025:1025 \
   --name flow \
-  juankanh/flow-app:5.21.2
+  juankanh/flow-app:5.21.3
 ```
 
 - **Web**: http://localhost:9998 — el canvas visual.
@@ -63,7 +63,8 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 
 | Versión | Qué trae |
 |---------|----------|
-| **5.21.2** (recomendada) | 📬 Mejoras internas del correo de prueba (las tools MCP `mail_*` consultan los buzones remotos antes de leer) |
+| **5.21.3** (recomendada) | 🖥️ Abrir flow-test por la **IP de un servidor** (`http://192.168.x.x:9998`) ya no deja la página en blanco, y los botones «Copiar» funcionan por HTTP |
+| **5.21.2** | 📬 Mejoras internas del correo de prueba (las tools MCP `mail_*` consultan los buzones remotos antes de leer) |
 | **5.21.1** | 💾 Botón **Guardar** siempre visible en la barra y el diálogo «Guardar como…» ya no esconde su botón con muchas carpetas (reporte de usuario) — [01](https://github.com/jks90/flow-test-public/blob/main/docs/manual/01-pantalla-principal.md) |
 | **5.21.0** | 🗂️ **Panel Proyecto a medida**: los **scripts** (`.js`, `.mjs`, `.ts`, `.py`, `.sh`, `.sql`) se ven y se abren como código, las carpetas **enlazadas** muestran a dónde apuntan, el panel se **ensancha** arrastrando su borde y puedes **ocultar carpetas** — [08](https://github.com/jks90/flow-test-public/blob/main/docs/manual/08-paneles.md#panel-proyecto-a-medida--521) |
 | **5.20.2** | 🗑️ El borrado de documentos `.md`/`.pdf` va por su propia ruta (`DELETE /workspace/file`) y la pestaña solo se cierra si el documento era del disco local |
@@ -106,7 +107,7 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 | 4.4 – 4.22 | Nodo Web + modo **Live** (login real, capturas con sus llamadas HTTP), `flow-explore`, Chromium en la imagen, CAs corporativas en `/certs`, teclado directo en Live, checks LNA desactivados, nº de orden y alineado — historial completo en el manual |
 
 ```bash
-docker pull juankanh/flow-app:5.21.2
+docker pull juankanh/flow-app:5.21.3
 ```
 
 ## Documentación
