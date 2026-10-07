@@ -10,6 +10,7 @@
 | Botón | Qué hace |
 |-------|----------|
 | **⚡ FlowTest ▾** (logo) 🆕 | Menú del flow: **Nuevo flow**, **Abrir .flow.json…** (del disco local), **Guardar** (Ctrl+S), **Guardar como…** (Ctrl+Shift+S), **Export (descargar)**, **Exportar PDF** 🆕 4.44 y **Reset**. Un punto ámbar sobre el logo avisa de cambios sin guardar |
+| **💾 Guardar** 🆕 5.21.1 | Guarda el flow en su fichero del proyecto (lo mismo que Ctrl+S); se pone **verde con un punto ámbar** cuando hay cambios sin guardar. Si el flow aún no tiene fichero, abre «Guardar como…», cuyo botón Guardar queda siempre a la vista aunque el proyecto tenga muchas carpetas |
 | *(campo de texto)* | **Nombre del flow** activo (campo ancho desde la 4.25.9). Si hay cambios sin guardar aparece el aviso ámbar «Sin guardar» |
 | **+ Add Node ▾** (verde) | Desplegable con los seis tipos de nodo (tabla siguiente) |
 | **Pizarra** (morado) 🆕 | Abre el panel de la **pizarra**: dibujar y escribir sobre el lienzo, estilo Excalidraw ([08 Paneles y utilidades](08-paneles.md#pizarra)) |

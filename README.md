@@ -26,7 +26,7 @@ docker run -d \
   -p 9998:3001 \
   -p 1025:1025 \
   --name flow \
-  juankanh/flow-app:5.21.0
+  juankanh/flow-app:5.21.1
 ```
 
 - **Web**: http://localhost:9998 — el canvas visual.
@@ -63,7 +63,8 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 
 | Versión | Qué trae |
 |---------|----------|
-| **5.21.0** (recomendada) | 🗂️ **Panel Proyecto a medida**: los **scripts** (`.js`, `.mjs`, `.ts`, `.py`, `.sh`, `.sql`) se ven y se abren como código, las carpetas **enlazadas** muestran a dónde apuntan, el panel se **ensancha** arrastrando su borde y puedes **ocultar carpetas** — [08](https://github.com/jks90/flow-test-public/blob/main/docs/manual/08-paneles.md#panel-proyecto-a-medida--521) |
+| **5.21.1** (recomendada) | 💾 Botón **Guardar** siempre visible en la barra y el diálogo «Guardar como…» ya no esconde su botón con muchas carpetas (reporte de usuario) — [01](https://github.com/jks90/flow-test-public/blob/main/docs/manual/01-pantalla-principal.md) |
+| **5.21.0** | 🗂️ **Panel Proyecto a medida**: los **scripts** (`.js`, `.mjs`, `.ts`, `.py`, `.sh`, `.sql`) se ven y se abren como código, las carpetas **enlazadas** muestran a dónde apuntan, el panel se **ensancha** arrastrando su borde y puedes **ocultar carpetas** — [08](https://github.com/jks90/flow-test-public/blob/main/docs/manual/08-paneles.md#panel-proyecto-a-medida--521) |
 | **5.20.2** | 🗑️ El borrado de documentos `.md`/`.pdf` va por su propia ruta (`DELETE /workspace/file`) y la pestaña solo se cierra si el documento era del disco local |
 | **5.20.1** | 🗂️ **Ordenar el proyecto desde el panel**: crear carpetas, **arrastrar** flows, documentos y carpetas a otra carpeta, ✏️ mover o renombrar, borrar carpetas vacías y **borrar documentos `.md` y `.pdf`** (un enlace se quita sin tocar el original). Las pestañas abiertas siguen a su fichero — [08](https://github.com/jks90/flow-test-public/blob/main/docs/manual/08-paneles.md#ordenar-el-proyecto--520) |
 | **5.19.4** | 🗂️ El panel Proyecto y `flow_files_list` **ya no repiten los flows** de las copias de trabajo de los agentes (git worktrees dentro de un repo enlazado en el workspace) — [08](https://github.com/jks90/flow-test-public/blob/main/docs/manual/08-paneles.md#carpetas-enlazadas-y-copias-de-los-agentes--5194) |
@@ -104,7 +105,7 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 | 4.4 – 4.22 | Nodo Web + modo **Live** (login real, capturas con sus llamadas HTTP), `flow-explore`, Chromium en la imagen, CAs corporativas en `/certs`, teclado directo en Live, checks LNA desactivados, nº de orden y alineado — historial completo en el manual |
 
 ```bash
-docker pull juankanh/flow-app:5.21.0
+docker pull juankanh/flow-app:5.21.1
 ```
 
 ## Documentación
