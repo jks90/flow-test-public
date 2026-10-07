@@ -3,6 +3,15 @@
 > [!TIP]
 > **¿Dónde está cada cosa?** **Proyecto**, **Pizarra** y **Guía de nodos** viven en la **barra lateral de iconos**; Batch Run, Historial, Consola, **Vista**, GitHub, Variables, Global y SQL Conns se abren desde **Config** (los paneles laterales aparecen en la barra mientras están abiertos; un panel a la vez); y las utilidades de organización desde el desplegable **Layout**. Ver [01 La pantalla principal](01-pantalla-principal.md).
 
+## Configuración con menú lateral 🆕 (5.22)
+
+**Config** (arriba a la derecha) abre un panel con las secciones a la izquierda, agrupadas — **Ejecución** (Batch Run,
+Historial, Consola), **Herramientas** (Plugins, Correo, Vista), **Datos** (Variables, Global, SQL Conns, GitHub Flows) y
+**Cuenta y ayuda** (Licencia, Actualizaciones, Reportar un problema) — y la elegida se abre a la derecha, sin salir del
+panel. Arriba hay un buscador; **↑↓** cambia de sección y **Esc** cierra. Recuerda la última sección que abriste.
+
+![Configuración con menú lateral](assets/flowtest-88-config-menu-lateral.png)
+
 ## Imagen de fondo del flow 🆕 (4.49)
 
 **Config ▸ Vista ▸ Fondo del flow (imagen)** pone una imagen detrás del lienzo — un mapa del mundo, el plano de una oficina, un diagrama de arquitectura… — para **ordenar nodos y dibujos de la pizarra encima de ella**.

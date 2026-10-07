@@ -4,7 +4,7 @@
 
 ```bash
 docker run -d --add-host=host.docker.internal:host-gateway \
-  -p 9998:3001 -p 1025:1025 --name flow juankanh/flow-app:5.21.3
+  -p 9998:3001 -p 1025:1025 --name flow juankanh/flow-app:5.22.0
 # web + API + MCP en http://localhost:9998 · 1025 = SMTP de prueba (Config ▸ Correo, 4.36)
 ```
 
@@ -111,6 +111,38 @@ flow-test se prueba **14 días gratis con todas las funciones** desde el primer 
 
 > Las imágenes **≤ 5.0.1** mantienen su licencia anterior (uso personal gratuito). El cambio aplica desde la **5.1.0**.
 
+## Actualizaciones 🆕 5.22
+
+Cuando hay una versión publicada más nueva que la tuya, aparece **«⬆ x.y.z»** junto a **Config**. Al pulsarlo se abre
+**Config ▸ Actualizaciones** con las novedades y el comando para actualizar:
+
+```bash
+docker pull juankanh/flow-app:<versión>
+docker stop flow && docker rm flow
+docker run … juankanh/flow-app:<versión>   # con los MISMOS -p, -v y -e de siempre
+```
+
+![Config ▸ Actualizaciones: novedades y cómo actualizar](assets/flowtest-89-actualizaciones.png)
+
+### Actualizar con un clic (opcional)
+
+Si quieres que el botón **«Actualizar a x.y.z ahora»** haga todo solo, arranca el contenedor con **las dos** cosas:
+
+```bash
+docker run -d … \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -e FLOW_SELF_UPDATE=on \
+  -v /ruta/a/tus/flows:/app/flows \
+  juankanh/flow-app:5.22.0
+```
+
+- Descarga la versión nueva y **recrea el contenedor con la misma configuración** (puertos, carpetas, variables, redes y reinicio). Tus flows y ajustes no se tocan.
+- Si la versión nueva **no arranca en 2 minutos, vuelve sola a la anterior**. La anterior queda guardada (parada) como `<nombre>-anterior` por si quieres volver a mano: `docker rm -f flow && docker rename flow-anterior flow && docker start flow`.
+- Solo instala versiones estables publicadas y más nuevas que la tuya.
+- ⚠️ El socket de Docker da a FlowTest control de tu Docker: actívalo solo en máquinas tuyas. Sin `/app/flows` montado el botón no aparece (perderías los flows).
+- La comprobación consulta Docker Hub cada 6 h; sin Internet simplemente no avisa. Para apagarla: `-e FLOW_UPDATE_CHECK=off`.
+- En **FlowTest en la nube** no aparece: las versiones las instala el equipo de FlowTest.
+
 ## Versiones
 
 | Versión | Qué trae |
@@ -129,6 +161,7 @@ flow-test se prueba **14 días gratis con todas las funciones** desde el primer 
 | 4.23.0 | Scripts JS de las notas ejecutados al Run Flow (web, MCP y CLI; `--skip-info-scripts`), 📌 fijar cajas, Variables usadas en cada caja, tool MCP `tab_close` |
 | 4.24.0 | **Pizarra** estilo Excalidraw sobre el lienzo (`drawings` en el flow), barra lateral de iconos con un panel a la vez, **Guía de nodos**, Ocultar conectores, Maximizar Mermaid, tool MCP `node_add_info` (20 tools) |
 | **5.15.1** | 🛡️ **Sandbox de los scripts de nota en el navegador** + flows de confianza (pregunta antes de ejecutar, chip 🔒/🛡️ en la barra) — [04](04-notas-mermaid-capturas.md#sandbox-y-flows-de-confianza--515); imagen con parches de Alpine y sin `npm` |
+| **5.22.0** | ⬆️ Aviso de versión nueva y actualizar con un clic (opcional) · Configuración con menú lateral |
 | **5.21.3** | 🖥️ Funciona abierto por la IP de un servidor sin https (antes, página en blanco) |
 | **5.21.2** | 📬 Mejoras internas del correo de prueba |
 | **5.21.1** | 💾 Botón Guardar siempre visible en la barra; «Guardar como…» con pie fijo y lista de carpetas con scroll |
