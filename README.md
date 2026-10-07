@@ -26,7 +26,7 @@ docker run -d \
   -p 9998:3001 \
   -p 1025:1025 \
   --name flow \
-  juankanh/flow-app:5.20.1
+  juankanh/flow-app:5.20.2
 ```
 
 - **Web**: http://localhost:9998 — el canvas visual.
@@ -63,7 +63,8 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 
 | Versión | Qué trae |
 |---------|----------|
-| **5.20.1** (recomendada) | 🗂️ **Ordenar el proyecto desde el panel**: crear carpetas, **arrastrar** flows, documentos y carpetas a otra carpeta, ✏️ mover o renombrar, borrar carpetas vacías y **borrar documentos `.md` y `.pdf`** (un enlace se quita sin tocar el original). Las pestañas abiertas siguen a su fichero — [08](https://github.com/jks90/flow-test-public/blob/main/docs/manual/08-paneles.md#ordenar-el-proyecto--520) |
+| **5.20.2** (recomendada) | 🗑️ El borrado de documentos `.md`/`.pdf` va por su propia ruta (`DELETE /workspace/file`) y la pestaña solo se cierra si el documento era del disco local |
+| **5.20.1** | 🗂️ **Ordenar el proyecto desde el panel**: crear carpetas, **arrastrar** flows, documentos y carpetas a otra carpeta, ✏️ mover o renombrar, borrar carpetas vacías y **borrar documentos `.md` y `.pdf`** (un enlace se quita sin tocar el original). Las pestañas abiertas siguen a su fichero — [08](https://github.com/jks90/flow-test-public/blob/main/docs/manual/08-paneles.md#ordenar-el-proyecto--520) |
 | **5.19.4** | 🗂️ El panel Proyecto y `flow_files_list` **ya no repiten los flows** de las copias de trabajo de los agentes (git worktrees dentro de un repo enlazado en el workspace) — [08](https://github.com/jks90/flow-test-public/blob/main/docs/manual/08-paneles.md#carpetas-enlazadas-y-copias-de-los-agentes--5194) |
 | **5.19.0–5.19.3** | ✅ **Asserts de errores esperados**: un assert de status `404`/`4xx` deja el nodo en verde si se cumple, y los asserts aceptan `{{variables}}` ([02](https://github.com/jks90/flow-test-public/blob/main/docs/manual/02-nodo-request.md#errores-esperados-y-variables--519)). Plugin Agentes: recibe lo que estás viendo, panel de Ajustes propio y escucha por voz; `flow_open` recarga del disco y `flow_save` no pisa cambios ajenos |
 | **5.18.0** | 🧩 **Plugins** (Config ▸ Plugins) con **AgentOffice** como primero: una oficina de agentes de IA que trabaja en tus repos, embebida en FlowTest (Pro). El workspace **sigue enlaces simbólicos**: una carpeta de proyecto puede reunir los `flows/` de varios repos — [08](https://github.com/jks90/flow-test-public/blob/main/docs/manual/08-paneles.md#plugins-y-agentoffice--518) |
@@ -102,7 +103,7 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 | 4.4 – 4.22 | Nodo Web + modo **Live** (login real, capturas con sus llamadas HTTP), `flow-explore`, Chromium en la imagen, CAs corporativas en `/certs`, teclado directo en Live, checks LNA desactivados, nº de orden y alineado — historial completo en el manual |
 
 ```bash
-docker pull juankanh/flow-app:5.20.1
+docker pull juankanh/flow-app:5.20.2
 ```
 
 ## Documentación
