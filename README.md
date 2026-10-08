@@ -26,7 +26,7 @@ docker run -d \
   -p 9998:3001 \
   -p 1025:1025 \
   --name flow \
-  juankanh/flow-app:5.23.0
+  juankanh/flow-app:5.24.0
 ```
 
 - **Web**: http://localhost:9998 — el canvas visual.
@@ -63,7 +63,8 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 
 | Versión | Qué trae |
 |---------|----------|
-| **5.23.0** (recomendada) | 🛒 **Marketplace FlowTest**: comparte con tu organización roles, skills y agentes de AgentOffice (con su memoria) o publica especificaciones en el marketplace público (sin memoria, moderado); flow-test hace de puerta segura hacia tu cuenta · 🧪 tests unitarios del servidor (`npm run test:unit`) |
+| **5.24.0** (recomendada) | 🔐 **Credenciales en claro bajo control**: al subir un flow al cloud o compartir un enlace, detecta contraseñas y tokens escritos tal cual (SQL, cabeceras, `-u`, cuerpo, URL) y los convierte con un clic a `{{secret:…}}` cifrados · ☁️ el panel Proyecto gestiona carpetas y ficheros del cloud como en local (y el MCP con `source:"cloud"`) |
+| **5.23.0** | 🛒 **Marketplace FlowTest**: comparte con tu organización roles, skills y agentes de AgentOffice (con su memoria) o publica especificaciones en el marketplace público (sin memoria, moderado); flow-test hace de puerta segura hacia tu cuenta · 🧪 tests unitarios del servidor (`npm run test:unit`) |
 | **5.22.0** | ⬆️ **Avisa de versiones nuevas** («⬆ x.y.z» junto a Config → novedades y cómo actualizar) y, si arrancas el contenedor con `-v /var/run/docker.sock:/var/run/docker.sock -e FLOW_SELF_UPDATE=on`, **se actualiza con un clic** (y vuelve sola a la anterior si la nueva no arranca) · ⚙️ **Configuración con menú lateral** · 🎤 Ctrl+Espacio habla con el Guía de AgentOffice — [11](docs/manual/11-docker.md#actualizaciones--522) |
 | **5.21.3** | 🖥️ Abrir flow-test por la **IP de un servidor** (`http://192.168.x.x:9998`) ya no deja la página en blanco, y los botones «Copiar» funcionan por HTTP |
 | **5.21.2** | 📬 Mejoras internas del correo de prueba (las tools MCP `mail_*` consultan los buzones remotos antes de leer) |
@@ -110,7 +111,7 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 | 4.4 – 4.22 | Nodo Web + modo **Live** (login real, capturas con sus llamadas HTTP), `flow-explore`, Chromium en la imagen, CAs corporativas en `/certs`, teclado directo en Live, checks LNA desactivados, nº de orden y alineado — historial completo en el manual |
 
 ```bash
-docker pull juankanh/flow-app:5.23.0
+docker pull juankanh/flow-app:5.24.0
 ```
 
 ## Documentación

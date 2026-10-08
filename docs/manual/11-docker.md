@@ -4,7 +4,7 @@
 
 ```bash
 docker run -d --add-host=host.docker.internal:host-gateway \
-  -p 9998:3001 -p 1025:1025 --name flow juankanh/flow-app:5.23.0
+  -p 9998:3001 -p 1025:1025 --name flow juankanh/flow-app:5.24.0
 # web + API + MCP en http://localhost:9998 · 1025 = SMTP de prueba (Config ▸ Correo, 4.36)
 ```
 
@@ -133,7 +133,7 @@ docker run -d … \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -e FLOW_SELF_UPDATE=on \
   -v /ruta/a/tus/flows:/app/flows \
-  juankanh/flow-app:5.23.0
+  juankanh/flow-app:5.24.0
 ```
 
 - Descarga la versión nueva y **recrea el contenedor con la misma configuración** (puertos, carpetas, variables, redes y reinicio). Tus flows y ajustes no se tocan.
@@ -161,6 +161,7 @@ docker run -d … \
 | 4.23.0 | Scripts JS de las notas ejecutados al Run Flow (web, MCP y CLI; `--skip-info-scripts`), 📌 fijar cajas, Variables usadas en cada caja, tool MCP `tab_close` |
 | 4.24.0 | **Pizarra** estilo Excalidraw sobre el lienzo (`drawings` en el flow), barra lateral de iconos con un panel a la vez, **Guía de nodos**, Ocultar conectores, Maximizar Mermaid, tool MCP `node_add_info` (20 tools) |
 | **5.15.1** | 🛡️ **Sandbox de los scripts de nota en el navegador** + flows de confianza (pregunta antes de ejecutar, chip 🔒/🛡️ en la barra) — [04](04-notas-mermaid-capturas.md#sandbox-y-flows-de-confianza--515); imagen con parches de Alpine y sin `npm` |
+| **5.24.0** | 🔐 Aviso y conversión de credenciales en claro al subir al cloud o compartir · ☁️ gestión de ficheros del cloud desde el panel Proyecto |
 | **5.23.0** | 🛒 Marketplace FlowTest (puerta `/account-link/marketplace/*` hacia tu cuenta) · tests unitarios del servidor |
 | **5.22.0** | ⬆️ Aviso de versión nueva y actualizar con un clic (opcional) · Configuración con menú lateral |
 | **5.21.3** | 🖥️ Funciona abierto por la IP de un servidor sin https (antes, página en blanco) |
