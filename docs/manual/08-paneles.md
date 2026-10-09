@@ -136,7 +136,7 @@ En **💻 Local**, el panel Proyecto sirve también para ordenar la carpeta:
 - **✏️ Mover o renombrar**: en cada fichero y en cada carpeta; escribe la ruta nueva dentro de `flows/` (si la carpeta de destino no existe, se crea). Un flow sigue acabando en `.flow.json` y un documento conserva su extensión.
 - **Borrar**: 🗑 en flows y, desde la 5.20.1, también en documentos **`.md` y `.pdf`** (con confirmación; si estaba abierto, se cierra su pestaña). Una carpeta se borra cuando está **vacía**. Un **enlace** se quita sin tocar el fichero al que apunta.
 
-Nada de esto sale de `flows/` ni toca carpetas ocultas o privadas de otro miembro. En **☁️ Cloud** el panel sigue siendo de solo abrir y guardar.
+Nada de esto sale de `flows/` ni toca carpetas ocultas o privadas de otro miembro. En **☁️ Cloud** (5.24) el panel también crea carpetas, mueve, renombra y borra en tu espacio del cloud. Si tu espacio estaba dormido (tras un rato sin uso), el panel **espera a que arranque** —unos segundos— en vez de mostrar «El contenedor está despertando» (5.24.1).
 
 ### Panel Proyecto a medida 🆕 (5.21)
 
