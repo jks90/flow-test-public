@@ -169,6 +169,67 @@ hacen `push`. Aun así, ejecutan comandos con **tu usuario**: pueden leer otros 
 y, el QA, los flows de todo el workspace por el MCP de FlowTest. Úsalo en una máquina y un usuario en
 los que confíes, y revisa lo que se fusiona.
 
+## 11. Marketplace: compartir roles, skills y agentes
+
+La pestaña **🛒 Marketplace** de AgentOffice sirve para compartir lo que has montado (roles, skills y
+agentes) con tu organización de FlowTest o con todo el mundo, y para instalar lo que han publicado
+otros.
+
+**Requisitos:** que FlowTest esté **vinculado a tu cuenta cloud** (Config ▸ Licencia) y que
+AgentOffice esté conectado con su token (`FLOW_AGENTS_TOKEN`, paso 4). AgentOffice nunca habla con la
+nube directamente: pasa por FlowTest (`/account-link/marketplace/*`), y el token de vinculación no
+sale de FlowTest.
+
+### Las tres pestañas
+
+| Pestaña | Qué ves |
+|---------|---------|
+| **🔒 Privado** | Lo que tiene tu empresa **en esta instalación**, aún sin compartir. Dos secciones: **🤖 Agentes en el banquillo** (los que no están fichados en el proyecto elegido arriba; primero 🟢 Disponibles y luego un grupo por proyecto) y **🎭 Roles** (por carpeta del catálogo: primero las que usa la plantilla del proyecto, al final ⭐ De serie). Desde aquí se ficha, se edita, se despide y se publica. |
+| **👥 Mi team** | Lo publicado por tu organización. Solo lo ven sus miembros. Puede llevar memoria. |
+| **🌍 Público** | Lo publicado por todas las organizaciones y **ya aprobado por moderación**. Nunca lleva memoria. |
+
+Las tres comparten barra: buscar, filtrar por tipo (🎭 rol, 🧩 skill, 🤖 agente) y ↻. Los grupos de
+Privado se pliegan con ▸ y recuerdan cómo los dejaste; al buscar se abren todos. Al pulsar la etiqueta
+de rol de un agente, en cualquier pantalla, se abre Privado con ese rol resaltado.
+
+> Desde la 5.24.1, el banquillo y los roles ya no aparecen en **Agentes**: están en Marketplace ▸ 🔒 Privado.
+
+### Qué se puede publicar y dónde
+
+Cada tarjeta lleva **⬆ Publicar**. El diálogo pide ámbito, versión (semver, `1.0.0` por defecto) y un
+resumen, y enseña **qué ficheros se van a subir** antes de enviar nada.
+
+| Qué | 👥 Mi team | 🌍 Público | Qué viaja |
+|-----|:---:|:---:|-----------|
+| **Rol** (de tu catálogo, de un repo `.claude/agents/*.md` o **de serie**, como el Coordinador) | ✅ | ✅ (con moderación) | Solo el `.md` del rol: prompt, tipo, modelo y la lista de skills/MCP que usa |
+| **Skill** (Agentes ▸ Skills ▸ ⬆ Publicar) | ✅ | ✅ (con moderación) | La carpeta de la skill (`SKILL.md` + sus ficheros; si trae código se marca) |
+| **Agente** (con su estado y memoria) | ✅ | ❌ | Su rol, motor y modelo, y su **memoria** (y la del proyecto) |
+
+- **Público pasa por moderación:** queda **⏳ pendiente de moderación** hasta que el equipo de
+  FlowTest lo aprueba. Hasta entonces solo lo ve tu organización. En Mi team se publica al momento.
+- **Lo que nunca sale:** en público nunca va memoria. Tus rutas personales se sustituyen por
+  `{{HOME}}` y, si se detecta un posible secreto (token, contraseña, clave), **la publicación se
+  rechaza** sin subir nada.
+- **Las skills de un rol no viajan con él.** Si tu rol usa skills propias, publícalas también, porque
+  si no quien lo instale no las tendrá.
+- **Roles de serie:** se publican como un `.md` generado a partir de su definición. Al instalarlos
+  donde ya existen de serie no cambia nada, porque el de serie tiene prioridad. Lo que hace de verdad
+  el Coordinador (revisar, aprobar o devolver tareas) va en el código de AgentOffice, no en el prompt.
+- **Autor:** aparece el nombre configurado en AgentOffice (`authorName`, por `POST /api/settings`) o,
+  si no hay ninguno, tu usuario del sistema.
+
+### Instalar
+
+**⬇ Instalar** en una tarjeta de Mi team o Público:
+
+- **Rol:** se guarda en el catálogo, en `roles/marketplace/<organización>/<nombre>.md`, y aparece
+  en Privado ▸ Roles.
+- **Skill:** se instala en el catálogo de skills. Si **trae código ejecutable**, pide confirmarlo
+  (🛡) antes de escribir nada.
+- **Agente:** se contrata en el banquillo y pide en **qué proyecto guardar su memoria**.
+- Si ya existe algo con ese nombre, pide confirmación para sobrescribirlo. Las tarjetas dicen si ya
+  lo tienes instalado (✓) o si hay una **versión nueva** (⟳ Actualizar).
+
 ## Problemas frecuentes
 
 | Ves | Causa y solución |
@@ -179,5 +240,8 @@ los que confíes, y revisa lo que se fusiona.
 | Una tarea vuelve una y otra vez «Tu rama choca con…» | el agente no consigue resolver el choque: a los 3 intentos se queda esperando que lo mires tú |
 | Página en blanco al abrir FlowTest por `http://<IP>` | actualiza FlowTest a 5.21.3 o posterior |
 | Los agentes no hacen nada y la oficina dice «sin cuota» | se acabó la ventana de tu suscripción de Claude/Codex: reanudan solos al reiniciarse |
+| El Marketplace dice «Esta instalación no está vinculada…» y FlowTest sí lo está | AgentOffice no manda su token a FlowTest (versiones anteriores a la del 9-oct-2026): actualiza AgentOffice y comprueba que `FLOW_AGENTS_TOKEN` coincide con `~/agent-office/data/.token` |
+| «flow-test rechaza a AgentOffice…» en el Marketplace | el `FLOW_AGENTS_TOKEN` del contenedor de FlowTest no es el de `~/agent-office/data/.token` |
+| Un rol publicado en Público no aparece | está **⏳ pendiente de moderación**: hasta que se aprueba solo lo ve tu organización |
 
 Más detalle técnico en el [README de AgentOffice](https://github.com/jks90/agent-office#readme).

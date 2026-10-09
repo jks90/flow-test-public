@@ -502,3 +502,4 @@ tus repos con un tablero de tareas, una rama por tarea y revisión humana antes 
 - **Cómo instalarlo y conectarlo**, paso a paso: [docs/agentoffice.md](../agentoffice.md).
 - Tiene su propio panel de **Ajustes** tipo Cmd y un indicador «👂 escuchando» cuando su Guía
   atiende por voz (5.19.2–5.19.3).
+- **🛒 Marketplace** (5.23–5.24.1): comparte roles, skills y agentes con tu organización o en público (con moderación), e instala los de otros. Desde la 5.24.1, el banquillo y los roles están en Marketplace ▸ 🔒 Privado. Todo en [docs/agentoffice.md § 11](../agentoffice.md#11-marketplace-compartir-roles-skills-y-agentes).
