@@ -137,6 +137,11 @@ y tu copia no tiene cambios propios, hace `git pull`, te avisa (si tienes Telegr
 servicio de systemd o con `npm start`, que usa un lanzador que lo relanza—. Estado:
 `curl localhost:7420/api/version`. Para apagarlo: `AO_AUTOUPDATE=off`.
 
+Desde **FlowTest 5.25**, en **Config ▸ Plugins** ves si va por detrás y lo actualizas con **⬆ Actualizar**,
+sin esperar a los 15 min. Si AgentOffice no está instalado, ese mismo panel te da la guía con los
+comandos. Si lo arrancaste con `node server/index.js` a secas, nadie lo relanzaría: se actualiza en disco
+y te avisa de que falta reiniciarlo, en vez de apagarse.
+
 ## 8. Avisos al móvil (opcional)
 
 Para enterarte de lo que te necesita (tarea esperando revisión, una pregunta de un agente, sin cuota,
@@ -192,7 +197,7 @@ Las tres comparten barra: buscar, filtrar por tipo (🎭 rol, 🧩 skill, 🤖 a
 Privado se pliegan con ▸ y recuerdan cómo los dejaste; al buscar se abren todos. Al pulsar la etiqueta
 de rol de un agente, en cualquier pantalla, se abre Privado con ese rol resaltado.
 
-> Desde la 5.24.1, el banquillo y los roles ya no aparecen en **Agentes**: están en Marketplace ▸ 🔒 Privado.
+> Desde octubre de 2026 el banquillo y los roles ya no aparecen en **Agentes**: están en Marketplace ▸ 🔒 Privado.
 
 ### Qué se puede publicar y dónde
 

@@ -502,4 +502,31 @@ tus repos con un tablero de tareas, una rama por tarea y revisión humana antes 
 - **Cómo instalarlo y conectarlo**, paso a paso: [docs/agentoffice.md](../agentoffice.md).
 - Tiene su propio panel de **Ajustes** tipo Cmd y un indicador «👂 escuchando» cuando su Guía
   atiende por voz (5.19.2–5.19.3).
-- **🛒 Marketplace** (5.23–5.24.1): comparte roles, skills y agentes con tu organización o en público (con moderación), e instala los de otros. Desde la 5.24.1, el banquillo y los roles están en Marketplace ▸ 🔒 Privado. Todo en [docs/agentoffice.md § 11](../agentoffice.md#11-marketplace-compartir-roles-skills-y-agentes).
+- **🛒 Marketplace** (5.23–5.25): comparte roles, skills y agentes con tu organización o en público (con moderación), e instala los de otros. El banquillo y los roles están en Marketplace ▸ 🔒 Privado (AgentOffice, octubre de 2026). Todo en [docs/agentoffice.md § 11](../agentoffice.md#11-marketplace-compartir-roles-skills-y-agentes).
+
+## Instalar y actualizar AgentOffice 🆕 (5.25)
+
+**Config ▸ Plugins** te dice en qué estado está AgentOffice en tu PC, aunque el plugin esté desactivado:
+
+- **No instalado** (o no arrancado): sale la etiqueta *no instalado* y el botón **⬇ Instalar**. FlowTest
+  no puede instalar nada en tu máquina (suele correr en Docker y AgentOffice necesita tus repos y tus
+  CLIs `claude`/`codex`), así que abre una **guía con los comandos listos para copiar**, con pestañas
+  Linux/macOS y Windows: requisitos, `git clone` + `npm start`, cómo pasarle a FlowTest el token
+  (`FLOW_AGENTS_TOKEN`, solo si FlowTest está en Docker) y que arranque solo. Al terminar, **Ya lo he
+  arrancado: comprobar**.
+
+  ![Plugins: AgentOffice no instalado, con la guía de instalación](assets/flowtest-90-plugins-instalar.png)
+
+- **Desactualizado:** etiqueta *⬆ actualización*, «Hay N cambios nuevos» y el botón **⬆ Actualizar**.
+  AgentOffice se actualiza (`git pull`) y se reinicia solo, y el panel espera a que vuelva y te dice a
+  qué versión ha pasado. Si ahora no se puede (hay agentes trabajando, tienes cambios locales o commits
+  sin subir), te explica por qué.
+
+  ![Plugins: AgentOffice con una actualización pendiente](assets/flowtest-91-plugins-actualizar.png)
+
+- **Al día:** «✓ Al día · `<versión>`» y **Buscar actualización**, que solo mira, sin aplicar nada.
+- **Aviso «actualizado en disco: falta reiniciar»:** AgentOffice se actualizó pero no lo arrancaste con
+  `npm start` ni como servicio, que son los que lo relanzan solos. Reinícialo a mano.
+- **«Versión antigua, sin actualización automática»:** en la carpeta de AgentOffice haz `git pull` y
+  reinícialo. A partir de ahí ya se actualiza desde aquí.
+
