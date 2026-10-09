@@ -26,7 +26,7 @@ docker run -d \
   -p 9998:3001 \
   -p 1025:1025 \
   --name flow \
-  juankanh/flow-app:5.25.0
+  juankanh/flow-app:5.25.1
 ```
 
 - **Web**: http://localhost:9998 — el canvas visual.
@@ -63,7 +63,8 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 
 | Versión | Qué trae |
 |---------|----------|
-| **5.25.0** (recomendada) | 🧩 **Plugins que se instalan y actualizan desde la app**: Config ▸ Plugins detecta si AgentOffice no está en tu PC (guía con los comandos listos para copiar) y, si va por detrás, lo actualiza con un clic · 🛒 Marketplace de AgentOffice con pestaña 🔒 Privado (banquillo y roles) y roles de serie publicables |
+| **5.25.1** (recomendada) | 🔌 con varias pestañas de flow-test abiertas, el Guía de AgentOffice ya no se queda en «trabajando…» (las pestañas en segundo plano liberan conexiones) y el proxy de Agentes corta limpio si AgentOffice se reinicia |
+| **5.25.0** | 🧩 **Plugins que se instalan y actualizan desde la app**: Config ▸ Plugins detecta si AgentOffice no está en tu PC (guía con los comandos listos para copiar) y, si va por detrás, lo actualiza con un clic · 🛒 Marketplace de AgentOffice con pestaña 🔒 Privado (banquillo y roles) y roles de serie publicables |
 | **5.24.1** | ☁️ el panel Proyecto espera a que despierte tu espacio del cloud en vez de mostrar «El contenedor está despertando» · 🛒 el marketplace de AgentOffice funciona con flow-test en Docker |
 | **5.24.0** | 🔐 **Credenciales en claro bajo control**: al subir un flow al cloud o compartir un enlace, detecta contraseñas y tokens escritos tal cual (SQL, cabeceras, `-u`, cuerpo, URL) y los convierte con un clic a `{{secret:…}}` cifrados · ☁️ el panel Proyecto gestiona carpetas y ficheros del cloud como en local (y el MCP con `source:"cloud"`) |
 | **5.23.0** | 🛒 **Marketplace FlowTest**: comparte con tu organización roles, skills y agentes de AgentOffice (con su memoria) o publica especificaciones en el marketplace público (sin memoria, moderado); flow-test hace de puerta segura hacia tu cuenta · 🧪 tests unitarios del servidor (`npm run test:unit`) |
@@ -113,7 +114,7 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 | 4.4 – 4.22 | Nodo Web + modo **Live** (login real, capturas con sus llamadas HTTP), `flow-explore`, Chromium en la imagen, CAs corporativas en `/certs`, teclado directo en Live, checks LNA desactivados, nº de orden y alineado — historial completo en el manual |
 
 ```bash
-docker pull juankanh/flow-app:5.25.0
+docker pull juankanh/flow-app:5.25.1
 ```
 
 ## Documentación

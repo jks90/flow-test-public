@@ -247,6 +247,8 @@ resumen, y enseña **qué ficheros se van a subir** antes de enviar nada.
 | Los agentes no hacen nada y la oficina dice «sin cuota» | se acabó la ventana de tu suscripción de Claude/Codex: reanudan solos al reiniciarse |
 | El Marketplace dice «Esta instalación no está vinculada…» y FlowTest sí lo está | AgentOffice no manda su token a FlowTest (versiones anteriores a la del 9-oct-2026): actualiza AgentOffice y comprueba que `FLOW_AGENTS_TOKEN` coincide con `~/agent-office/data/.token` |
 | «flow-test rechaza a AgentOffice…» en el Marketplace | el `FLOW_AGENTS_TOKEN` del contenedor de FlowTest no es el de `~/agent-office/data/.token` |
+| El Guía se queda en «trabajando…» y no hace nada | tu navegador tiene agotadas sus 6 conexiones con flow-test (muchas pestañas abiertas): cierra otras pestañas de flow-test, pulsa ■ Parar y repite. Desde FlowTest 5.25.1 y AgentOffice de oct-2026 las pestañas en segundo plano liberan conexiones y el Guía avisa a los 10 s |
+| El navegador del agente abre una ventana aparte | AgentOffice anterior a oct-2026: ahora va oculto y se ve en 🌐 Navegador (`AO_BROWSER_HEADLESS=0` para la ventana) |
 | Un rol publicado en Público no aparece | está **⏳ pendiente de moderación**: hasta que se aprueba solo lo ve tu organización |
 
 Más detalle técnico en el [README de AgentOffice](https://github.com/jks90/agent-office#readme).
