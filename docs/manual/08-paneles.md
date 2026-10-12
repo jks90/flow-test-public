@@ -502,8 +502,27 @@ tus repos con un tablero de tareas, una rama por tarea y revisión humana antes 
 - **Sigue abierto al recargar** (5.27): si recargas la página con AgentOffice abierto, vuelve a abrirse (y dentro recuerda proyecto y vista); si lo cierras con ✕, al recargar sigue cerrado.
 - **Cómo instalarlo y conectarlo**, paso a paso: [docs/agentoffice.md](../agentoffice.md).
 - Tiene su propio panel de **Ajustes** tipo Cmd y un indicador «👂 escuchando» cuando su Guía
-  atiende por voz (5.19.2–5.19.3).
+  atiende por voz (5.19.2–5.19.3). Ver [Ajustes de AgentOffice](#ajustes-de-agentoffice--5271).
 - **🛒 Marketplace** (5.23–5.25): comparte roles, skills y agentes con tu organización o en público (con moderación), e instala los de otros. El banquillo y los roles están en Marketplace ▸ 🔒 Privado (AgentOffice, octubre de 2026). Todo en [docs/agentoffice.md § 11](../agentoffice.md#11-marketplace-compartir-roles-skills-y-agentes).
+
+## Ajustes de AgentOffice 🆕 (5.27.1)
+
+El botón **Ajustes** de AgentOffice (o **Ctrl+,** con el plugin activo) abre un panel que ocupa casi
+toda la ventana:
+
+![Ajustes de AgentOffice](assets/flowtest-93-ajustes-agentoffice.png)
+
+- **Menú por grupos** a la izquierda: **Empresa** (motores de IA, conexión con flow-test, equipo y
+  capacidad, costes y modelos, revisión, atascos, memoria, oficina 3D, experimentos), **Proyecto**
+  (carpeta, repos, prefijo, coordinador, tablero online, proyectos visibles), **Guía y voz** y
+  **Seguridad** (qué puede hacer el Guía sin preguntarte y navegador del agente). El cuadro de arriba
+  filtra las secciones y ↑/↓ las recorre.
+- **Guardar siempre a la vista**: la barra de abajo dice cuántos cambios llevas sin guardar, con
+  **Descartar** y **Guardar**. Guardar ya no cierra el panel, así que puedes seguir ajustando.
+- Las secciones con cambios llevan un **punto amarillo** en el menú y la cabecera avisa
+  «● N sin guardar». Si cierras (Esc, ✕ o clic fuera) con cambios pendientes, pregunta antes.
+- Si un valor no es válido (por ejemplo, más agentes a la vez de los permitidos) y está en otra
+  sección, el panel salta a ella y lo marca, en vez de no guardar sin decir nada.
 
 ## Instalar y actualizar AgentOffice 🆕 (5.25)
 
