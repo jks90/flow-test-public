@@ -127,6 +127,19 @@ El panel Proyecto lista también los **`.pdf`** de `flows/` (recursivo, chip **P
 - Solo lectura: Ctrl+S nunca lo pisa, y la pestaña jamás aparece como «sin guardar». Los enlaces `[[flow]]` de notas y documentos siguen resolviendo **solo contra flows** (los `.md`/`.pdf` quedan fuera).
 - Servido por `GET /workspace/pdf?path=` con las mismas guardas que el resto del workspace (nada fuera de `flows/`, carpetas ocultas excluidas, máx. 50 MB).
 
+### Datos CSV y TSV en el panel 🆕 (5.28)
+
+Los ficheros **`.csv`** y **`.tsv`** de la carpeta del proyecto salen en el panel Proyecto (chip **CSV**) y se abren
+como pestaña de documento, de **solo lectura**:
+
+![Visor de CSV](assets/flowtest-94-csv.png)
+
+- **Tabla** con la cabecera fija y el número de fila; las filas largas se cargan de **1000 en 1000**.
+- **Texto**: el contenido tal cual, para copiar o revisar el formato.
+- Detecta el separador (`,` `;` o tabulador) y respeta las comillas.
+- ↻ vuelve a leer el fichero si ha cambiado en disco. Hasta **5 MB** por fichero; no se mueven ni se borran desde el
+  panel y no cuentan como flows. De momento solo en 💻 Local (y carpetas enlazadas), no en ☁️ Cloud.
+
 ### Ordenar el proyecto 🆕 (5.20)
 
 En **💻 Local**, el panel Proyecto sirve también para ordenar la carpeta:

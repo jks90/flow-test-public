@@ -26,7 +26,7 @@ docker run -d \
   -p 9998:3001 \
   -p 1025:1025 \
   --name flow \
-  juankanh/flow-app:5.27.1
+  juankanh/flow-app:5.28.0
 ```
 
 - **Web**: http://localhost:9998 — el canvas visual.
@@ -63,7 +63,8 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 
 | Versión | Qué trae |
 |---------|----------|
-| **5.27.1** (recomendada) | ⚙️ **Ajustes de AgentOffice más cómodos**: el panel ocupa casi toda la ventana, agrupa las secciones (Empresa, Proyecto, Guía y voz, Seguridad), marca las que tienen cambios y deja **Guardar** siempre visible; guardar no cierra el panel y, si cierras con cambios, pregunta. Arregla que «Proyecto» saliera pegada debajo de todas |
+| **5.28.0** (recomendada) | 📊 **Ver ficheros CSV y TSV**: el panel Proyecto abre los `.csv`/`.tsv` de tu carpeta como tabla (cabecera fija, de 1000 en 1000 filas) o como texto, con separador `,`, `;` o tabulador |
+| **5.27.1** | ⚙️ **Ajustes de AgentOffice más cómodos**: el panel ocupa casi toda la ventana, agrupa las secciones (Empresa, Proyecto, Guía y voz, Seguridad), marca las que tienen cambios y deja **Guardar** siempre visible; guardar no cierra el panel y, si cierras con cambios, pregunta. Arregla que «Proyecto» saliera pegada debajo de todas |
 | **5.27.0** | 🔑 **Conexión del asistente de IA clara**: Claude y OpenAI muestran el mismo estado (sin configurar, conectado, error, caducado) y el modo activo, con **Probar conexión** (dice el error concreto: clave inválida, caducada, sin red, sin cuota…), **Reconfigurar** y **Desconectar**; el panel de AgentOffice sigue abierto al recargar y el CLI envía el `Content-Type` de `-F 'campo=…;type=…'` |
 | **5.26.0** | 🔌 **Tantas ventanas como quieras**: las conexiones en vivo (puente MCP, colaboración y AgentOffice) van por WebSocket, así que con varias ventanas de FlowTest abiertas el Guía y los botones (p. ej. contestar una 🛡) ya no se quedan colgados; si un proxy no admite WebSocket, vuelve sola a la conexión clásica |
 | **5.25.1** | 🔌 con varias pestañas de flow-test abiertas, el Guía de AgentOffice ya no se queda en «trabajando…» (las pestañas en segundo plano liberan conexiones) y el proxy de Agentes corta limpio si AgentOffice se reinicia |
@@ -95,7 +96,7 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 Las versiones anteriores (5.12 y antes, desde la 4.x) están en la [tabla completa del manual](docs/manual/11-docker.md#versiones).
 
 ```bash
-docker pull juankanh/flow-app:5.27.1
+docker pull juankanh/flow-app:5.28.0
 ```
 
 ## Documentación
