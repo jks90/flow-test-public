@@ -31,6 +31,18 @@ Debajo del interruptor hay un editor de **`flows/IA.md`**: las convenciones de t
 
 En el **cloud**, un miembro puede usar la **clave de la org** (la comparte todo el equipo) o marcar **«solo mía»**: su clave privada manda sobre la compartida y solo la ve él.
 
+## Estado de la conexión 🆕 (5.27)
+
+Arriba de los Ajustes, cada proveedor enseña **el mismo estado** — **Sin configurar**, **Conectado**, **Error** o **Caducado** —, el **modo** con el que conecta (clave de API, token OAuth, sesión de login, credenciales del servidor o desde el navegador) y un mensaje en español. El punto de color junto a «Claude» y «OpenAI» repite ese estado.
+
+![Estado de la conexión del asistente: Conectado, modo y Probar/Reconfigurar/Desconectar](assets/flowtest-92-ia-estado.png)
+
+- **Probar conexión** (o **Reintentar** si hay error) prueba la credencial guardada o la que acabas de escribir y dice **qué falla en concreto**: no hay credencial, la clave no es válida, ha caducado, no hay red, no queda cuota o no tienes permiso.
+- **Reconfigurar** vacía el campo y te lleva a escribir una credencial nueva.
+- **Desconectar** borra la credencial de ese proveedor (solo de ese; pregunta antes) y lo deja «Sin configurar».
+
+Ningún mensaje ni estado lleva la clave: se enmascara siempre.
+
 ## Conexión desde el navegador
 
 En ⚙ Ajustes ▸ **Conexión con el proveedor** puedes elegir **«Desde este navegador»**: la clave se guarda en el **localStorage de tu navegador**, no en el servidor, y las llamadas a Claude u OpenAI salen directamente de tu navegador (Anthropic lo permite con una cabecera específica; OpenAI también). El servidor nunca ve la clave y **no necesita salida a Internet**: solo prepara el contexto (system prompt, herramientas, foto del flow), ejecuta cada herramienta que pide la IA (validación, puente al canvas, redacción y auditoría siguen ahí), anota el uso y guarda la conversación.

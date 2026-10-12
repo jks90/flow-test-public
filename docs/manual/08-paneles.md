@@ -499,6 +499,7 @@ tus repos con un tablero de tareas, una rama por tarea y revisión humana antes 
 - Al activarlo aparece un botón en la barra principal que lo abre **embebido**. AgentOffice recibe
   lo que estás viendo (pestaña, flow, nodo seleccionado) y puede pedirle a FlowTest que abra un flow
   o enseñe un diff (5.19).
+- **Sigue abierto al recargar** (5.27): si recargas la página con AgentOffice abierto, vuelve a abrirse (y dentro recuerda proyecto y vista); si lo cierras con ✕, al recargar sigue cerrado.
 - **Cómo instalarlo y conectarlo**, paso a paso: [docs/agentoffice.md](../agentoffice.md).
 - Tiene su propio panel de **Ajustes** tipo Cmd y un indicador «👂 escuchando» cuando su Guía
   atiende por voz (5.19.2–5.19.3).

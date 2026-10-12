@@ -32,6 +32,8 @@ flow-run /ruta/a/flows
 | `--data <fichero>` 🆕 5.3 | Data-driven: CSV (primera fila = nombres de variable) o JSON array — el flow corre una vez por fila con sus columnas como variables; columna `name` etiqueta el caso. Requiere `--flow` |
 | `--no-localhost-rewrite` | No reescribir localhost→host.docker.internal (dentro de Docker) |
 
+> **`-F` con `;type=`** (5.27): en una petición multipart, un campo de texto con tipo (`-F 'meta={"a":1};type=application/json'`) envía ya la cabecera `Content-Type` de esa parte, como hace curl (lo necesitan p. ej. los `@RequestPart` JSON de Spring). La web sigue sin enviar multipart: esos flows ejecútalos con el CLI.
+
 ## Informes
 
 Cada ejecución deja en `resumen/<fecha-hora>/` un **markdown** por flow con el detalle petición/respuesta de cada nodo, más un índice. Los informes son la referencia de «qué pasó» sin tener la web abierta.

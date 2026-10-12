@@ -26,7 +26,7 @@ docker run -d \
   -p 9998:3001 \
   -p 1025:1025 \
   --name flow \
-  juankanh/flow-app:5.26.0
+  juankanh/flow-app:5.27.0
 ```
 
 - **Web**: http://localhost:9998 — el canvas visual.
@@ -63,7 +63,8 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 
 | Versión | Qué trae |
 |---------|----------|
-| **5.26.0** (recomendada) | 🔌 **Tantas ventanas como quieras**: las conexiones en vivo (puente MCP, colaboración y AgentOffice) van por WebSocket, así que con varias ventanas de FlowTest abiertas el Guía y los botones (p. ej. contestar una 🛡) ya no se quedan colgados; si un proxy no admite WebSocket, vuelve sola a la conexión clásica |
+| **5.27.0** (recomendada) | 🔑 **Conexión del asistente de IA clara**: Claude y OpenAI muestran el mismo estado (sin configurar, conectado, error, caducado) y el modo activo, con **Probar conexión** (dice el error concreto: clave inválida, caducada, sin red, sin cuota…), **Reconfigurar** y **Desconectar**; el panel de AgentOffice sigue abierto al recargar y el CLI envía el `Content-Type` de `-F 'campo=…;type=…'` |
+| **5.26.0** | 🔌 **Tantas ventanas como quieras**: las conexiones en vivo (puente MCP, colaboración y AgentOffice) van por WebSocket, así que con varias ventanas de FlowTest abiertas el Guía y los botones (p. ej. contestar una 🛡) ya no se quedan colgados; si un proxy no admite WebSocket, vuelve sola a la conexión clásica |
 | **5.25.1** | 🔌 con varias pestañas de flow-test abiertas, el Guía de AgentOffice ya no se queda en «trabajando…» (las pestañas en segundo plano liberan conexiones) y el proxy de Agentes corta limpio si AgentOffice se reinicia |
 | **5.25.0** | 🧩 **Plugins que se instalan y actualizan desde la app**: Config ▸ Plugins detecta si AgentOffice no está en tu PC (guía con los comandos listos para copiar) y, si va por detrás, lo actualiza con un clic · 🛒 Marketplace de AgentOffice con pestaña 🔒 Privado (banquillo y roles) y roles de serie publicables |
 | **5.24.1** | ☁️ el panel Proyecto espera a que despierte tu espacio del cloud en vez de mostrar «El contenedor está despertando» · 🛒 el marketplace de AgentOffice funciona con flow-test en Docker |
@@ -115,7 +116,7 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 | 4.4 – 4.22 | Nodo Web + modo **Live** (login real, capturas con sus llamadas HTTP), `flow-explore`, Chromium en la imagen, CAs corporativas en `/certs`, teclado directo en Live, checks LNA desactivados, nº de orden y alineado — historial completo en el manual |
 
 ```bash
-docker pull juankanh/flow-app:5.26.0
+docker pull juankanh/flow-app:5.27.0
 ```
 
 ## Documentación
