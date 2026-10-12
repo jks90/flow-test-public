@@ -166,7 +166,8 @@ Recomendaciones de disposición (lo que hace bonito un flow en pantalla):
 
 ## Pizarra (`drawings[]`, desde la 4.24.0)
 
-Anotaciones dibujadas sobre el lienzo (`rect`, `ellipse`, `arrow`, `line`, `pen`, `text`).
+Anotaciones dibujadas sobre el lienzo (`rect`, `ellipse`, `arrow`, `line`, `pen`, `text`, y desde la
+5.29 `sticky`: nota adhesiva con `text`, `color` pastel y `createdAt`; por MCP basta `type: "sticky"` + `text`).
 Opcional; el CLI las ignora. Si un agente edita a mano un flow que ya las tiene, debe
 conservarlas tal cual. Por MCP se añaden con `whiteboard_update` (mismas coordenadas que
 `position` de los nodos: p. ej. un `rect` de `x: 40, y: 40, w: 1200, h: 400` rodea una fila de

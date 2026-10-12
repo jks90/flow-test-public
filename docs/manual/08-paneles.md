@@ -191,7 +191,7 @@ Una capa de dibujo libre **sobre el lienzo**, al estilo Excalidraw: rodea grupos
 
 | Sección del panel | Qué hay |
 |-------------------|---------|
-| **Herramientas** | Seleccionar (`V`), Mano (`H`, mueve el lienzo), Lápiz (`P`), Línea (`L`), Flecha (`A`), Rectángulo (`R`), Elipse (`O`), Texto (`T`), Borrador (`E`). El candado **Fijar** mantiene la herramienta tras dibujar (por defecto las formas vuelven a Seleccionar; el lápiz se queda) |
+| **Herramientas** | Seleccionar (`V`), Mano (`H`, mueve el lienzo), Lápiz (`P`), Línea (`L`), Flecha (`A`), Rectángulo (`R`), Elipse (`O`), Texto (`T`), Sticky note (`N`, 5.29), Borrador (`E`). El candado **Fijar** mantiene la herramienta tras dibujar (por defecto las formas vuelven a Seleccionar; el lápiz se queda) |
 | **Acciones** | Deshacer / Rehacer (también `Ctrl+Z` / `Ctrl+Shift+Z`), Ocultar/Mostrar los dibujos, Vaciar la pizarra |
 | **Selección** | Con algo seleccionado: Duplicar (`Ctrl+D`), Eliminar (`Supr`), Traer al frente, Enviar al fondo |
 | **Estilo** | 8 colores + personalizado, grosor, línea continua/discontinua/punteada, trazo **Boceto** (a mano alzada) o **Limpio**, relleno para rectángulos y elipses, **fuente** (10 desde la 4.35, ver abajo) y tamaño para los textos, opacidad. Con una selección, el cambio se aplica a ella; si no, al siguiente dibujo |
@@ -209,6 +209,17 @@ Cómo se usa:
 Los dibujos comparten coordenadas y zoom con las cajas, se ven en el minimapa y **se guardan con el flow** (campo `drawings` del `.flow.json`, solo presente si hay dibujos). Viajan con export/import, GitHub Flows y MCP; el CLI los ignora. Con el panel cerrado, o en modo Seleccionar, las cajas funcionan exactamente igual que siempre (los dibujos quedan debajo de ellas).
 
 > Ejemplo listo: [`examples/pizarra-anotada.flow.json`](../../examples/pizarra-anotada.flow.json).
+
+### Sticky notes en la pizarra 🆕 (5.29)
+
+Notas adhesivas para anotar el flow, con **fecha de creación** y **color a elegir**:
+
+- **Crear**: herramienta **Sticky note** del panel Pizarra (tecla `N` o `9`). Un **clic** crea una nota de 200×160; **arrastrar** dibuja una caja a medida (mínimo 100×80).
+- **Color**: en **Estilo** hay 6 pasteles (amarillo por defecto, rosa, verde, azul, naranja y lila). El elegido se aplica a las notas nuevas; con notas seleccionadas las recolorea todas en un solo paso de deshacer.
+- **Fecha**: cada nota muestra `dd/mm/aaaa` del día en que se creó. Editar el texto **nunca** la cambia.
+- **Editar**: doble clic sobre la nota abre un cuadro de texto multilínea; sale con `Esc` o clic fuera. Una nota vacía no se borra.
+- **Mover, redimensionar, copiar/pegar, borrar y deshacer** funcionan como en el resto de dibujos. El texto se ve siempre en tinta oscura, legible sobre los 6 colores.
+- Se guarda en `drawings` como elemento `type: "sticky"` con `text`, `color` y `createdAt`; los flows antiguos se abren igual. Viaja en PDF, captura y «Compartir enlace». El MCP la crea con `whiteboard_update` (`type: "sticky"`, `color`, `createdAt`; por defecto amarillo, hoy y 200×160). La vista móvil `/m` no pinta la pizarra.
 
 ### Imágenes y GIF en la pizarra 🆕 (4.50)
 

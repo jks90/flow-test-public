@@ -155,12 +155,13 @@ el fichero cuando hay alguna.
 
 | Campo | Valores |
 |-------|---------|
-| `type` | `pen` \| `line` \| `arrow` \| `rect` \| `ellipse` \| `text` |
+| `type` | `pen` \| `line` \| `arrow` \| `rect` \| `ellipse` \| `text` \| `sticky` (nota adhesiva, 5.29) |
 | `x`, `y`, `w`, `h` | Caja del elemento. En `line`/`arrow` son el punto inicial y el vector hasta el final (`w`/`h` pueden ser negativos) |
 | `points` | Solo `pen`: `[{ "x", "y" }, …]` en coordenadas del lienzo |
 | `stroke`, `strokeWidth`, `strokeStyle` | Color, grosor y `solid` \| `dashed` \| `dotted` |
 | `fill` | Solo `rect`/`ellipse`: color (p. ej. `#3b82f640`) o `transparent` |
 | `opacity` | 0–1 |
+| `color`, `createdAt` | Solo `sticky` (5.29, opcionales): color de fondo de la nota (hex; `#fef08a` amarillo por defecto, también `#fbcfe8` `#bbf7d0` `#bfdbfe` `#fed7aa` `#e9d5ff`) y fecha de creación ISO, que se muestra como `dd/mm/aaaa` y no cambia al editar el texto. El texto de la nota va en `text` |
 | `sketchy` | `true` = trazo a mano alzada (estilo boceto); el `seed` fija el temblor para que no cambie entre renders |
 | `text`, `fontSize`, `font` | Solo `text`: contenido (admite saltos de línea), tamaño y fuente: manuscritas `hand` (Patrick Hand, por defecto) \| `sketch` (Caveat) \| `excali` (Excalifont, la de Excalidraw) \| `indie` (Indie Flower) \| `marker` (Permanent Marker) \| `draft` (Cabin Sketch) \| `architect` (Architects Daughter) \| `note` (Gloria Hallelujah), o `sans` \| `mono`. Las manuscritas van empaquetadas con la app (desde 4.35.0; antes solo `hand`, `sans`, `mono`) |
 
