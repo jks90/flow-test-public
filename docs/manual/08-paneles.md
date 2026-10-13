@@ -481,6 +481,22 @@ Dos (o más) personas con **el mismo fichero de `flows/` abierto** se ven editar
 Disponible con **plan Business** (cloud) o licencia team/enterprise (self-hosted); sin él, la función
 ni aparece. El fichero sigue mandando: la colaboración sincroniza canvases vivos, quien guarda escribe.
 
+### Chat del flow 🆕 (5.30 · Business)
+
+En el chip **👥** de la colaboración en vivo hay una pestaña **💬 Chat**: hablan quienes tienen abierto
+**el mismo flow**, y la conversación es el registro de ese flow.
+
+- **Queda guardada con el flow**: en un fichero junto a él (`login.flow.json` → `login.chat.jsonl`).
+  Al abrir el flow ves todo el historial; si lo mueves, renombras o borras, su chat va con él. No viaja
+  al compartir un enlace ni al exportar.
+- **Quién escribe**: en el **cloud** apareces con tu usuario de login (no se puede cambiar). En un
+  **Docker propio** el nombre es editable y se propone a partir del email de la cuenta vinculada; sin
+  vincular ni licencia, el chat no está disponible.
+- **Enter** envía y **Shift+Enter** hace salto de línea. Texto plano, hasta 2000 caracteres. Los
+  mensajes no se editan ni se borran.
+- **Registro por seguridad**: como avisa el propio chat, cada mensaje se registra también en el servicio
+  de FlowTest y se conserva **12 meses**.
+
 ## Deshacer y rehacer del canvas 🆕 (5.5 · todos los planes)
 
 **Ctrl+Z / Ctrl+Y** (o Ctrl+Shift+Z) deshacen y rehacen los cambios **estructurales** del flow activo:
