@@ -26,7 +26,7 @@ docker run -d \
   -p 9998:3001 \
   -p 1025:1025 \
   --name flow \
-  juankanh/flow-app:5.30.0
+  juankanh/flow-app:5.30.1
 ```
 
 - **Web**: http://localhost:9998 — el canvas visual.
@@ -63,7 +63,8 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 
 | Versión | Qué trae |
 |---------|----------|
-| **5.30.0** (recomendada) | 💬 **Chat de cada flow** en la colaboración en vivo (Business): quienes tienen abierto el mismo flow se escriben y la conversación queda guardada con él; en el cloud cada uno aparece con su usuario de login. Los mensajes quedan registrados por seguridad |
+| **5.30.1** (recomendada) | ⏹ **Botón Parar** en la barra mientras corre Run Flow o la cadena de un ▶: cancela la petición en curso y no ejecuta lo que falta; Reset también para la ejecución (FT-231) |
+| **5.30.0** | 💬 **Chat de cada flow** en la colaboración en vivo (Business): quienes tienen abierto el mismo flow se escriben y la conversación queda guardada con él; en el cloud cada uno aparece con su usuario de login. Los mensajes quedan registrados por seguridad |
 | **5.29.0** | 🗒️ **Sticky notes en la pizarra**: notas adhesivas con la fecha de creación y un color a elegir entre 6 pasteles (herramienta `N`, doble clic para editar) |
 | **5.28.0** | 📊 **Ver ficheros CSV y TSV**: el panel Proyecto abre los `.csv`/`.tsv` de tu carpeta como tabla (cabecera fija, de 1000 en 1000 filas) o como texto, con separador `,`, `;` o tabulador |
 | **5.27.1** | ⚙️ **Ajustes de AgentOffice más cómodos**: el panel ocupa casi toda la ventana, agrupa las secciones (Empresa, Proyecto, Guía y voz, Seguridad), marca las que tienen cambios y deja **Guardar** siempre visible; guardar no cierra el panel y, si cierras con cambios, pregunta. Arregla que «Proyecto» saliera pegada debajo de todas |
@@ -98,7 +99,7 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 Las versiones anteriores (5.12 y antes, desde la 4.x) están en la [tabla completa del manual](docs/manual/11-docker.md#versiones).
 
 ```bash
-docker pull juankanh/flow-app:5.30.0
+docker pull juankanh/flow-app:5.30.1
 ```
 
 ## Documentación

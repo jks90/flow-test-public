@@ -4,7 +4,7 @@
 
 ```bash
 docker run -d --add-host=host.docker.internal:host-gateway \
-  -p 9998:3001 -p 1025:1025 --name flow juankanh/flow-app:5.30.0
+  -p 9998:3001 -p 1025:1025 --name flow juankanh/flow-app:5.30.1
 # web + API + MCP en http://localhost:9998 · 1025 = SMTP de prueba (Config ▸ Correo, 4.36)
 ```
 
@@ -133,7 +133,7 @@ docker run -d … \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -e FLOW_SELF_UPDATE=on \
   -v /ruta/a/tus/flows:/app/flows \
-  juankanh/flow-app:5.30.0
+  juankanh/flow-app:5.30.1
 ```
 
 - Descarga la versión nueva y **recrea el contenedor con la misma configuración** (puertos, carpetas, variables, redes y reinicio). Tus flows y ajustes no se tocan.
@@ -161,6 +161,7 @@ docker run -d … \
 | 4.23.0 | Scripts JS de las notas ejecutados al Run Flow (web, MCP y CLI; `--skip-info-scripts`), 📌 fijar cajas, Variables usadas en cada caja, tool MCP `tab_close` |
 | 4.24.0 | **Pizarra** estilo Excalidraw sobre el lienzo (`drawings` en el flow), barra lateral de iconos con un panel a la vez, **Guía de nodos**, Ocultar conectores, Maximizar Mermaid, tool MCP `node_add_info` (20 tools) |
 | **5.15.1** | 🛡️ **Sandbox de los scripts de nota en el navegador** + flows de confianza (pregunta antes de ejecutar, chip 🔒/🛡️ en la barra) — [04](04-notas-mermaid-capturas.md#sandbox-y-flows-de-confianza--515); imagen con parches de Alpine y sin `npm` |
+| **5.30.1** | ⏹ botón Parar para Run Flow y la cadena del ▶; Reset también para la ejecución (FT-231) |
 | **5.30.0** | 💬 chat de cada flow en la colaboración en vivo (Business), guardado con el flow; usuario del login en el cloud |
 | **5.29.0** | 🗒️ sticky notes en la pizarra: fecha de creación y 6 colores a elegir |
 | **5.28.0** | 📊 los `.csv`/`.tsv` del proyecto se abren como tabla (o texto) en el panel Proyecto |
