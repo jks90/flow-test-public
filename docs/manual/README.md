@@ -35,7 +35,7 @@ npm run dev        # web en http://localhost:5173 + server en :3001
 
 ```bash
 docker run -d --add-host=host.docker.internal:host-gateway \
-  -p 9998:3001 --name flow juankanh/flow-app:5.30.1
+  -p 9998:3001 --name flow juankanh/flow-app:5.30.2
 # web en http://localhost:9998
 ```
 
