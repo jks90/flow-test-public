@@ -119,6 +119,23 @@ Funciona con el FlowTest de tu red (el PC o un servidor) que tenga AgentOffice c
 es anterior y no tiene la vista móvil, se abre su web completa. Mantener pulsado el botón y
 arrastrarlo lo cambia de altura.
 
+### ＋ Nuevo proyecto 🆕 (5.31.0)
+
+Ya no hace falta ir al escritorio para crear un proyecto de AgentOffice:
+
+- **En el escritorio** el botón **＋ Nuevo proyecto** está siempre visible, con texto, junto al
+  selector de proyectos.
+- **En el móvil** (vista de AgentOffice) lo tienes en el **Resumen** y como última opción del
+  selector de proyectos de arriba (**＋ Nuevo proyecto…**).
+
+La hoja del móvil pide solo dos cosas: el **nombre** y la **carpeta del workspace** (se propone a
+partir del nombre y se crea si no existe). Se crea sin repositorio y con el equipo y el
+coordinador de serie; el repositorio y el resto de ajustes se añaden después desde la web. Avisa si
+el nombre está vacío o ya existe, o si falta la carpeta; al crear, el proyecto queda seleccionado y
+se abre su Resumen.
+
+*(Sin captura: la pantalla requiere un entorno de demo con datos inventados.)*
+
 ## La pestaña ✨ IA 🆕 (5.13.1)
 
 El detalle de un flow tiene una tercera pestaña, **✨ IA**: el mismo asistente del escritorio ([13](13-asistente-ia.md)) desde el teléfono. Con cada mensaje la IA recibe un resumen del flow que estás leyendo (pasos en orden de ejecución, variables, asserts), así puedes pedirle que te lo explique, que te diga qué mejorarías o que revise el último fallo. Sin el escritorio abierto **no edita nada** (no hay canvas): explica y propone. Si tienes el escritorio abierto en el mismo servidor, las herramientas actúan sobre esa pestaña y lo ves llegar allí, con las mismas confirmaciones (Sí/No) y el botón de parar. La clave, el proveedor y el modelo son los del servidor: se configuran en el escritorio (panel ✨ ▸ ⚙). Función Pro.
