@@ -26,7 +26,7 @@ docker run -d \
   -p 9998:3001 \
   -p 1025:1025 \
   --name flow \
-  juankanh/flow-app:5.31.0
+  juankanh/flow-app:5.31.1
 ```
 
 - **Web**: http://localhost:9998 — el canvas visual.
@@ -63,7 +63,8 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 
 | Versión | Qué trae |
 |---------|----------|
-| **5.31.0** (recomendada) | ➕ **Nuevo proyecto** en AgentOffice: botón siempre visible junto al selector y también en la vista móvil (hoja táctil con nombre y carpeta) ([12](docs/manual/12-movil.md)) |
+| **5.31.1** (recomendada) | 🖌️ La **pizarra** vuelve a pintar los dibujos de un flow escrito a mano (por un agente o un script) cuyos elementos no tenían `id`: antes se veían solo en el minimapa |
+| **5.31.0** | ➕ **Nuevo proyecto** en AgentOffice: botón siempre visible junto al selector y también en la vista móvil (hoja táctil con nombre y carpeta) ([12](docs/manual/12-movil.md)) |
 | **5.30.4** | 📄 La vista móvil `/m` abre también los **`.md`, `.pdf`, scripts y `.csv`** del proyecto; en la app Android, AgentOffice tiene **🎤 dictado** para crear tareas hablando (la IA propone título, descripción y quién la hace), devolver, responder y hablar con el Guía |
 | **5.30.3** | 🙈 Las **carpetas ocultas** del panel Proyecto se guardan en el servidor: la vista móvil `/m` y la app Android ocultan las mismas |
 | **5.30.2** | 📱 **App Android con AgentOffice**: el botón 🤖 abre AgentOffice en una vista pensada para el móvil (resumen, bandeja con aprobar/devolver, tareas y chat del Guía) y ⚡ vuelve a FlowTest; en la vista móvil `/m` la lista de flows es un **árbol de carpetas** plegable |
@@ -103,7 +104,7 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 Las versiones anteriores (5.12 y antes, desde la 4.x) están en la [tabla completa del manual](docs/manual/11-docker.md#versiones).
 
 ```bash
-docker pull juankanh/flow-app:5.31.0
+docker pull juankanh/flow-app:5.31.1
 ```
 
 ## Documentación

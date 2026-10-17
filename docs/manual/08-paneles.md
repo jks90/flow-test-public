@@ -210,6 +210,8 @@ Los dibujos comparten coordenadas y zoom con las cajas, se ven en el minimapa y 
 
 > Ejemplo listo: [`examples/pizarra-anotada.flow.json`](../../examples/pizarra-anotada.flow.json).
 
+> **5.31.1:** si un flow se escribe a mano (un agente, un script) y sus dibujos no llevan `id`, la app se lo pone al abrirlo; antes esos dibujos solo salían en el minimapa. Para crear dibujos desde un agente, mejor la tool del MCP `whiteboard_update`.
+
 ### Sticky notes en la pizarra 🆕 (5.29)
 
 Notas adhesivas para anotar el flow, con **fecha de creación** y **color a elegir**:
