@@ -36,6 +36,11 @@ el total de flows que hay en ella y en sus subcarpetas. De entrada todas están 
 proyecto de un vistazo; las que abres se recuerdan. Una carpeta que solo contiene otra se junta con
 ella en una fila («almadance / flows»). Al buscar se abre todo para que salgan los resultados.
 
+**Desde la 5.30.3** la lista **no enseña las carpetas que ocultaste** en el panel Proyecto del
+escritorio ([08](08-paneles.md#panel-proyecto-a-medida--521)): esa lista se guarda en el servidor y
+la comparten los dos. Al final aparece «N carpetas ocultas en el escritorio · mostrar» para verlas
+atenuadas un momento.
+
 Si tu instalación está **vinculada a una cuenta cloud**, arriba aparece el selector **💻 Local /
 ☁️ Cloud** y la lista arranca en el entorno que gobierna la instalación, igual que el panel Proyecto
 del escritorio.

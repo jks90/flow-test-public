@@ -26,7 +26,7 @@ docker run -d \
   -p 9998:3001 \
   -p 1025:1025 \
   --name flow \
-  juankanh/flow-app:5.30.2
+  juankanh/flow-app:5.30.3
 ```
 
 - **Web**: http://localhost:9998 — el canvas visual.
@@ -63,7 +63,8 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 
 | Versión | Qué trae |
 |---------|----------|
-| **5.30.2** (recomendada) | 📱 **App Android con AgentOffice**: el botón 🤖 abre AgentOffice en una vista pensada para el móvil (resumen, bandeja con aprobar/devolver, tareas y chat del Guía) y ⚡ vuelve a FlowTest; en la vista móvil `/m` la lista de flows es un **árbol de carpetas** plegable |
+| **5.30.3** (recomendada) | 🙈 Las **carpetas ocultas** del panel Proyecto se guardan en el servidor: la vista móvil `/m` y la app Android ocultan las mismas |
+| **5.30.2** | 📱 **App Android con AgentOffice**: el botón 🤖 abre AgentOffice en una vista pensada para el móvil (resumen, bandeja con aprobar/devolver, tareas y chat del Guía) y ⚡ vuelve a FlowTest; en la vista móvil `/m` la lista de flows es un **árbol de carpetas** plegable |
 | **5.30.1** | ⏹ **Botón Parar** en la barra mientras corre Run Flow o la cadena de un ▶: cancela la petición en curso y no ejecuta lo que falta; Reset también para la ejecución (FT-231) |
 | **5.30.0** | 💬 **Chat de cada flow** en la colaboración en vivo (Business): quienes tienen abierto el mismo flow se escriben y la conversación queda guardada con él; en el cloud cada uno aparece con su usuario de login. Los mensajes quedan registrados por seguridad |
 | **5.29.0** | 🗒️ **Sticky notes en la pizarra**: notas adhesivas con la fecha de creación y un color a elegir entre 6 pasteles (herramienta `N`, doble clic para editar) |
@@ -100,7 +101,7 @@ Detalle en [examples/README.md](examples/README.md). *(El tour en .md se abre de
 Las versiones anteriores (5.12 y antes, desde la 4.x) están en la [tabla completa del manual](docs/manual/11-docker.md#versiones).
 
 ```bash
-docker pull juankanh/flow-app:5.30.2
+docker pull juankanh/flow-app:5.30.3
 ```
 
 ## Documentación

@@ -158,7 +158,7 @@ Nada de esto sale de `flows/` ni toca carpetas ocultas o privadas de otro miembr
 - **Scripts visibles**: los `.js`, `.mjs`, `.cjs`, `.ts`, `.py`, `.sh` y `.sql` de la carpeta salen en el árbol (chip ámbar con la extensión, p. ej. **MJS**). Clic = pestaña de solo lectura con el código tal cual. Se mueven, renombran y borran como los documentos. El MCP y la CLI siguen viendo solo flows.
 - **A dónde apunta cada enlace**: si una carpeta es un enlace simbólico (un workspace «hub» que reúne los `flows/` de varios repos), junto al contador aparece su destino en gris — `→ ~/dev/mi-repo/flows`; pasa el ratón para verlo entero. Solo en 💻 Local.
 - **Ancho del panel**: arrastra el **borde derecho** del panel para ensancharlo o estrecharlo (de 220 a 900 px); **doble clic** en el borde vuelve al ancho normal. Se recuerda en el navegador.
-- **Ocultar carpetas**: pasa el ratón por una carpeta y pulsa **👁‍🗨** para sacarla del árbol (y de los contadores). Arriba aparece **«👁‍🗨 N»**: púlsalo para ver las ocultas atenuadas y recupera una con **👁**. Es solo la vista de tu navegador: los ficheros siguen en disco y el resto de la app los ve.
+- **Ocultar carpetas**: pasa el ratón por una carpeta y pulsa **👁‍🗨** para sacarla del árbol (y de los contadores). Arriba aparece **«👁‍🗨 N»**: púlsalo para ver las ocultas atenuadas y recupera una con **👁**. Es solo una vista: los ficheros siguen en disco y el resto de la app los ve. **Desde la 5.30.3** la lista se guarda en el servidor, así que la vista móvil y otros navegadores ocultan las mismas; lo que tenías oculto en un navegador se sube la primera vez que abres el panel.
 
 ### Carpetas enlazadas y copias de los agentes 🆕 (5.19.4)
 
