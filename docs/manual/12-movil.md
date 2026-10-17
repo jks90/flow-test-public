@@ -41,6 +41,12 @@ escritorio ([08](08-paneles.md#panel-proyecto-a-medida--521)): esa lista se guar
 la comparten los dos. Al final aparece «N carpetas ocultas en el escritorio · mostrar» para verlas
 atenuadas un momento.
 
+**Desde la 5.30.4** la lista enseña también los **documentos** del proyecto, igual que el panel
+Proyecto: `.md`, `.pdf`, scripts (`.js`, `.ts`, `.py`, `.sh`, `.sql`…) y datos `.csv`/`.tsv`, después de
+los flows de cada carpeta y con su icono. Al tocarlos se abren en solo lectura con los mismos visores
+del escritorio: el Markdown renderizado (sus `[[enlaces]]` abren el flow), el script con su código y el
+CSV como tabla. El **PDF** se abre con el visor del teléfono (botón «Abrir el PDF», función Pro).
+
 Si tu instalación está **vinculada a una cuenta cloud**, arriba aparece el selector **💻 Local /
 ☁️ Cloud** y la lista arranca en el entorno que gobierna la instalación, igual que el panel Proyecto
 del escritorio.
@@ -99,7 +105,14 @@ También se abre manteniendo pulsado el icono de la app ▸ **Agentes**.
   con **✓ Aprobar** / **↩ Devolver** y las propuestas. La pestaña lleva un número con lo pendiente.
 - **Tareas:** filtros (activas, en curso, revisión, fallidas, backlog, hechas), detalle de cada una
   con su resumen y sus cambios, **Reintentar** las fallidas y **＋ Nueva tarea**.
-- **Guía:** el chat con el Guía. Para hablar, usa el 🎤 del teclado del teléfono.
+- **Guía:** el chat con el Guía. Con el **🎤** le hablas y lo dictado se envía.
+
+**🎤 Dictado (5.30.4):** en la app, los campos de AgentOffice llevan un **🎤** que abre el
+reconocedor de voz del teléfono (en español) y escribe lo que dices. En **＋ Nueva tarea**,
+**«🎤 Dictar la tarea»** te deja contarla con tus palabras y la pasa por **✨ Redactar con IA**, que
+propone título, descripción y quién la hace; la revisas y pulsas **Crear**. También hay 🎤 al
+devolver una tarea y al responder una pregunta. (En un navegador por HTTP no hay micro: ahí se dicta
+con el 🎤 del teclado.)
 
 Funciona con el FlowTest de tu red (el PC o un servidor) que tenga AgentOffice como plugin
 ([08](08-paneles.md#plugins-y-agentoffice--518)); en el cloud no hay AgentOffice. Si el AgentOffice
