@@ -28,8 +28,13 @@ Añádela a la **pantalla de inicio** y se abre como una aplicación, sin barras
 
 ![Lista de flows en el móvil](assets/flowtest-69-movil-lista.png)
 
-Los flows del proyecto, agrupados por carpeta y con buscador. Cada fila dice cuántos pasos tiene, si
+Los flows del proyecto, en un **árbol de carpetas** y con buscador. Cada fila dice cuántos pasos tiene, si
 lleva notas y cuándo se tocó por última vez.
+
+**Desde la 5.30.2** cada carpeta muestra solo su nombre, con sangría dentro de la suya, y a la derecha
+el total de flows que hay en ella y en sus subcarpetas. De entrada todas están plegadas, para ver el
+proyecto de un vistazo; las que abres se recuerdan. Una carpeta que solo contiene otra se junta con
+ella en una fila («almadance / flows»). Al buscar se abre todo para que salgan los resultados.
 
 Si tu instalación está **vinculada a una cuenta cloud**, arriba aparece el selector **💻 Local /
 ☁️ Cloud** y la lista arranca en el entorno que gobierna la instalación, igual que el panel Proyecto
@@ -76,6 +81,25 @@ Si te sales de la pantalla a mitad, la ejecución se corta en el servidor: no qu
   instalación el botón te ofrece **traerlo** a su disco primero.
 - Los documentos `.md` y `.pdf` del proyecto, y el borrado de ficheros, siguen siendo del escritorio.
 
+
+## AgentOffice en la app Android 🆕 (5.30.2)
+
+La app Android muestra un **botón redondo 🤖** abajo a la derecha. Al tocarlo abre **AgentOffice** del
+mismo servidor en una vista pensada para el teléfono, y el botón pasa a **⚡** para volver a FlowTest.
+También se abre manteniendo pulsado el icono de la app ▸ **Agentes**.
+
+- **Resumen:** tareas en curso, en revisión y por hacer; el equipo del proyecto con lo que hace cada
+  uno; la cuota de Claude y Codex; y los demás proyectos.
+- **Bandeja:** las preguntas de los agentes (con sus botones de respuesta), las tareas para revisar
+  con **✓ Aprobar** / **↩ Devolver** y las propuestas. La pestaña lleva un número con lo pendiente.
+- **Tareas:** filtros (activas, en curso, revisión, fallidas, backlog, hechas), detalle de cada una
+  con su resumen y sus cambios, **Reintentar** las fallidas y **＋ Nueva tarea**.
+- **Guía:** el chat con el Guía. Para hablar, usa el 🎤 del teclado del teléfono.
+
+Funciona con el FlowTest de tu red (el PC o un servidor) que tenga AgentOffice como plugin
+([08](08-paneles.md#plugins-y-agentoffice--518)); en el cloud no hay AgentOffice. Si el AgentOffice
+es anterior y no tiene la vista móvil, se abre su web completa. Mantener pulsado el botón y
+arrastrarlo lo cambia de altura.
 
 ## La pestaña ✨ IA 🆕 (5.13.1)
 
